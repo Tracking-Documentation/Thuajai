@@ -487,7 +487,7 @@ table.itbl{min-width:1300px;font-size:.86rem}
     <div class="instbar">
       <div class="seg" id="instSeg"></div>
       <div class="btns">
-        <button type="button" id="bInstAdd">+ เพิ่มงวด</button>
+        <button type="button" id="bInstAdd" title="งวดใหม่จะแทรกก่อนงวดสุดท้าย">+ เพิ่มงวด</button>
         <button type="button" id="bInstDel" class="danger">ลบงวดนี้</button>
       </div>
     </div>
@@ -497,6 +497,7 @@ table.itbl{min-width:1300px;font-size:.86rem}
       <label class="f">ส่งงานประจำเดือน (เช่น กันยายน 2569)<input id="iv_month"></label>
       <label class="check" style="align-self:end"><input type="checkbox" id="iv_final"> เป็นงวดสุดท้าย (คำนวณจากบัญชีถัวจ่าย)</label>
       <label class="check" style="align-self:end"><input type="checkbox" id="iv_bal"> ถัวจ่ายแล้ว (แสดงค่างานหลังถัวจ่ายในหน้ารายการ)</label>
+      <label class="check" style="align-self:end"><input type="checkbox" id="iv_refund"> คืนเงินประกันผลงานที่หักไว้ในงวดก่อน</label>
       <label class="f">หนังสือขอส่งงาน เลขที่<input id="iv_letterNo" placeholder="ซอ 0428/2569"></label>
       <label class="f">หนังสือขอส่งงาน ลงวันที่<input id="iv_letterDate" type="date"></label>
       <label class="f">ทำการแล้วเสร็จ ตั้งแต่วันที่<input id="iv_doneDate" type="date"></label>
@@ -1526,7 +1527,7 @@ $('bXlsx').addEventListener('click',exportXlsx);
 /* ==== ตรวจรับงาน / เบิกจ่ายรายงวด ==== */
 const DEF_NOTE='- ปริมาณงานได้จากการตรวจสอบตามที่ได้ปฏิบัติงานในสนาม โดยผู้ควบคุมงาน';
 const DEF_LEGAL='เพื่อให้เป็นไปตามพระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 หนังสือกรมบัญชีกลาง ด่วนที่สุด ที่ กค (กวจ) 0405.4/ว681 ลงวันที่ 4 ตุลาคม 2568 และคำสั่งกรมฯ ที่บ.1/182/2568 ลงวันที่ 3 พฤศจิกายน 2568 เรื่อง การกำหนดระยะเวลาดำเนินการและการมอบอำนาจในการอนุมัติให้ขยายเวลาดำเนินการ การพิจารณาสั่งการและการรับทราบรายงานผลการดำเนินการของคณะกรรมการและเจ้าหน้าที่ในการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ';
-function newInst(no,final){return{no:String(no),month:'',final:!!final,bal:!!final,letterNo:'',letterDate:'',doneDate:'',inspDate:'',meet:'',ret:'10',adv:'0',wEnd:'',ctlDate:'',memoNo:'',memoDate:'',cond:'',penText:'',q:{}}}
+function newInst(no,final){return{no:String(no),month:'',final:!!final,bal:!!final,refund:!!final,letterNo:'',letterDate:'',doneDate:'',inspDate:'',meet:'',ret:'10',adv:'0',wEnd:'',ctlDate:'',memoNo:'',memoDate:'',cond:'',penText:'',q:{}}}
 function insDefaults(o){
   const sample=o.h&&String(o.h.no).replace(/\s/g,'')==='กบ1.29/2569';
   const ins={amend:'',newEnd:'',csName:'',csTitle:'ผู้รับมอบอำนาจ',wClause:'8',wYears:'2',pClause:'17',waiveRef:'',waiveDays:'0',
@@ -1543,12 +1544,12 @@ function insDefaults(o){
       5:{qty:'137',loc:'กม.975+500',note:DEF_NOTE+'\n'+t()+'สทล.17.C.-400/2569, สทล.17.P.-41/2569, ST-4215/2569'},
       6:{qty:'11',loc:'กม.975+500',note:DEF_NOTE+'\n'+t()+'สทล.17.C.-591/2569, สทล.17.C.-604/2569, สทล.17.C.-400/2569, ST-4215/2569, ST-4313/2569'},
       12:{qty:'83.85',loc:'กม.975+500',note:DEF_NOTE+'\n'+t()+'สทล.17.C.-364/2569, สทล.17.C.-444/2569, สทล.17.C.-601/2569, ST-3595/2569, ST-4215/2569\n-ผลการทดลอง Dynamic Load Test ตามอันดับการทดลองที่ ซอ 0417/2569\n-ผลการทดลอง Seismic Test ตามอันดับการทดลองที่ ซอ 0415/2569, ซอ 0416/2569'}};
-    const i2=Object.assign(newInst(2,true),{month:'',cond:'เรื่อง รายละเอียดการควบคุมงานการจ่ายเงินและสูตรการปรับราคา ตาประกาศ ข้อ 1.5\n7.4 สะพานคนเดินข้ามถนน\n7.4.2 ก่อสร้างคานพร้อมพื้นสะพาน และราวสะพาน ให้จ่ายได้ 40 %\n7.4.3 ก่อสร้างราวบันได รายการรายละเอียดต่าง ๆ พร้อมการตกแต่งงานทั้งหมดแล้วเสร็จเรียบร้อยครบถ้วนตามแบบและสัญญาทุกประการ ให้จ่ายได้ 15 %\nและปริมาณงานทุกรายการเป็นไปตามบัญชีสรุปปริมาณงานและค่างานก่อสร้างการถัวจ่ายครั้งที่ 1',
+    const i2=Object.assign(newInst(2,true),{month:'',ret:'0',cond:'เรื่อง รายละเอียดการควบคุมงานการจ่ายเงินและสูตรการปรับราคา ตาประกาศ ข้อ 1.5\n7.4 สะพานคนเดินข้ามถนน\n7.4.2 ก่อสร้างคานพร้อมพื้นสะพาน และราวสะพาน ให้จ่ายได้ 40 %\n7.4.3 ก่อสร้างราวบันได รายการรายละเอียดต่าง ๆ พร้อมการตกแต่งงานทั้งหมดแล้วเสร็จเรียบร้อยครบถ้วนตามแบบและสัญญาทุกประการ ให้จ่ายได้ 15 %\nและปริมาณงานทุกรายการเป็นไปตามบัญชีสรุปปริมาณงานและค่างานก่อสร้างการถัวจ่ายครั้งที่ 1',
       meet:'น. ณ พื้นที่ก่อสร้าง'});
     ins.list=[i1,i2];ins.cur=1;
   }
   return ins}
-function insOf(){if(!S.ins)S.ins=insDefaults(S);return S.ins}
+function insOf(){if(!S.ins)S.ins=insDefaults(S);S.ins.list.forEach(x=>{if(x.refund===undefined){x.refund=!!x.final;if(x.final&&String(x.ret)==='10')x.ret='0'}});return S.ins}
 const rr2=x=>Math.round(Number((+x).toFixed(6))*100)/100;
 const r6=x=>Math.round(Number((+x).toFixed(9))*1e6)/1e6;
 const thd=s=>String(s).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[d]);
@@ -1578,8 +1579,11 @@ function insCalc(k){
   const gross=rr2(billed.reduce((s,r)=>s+r.amt,0));
   const ret=rr2(gross*(parse(inst.ret)||0)/100),adv=rr2(gross*(parse(inst.adv)||0)/100);
   const pen=penaltyOf(k);
-  const net=rr2(gross-ret-adv-pen.amt);
-  return {inst,rows,billed,gross,ret,adv,pen,net}}
+  let refund=0;const refFrom=[];
+  if(inst.refund)for(let j=0;j<k;j++){const pj=insCalc(j);if(pj.ret>0.004){refund+=pj.ret;refFrom.push(list[j].no)}}
+  refund=rr2(refund);
+  const net=rr2(gross-ret-adv-pen.amt+refund);
+  return {inst,rows,billed,gross,ret,adv,pen,net,refund,refFrom}}
 function locOf(k,i){const ins=insOf();for(let j=k;j>=0;j--){const q=ins.list[j].q[i];if(q&&String(q.loc||'').trim())return q.loc}return ins.defLoc||''}
 function instItem(k,i){
   const inst=insOf().list[k],q=inst.q[i]||{};const it=S.items[i];
@@ -1619,7 +1623,7 @@ const IVF=['no','month','letterNo','letterDate','doneDate','inspDate','meet','re
 function fillIns(){
   const ins=insOf();ins.cur=Math.min(ins.cur||0,ins.list.length-1);const inst=ins.list[ins.cur];
   IPF.forEach(k=>$('ip_'+k).value=ins[k]??'');IVF.forEach(k=>$('iv_'+k).value=inst[k]??'');
-  $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;
+  $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
   renderInsTable();renderIns();
@@ -1649,6 +1653,9 @@ function insChecks(){
     let all=0;for(let j=0;j<=k;j++)all+=insCalc(j).gross;all=rr2(all);const q=quick(S);
     out.push([Math.abs(all-q.tAA)<0.005?'ok':'e',`เบิกรวมทุกงวด ${fm(all)} บาท ${Math.abs(all-q.tAA)<0.005?'ตรงกับ':'ไม่ตรงกับ'}ค่างานหลังถัวจ่าย ${fm(q.tAA)} บาท`]);
     if(k!==ins.list.length-1)out.push(['w','งวดสุดท้ายควรเป็นงวดลำดับท้ายสุดในรายการ']);
+    let paid=0,held=0,pens=0,advs=0;for(let j=0;j<=k;j++){const cj=insCalc(j);paid+=cj.net;held+=cj.ret-cj.refund;pens+=cj.pen.amt;advs+=cj.adv}paid=rr2(paid);held=rr2(held);
+    if(held>0.004)out.push(['w',`ยังมีเงินประกันผลงานค้างไม่คืน ${fm(held)} บาท`]);
+    out.push(['ok',`จ่ายสุทธิรวมทุกงวด ${fm(paid)} บาท${pens>0.004?` (หักค่าปรับรวม ${fm(rr2(pens))})`:''}${held>0.004?` · เงินประกันคงค้าง ${fm(held)}`:''}`]);
   }
   if(!C.inst.inspDate)out.push(['w','ยังไม่ได้ใส่วันที่ตรวจรับ เอกสารจะเว้นจุดไว้ให้เขียนเอง']);
   if(!C.inst.letterNo)out.push(['w','ยังไม่ได้ใส่เลขที่หนังสือขอส่งงานของผู้รับจ้าง']);
@@ -1666,6 +1673,7 @@ function renderIns(){
    <div class="row"><span class="k">หักเงินประกันผลงาน ${esc(inst.ret||0)}%</span><span class="v minus">− ${fm(C.ret)}</span></div>
    <div class="row"><span class="k">หักเงินเบิกล่วงหน้า ${esc(inst.adv||0)}%</span><span class="v minus">− ${fm(C.adv)}</span></div>
    <div class="row"><span class="k">หักค่าปรับ ${C.pen.days} วัน × ${fm(C.pen.per)}</span><span class="v minus">− ${fm(C.pen.amt)}</span></div>
+   ${C.inst.refund?`<div class="row"><span class="k">คืนเงินประกันผลงาน${C.refFrom.length?' งวดที่ '+C.refFrom.join(', '):' (ไม่มียอดที่หักไว้)'}</span><span class="v plus">+ ${fm(C.refund)}</span></div>`:''}
    <div class="row big"><span class="k">คงเป็นเงินที่ต้องจ่าย</span><span class="v">${fm(C.net)}</span><span class="w">(${bahtText(C.net)})</span></div></div>`;
   $('insChk').innerHTML=`<h3>ตรวจสอบ</h3><ul class="ichk">${out.map(([l,t])=>`<li class="${l}"><span>${l==='ok'?'✓':l==='e'?'✗':'!'}</span>${esc(t)}</li>`).join('')}</ul>`;
   renderInsDocs(C);
@@ -1673,12 +1681,18 @@ function renderIns(){
 IPF.forEach(k=>$('ip_'+k).addEventListener('input',e=>{insOf()[k]=e.target.value;renderInsTable();renderIns();save()}));
 IVF.forEach(k=>$('iv_'+k).addEventListener('input',e=>{const ins=insOf();ins.list[ins.cur][k]=e.target.value;if(k==='no')fillSegOnly();renderInsTable();renderIns();save()}));
 function fillSegOnly(){const ins=insOf();$('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('')}
-$('iv_final').addEventListener('change',e=>{const ins=insOf(),inst=ins.list[ins.cur];inst.final=e.target.checked;if(inst.final){inst.bal=true;$('iv_bal').checked=true}fillSegOnly();renderInsTable();renderIns();save()});
+$('iv_final').addEventListener('change',e=>{const ins=insOf(),inst=ins.list[ins.cur];inst.final=e.target.checked;if(inst.final){inst.bal=true;$('iv_bal').checked=true;inst.refund=true;$('iv_refund').checked=true}fillSegOnly();renderInsTable();renderIns();save()});
+$('iv_refund').addEventListener('change',e=>{const ins=insOf();ins.list[ins.cur].refund=e.target.checked;renderIns();save()});
 $('iv_bal').addEventListener('change',e=>{const ins=insOf();ins.list[ins.cur].bal=e.target.checked;renderInsTable();renderIns();save()});
 $('instSeg').addEventListener('click',e=>{const b=e.target.closest('[data-inst]');if(!b)return;insOf().cur=+b.dataset.inst;fillIns();save()});
-$('bInstAdd').addEventListener('click',()=>{const ins=insOf(),last=ins.list[ins.list.length-1];const n=newInst((parseInt(last.no)||ins.list.length)+1,false);
-  Object.assign(n,{cond:last.cond,meet:last.meet});Object.keys(last.q).forEach(i=>n.q[i]={qty:'',loc:last.q[i].loc,note:last.q[i].note});
-  ins.list.push(n);ins.cur=ins.list.length-1;fillIns();save();toast('เพิ่มงวดที่ '+n.no+' แล้ว')});
+$('bInstAdd').addEventListener('click',()=>{const ins=insOf(),L=ins.list,last=L[L.length-1];
+  const fin=last.final&&L.length>0;const prev=fin?(L[L.length-2]||null):last;
+  const no=fin?(parseInt(last.no)||L.length):((parseInt(last.no)||L.length)+1);
+  const n=newInst(no,false);const src=prev||last;
+  Object.assign(n,{meet:src.meet,ret:prev?prev.ret:'10'});Object.keys(src.q||{}).forEach(i=>n.q[i]={qty:'',loc:src.q[i].loc,note:DEF_NOTE});
+  if(fin){L.splice(L.length-1,0,n);last.no=String(no+1);ins.cur=L.length-2;toast('เพิ่มงวดที่ '+no+' แล้ว งวดสุดท้ายเลื่อนเป็นงวดที่ '+last.no)}
+  else{L.push(n);ins.cur=L.length-1;toast('เพิ่มงวดที่ '+no+' แล้ว')}
+  fillIns();save()});
 let instDelArm=0;
 $('bInstDel').addEventListener('click',e=>{const ins=insOf();if(ins.list.length<2)return;
   if(!instDelArm){instDelArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยันลบ';setTimeout(()=>{instDelArm=0;e.target.textContent='ลบงวดนี้'},3000);return}
@@ -1688,7 +1702,7 @@ $('itbl').addEventListener('input',e=>{const f=e.target.dataset.iq;if(!f)return;
   if(f==='qty'){const tr=e.target.closest('tr');const C=insCalc(ins.cur),r=C.rows[i];tr.children[8].innerHTML='<b>'+fmd(r.amt)+'</b>';tr.children[9].textContent=fmd(r.remain);
     $('itbl').querySelector('tfoot td:nth-child(2)').textContent=fm(C.gross);$('itbl').querySelector('tfoot td').textContent='รวมงวดนี้ '+C.billed.length+' รายการ'}
   renderIns();save()});
-$('itbl').addEventListener('blur',e=>{if(e.target.dataset.iq==='qty')renderInsTable()},true);
+$('itbl').addEventListener('change',e=>{if(e.target.dataset.iq!=='qty')return;const tr=e.target.closest('tr'),C=insCalc(insOf().cur),r=C.rows[+tr.dataset.ii];tr.classList.toggle('on',Math.abs(r.amt)>0.004);tr.classList.toggle('sev-e',!!r.bad)});
 
 /* ---- documents ---- */
 let insPage='all',insSheets=[];
@@ -1705,7 +1719,7 @@ function docIns(C){const h=S.h,ins=insOf(),inst=C.inst;const wEnd=inst.final?(in
   return [`<div class="ipaper"><div class="t-big">ใบตรวจรับงาน ${instLabel(inst)}</div>
   <p class="ind">${introPara(C)} ค่างานตามสัญญา ${fm(val)}.- บาท (${bahtText(val)}) ผู้รับจ้าง ${esc(h.contractor)}</p>
   <p class="ind">คณะกรรมการตรวจรับพัสดุ ผู้มีรายนามข้างท้ายนี้ได้พร้อมกันทำการตรวจรับงานตามสัญญาดังกล่าวข้างต้น ซึ่ง ${esc(h.contractor)} ได้ทำการแล้วเสร็จเรียบร้อยถูกต้อง ตามเงื่อนไขแห่งสัญญาทุกประการ ตั้งแต่วันที่ ${thDateL(inst.doneDate)} และทางบริษัทฯ ยังคงต้องรับผิดชอบตามเงื่อนไข แห่งสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} ข้อ ${esc(ins.wClause)} เป็นเวลา ${esc(ins.wYears)} ปี ทุกประการ สิ้นสุดการรับประกัน ในวันที่ ${wEnd?thDate(wEnd):'........................................'}</p>
-  <p class="ind">จึงเห็นควรจ่ายเงินงวดที่ ${esc(inst.no)} ค่างานเป็นเงิน ${fm(C.gross)} บาท หักเงินประกันผลงาน ${esc(inst.ret||0)} % เป็นเงิน ${fmd(C.ret)} บาท หักเงินเบิกล่วงหน้า ${(parse(inst.adv)||0)?esc(inst.adv):'-'} % เป็นเงิน ${fmd(C.adv)} บาท${C.pen.amt?` หักค่าปรับผิดสัญญา ${C.pen.days} วันๆ ละ ${fm(C.pen.per)} บาท เป็นเงิน ${fm(C.pen.amt)} บาท`:''} คงเป็นเงินที่ต้องจ่ายทั้งสิ้น เป็นเงิน ${fm(C.net)} บาท (${bahtText(C.net)})</p>
+  <p class="ind">จึงเห็นควรจ่ายเงินงวดที่ ${esc(inst.no)} ค่างานเป็นเงิน ${fm(C.gross)} บาท หักเงินประกันผลงาน ${(parse(inst.ret)||0)?esc(inst.ret):'-'} % เป็นเงิน ${fmd(C.ret)} บาท หักเงินเบิกล่วงหน้า ${(parse(inst.adv)||0)?esc(inst.adv):'-'} % เป็นเงิน ${fmd(C.adv)} บาท${C.pen.amt?` หักค่าปรับผิดสัญญา ${C.pen.days} วันๆ ละ ${fm(C.pen.per)} บาท เป็นเงิน ${fm(C.pen.amt)} บาท`:''}${C.refund>0.004?` บวกคืนเงินประกันผลงานที่หักไว้ งวดที่ ${C.refFrom.join(', ')} เป็นเงิน ${fm(C.refund)} บาท`:''} คงเป็นเงินที่ต้องจ่ายทั้งสิ้น เป็นเงิน ${fm(C.net)} บาท (${bahtText(C.net)})</p>
   <div class="ctr b" style="margin-top:14px">กรมทางหลวง&nbsp; แขวงทางหลวงกระบี่</div>
   <div class="ctr" style="margin-bottom:22px">ตรวจรับพัสดุ เมื่อวันที่ ${inst.inspDate?thDateP(inst.inspDate):'.......... ......................... พ.ศ. ..........'}</div>
   <div class="ilist">
@@ -1724,9 +1738,10 @@ function blocksP137(C){const inst=C.inst,R=rules();
 function tailMoney(C,withSig){const inst=C.inst;
   return `<div class="money">
    <span>รวมเงินตามรายการที่ขอเบิก</span><span class="u c">${C.billed.length}</span><span>รายการ</span><span>เป็นเงิน</span><span class="u n">${fm(C.gross)}</span><span>บาท</span>
-   <span>หักเงินประกันผลงาน</span><span class="u c">${esc(inst.ret||'-')}</span><span>%</span><span>เป็นเงิน</span><span class="u n">${fmd(C.ret)}</span><span>บาท</span>
+   <span>หักเงินประกันผลงาน</span><span class="u c">${(parse(inst.ret)||0)?esc(inst.ret):'-'}</span><span>%</span><span>เป็นเงิน</span><span class="u n">${fmd(C.ret)}</span><span>บาท</span>
    <span>หักเงินจ่ายล่วงหน้า</span><span class="u c">${(parse(inst.adv)||0)?esc(inst.adv):'-'}</span><span>%</span><span>เป็นเงิน</span><span class="u n">${fmd(C.adv)}</span><span>บาท</span>
    <span class="sp3">หักค่าปรับผิดสัญญา ${C.pen.days||'-'} วันๆ ละ ${fm(C.pen.days?C.pen.per:0)} บาท</span><span>เป็นเงิน</span><span class="u n">${fmd(C.pen.amt)}</span><span>บาท</span>
+   ${C.refund>0.004?`<span class="sp3">บวกคืนเงินประกันผลงาน งวดที่ ${C.refFrom.join(', ')}</span><span>เป็นเงิน</span><span class="u n">${fm(C.refund)}</span><span>บาท</span>`:''}
    <span class="sp3">คงเป็นเงินที่จะต้องจ่าย</span><span>เป็นเงิน</span><span class="u n b">${fm(C.net)}</span><span>บาท</span></div>
    <div class="ctr b">(เงิน${bahtText(C.net)})</div>
    <div class="rmk"><b>หมายเหตุ</b><span>${esc(penText(insOf().cur===undefined?0:insCalcIndex(C)))}</span></div>
