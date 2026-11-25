@@ -170,7 +170,11 @@ table.ptbl{min-width:980px;background:var(--surface);font-size:.9rem}
 .pill{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
 .pill.e{background:var(--err-bg);color:var(--err)}.pill.w{background:var(--warn-bg);color:var(--warn)}.pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.n{background:var(--sunk);color:var(--muted)}
 .rnd{display:inline-grid;place-items:center;min-width:26px;height:22px;padding:0 6px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:.8rem}
-.credit{margin-top:20px;padding:12px 0 4px;border-top:1px solid var(--line);text-align:center;font-size:.72rem;color:var(--muted);letter-spacing:.02em}
+.credit{margin-top:20px;padding:12px 0 4px;border-top:1px solid var(--line);text-align:center;font-size:.72rem;color:var(--muted);letter-spacing:.01em;display:flex;flex-direction:column;gap:3px;line-height:1.55}
+.pdpa-link{all:unset;cursor:pointer;text-decoration:underline;text-underline-offset:2px;color:var(--fg);font-weight:600}.pdpa-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pdpa{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px;overflow:auto}.pdpa[hidden]{display:none!important}
+.pdpa-card{background:var(--surface);color:var(--fg);border-radius:14px;max-width:720px;width:100%;padding:20px 22px;display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 32px);overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.pdpa-card h2{font-size:1.2rem;margin:0}.pdpa-card h3{font-size:.95rem;margin:8px 0 0}.pdpa-card p{margin:0;font-size:.9rem;line-height:1.6}
 
 /* home hero header */
 .eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.22em;font-weight:600;color:var(--accent)}
@@ -906,7 +910,32 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     </div>
   </section>
 </div>
-  <footer class="credit">Concept &amp; Development by Miss Narama Woraklan · Krabi Highway District</footer>
+  <footer class="credit">
+    <div><button type="button" class="pdpa-link" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button> · Developed by Miss Narama Woraklan (<span class="appver"></span>)</div>
+    <div>© 2026 Narama Woraklan · ระบบนี้เป็นทรัพย์สินทางปัญญาของผู้พัฒนา ได้รับความคุ้มครองตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537 · สงวนลิขสิทธิ์ ห้ามทำซ้ำ ดัดแปลง เผยแพร่ หรือนำไปใช้ในเชิงพาณิชย์ ไม่ว่าทั้งหมดหรือบางส่วน โดยไม่ได้รับอนุญาตเป็นลายลักษณ์อักษร</div>
+    <div>This system is the intellectual property of its developer, protected under the Thai Copyright Act B.E. 2537 (1994). All rights reserved. No reproduction, modification, distribution or commercial use, in whole or in part, without prior written permission.</div>
+    <div>ข้อมูลโครงการเก็บไว้ในเบราว์เซอร์ของเครื่องนี้เท่านั้น ไม่ได้ส่งขึ้นเซิร์ฟเวอร์ · ควรสำรองข้อมูลเป็นไฟล์เป็นระยะจากปุ่ม “สำรองข้อมูลทั้งหมด” ที่หน้าสรุปโครงการ</div>
+  </footer>
+  <div class="pdpa" id="pdpaModal" role="dialog" aria-modal="true" aria-labelledby="pdpaT" hidden><div class="pdpa-card">
+    <h2 id="pdpaT">การคุ้มครองข้อมูลส่วนบุคคล</h2>
+    <p class="note">ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 · ระบบการบริหารโครงการงานสัญญา (<span class="appver"></span>)</p>
+    <h3>1. ข้อมูลที่ระบบจัดเก็บ</h3>
+    <p>ข้อมูลสัญญาและงานก่อสร้าง ปริมาณงาน เงินงวด ค่าปรับ รายงานประจำวัน/สัปดาห์ และข้อมูลบุคคลที่ผู้ใช้กรอกเอง ได้แก่ ชื่อ–สกุล และตำแหน่งของคณะกรรมการตรวจรับพัสดุ ผู้ควบคุมงาน ผู้ช่วยผู้ควบคุมงาน ผู้แทนผู้รับจ้าง วิศวกรผู้รับจ้าง (รวมเลขทะเบียนใบอนุญาต หากกรอก) และชื่อนิติบุคคลผู้รับจ้าง</p>
+    <h3>2. วัตถุประสงค์</h3>
+    <p>ใช้จัดทำเอกสารการบริหารสัญญา การตรวจรับพัสดุ การเบิกจ่าย และการประเมินผลการปฏิบัติงานของผู้ประกอบการ ตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ เท่านั้น</p>
+    <h3>3. สถานที่จัดเก็บและการเปิดเผย</h3>
+    <p>ข้อมูลทั้งหมดเก็บไว้ในหน่วยความจำของเบราว์เซอร์ (localStorage) บนเครื่องที่ใช้งานเท่านั้น ระบบไม่ส่งข้อมูลโครงการหรือข้อมูลบุคคลไปยังเซิร์ฟเวอร์ของผู้พัฒนาหรือบุคคลอื่น ข้อมูลจะออกจากเครื่องเฉพาะเมื่อผู้ใช้เลือกพิมพ์ ดาวน์โหลดไฟล์ (Word / Excel / PDF / ไฟล์สำรอง) หรือส่งต่อไฟล์ด้วยตนเอง</p>
+    <p>ระบบโหลดฟอนต์จาก Google Fonts และไลบรารีสร้างไฟล์ Excel จาก jsDelivr ซึ่งผู้ให้บริการดังกล่าวอาจเห็นหมายเลข IP ของเครื่อง แต่ไม่ได้รับข้อมูลโครงการ</p>
+    <h3>4. ระยะเวลาเก็บรักษา</h3>
+    <p>เก็บไว้จนกว่าผู้ใช้จะลบโครงการ ล้างข้อมูลเบราว์เซอร์ หรือถอนการติดตั้งแอป</p>
+    <h3>5. สิทธิของเจ้าของข้อมูลและการควบคุมโดยผู้ใช้</h3>
+    <p>ผู้ใช้เข้าถึง แก้ไข ส่งออก และลบข้อมูลได้เองทุกเมื่อ เมื่อจะนำโครงการไปใช้เป็นตัวอย่างหรือส่งต่อ ให้กดปุ่ม “ปิดชื่อ (xxx)” ที่หน้าสรุปโครงการ เพื่อเปลี่ยนชื่อบุคคล ชื่อบริษัท และชื่องานเป็น xxx ก่อน</p>
+    <h3>6. ข้อควรปฏิบัติ</h3>
+    <p>ใช้งานเฉพาะเจ้าหน้าที่ที่ได้รับมอบหมาย · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น ควรสำรองข้อมูลแล้วลบออกจากเครื่องหลังใช้งาน · ไฟล์สำรองมีข้อมูลบุคคล ควรเก็บในที่ปลอดภัย</p>
+    <h3>7. ติดต่อ</h3>
+    <p>ผู้พัฒนาระบบ: Miss Narama Woraklan · แขวงทางหลวงกระบี่ กรมทางหลวง</p>
+    <div class="btns" style="justify-content:flex-end"><button type="button" class="primary" id="pdpaClose">ปิด</button></div>
+  </div></div>
 </div>
 <div class="cmodal" id="codeModal" hidden><form class="cmbox" id="codeForm" autocomplete="off"><div class="cmic" aria-hidden="true">🔑</div><h3 id="cmTitle">ใส่รหัสยืนยัน</h3><p id="cmMsg" class="note"></p>
 <input id="cmCode" type="password" inputmode="numeric" maxlength="32" aria-label="รหัสยืนยัน"><div class="cmerr" id="cmErr" role="alert"></div>
@@ -1551,7 +1580,7 @@ function renderHome(){
       <td class="sm">${fmD(p.updated)}</td>
       <td><div class="acts">
         <button type="button" data-copy="${p.id}" title="ทำสำเนาเป็นถัวจ่ายครั้งถัดไป">สำเนาเป็นครั้งที่ ${(parseInt(h.round)||1)+1}</button>
-        <button type="button" data-anon="${p.id}" title="เปลี่ยนชื่อบุคคลและบริษัททั้งหมดในโครงการนี้เป็น xxx เพื่อใช้เป็นตัวอย่าง">ปิดชื่อ (xxx)</button>
+        <button type="button" data-anon="${p.id}" title="เปลี่ยนชื่อบุคคล ชื่อบริษัท ชื่องาน และที่ตั้งงานในโครงการนี้เป็น xxx เพื่อใช้เป็นตัวอย่าง">ปิดชื่อ (xxx)</button>
         <button type="button" data-del="${p.id}" class="danger" aria-label="ลบโครงการ">${delArm===p.id?'ยืนยันลบ':'ลบ'}</button></div></td></tr>`}).join('');
   $('kpis').innerHTML=`
     <div class="kpi"><span class="k">จำนวนสัญญา</span><span class="v">${nC}</span><span class="s">รวมการถัวจ่าย ${list.length} ครั้ง</span></div>
@@ -1589,16 +1618,22 @@ function anonData(d){const names=new Set(),TT=/^(นางสาว|น\.ส\.|�
   const pats=[];[...names].forEach(n=>{[n,n.replace(TT,'')].forEach(v=>{if(v.length>=3)pats.push(new RegExp(v.split(/\s+/).map(reEsc).join('\\s*'),'g'))})});
   const core=String(d.h&&d.h.contractor||'').replace(/^(บริษัท|ห้างหุ้นส่วนจำกัด|หจก\.?)\s*/,'').replace(/\s*จำกัด.*$/,'').trim();
   if(core.length>=2&&!/^x+$/i.test(core))pats.push(new RegExp(core.replace(/\s+/g,'').split('').map(reEsc).join('\\s*'),'g'));
+  const h0=d.h||{},proj=String(h0.project||'').trim(),loc=String(h0.loc||'').trim();
+  const projNew=proj&&!/xxx/.test(proj)?((proj.match(/^(งานก่อสร้าง|งานบูรณะ|งานซ่อมแซม|งานซ่อม|งานบำรุงรักษา|งานบำรุง|งานจ้างเหมา|งานจ้าง|งานปรับปรุง|งาน)/)||[''])[0]+' xxx').trim():proj;
+  const locNew=loc&&!/xxx/.test(loc)?(/ทางหลวง/.test(loc)?'ทางหลวงหมายเลข xxx ตอน xxx':'xxx')+(/ปริมาณงาน\s+[^\s]+\s*[^\s]*/.test(loc)?' '+loc.match(/ปริมาณงาน\s+[^\s]+(\s+[^\s]+)?/)[0]:''):loc;
+  const lits=[];if(proj&&projNew!==proj)lits.push([proj,projNew]);if(loc&&locNew!==loc)lits.push([loc,locNew]);
   pats.sort((a,b)=>b.source.length-a.source.length);
-  const fix=v=>{let t=v;pats.forEach(re=>t=t.replace(re,'xxx'));return t.replace(/ภย\.?\s*\d+/g,'ภย xxx').replace(/(นางสาว|นาง|นาย)\s*xxx/g,'xxx')};
+  const PERSON=/(นางสาว|น\.ส\.|นาย|นาง)(?!ช่าง|ก\s|กรัฐ|ทะเบียน|ตรวจ|หน้า|พยาบาล|อำเภอ|ประกัน|จ้าง|งาน)\s?[ก-๙]{2,}\s+[ก-๙]{2,}/g;
+  const fix=v=>{let t=v;lits.forEach(([a,b])=>t=t.split(a).join(b));pats.forEach(re=>t=t.replace(re,'xxx'));
+    return t.replace(PERSON,'xxx').replace(/ภย\.?\s*\d+/g,'ภย xxx').replace(/(นางสาว|นาง|นาย)\s*xxx/g,'xxx')};
   const walk=o=>{if(Array.isArray(o)){o.forEach((v,i)=>{if(typeof v==='string')o[i]=fix(v);else if(v&&typeof v==='object')walk(v)})}
     else if(o&&typeof o==='object')Object.keys(o).forEach(k=>{const v=o[k];if(typeof v==='string')o[k]=fix(v);else if(v&&typeof v==='object')walk(v)})};
-  walk(d);return {d,n:names.size+(core&&!/^x+$/i.test(core)?1:0)}}
+  walk(d);return {d,n:names.size+(core&&!/^x+$/i.test(core)?1:0)+lits.length}}
 let anonArm=null;
 $('ptbl').addEventListener('click',e=>{
   const an=e.target.closest('[data-anon]');
   if(an){e.stopPropagation();const id=an.dataset.anon;if(anonArm!==id){anonArm=id;an.textContent='กดอีกครั้งเพื่อยืนยัน';setTimeout(()=>{if(anonArm===id){anonArm=null;if(!$('homeView').hidden)renderHome()}},3000);return}
-    anonArm=null;const p=DB.projects.find(x=>x.id===id);if(!p)return;const r=anonData(p.data);p.updated=Date.now();writeDB();renderHome();toast(`เปลี่ยนชื่อบุคคลและบริษัท ${r.n} รายการ เป็น xxx แล้ว`);return}
+    anonArm=null;const p=DB.projects.find(x=>x.id===id);if(!p)return;const r=anonData(p.data);p.updated=Date.now();writeDB();renderHome();toast(`เปลี่ยนชื่อบุคคล บริษัท และชื่องาน ${r.n} รายการ เป็น xxx แล้ว`);return}
   const c=e.target.closest('[data-copy]'),d=e.target.closest('[data-del]');
   if(c){e.stopPropagation();const src=DB.projects.find(x=>x.id===c.dataset.copy);if(!src)return;const nd=clone(src.data);
     nd.h.round=String((parseInt(nd.h.round)||1)+1);nd.doc={};delete nd.meta;const p=addProject(nd);renderHome();toast('สร้างถัวจ่ายครั้งที่ '+nd.h.round+' แล้ว แก้ปริมาณในสนามได้เลย');openProject(p.id);return}
@@ -3051,6 +3086,11 @@ async function exportWord(){
 }
 $('bInsWord').addEventListener('click',exportWord);
 
+/* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
+const APP_VER='Version 19 · 25 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
+$('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
 loadDB();
 if(DB.cur&&curProj())openProject(DB.cur);else showHome();
 })();
@@ -3069,7 +3109,8 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <div class="lk-err" id="lkErr" role="alert"></div>
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
-    <div class="lk-credit">Concept &amp; Development by Miss Narama Woraklan · Krabi Highway District</div>
+    <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 19 · 25 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
@@ -3096,6 +3137,9 @@ html.locked .wrap{visibility:hidden}
 .lk-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .lk-note{font-size:.8rem;color:#a9c4ba;margin-top:6px}
 .lk-credit{margin-top:22px;font-size:.72rem;color:#8fb0a4;line-height:1.6}
+.lk-legal{margin-top:14px;border:1px solid rgba(242,194,48,.45);border-radius:10px;padding:10px 12px;font-size:.78rem;line-height:1.6;color:#dfe9e5;text-align:left;background:rgba(0,0,0,.15)}
+.lk-pdpa{all:unset;cursor:pointer;text-decoration:underline;color:#f2c230;font-weight:600}
+html.locked .pdpa{z-index:1100;visibility:visible}
 @media (prefers-reduced-motion:reduce){.lk-road,.lock input.bad{animation:none}}
 </style>
 <script>
