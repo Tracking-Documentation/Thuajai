@@ -309,9 +309,11 @@ table.ptb{min-width:720px;font-size:.88rem}
 .ipaper .t-big{text-align:center;font-weight:700;font-size:22px;text-decoration:underline;text-underline-offset:5px;margin:16px 0 14px}
 .ipaper .t-u{text-align:center;font-weight:700;text-decoration:underline;text-underline-offset:4px;margin:2px 0 6px}
 .ipaper .pgno{position:absolute;right:0;top:-6px;text-align:right;font-size:13px;line-height:1.4}
-.ipaper .garuda{width:62px;height:62px;margin:0 auto 4px;border:1px dashed #bbb;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#aaa}
-.ipaper .garuda.sm{width:52px;height:52px;margin:0}
-@media print{.ipaper .garuda{border-color:transparent;color:transparent}}
+.ipaper img.garuda{display:block;height:1.6cm;width:auto;margin:0 auto 4px;max-width:none}
+.ipaper img.garuda.sm{height:1.5cm;margin:0}
+.ipaper[contenteditable]{outline:2px dashed #2f7d5f;outline-offset:6px;cursor:text}
+.ieditbar{background:var(--warn-bg);color:var(--fg);border-radius:8px;padding:8px 12px;font-size:.9rem;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ieditbar button{padding:4px 10px}
 .ipaper .dl{display:inline-block;width:12.5em;border-bottom:1px dotted #000;margin:0 3px;transform:translateY(-4px)}
 .ipaper .ilist{display:flex;flex-direction:column;gap:16px;margin-top:8px}
 .ipaper .lr{display:grid;grid-template-columns:5.2em 1fr;align-items:start}
@@ -556,8 +558,9 @@ table.ptb{min-width:720px;font-size:.88rem}
         <button type="button" data-ip="ctl" aria-pressed="false">บันทึกผู้ควบคุมงาน</button>
         <button type="button" data-ip="memo" aria-pressed="false">บันทึกรายงานผล</button>
       </div>
-      <div class="btns"><button type="button" id="bInsPrint" class="primary">🖨 พิมพ์ / บันทึกเป็น PDF</button></div>
+      <div class="btns"><button type="button" id="bInsEdit">✏️ แก้ไขข้อความในเอกสาร</button><button type="button" id="bInsWord">⬇ ดาวน์โหลดเป็น Word (.docx)</button><button type="button" id="bInsPrint" class="primary">🖨 พิมพ์ / บันทึกเป็น PDF</button></div>
     </div>
+    <div class="ieditbar" id="insEditBar" hidden></div>
     <div class="note" id="insInfo"></div>
     <div class="desk" id="insDesk"></div>
   </section>
@@ -1551,6 +1554,7 @@ async function exportXlsx(){
 }
 $('bXlsx').addEventListener('click',exportXlsx);
 /* ==== ตรวจรับงาน / เบิกจ่ายรายงวด ==== */
+const GARUDA='data:image/png;base64,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';
 const DEF_NOTE='- ปริมาณงานได้จากการตรวจสอบตามที่ได้ปฏิบัติงานในสนาม โดยผู้ควบคุมงาน';
 const DEF_LEGAL='เพื่อให้เป็นไปตามพระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 หนังสือกรมบัญชีกลาง ด่วนที่สุด ที่ กค (กวจ) 0405.4/ว681 ลงวันที่ 4 ตุลาคม 2568 และคำสั่งกรมฯ ที่บ.1/182/2568 ลงวันที่ 3 พฤศจิกายน 2568 เรื่อง การกำหนดระยะเวลาดำเนินการและการมอบอำนาจในการอนุมัติให้ขยายเวลาดำเนินการ การพิจารณาสั่งการและการรับทราบรายงานผลการดำเนินการของคณะกรรมการและเจ้าหน้าที่ในการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ';
 function newInst(no,final){return{no:String(no),month:'',final:!!final,bal:!!final,refund:!!final,letterNo:'',letterDate:'',doneDate:'',inspDate:'',meet:'',ret:'10',adv:'0',wEnd:'',ctlDate:'',memoNo:'',memoDate:'',cond:'',penText:'',q:{}}}
@@ -1776,10 +1780,10 @@ function docIns(C){const h=S.h,ins=insOf(),inst=C.inst;const wEnd=inst.final?(in
   <div class="ctr b" style="margin-top:14px">กรมทางหลวง&nbsp; แขวงทางหลวงกระบี่</div>
   <div class="ctr" style="margin-bottom:22px">ตรวจรับพัสดุ เมื่อวันที่ ${inst.inspDate?thDateP(inst.inspDate):'.......... ......................... พ.ศ. ..........'}</div>
   ${(()=>{const {chair,mem}=committee();return sgRows([{lh:'ผู้ส่งมอบ',role:'ผู้รับจ้าง',name:ins.csName||'..............................',pos:ins.csTitle},
-     ...[chair,...mem].filter(Boolean).map((x,j)=>({lh:j===0?'ผู้รับมอบ':'',role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos}))])})()}</div></div>`]}
+     ...[chair,...mem].filter(Boolean).map((x,j)=>({lh:j===0?'ผู้รับมอบ':'',role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos}))])})()}</div>`]}
 function headIntro(C,extra){const inst=C.inst;return `<p class="ind">${introPara(C)}</p>${extra||''}`}
 function blocksP137(C){const inst=C.inst,R=rules();
-  const head=`<div class="garuda" aria-hidden="true">ตราครุฑ</div><div class="t-u">ใบรับรองผลการปฏิบัติงาน</div>${headIntro(C)}
+  const head=`<img class="garuda" src="${GARUDA}" alt="ตราครุฑ"><div class="t-u">ใบรับรองผลการปฏิบัติงาน</div>${headIntro(C)}
    <p class="ind0">จ่ายครั้งที่ ${esc(inst.no)} เดือน ${esc(inst.month||'....................')} ${instLabel(inst)}</p>
    <p class="ind">คณะกรรมการตรวจรับพัสดุ ผู้มีรายนามข้างท้ายนี้ได้พร้อมกันตรวจงาน ซึ่ง ${esc(S.h.contractor)} เป็นผู้รับจ้าง ทำการแล้วเสร็จ ดังรายการต่อไปนี้</p>`;
   const items=C.rows.filter(r=>inst.bal||!(r.o.valid&&r.o.c===0)||Math.abs(r.amt)>0.004).map(r=>{const u=esc(r.it.unit);const o=r.o;
@@ -1840,7 +1844,7 @@ function docCtl(C){const h=S.h,inst=C.inst,ctl=ctlPerson(),{chair,mem}=committee
 function docMemo(C){const h=S.h,ins=insOf(),inst=C.inst,{chair,mem}=committee();const val=parse(h.value);
   const endTxt=endText();
   const md=inst.memoDate?(()=>{const [y,m,d]=inst.memoDate.split('-').map(Number);return `${d} ${TM[m-1]} ${y+543}`})():'.......................................';
-  const body=`<div class="memo-h"><div class="garuda sm" aria-hidden="true">ตราครุฑ</div><div class="mt">บันทึกข้อความ</div></div>
+  const body=`<div class="memo-h"><img class="garuda sm" src="${GARUDA}" alt="ตราครุฑ"><div class="mt">บันทึกข้อความ</div></div>
    <div class="mrow"><b>ส่วนราชการ</b><span class="ul">${esc(ins.office)} โทร. ${esc(ins.phone)}</span></div>
    <div class="mrow two"><b>ที่</b><span class="ul">${esc(ins.memoPrefix)}${esc(inst.memoNo)}</span><b>วันที่</b><span class="ul">${md}</span></div>
    <div class="mrow"><b>เรื่อง</b><span class="ul">รายงานผลการตรวจรับพัสดุ</span></div>
@@ -1872,10 +1876,12 @@ function renderInsDocs(C){
   if(numbered.length)set.push({g:'num',pages:numbered.map((x,j)=>x.h.replace('<div class="ipaper">',`<div class="ipaper"><div class="pgno">หน้า ${j+1} ของ ${numbered.length} หน้า${x.first?'<br>พ.1-37':''}</div>`))});
   if(want==='all'||want==='ctl')set.push({g:'ctl',pages:[docCtl(C)]});
   if(want==='all'||want==='memo')set.push({g:'memo',pages:[docMemo(C)]});
-  const all=set.flatMap(s=>s.pages);
+  const gen=set.flatMap(s=>s.pages);const sv=savedEdit(C.inst);const all=sv?sv.pages:gen;
   insSheets=all.map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));
   $('insDesk').innerHTML=`<div class="sheets" id="insSheets">${insSheets.map((s,i)=>`<div class="sheet" style="width:${(210*MM).toFixed(1)}px;height:${(297*MM).toFixed(1)}px;padding:${IPAD[0]}mm ${IPAD[1]}mm ${IPAD[2]}mm ${IPAD[3]}mm">${s.html}<div class="pno">หน้า ${i+1}/${insSheets.length}</div></div>`).join('')}</div>`;
-  $('insInfo').textContent=`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง) · ตราครุฑไม่ได้พิมพ์ให้ ใช้กระดาษที่มีตราครุฑ หรือเว้นที่ไว้ตามเดิม`;
+  if(insEditMode)$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});
+  updEditBar();
+  $('insInfo').textContent=`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
   const sh=$('insSheets');sh.style.zoom=1;const avail=$('insDesk').clientWidth-40,mw=sh.offsetWidth;sh.style.zoom=Math.min(1,avail/mw).toFixed(3);
 }
 function penEdit(e,attr,arr){const tr=e.target.closest('tr');const f=e.target.dataset.f;if(!tr||!f)return;const ins=insOf();ins[arr][+tr.dataset[attr]][f]=e.target.value;if(f!=='reason')renderInsTable();renderIns();save()}
@@ -1886,9 +1892,274 @@ $('wvTbl').addEventListener('click',e=>{const b=e.target.closest('[data-wvdel]')
 $('bAmAdd').addEventListener('click',()=>{const A=insOf().amends;A.push({no:String(A.length+1),date:'',days:'',reason:''});renderPenBox();save();$('am_dt'+(A.length-1)).focus()});
 $('bWvAdd').addEventListener('click',()=>{const W=insOf().waivers;W.push({reason:'',ref:'',date:'',days:''});renderPenBox();save();$('wv_r'+(W.length-1)).focus()});
 $('insPick').addEventListener('click',e=>{const b=e.target.closest('[data-ip]');if(!b)return;insPage=b.dataset.ip;$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderIns()});
-$('bInsPrint').addEventListener('click',()=>{renderIns();const inst=insOf().list[insOf().cur];
+$('bInsPrint').addEventListener('click',()=>{if(insEditMode){clearTimeout(editTimer);captureEdits()}renderIns();const inst=insOf().list[insOf().cur];
   printSheets(insSheets,`ตรวจรับงานงวดที่ ${inst.no} ${S.h.no}`,`ตรวจรับงานงวดที่${inst.no}_${String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'')}.html`)});
 window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('insSheets');if(sh){sh.style.zoom=1;sh.style.zoom=Math.min(1,($('insDesk').clientWidth-40)/sh.offsetWidth).toFixed(3)}}});
+
+/* ---- แก้ไขเอกสารก่อนพิมพ์ ---- */
+let insEditMode=false;
+function insEditKey(){return insPage}
+function savedEdit(inst){return inst.docEdits&&inst.docEdits[insEditKey()]||null}
+let editTimer=null;
+function captureEdits(){const ins=insOf(),inst=ins.list[ins.cur];
+  const pages=[...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');return c.outerHTML});
+  inst.docEdits=inst.docEdits||{};inst.docEdits[insEditKey()]={pages,at:Date.now()};save();updEditBar()}
+$('insDesk').addEventListener('input',()=>{if(!insEditMode)return;clearTimeout(editTimer);editTimer=setTimeout(captureEdits,400)});
+function updEditBar(){const ins=insOf(),inst=ins.list[ins.cur],sv=savedEdit(inst);
+  $('bInsEdit').textContent=insEditMode?'✓ แก้ไขเสร็จแล้ว':'✏️ แก้ไขข้อความในเอกสาร';
+  $('bInsEdit').classList.toggle('primary',insEditMode);
+  $('insEditBar').hidden=!(insEditMode||sv);
+  $('insEditBar').innerHTML=insEditMode?'<b>กำลังแก้ไข</b> — คลิกที่ข้อความในหน้ากระดาษแล้วพิมพ์แก้ได้เลย ระบบบันทึกให้อัตโนมัติ · พิมพ์และดาวน์โหลด Word จะใช้ฉบับที่แก้'
+    :sv?`<b>เอกสารชุดนี้แก้ไขด้วยมือแล้ว</b> (${new Date(sv.at).toLocaleString('th-TH')}) — ตัวเลขจะไม่เปลี่ยนตามข้อมูลที่แก้ภายหลัง <button type="button" id="bEditReset" class="danger">ล้างที่แก้ กลับไปใช้เอกสารจากระบบ</button>`:'';}
+$('bInsEdit').addEventListener('click',()=>{insEditMode=!insEditMode;if(!insEditMode){clearTimeout(editTimer);captureEdits()}renderIns();
+  if(insEditMode)toast('คลิกที่ข้อความในหน้ากระดาษเพื่อแก้ไข')});
+let editResetArm=0;
+$('insEditBar').addEventListener('click',e=>{if(e.target.id!=='bEditReset')return;
+  if(!editResetArm){editResetArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยัน';setTimeout(()=>{editResetArm=0;if(e.target.isConnected)e.target.textContent='ล้างที่แก้ กลับไปใช้เอกสารจากระบบ'},3000);return}
+  editResetArm=0;const ins=insOf();const it=ins.list[ins.cur];if(it.docEdits)delete it.docEdits[insEditKey()];insEditMode=false;save();renderIns();toast('กลับไปใช้เอกสารจากระบบแล้ว')});
+
+/* ---- HTML (Word-style, from convKids) -> real .docx (WordprocessingML), zipped in-page ---- */
+const XE=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function sty(el){const o={};(el.getAttribute&&el.getAttribute('style')||'').split(';').forEach(d=>{const i=d.indexOf(':');if(i>0)o[d.slice(0,i).trim().toLowerCase()]=d.slice(i+1).trim()});return o}
+const ptv=v=>v?parseFloat(v):0;
+const TW=pt=>Math.round(pt*20);
+function borderXml(o,tag){let x='';['top','left','bottom','right'].forEach(sd=>{const v=o['border-'+sd];if(!v||/none/.test(v))return;
+  const w=ptv(v),dbl=/double/.test(v),dot=/dotted/.test(v);x+=`<w:${sd} w:val="${dbl?'double':dot?'dotted':'single'}" w:sz="${Math.max(2,Math.round((dbl?0.75:w)*8))}" w:space="0" w:color="000000"/>`});return x?`<${tag}>${x}</${tag}>`:''}
+function docxFromHtml(html){
+  const dom=new DOMParser().parseFromString('<div id="root">'+html+'</div>','text/html');
+  let imgId=0;const out=[];
+  const rPr=r=>`<w:rPr><w:rFonts w:ascii="TH SarabunPSK" w:hAnsi="TH SarabunPSK" w:cs="TH SarabunPSK"/>${r.b?'<w:b/><w:bCs/>':''}${r.u?`<w:u w:val="${r.u}"/>`:''}<w:sz w:val="${Math.round(r.sz*2)}"/><w:szCs w:val="${Math.round(r.sz*2)}"/><w:lang w:bidi="th-TH"/></w:rPr>`;
+  const runText=(t,r)=>`<w:r>${rPr(r)}<w:t xml:space="preserve">${XE(t)}</w:t></w:r>`;
+  function rStyle(el,base){const o=sty(el),r=Object.assign({},base);
+    if(/bold|[6-9]00/.test(o['font-weight']||''))r.b=true;
+    if(/underline/.test(o['text-decoration']||''))r.u='single';
+    if(o['font-size'])r.sz=ptv(o['font-size']);
+    if(/dotted/.test(o['border-bottom']||''))r.u='dotted';
+    return r}
+  function pXml(runs,p){if(!runs.length&&!p.keep)return '';
+    const jc={center:'center',right:'right',justify:'thaiDistribute',left:'left'}[p.jc||'left']||'left';
+    const ind=(p.left||p.first)?`<w:ind w:left="${TW(p.left||0)}" w:firstLine="${TW(p.first||0)}"/>`:'';
+    return `<w:p><w:pPr><w:spacing w:before="${TW(p.before||0)}" w:after="${TW(p.after||0)}" w:line="240" w:lineRule="auto"/>${ind}<w:jc w:val="${jc}"/></w:pPr>${runs.join('')||`<w:r>${rPr(p.r||{sz:16})}</w:r>`}</w:p>`}
+  function pProps(el,base){const o=sty(el),p=Object.assign({},base,{before:0,after:0,keep:false});
+    if(o['text-align'])p.jc=o['text-align'];
+    if(o['text-indent'])p.first=ptv(o['text-indent']);
+    if(o['margin-left'])p.left=(base.left||0)+ptv(o['margin-left']);
+    if(o['margin-top'])p.before=ptv(o['margin-top']);if(o['margin-bottom'])p.after=ptv(o['margin-bottom']);
+    return p}
+  // walk a container; returns array of block xml
+  function walk(el,p,r){const blocks=[];let runs=[];
+    const flush=(keep)=>{const x=pXml(runs,Object.assign({},p,{keep,r}));if(x)blocks.push(x);runs=[]};
+    el.childNodes.forEach(n=>{
+      if(n.nodeType===3){const t=n.textContent.replace(/\s+/g,' ');if(t.trim()||runs.length)runs.push(runText(t.replace(/ /g,' '),r));return}
+      if(n.nodeType!==1)return;const tag=n.tagName.toLowerCase();
+      if(tag==='br'){if(/page-break/.test(n.getAttribute('style')||'')){flush();blocks.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>')}else runs.push('<w:r><w:br/></w:r>');return}
+      if(tag==='img'){const w=ptv(sty(n).width)||ptv(n.getAttribute('width'))*0.75,h=ptv(sty(n).height)||ptv(n.getAttribute('height'))*0.75;imgId++;
+        runs.push(`<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${Math.round(w*12700)}" cy="${Math.round(h*12700)}"/><wp:docPr id="${imgId}" name="garuda${imgId}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${imgId}" name="garuda.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rIdGaruda"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${Math.round(w*12700)}" cy="${Math.round(h*12700)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`);return}
+      if(tag==='table'&&n.getAttribute('data-cols')){flush();blocks.push(tabRowsXml(n,p,r));return}
+      if(tag==='table'){flush();blocks.push(tblXml(n,r));blocks.push(`<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:sz w:val="4"/><w:szCs w:val="4"/></w:rPr></w:r></w:p>`);return}
+      if(tag==='p'||tag==='div'){flush();const pp=pProps(n,p),rr=rStyle(n,r);const sub=walk(n,pp,rr);
+        if(!sub.length&&tag==='p')blocks.push(pXml([],Object.assign({},pp,{keep:true,r:rr})));else blocks.push(...sub);return}
+      // inline (span etc.)
+      const rr=rStyle(n,r);const o=sty(n);
+      if(/dotted|solid/.test(o['border-bottom']||'')&&!n.textContent.replace(/ /g,'').trim()){runs.push(runText(' '.repeat(Math.max(6,n.textContent.length)),Object.assign({},rr,{u:'dotted'})));return}
+      const sub=walk(n,p,rr);
+      // inline content: pull runs out of produced paragraphs
+      sub.forEach(x=>{const m=x.match(/<\/w:pPr>([\s\S]*)<\/w:p>$/);if(m)runs.push(m[1]);});
+    });
+    flush();return blocks}
+  function cellRuns(td,r){const sub=walk(td,{jc:'left'},rStyle(td,r));const rs=[];sub.forEach((x,i)=>{const m=x.match(/<\/w:pPr>([\s\S]*)<\/w:p>$/);if(m&&m[1]){if(rs.length)rs.push('<w:r><w:br/></w:r>');rs.push(m[1])}});return rs.join('')}
+  function chW(c){const k=c.charCodeAt(0);if(/[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/.test(c))return 0;if(/[0-9]/.test(c))return .56;if(k>=0x0E01&&k<=0x0E2E)return .61;if(k>=0x0E2F&&k<=0x0E5B)return .47;if(/[A-Z]/.test(c))return .63;if(/[a-z]/.test(c))return .53;if(c===' '||c==='\u00a0')return .34;return .38}
+  const textW=(s,pt,b)=>[...String(s)].reduce((a,c)=>a+chW(c),0)*pt*(b?1.05:1);
+  function cellSz(td,r){const rr=rStyle(td,r);let sz=rr.sz,b=!!rr.b;td.querySelectorAll('[style]').forEach(e=>{const o=sty(e);if(o['font-size'])sz=Math.max(sz,ptv(o['font-size']));if(/bold/.test(o['font-weight']||''))b=true});return {sz,b}}
+  function tabRowsXml(t,p,r){
+    const availAll=(210-IPAD[1]-IPAD[3])*2.8346-2;const center=(t.getAttribute('align')||'')==='center';
+    const ml=ptv(sty(t)['margin-left'])+(p.left||0);const avail=availAll-(center?0:ml);
+    const DOTS='.'.repeat(52);
+    let out='';
+    const para=(runs,jc,tabs,indent)=>`<w:p><w:pPr>${tabs||''}<w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/>${indent?`<w:ind w:left="${TW(indent)}"/>`:''}<w:jc w:val="${jc}"/></w:pPr>${runs||`<w:r>${rPr(r)}</w:r>`}</w:p>`;
+    [...t.querySelectorAll('tr')].forEach(tr=>{
+      const tds=[...tr.children];
+      if(tds.some(td=>td.getAttribute('data-gap'))){out+=para('','left');return}
+      const cells=[];
+      tds.forEach(td=>{const o=sty(td);const txt=td.textContent.replace(/ /g,' ').trim();const dotted=/dotted/.test(o['border-bottom']||'');const img=td.querySelector('img');
+        if(!txt&&!dotted&&!img)return;
+        cells.push({td,txt,dotted,img,al:o['text-align']||'left',runs:txt||img?cellRuns(td,r):'',sz:cellSz(td,r)})});
+      if(!cells.length){out+=para('','left');return}
+      // image cells / centered title cells -> own paragraphs
+      if(cells.some(c=>c.img)){cells.forEach(c=>{out+=para(c.runs,c.img?'left':(c.al==='center'?'center':'left'))});return}
+      const sp=`<w:r>${rPr(r)}<w:t xml:space="preserve"> </w:t></w:r>`;
+      const dotsRun=n=>`<w:r>${rPr(r)}<w:t xml:space="preserve">${DOTS.slice(0,n)}</w:t></w:r>`;
+      if(center){ // signature block: indent so the block sits in the middle, dotted lines aligned
+        const all=[...t.querySelectorAll('tr')].map(x=>[...x.children]);
+        const lhW=Math.max(0,...all.map(rw=>rw.length>=4?textW((rw[0].textContent||'').trim(),r.sz,false):0));
+        const roleW=Math.max(0,...all.map(rw=>rw.length>=4?textW(' '+(rw[3].textContent||'').trim(),r.sz):0));
+        const fixedW=lhW+6+textW(' (ลงชื่อ) ',r.sz)+roleW;
+        const nD=Math.max(14,Math.min(40,Math.floor((availAll*0.96-fixedW)/(0.38*r.sz))));
+        const signW=fixedW+nD*0.38*r.sz;
+        const ind=Math.max(0,(availAll-signW)/2);
+        const hasDots=cells.some(c=>!c.txt&&c.dotted);
+        if(hasDots){const lh=tds[0]&&!tds[0].getAttribute('data-gap')?(tds[0].textContent||'').trim():'';
+          const tabs=`<w:tabs><w:tab w:val="left" w:pos="${TW(ind+lhW+6)}"/></w:tabs>`;
+          const rest=cells.filter(c=>c.td!==tds[0]||!lh).map(c=>c.txt?c.runs:dotsRun(nD)).join('');
+          out+=para((lh?cells[0].runs:'')+'<w:r><w:tab/></w:r>'+rest,'left',tabs,ind)}
+        else{const nmInd=ind+lhW+6+textW('(ลงชื่อ)',r.sz)+4;out+=para(cells.map(c=>c.runs).join('<w:r><w:t xml:space="preserve">   </w:t></w:r>'),'left','',nmInd)}
+        return}
+      let k=-1;cells.forEach((c,i)=>{if(c.al==='right'&&c.txt&&i>0)k=i});
+      if(k<0){out+=para(cells.map(c=>c.txt?c.runs:dotsRun(30)).join(sp),'left','',ml);return}
+      const trail=cells.slice(k+1),trailW=trail.reduce((a,c)=>a+textW(' '+c.txt,c.sz.sz,c.sz.b),0);
+      const pos=Math.max(60,avail-trailW-4);
+      const before=cells.slice(0,k).map(c=>c.txt?c.runs:dotsRun(20)).join(sp);
+      const tabs=`<w:tabs><w:tab w:val="right" ${cells[k].dotted?'w:leader="dot" ':''}w:pos="${TW(pos)}"/></w:tabs>`;
+      out+=para(before+'<w:r><w:tab/></w:r>'+cells[k].runs+(trail.length?sp+trail.map(c=>c.runs).join(sp):''),'left',tabs,ml)});
+    return out}
+  function tblXml(t,r){const ts=sty(t);const center=(t.getAttribute('align')||'')==='center';const ml=ptv(ts['margin-left']);
+    const rows=[...t.querySelectorAll(':scope > tbody > tr, :scope > tr, :scope > thead > tr')];
+    // occupancy grid
+    const grid=[];const cells=[];
+    rows.forEach((tr,ri)=>{grid[ri]=grid[ri]||[];let c=0;[...tr.children].forEach(td=>{while(grid[ri][c])c++;const cs=+td.getAttribute('colspan')||1,rs=+td.getAttribute('rowspan')||1;
+      cells.push({td,ri,c,cs,rs});for(let a=0;a<rs;a++){grid[ri+a]=grid[ri+a]||[];for(let b=0;b<cs;b++)grid[ri+a][c+b]=(a===0&&b===0)?'M':(a>0&&b===0?'V':'H')}c+=cs})});
+    const ncol=Math.max(1,...grid.map(g=>g.length));const colW=new Array(ncol).fill(0);
+    cells.filter(x=>x.cs===1).forEach(x=>{const w=ptv(sty(x.td).width);if(w>colW[x.c])colW[x.c]=w});
+    cells.filter(x=>x.cs>1).forEach(x=>{const w=ptv(sty(x.td).width);const have=colW.slice(x.c,x.c+x.cs).reduce((a,b)=>a+b,0);const zero=colW.slice(x.c,x.c+x.cs).filter(v=>!v).length;
+      if(w>have&&zero){for(let b=x.c;b<x.c+x.cs;b++)if(!colW[b])colW[b]=(w-have)/zero}});
+    for(let i=0;i<ncol;i++)if(!colW[i])colW[i]=30;
+    const auto=t.getAttribute('data-g')==='1';
+    const availAll=(210-IPAD[1]-IPAD[3])*2.8346-2;
+    if(!auto){const s0=colW.reduce((a,b)=>a+b,0);if(s0>availAll)for(let i=0;i<ncol;i++)colW[i]*=availAll/s0}
+    else if(false){
+      const len=new Array(ncol).fill(0);
+      cells.forEach(q=>{const L=q.td.textContent.replace(/[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/g,'').trim().length;if(q.cs===1)len[q.c]=Math.max(len[q.c],L)});
+      const need=len.map((L,i)=>Math.max(L*6.6+6,colW[i]>0?Math.min(colW[i],18):6));
+      const indent=ml&&!center?ml:0;const avail=availAll-indent;const tot=need.reduce((a,b)=>a+b,0);
+      const target=center?Math.min(avail,tot):(tot<avail?tot+(avail-tot)*0:avail);
+      for(let i=0;i<ncol;i++)colW[i]=need[i]*(tot>avail?avail/tot:1);
+      cells.filter(q=>q.cs>1).forEach(q=>{const L=q.td.textContent.trim().length*6.6;const have=colW.slice(q.c,q.c+q.cs).reduce((a,b)=>a+b,0);if(L>have&&q.c+q.cs<=ncol)colW[q.c+q.cs-1]+=Math.min(L-have,Math.max(0,avail-colW.reduce((a,b)=>a+b,0)))});}
+    const sum=colW.reduce((a,b)=>a+b,0);
+    let x=`<w:tbl><w:tblPr><w:tblW w:w="${TW(sum)}" w:type="dxa"/>${center?'<w:jc w:val="center"/>':''}${ml&&!center?`<w:tblInd w:w="${TW(ml)}" w:type="dxa"/>`:''}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:left w:w="${auto?30:40}" w:type="dxa"/><w:right w:w="${auto?30:40}" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${colW.map(w=>`<w:gridCol w:w="${TW(w)}"/>`).join('')}</w:tblGrid>`;
+    rows.forEach((tr,ri)=>{const h=ptv(sty(tr.querySelector('td,th')||tr).height);x+=`<w:tr>${h?`<w:trPr><w:trHeight w:val="${TW(h)}"/></w:trPr>`:''}`;
+      let c=0;while(c<ncol){const g=grid[ri][c];
+        if(g==='M'){const cell=cells.find(q=>q.ri===ri&&q.c===c);const o=sty(cell.td);const w=colW.slice(c,c+cell.cs).reduce((a,b)=>a+b,0);
+          const va=(cell.td.getAttribute('valign')||o['vertical-align']||'top');
+          const pp=pProps(cell.td,{jc:o['text-align']||'left'});pp.first=0;pp.left=0;
+          let inner=walk(cell.td,pp,rStyle(cell.td,r)).join('');if(!inner)inner=`<w:p><w:pPr><w:spacing w:before="0" w:after="0"/></w:pPr></w:p>`;
+          const txtLen=cell.td.textContent.trim().length,nw=auto&&txtLen<=34&&!cell.td.querySelector('table');
+          x+=`<w:tc><w:tcPr><w:tcW w:w="${TW(w)}" w:type="dxa"/>${cell.cs>1?`<w:gridSpan w:val="${cell.cs}"/>`:''}${cell.rs>1?'<w:vMerge w:val="restart"/>':''}${borderXml(o,'w:tcBorders')}${nw?'<w:noWrap/>':''}<w:vAlign w:val="${va==='middle'?'center':va==='bottom'?'bottom':'top'}"/></w:tcPr>${inner}</w:tc>`;c+=cell.cs}
+        else if(g==='V'){const owner=cells.find(q=>q.c===c&&q.ri<ri&&q.ri+q.rs>ri);const w=colW.slice(c,c+owner.cs).reduce((a,b)=>a+b,0);
+          x+=`<w:tc><w:tcPr><w:tcW w:w="${TW(w)}" w:type="dxa"/>${owner.cs>1?`<w:gridSpan w:val="${owner.cs}"/>`:''}<w:vMerge/>${borderXml(sty(owner.td),'w:tcBorders')}</w:tcPr><w:p/></w:tc>`;c+=owner.cs}
+        else{x+=`<w:tc><w:tcPr><w:tcW w:w="${TW(colW[c])}" w:type="dxa"/></w:tcPr><w:p/></w:tc>`;c++}}
+      x+='</w:tr>'});
+    return x+'</w:tbl>'}
+  const root=dom.getElementById('root');
+  const body=walk(root,{jc:'left'},{sz:16}).join('');
+  return body}
+/* minimal ZIP (store) */
+const CRC_T=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(b){let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRC_T[(c^b[i])&0xFF]^(c>>>8);return (c^0xFFFFFFFF)>>>0}
+function zipStore(files){const enc=new TextEncoder();const parts=[],central=[];let off=0;
+  files.forEach(f=>{const name=enc.encode(f.name),data=typeof f.data==='string'?enc.encode(f.data):f.data,crc=crc32(data);
+    const lh=new DataView(new ArrayBuffer(30));lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);lh.setUint16(8,0,true);lh.setUint32(14,crc,true);lh.setUint32(18,data.length,true);lh.setUint32(22,data.length,true);lh.setUint16(26,name.length,true);
+    parts.push(new Uint8Array(lh.buffer),name,data);
+    const ch=new DataView(new ArrayBuffer(46));ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(8,0x0800,true);ch.setUint32(16,crc,true);ch.setUint32(20,data.length,true);ch.setUint32(24,data.length,true);ch.setUint16(28,name.length,true);ch.setUint32(42,off,true);
+    central.push(new Uint8Array(ch.buffer),name);off+=30+name.length+data.length});
+  const csz=central.reduce((a,b)=>a+b.length,0);const end=new DataView(new ArrayBuffer(22));end.setUint32(0,0x06054b50,true);end.setUint16(8,files.length,true);end.setUint16(10,files.length,true);end.setUint32(12,csz,true);end.setUint32(16,off,true);
+  const all=[...parts,...central,new Uint8Array(end.buffer)];const tot=all.reduce((a,b)=>a+b.length,0);const u=new Uint8Array(tot);let p=0;all.forEach(a=>{u.set(a,p);p+=a.length});return u}
+function buildDocx(bodyXml,mar){
+  const [mt,mr,mb,ml]=mar.map(mm=>Math.round(mm*56.7));
+  const doc=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${bodyXml}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="${mt}" w:right="${mr}" w:bottom="${mb}" w:left="${ml}" w:header="425" w:footer="425" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+  const styles=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="TH SarabunPSK" w:hAnsi="TH SarabunPSK" w:eastAsia="TH SarabunPSK" w:cs="TH SarabunPSK"/><w:sz w:val="32"/><w:szCs w:val="32"/><w:lang w:val="en-US" w:bidi="th-TH"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style><w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="40" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="40" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style></w:styles>`;
+  const ct=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`;
+  const rels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`;
+  const drels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdGaruda" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/garuda.png"/></Relationships>`;
+  const png=Uint8Array.from(atob(GARUDA.split(',')[1]),c=>c.charCodeAt(0));
+  return zipStore([{name:'[Content_Types].xml',data:ct},{name:'_rels/.rels',data:rels},{name:'word/document.xml',data:doc},{name:'word/styles.xml',data:styles},{name:'word/_rels/document.xml.rels',data:drels},{name:'word/media/garuda.png',data:png}])}
+
+/* ---- ดาวน์โหลดเป็น Word ---- */
+const PT=px=>Math.round(parseFloat(px)*0.75*10)/10;
+let WS=1;const FPT=px=>Math.round(parseFloat(px)*1.127*WS*2)/2;  // Sarabun px -> TH SarabunPSK pt (WS: 14pt forms)
+function wEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\u00a0/g,'&nbsp;')}
+function txtStyle(cs){const a=[];
+  if(+cs.fontWeight>=600)a.push('font-weight:bold');
+  if(/underline/.test(cs.textDecorationLine||cs.textDecoration))a.push('text-decoration:underline');
+  a.push('font-size:'+FPT(cs.fontSize)+'pt');return a.join(';')}
+function bordersOf(cs){const a=[];['top','right','bottom','left'].forEach(s=>{const w=parseFloat(cs['border-'+s+'-width']||cs.getPropertyValue('border-'+s+'-width'));const st=cs.getPropertyValue('border-'+s+'-style');
+  if(w>0&&st!=='none')a.push(`border-${s}:${st==='double'?'2.25pt double':st==='dotted'?'1pt dotted':'.5pt solid'} black`)});return a.join(';')}
+function convKids(el){return [...el.childNodes].map(convNode).join('')}
+function convNode(n){
+  if(n.nodeType===3)return wEsc(n.textContent);
+  if(n.nodeType!==1)return '';
+  const el=n,cs=getComputedStyle(el),tag=el.tagName.toLowerCase();
+  if(cs.display==='none'||el.classList.contains('pno'))return '';
+  if(tag==='br')return '<br>';
+  if(tag==='img'){const h=PT(el.getBoundingClientRect().height/curZoom()),w=PT(el.getBoundingClientRect().width/curZoom());
+    const im=`<img src="garuda.png" width="${Math.round(w/0.75)}" height="${Math.round(h/0.75)}" style="width:${w}pt;height:${h}pt">`;
+    return cs.display==='block'&&cs.marginLeft===cs.marginRight&&parseFloat(cs.marginLeft)>0?`<p style="text-align:center;margin:0">${im}</p>`:im}
+  if(tag==='table')return convTable(el);
+  if(cs.display==='grid')return convGrid(el,cs);
+  if(cs.display==='flex')return convFlex(el,cs);
+  const inline=/^inline/.test(cs.display)&&cs.display!=='inline-block'&&cs.display!=='inline-grid';
+  if(inline)return `<span style="${txtStyle(cs)}">${convKids(el)}</span>`;
+  if(cs.display==='inline-block'){const w=parseFloat(cs.width);const bd=bordersOf(cs);
+    if(bd&&!el.textContent.trim())return `<span style="${bd}">${'&nbsp;'.repeat(Math.max(4,Math.round(w/4)))}</span>`;
+    return `<span style="${txtStyle(cs)}">${convKids(el)}</span>`}
+  // block
+  const st=['margin:0',txtStyle(cs),'text-align:'+(cs.textAlign==='start'?'left':cs.textAlign)];
+  const ti=parseFloat(cs.textIndent);if(ti)st.push('text-indent:'+PT(ti)+'pt');
+  const mt=parseFloat(cs.marginTop),mb=parseFloat(cs.marginBottom);if(mt>1)st.push('margin-top:'+PT(mt)+'pt');if(mb>1)st.push('margin-bottom:'+PT(mb)+'pt');
+  const pl=parseFloat(cs.paddingLeft)+parseFloat(cs.marginLeft||0);if(pl>1)st.push('margin-left:'+PT(pl)+'pt');
+  const hasBlock=[...el.children].some(c=>!/^inline/.test(getComputedStyle(c).display)||['grid','flex','block','table'].includes(getComputedStyle(c).display));
+  return hasBlock?`<div style="${st.join(';')}">${convKids(el)}</div>`:`<p class="MsoNormal" style="${st.join(';')}">${convKids(el)||'&nbsp;'}</p>`}
+function cellStyle(cs,wpt){const a=['padding:0 2pt','vertical-align:'+(cs.alignSelf==='end'||cs.verticalAlign==='bottom'?'bottom':'top')];
+  if(wpt)a.push('width:'+wpt+'pt');const bd=bordersOf(cs);if(bd)a.push(bd);a.push('text-align:'+(cs.textAlign==='start'?'left':cs.textAlign));return a.join(';')}
+function convGrid(el,cs){
+  const cols=cs.gridTemplateColumns.split(' ').filter(Boolean).map(parseFloat);const n=cols.length;
+  const rows=[];let row=[],col=0;
+  [...el.children].forEach(ch=>{const c=getComputedStyle(ch);if(c.display==='none')return;
+    let s=c.gridColumnStart,e=c.gridColumnEnd,span=1,start=null;
+    if(/^span/.test(s))span=parseInt(s.split(' ')[1]);else if(/^\d+$/.test(s))start=+s-1;
+    if(/^span/.test(e))span=parseInt(e.split(' ')[1]);else if(/^-?\d+$/.test(e)&&start!==null){const ee=+e<0?n+1+(+e)+1:+e;span=Math.max(1,ee-1-start)}
+    if(start!==null){if(start<col){rows.push(row);row=[];col=0}while(col<start){row.push({empty:true,span:1,col});col++}}
+    if(col+span>n){if(row.length)rows.push(row);row=[];col=0}
+    row.push({el:ch,cs:c,span,col});col+=span;if(col>=n){rows.push(row);row=[];col=0}});
+  if(row.length)rows.push(row);
+  const ml=parseFloat(cs.paddingLeft)+(parseFloat(cs.marginLeft)||0);
+  const center=cs.marginLeft===cs.marginRight&&parseFloat(cs.marginLeft)>0;
+  let h=`<table data-g="1" data-cols="${cols.map(c=>PT(c)).join(',')}" border="0" cellspacing="0" cellpadding="0" ${center?'align="center"':''} style="border-collapse:collapse;${!center&&ml>1?'margin-left:'+PT(ml)+'pt;':''}mso-table-lspace:0">`;
+  rows.forEach(r=>{h+='<tr>';r.forEach(c=>{const w=cols.slice(c.col,c.col+c.span).reduce((a,b)=>a+b,0);
+    if(c.empty){h+=`<td data-c="${c.col}" data-s="1" style="width:${PT(w)}pt;padding:0"></td>`;return}
+    if(c.el.classList.contains('gap')){h+=`<td data-gap="1" colspan="${c.span}" style="height:12pt"></td>`;return}
+    h+=`<td data-c="${c.col}" data-s="${c.span}" ${c.span>1?`colspan="${c.span}"`:''} style="${cellStyle(c.cs,PT(w))}"><p class="MsoNormal" style="margin:0;${txtStyle(c.cs)};text-align:${c.cs.textAlign==='start'?'left':c.cs.textAlign}">${cellInner(c.el)}</p></td>`});h+='</tr>'});
+  return h+'</table>'}
+function cellInner(el){const c=getComputedStyle(el);if(['grid','flex','table'].includes(c.display)||[...el.children].some(k=>['grid','flex','block','table'].includes(getComputedStyle(k).display)))return '</p>'+convKids(el)+'<p class="MsoNormal" style="margin:0">';return convKids(el)||'&nbsp;'}
+function convFlex(el,cs){
+  const kids=[...el.children].filter(k=>getComputedStyle(k).display!=='none');
+  if(cs.flexDirection==='column'){const al=cs.alignItems==='center'?'center':'left';
+    return `<div style="text-align:${al};${parseFloat(cs.marginTop)>1?'margin-top:'+PT(cs.marginTop)+'pt;':''}">`+kids.map(k=>{const kc=getComputedStyle(k);
+      if(['grid','flex','table'].includes(kc.display))return convNode(k);
+      return `<p class="MsoNormal" style="margin:0;text-align:${al};${txtStyle(kc)}">${convKids(k)||'&nbsp;'}</p>`}).join('')+(parseFloat(cs.rowGap)>4?'':'')+'</div>'}
+  const jc=cs.justifyContent;
+  if(el.closest('.ipaper')&&!el.classList.contains('memo-h'))return `<div style="text-align:center">`+kids.map(k=>convNode(k)).join('')+'</div>';
+  return `<table data-g="1" border="0" cellspacing="0" cellpadding="0" ${jc==='center'?'align="center"':''} style="border-collapse:collapse${jc==='center'?'':';width:100%'}"><tr>`+kids.map(k=>`<td style="${cellStyle(getComputedStyle(k),PT(k.getBoundingClientRect().width/curZoom()))}">${convNode(k)}</td>`).join('')+'</tr></table>'}
+function convTable(t){
+  let h=`<table border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%">`;
+  [...t.rows].forEach(r=>{h+='<tr>';[...r.cells].forEach(c=>{const cs=getComputedStyle(c);const w=c.getBoundingClientRect().width/curZoom();
+    h+=`<td ${c.colSpan>1?`colspan="${c.colSpan}"`:''} ${c.rowSpan>1?`rowspan="${c.rowSpan}"`:''} valign="${c.tagName==='TH'?'middle':'top'}" style="${cellStyle(cs,PT(w))};${c.closest('tr').classList.contains('tall')?'height:'+PT(c.getBoundingClientRect().height/curZoom())+'pt':''}"><p class="MsoNormal" style="margin:0;${txtStyle(cs)};text-align:${cs.textAlign==='start'?'left':cs.textAlign}">${convKids(c)||'&nbsp;'}</p></td>`});h+='</tr>'});
+  return h+'</table>'}
+function curZoom(){return parseFloat($('insSheets').style.zoom||1)||1}
+function b64utf8(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin)}
+const wrap76=s=>s.replace(/(.{76})/g,'$1\r\n');
+function exportWord(){
+  if(insEditMode){clearTimeout(editTimer);captureEdits()}
+  renderIns();
+  const sh=$('insSheets');const z=sh.style.zoom;sh.style.zoom=1;
+  const pages=[...sh.querySelectorAll('.sheet .ipaper')];
+  const body=pages.map((p,i)=>{WS=p.querySelector('.pgno')?0.875:1;return (i?'<br clear="all" style="page-break-before:always">':'')+convKids(p)}).join('');WS=1;
+  sh.style.zoom=z;
+  const inst=insOf().list[insOf().cur];
+  try{const bytes=buildDocx(docxFromHtml(body),IPAD);
+    saveFile(`ตรวจรับงานงวดที่${inst.no}_${String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'')}.docx`,bytes.buffer,'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
+  catch(e){console.error(e);toast('สร้างไฟล์ Word ไม่สำเร็จ: '+(e&&e.message||e))}
+}
+$('bInsWord').addEventListener('click',exportWord);
 
 loadDB();
 if(DB.cur&&curProj())openProject(DB.cur);else showHome();
