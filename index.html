@@ -132,7 +132,7 @@ tfoot td{font-weight:700;background:var(--sunk)}
 #io{min-height:120px;font-family:ui-monospace,monospace;font-size:.8rem}
 
 /* tabs */
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 4px}
 .projv{display:flex;flex-direction:column;gap:18px}
 .ttl{display:flex;flex-direction:column;gap:2px;min-width:0}
 .crumb{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;margin-bottom:10px;
@@ -187,8 +187,16 @@ table.ptbl{min-width:980px;background:var(--surface);font-size:.9rem}
 .top.hero .btns button.primary{background:var(--hy);border-color:var(--hy);color:#103b30}
 @media (prefers-reduced-motion:reduce){.cr-road,.top.hero::after{animation:none}}
 .empty{padding:28px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:10px}
-.tab{border:1px solid transparent;border-bottom:0;border-radius:8px 8px 0 0;background:none;padding:9px 18px;font-family:var(--display);font-weight:600;color:var(--muted);margin-bottom:-1px}
-.tab[aria-selected="true"]{background:var(--surface);border-color:var(--line);color:var(--fg)}
+.tab{--tc:#2b6cb0;position:relative;display:flex;align-items:center;gap:10px;text-align:left;border:2px solid color-mix(in srgb,var(--tc) 45%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--tc) 8%,var(--surface));padding:10px 14px;font-family:var(--display);font-weight:700;font-size:1rem;color:var(--tc2,var(--tc));cursor:pointer;min-height:58px;transition:transform .12s,box-shadow .12s,background .12s}
+#tabCalc{--tc:#2b6cb0}#tabDoc{--tc:#c05621}#tabIns{--tc:#2f855a}
+.tab .ti{font-size:1.5rem;flex:none;line-height:1}.tab .tt{display:flex;flex-direction:column;min-width:0}.tab .tt small{font-weight:500;font-size:.76rem;color:var(--muted);font-family:var(--body,inherit)}
+.tab:hover{background:color-mix(in srgb,var(--tc) 15%,var(--surface));transform:translateY(-1px)}
+.tab[aria-selected="true"]{background:var(--tc);border-color:var(--tc);color:#fff;box-shadow:0 6px 16px color-mix(in srgb,var(--tc) 35%,transparent)}
+.tab[aria-selected="true"] .tt small{color:rgba(255,255,255,.85)}
+.tab[aria-selected="true"]::after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);border:8px solid transparent;border-top-color:var(--tc);border-bottom:0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tab{--tc2:color-mix(in srgb,var(--tc) 65%,#fff)}}
+:root[data-theme="dark"] .tab{--tc2:color-mix(in srgb,var(--tc) 65%,#fff)}
+@media (max-width:700px){.tabs{grid-template-columns:1fr}.tab{min-height:48px}.tab[aria-selected="true"]::after{display:none}}
 .doc-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
 .doc-pick{display:flex;flex-wrap:wrap;gap:6px}
 .doc-pick button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
@@ -295,6 +303,9 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 #pfEvents select{min-width:300px}#pfEvents td{vertical-align:top}
 @media (max-width:700px){.pfhead{grid-template-columns:1fr}}
 .ipaper table.ib.wcv{font-size:11.5px;margin:6px 0 0}.ipaper table.ib.wcv th{font-size:11px;line-height:1.25}.ipaper table.ib.wcv td{height:1.6em}
+.dylink{border-radius:8px;padding:8px 12px;font-size:.86rem;background:var(--sunk);color:var(--muted);line-height:1.55}.dylink.on{background:color-mix(in srgb,#2b6cb0 12%,var(--surface));color:var(--fg);border-left:4px solid #2b6cb0}
+#wkItems input.auto::placeholder{color:#2b6cb0;opacity:1;font-weight:600}#wkItems input.auto{background:color-mix(in srgb,#2b6cb0 8%,var(--bg))}
+.linkbtn{all:unset;cursor:pointer;color:#2b6cb0;font-weight:700;text-decoration:underline;margin-left:6px}
 .pltb{min-width:0}.pltb input{width:100%;min-width:52px;text-align:right;padding:3px 5px}.pltb td.bad,.note .bad{color:var(--err);font-weight:700}
 .pls th{text-align:left;white-space:nowrap}.pls td{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:.84rem}
 .plchart{--pl-plan:#2f855a;--pl-act:#dd6b20;color:var(--fg)}.plchart svg{width:100%;max-width:900px;height:auto;display:block}
@@ -536,9 +547,9 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   <section class="alerts" id="alerts" aria-live="polite"></section>
 
   <div class="tabs" role="tablist">
-    <button type="button" class="tab" role="tab" id="tabCalc" aria-selected="true">คำนวณ / แก้ไขข้อมูล</button>
-    <button type="button" class="tab" role="tab" id="tabDoc" aria-selected="false">หน้าเอกสารถัวจ่าย</button>
-    <button type="button" class="tab" role="tab" id="tabIns" aria-selected="false">บริหารสัญญา · รายงาน · ตรวจรับ</button>
+    <button type="button" class="tab" role="tab" id="tabCalc" aria-selected="true"><span class="ti">🧮</span><span class="tt">คำนวณ / แก้ไขข้อมูล<small>ปริมาณงาน ราคา ถัวจ่าย</small></span></button>
+    <button type="button" class="tab" role="tab" id="tabDoc" aria-selected="false"><span class="ti">📄</span><span class="tt">หน้าเอกสารถัวจ่าย<small>บัญชีสรุป · รายการเพิ่ม/ลด · พิมพ์</small></span></button>
+    <button type="button" class="tab" role="tab" id="tabIns" aria-selected="false"><span class="ti">🏗️</span><span class="tt">บริหารสัญญา · รายงาน · ตรวจรับ<small>รายวัน · รายสัปดาห์ · S-Curve · เบิกจ่าย</small></span></button>
   </div>
 
   <section class="panel" id="docView" hidden>
@@ -773,12 +784,13 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
           <label class="f">ผลงานสะสม (%)<input id="wk_actCum" class="num" inputmode="decimal"><span class="hint" id="wk_acHint"></span></label>
           <label class="f wide">ปัญหาและอุปสรรค / หมายเหตุ (บรรทัดละ 1 เรื่อง)<textarea id="wk_problem" rows="3" placeholder="เช่น เสาไฟฟ้า และท่อประปา ติดขัดงานก่อสร้าง"></textarea></label>
         </div>
+        <div class="dylink" id="wkLink"></div>
         <div class="wkit-h"><div class="ptitle">ปริมาณงานที่ทำได้ในสัปดาห์นี้ — ตามรายการงาน <span class="note">ใส่เฉพาะรายการที่ทำ ลำดับตรงกับรายการถัวจ่าย · ผลงาน % คิดจากมูลค่า (ปริมาณ × ราคาต่อหน่วย ÷ วงเงินสัญญา)</span></div>
           <div class="seg" id="wkBasis"><button type="button" data-basis="contract">อิงปริมาณตามสัญญา</button><button type="button" data-basis="bal">อิงปริมาณหลังถัวจ่าย</button></div></div>
         <div class="tbl-wrap"><table class="ptb wkit" id="wkItems"></table></div>
         <div class="ptitle">งานอื่น ๆ ที่ไม่อยู่ในรายการงาน <span class="note">เช่น งานขุดย้ายแนวท่อเดิม — ไม่นำไปคิด % ผลงาน</span></div>
         <div class="tbl-wrap"><table class="ptb" id="wkRows"></table></div>
-        <div class="btns"><button type="button" id="bWkRow">+ เพิ่มงานอื่น</button><button type="button" id="bWkFromDy">⇣ รวมงานจากรายงานประจำวันของสัปดาห์นี้</button></div>
+        <div class="btns"><button type="button" id="bWkRow">+ เพิ่มงานอื่น</button><button type="button" id="bWkFromDy" title="คัดลอกยอดที่ดึงจากรายงานประจำวันมาเป็นค่าที่พิมพ์ไว้ เพื่อแก้ต่อเอง">⇣ คัดลอกยอดรายวันมาใส่ (เพื่อแก้ต่อ)</button></div>
         <div class="wkcalc" id="wkCalc"></div>
       </div>
       <details class="wkset">
@@ -2326,7 +2338,7 @@ const wkPrefix=W=>W.prefix||`${S.demo?'xxx':'สทล.17 ขท.กระบี
 function wkTotalDays(){return (parse(S.h.days)||0)+(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0)}
 function wkRange(n){const st=S.h.start;if(!st||!(n>=1))return {from:'',to:''};const from=addDays(st,7*(n-1));return {from,to:addDays(from,6)}}
 function wkNew(n,prev){const r=wkRange(n);return {no:String(n),from:r.from,to:r.to,memoNo:'',memoDate:'',plan:'',act:'',planCum:'',actCum:'',q:{},
-  problem:prev?prev.problem:'',rows:prev?prev.rows.map(x=>({work:x.work,km:x.km,side:x.side,qty:''})):[],
+  problem:prev&&!(S.dly&&S.dly.list.length)?prev.problem:'',rows:prev&&!(S.dly&&S.dly.list.length)?prev.rows.map(x=>({work:x.work,km:x.km,side:x.side,qty:''})):[],
   _q:prev&&prev.q?Object.fromEntries(Object.entries(prev.q).filter(([k,v])=>parseFloat(v.qty)||v.km||v.side).map(([k,v])=>[k,{qty:'',km:v.km||'',side:v.side||''}])):{}}}
 const pct3=v=>(Math.round(v*1000)/1000).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3});
 function wkPlanOf(i){const w=wkOf().list[i];if(String(w.plan).trim()!=='')return parse(w.plan)||0;if(planOn()&&w.from&&w.to)return planAt(w.to)-planAt(addDays(w.from,-1));return 0}
@@ -2343,7 +2355,7 @@ function docWkMemo(j){const h=S.h,W=wkOf(),c=wkCalc(j),w=c.w,ctl=ctlPerson(),{ch
   const per=parse(h.pendoc)||rr2((parse(h.value)||0)*(parse(h.penrate)||0)/100);
   const md=w.memoDate?thDate(w.memoDate):'.......................................';
   const L=(a,b,u)=>`<span></span><span>${a}</span><span class="n">${b}</span><span>${u||'%'}</span>`;
-  const probs=String(w.problem||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const probs=String(wkProblem(w)||'').split('\n').map(x=>x.trim()).filter(Boolean);
   const cc=[];if(W.cc){if(chair)cc.push(`ประธานกรรมการตรวจรับพัสดุ (${esc(chair.name)})`);mem.forEach(m=>cc.push(`กรรมการตรวจรับพัสดุ (${esc(m.name)})`))}
   String(W.ccExtra||'').split('\n').map(x=>x.trim()).filter(Boolean).forEach(x=>cc.push(esc(x)));
   const body=`<div class="memo-h"><img class="garuda sm" src="${GARUDA}" alt="ตราครุฑ"><div class="mt">บันทึกข้อความ</div></div>
@@ -2362,9 +2374,9 @@ function docWkMemo(j){const h=S.h,W=wkOf(),c=wkCalc(j),w=c.w,ctl=ctlPerson(),{ch
   return `<div class="ipaper th memo wkdoc">${thdHtml(body)}</div>`}
 function docWkSheet(j){const h=S.h,c=wkCalc(j),w=c.w,ctl=ctlPerson();
   const IR=wkItems(j).filter(r=>r.qty).map(r=>({work:r.it.desc,km:r.km||insOf().defLoc||'',side:r.side,qty:`${fq(r.qty)} ${r.it.unit}`,no:r.i+1}));
-  const rows=[...IR,...(w.rows||[]).filter(r=>String(r.work||'').trim())];const n=Math.max(12,rows.length);
+  const rows=[...IR,...(wkOtherRows(w)||[]).filter(r=>String(r.work||'').trim())];const n=Math.max(12,rows.length);
   const tr=[];for(let i=0;i<n;i++){const r=rows[i];tr.push(r?`<tr><td class="c">${r.no||'-'}</td><td>${esc(r.work)}</td><td class="c">${esc(r.km)}</td><td class="c">${esc(r.side)}</td><td class="c">${esc(r.qty)}</td></tr>`:'<tr><td></td><td></td><td></td><td></td><td></td></tr>')}
-  const probs=String(w.problem||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const probs=String(wkProblem(w)||'').split('\n').map(x=>x.trim()).filter(Boolean);
   const m=String(h.loc||'').match(/^(ทางหลวงหมายเลข\s*\S+.*?)(\s+ปริมาณงาน\s+(.+))?$/);
   return `<div class="ipaper wkdoc"><p class="ctr b" style="font-size:16px;margin:0">บันทึกการปฏิบัติงานประจำสัปดาห์</p>
    <p class="ctr b">ประจำสัปดาห์ที่ ${esc(w.no)} ระหว่างวันที่ ${thDate2(w.from)} ถึง วันที่ ${thDate2(w.to)}</p>
@@ -2387,18 +2399,29 @@ function docWk(){const W=wkOf();if(!W.list.length)return [`<div class="ipaper"><
   return [docWkMemo(W.cur),docWkSheet(W.cur),docWkCurve(W.cur)]}
 const WKF=['no','from','to','memoNo','memoDate','plan','act','planCum','actCum','problem'],WKS=['toLine','office','phone','prefix','basePlan','baseAct','ccExtra'];
 /* รายการงานตามสัญญา / หลังถัวจ่าย สำหรับรายงานประจำสัปดาห์ */
-function wkItems(j){const W=wkOf(),R=rules(),val=parse(S.h.value)||0,bal=W.basis==='bal';
+/* ลิงก์รายงานประจำวัน → รายงานประจำสัปดาห์ (อัตโนมัติ) */
+function dyWeekAgg(w){const A={q:{},rows:[],probs:[],days:[]};if(!w||!w.from||!w.to||!S.dly)return A;const uniq=a=>[...new Set(a.map(x=>String(x||'').trim()).filter(Boolean))].join(', ');
+  const days=S.dly.list.filter(d=>d.date&&d.date>=w.from&&d.date<=w.to);A.days=days.map(d=>d.date).sort();const km={},sd={},oth={};
+  days.forEach(d=>{Object.entries(d.q||{}).forEach(([id,x])=>{const v=parse(x.qty)||0;if(!v)return;A.q[id]=(A.q[id]||0)+v;(km[id]=km[id]||[]).push(x.km);(sd[id]=sd[id]||[]).push(x.side)});
+    (d.rows||[]).filter(r=>String(r.work||'').trim()).forEach(r=>{const k=r.work.trim();const o=oth[k]=oth[k]||{work:k,km:[],side:[],qty:[]};o.km.push(r.km);o.side.push(r.side);o.qty.push(r.qty)});
+    String(d.problem||'').split('\n').map(x=>x.trim().replace(/^[-•]\s*/,'')).filter(x=>x&&x!=='-').forEach(x=>{if(!A.probs.includes(x))A.probs.push(x)})});
+  Object.keys(A.q).forEach(id=>{A.q[id]={qty:r6(A.q[id]),km:uniq(km[id]),side:uniq(sd[id])}});A.rows=Object.values(oth).map(o=>({work:o.work,km:uniq(o.km),side:uniq(o.side),qty:uniq(o.qty)}));return A}
+const typed=v=>v!=null&&String(v).trim()!=='';
+function wkEffQ(k,id,A){const W=wkOf(),e=(W.list[k].q||{})[id]||{};if(typed(e.qty))return parse(e.qty)||0;A=A||dyWeekAgg(W.list[k]);return A.q[id]?A.q[id].qty:0}
+const wkProblem=w=>typed(w.problem)?w.problem:dyWeekAgg(w).probs.join('\n');
+const wkOtherRows=w=>(w.rows||[]).some(r=>String(r.work||'').trim())?w.rows:dyWeekAgg(w).rows;
+function wkItems(j){const W=wkOf(),R=rules(),val=parse(S.h.value)||0,bal=W.basis==='bal';const AG=W.list.map(w=>dyWeekAgg(w));
   return S.items.map((it,i)=>{const o=calcItem(it,R),id=iid(i);const base=o.valid?(bal?o.a:o.c):0;const p=o.valid?o.p:0;
-    let prev=0;for(let k=0;k<j;k++){const q=W.list[k].q&&W.list[k].q[id];if(q)prev+=parse(q.qty)||0}
-    const e=(W.list[j].q||{})[id]||{};const qty=parse(e.qty)||0;const cum=prev+qty;
-    return {i,id,it,base,p,prev,qty,cum,km:e.km||'',side:e.side||'',amt:qty*p,wpct:val?qty*p/val*100:0,over:base>0?cum>base+1e-9:qty>0,show:base>0||qty>0||prev>0}})}
+    let prev=0;for(let k=0;k<j;k++)prev+=wkEffQ(k,id,AG[k]);
+    const e=(W.list[j].q||{})[id]||{},a=AG[j].q[id]||{};const qty=wkEffQ(j,id,AG[j]);const cum=prev+qty;const auto=!typed(e.qty)&&!!a.qty;
+    return {i,id,it,base,p,prev,qty,cum,auto,autoQty:a.qty||0,km:e.km||a.km||'',side:e.side||a.side||'',amt:qty*p,wpct:val?qty*p/val*100:0,over:base>0?cum>base+1e-9:qty>0,show:base>0||qty>0||prev>0}})}
 function wkAutoAct(j){return wkItems(j).reduce((t,r)=>t+r.wpct,0)}
 const wkActOf=j=>{const w=wkOf().list[j];return String(w.act).trim()!==''?parse(w.act)||0:wkAutoAct(j)};
 function renderWkItems(){const W=wkOf(),w=wkCur();if(!w)return;const L=wkItems(W.cur).filter(r=>r.show);const bal=W.basis==='bal';
   $('wkBasis').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.basis===(bal?'bal':'contract')));
   $('wkItems').innerHTML=`<thead><tr><th style="width:46px">ลำดับ</th><th>รายการ</th><th style="width:60px">หน่วย</th><th style="width:100px">ปริมาณ${bal?'หลังถัวจ่าย':'ตามสัญญา'}</th><th style="width:96px">สะสมก่อนหน้า</th><th style="width:110px">ทำได้สัปดาห์นี้</th><th style="width:96px">สะสมรวม</th><th style="width:70px">% รายการ</th><th style="width:140px">กม. - กม.</th><th style="width:86px">ด้าน</th></tr></thead><tbody>`+
    (L.length?L.map(r=>`<tr data-wi="${r.id}" class="${r.over?'sev-e':r.qty?'on':''}"><td class="c">${r.i+1}</td><td>${esc(r.it.desc)}</td><td class="c">${esc(r.it.unit)}</td><td class="r">${fq(r.base)}</td><td class="r dim">${fq(r.prev)}</td>
-     <td><input class="num" data-f="qty" inputmode="decimal" value="${esc(((w.q||{})[r.id]||{}).qty||'')}"></td><td class="r" data-cum>${fq(r.cum)}</td><td class="r" data-pc>${r.base>0?(r.cum/r.base*100).toFixed(2):'-'}</td>
+     <td><input class="num${r.auto?' auto':''}" data-f="qty" inputmode="decimal" value="${esc(((w.q||{})[r.id]||{}).qty||'')}" placeholder="${r.auto?fq(r.autoQty):''}" title="${r.auto?'ดึงจากรายงานประจำวันอัตโนมัติ — พิมพ์เพื่อแก้เอง':''}"></td><td class="r" data-cum>${fq(r.cum)}</td><td class="r" data-pc>${r.base>0?(r.cum/r.base*100).toFixed(2):'-'}</td>
      <td><input data-f="km" value="${esc(r.km)}" placeholder="${esc(insOf().defLoc||'2+625 - 2+730')}"></td><td><input data-f="side" value="${esc(r.side)}" placeholder="LT./RT."></td></tr>`).join('')
    :'<tr class="empty-r"><td colspan="10">ยังไม่มีรายการงานในหน้าถัวจ่าย</td></tr>')+'</tbody>'}
 function wkRowUpd(tr){const W=wkOf(),r=wkItems(W.cur).find(x=>x.id===tr.dataset.wi);if(!r)return;
@@ -2411,9 +2434,14 @@ function renderWkRows(){const w=wkCur();if(!w)return;
   $('wkRows').innerHTML=`<thead><tr><th style="width:46px">ลำดับ</th><th>งาน</th><th style="width:160px">กม. - กม.</th><th style="width:100px">ด้าน</th><th style="width:130px">ผลงานที่ทำได้</th><th style="width:40px"></th></tr></thead><tbody>`+
    (w.rows.length?w.rows.map((r,j)=>`<tr data-wr="${j}"><td class="c">${j+1}</td><td><input data-f="work" value="${esc(r.work)}" placeholder="เช่น ผู้รับจ้างทำงาน EARTH EXCAVATION"></td><td><input data-f="km" value="${esc(r.km)}" placeholder="2+625 - 2+730"></td><td><input data-f="side" value="${esc(r.side)}" placeholder="LT./RT."></td><td><input data-f="qty" value="${esc(r.qty)}" placeholder="1 L/S."></td><td><button type="button" class="x" data-wrdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join('')
    :'<tr class="empty-r"><td colspan="6">ไม่มี — กด “+ เพิ่มงานอื่น” ถ้ามีงานนอกรายการ</td></tr>')+'</tbody>'}
-function renderWkCalc(){const W=wkOf(),w=wkCur();if(!w)return;const c=wkCalc(W.cur);
+function renderWkLink(){const w=wkCur();if(!w)return;const A=dyWeekAgg(w);const ni=Object.keys(A.q).length;
+  $('wkLink').innerHTML=A.days.length?`<b>🔗 เชื่อมกับรายงานประจำวันแล้ว ${A.days.length} วัน</b> (${A.days.map(d=>thDate(d).replace(/ 25\d\d$/,'')).join(', ')}) — ปริมาณงาน ${ni} รายการ${A.rows.length?` งานอื่น ${A.rows.length} รายการ`:''}${A.probs.length?' และปัญหาอุปสรรค':''} ดึงมาให้อัตโนมัติ (ช่องสีฟ้า) · พิมพ์ทับเมื่อต้องการแก้เอง`
+   :`<b>🔗 ยังไม่มีรายงานประจำวันในช่วง ${thDate(w.from)} – ${thDate(w.to)}</b> — เมื่อกรอกรายงานประจำวันของวันในสัปดาห์นี้ ปริมาณงานจะรวมมาที่นี่อัตโนมัติ (หรือกรอกเองในตาราง)`;
+  $('wkLink').classList.toggle('on',!!A.days.length);
+  if(!typed(w.problem)&&A.probs.length)$('wk_problem').placeholder='จากรายงานประจำวัน: '+A.probs.join(' / ')}
+function renderWkCalc(){const W=wkOf(),w=wkCur();if(!w)return;const c=wkCalc(W.cur);renderWkLink();
   $('wk_planHint').textContent=planOn()?(String(w.plan).trim()?'ใส่เอง (ว่างไว้ = จากแผนการทำงาน '+pct3(planAt(w.to)-planAt(addDays(w.from,-1)))+')':'ว่างไว้ = จากแผนการทำงาน (S-Curve) = '+pct3(c.plan)):'ยังไม่มีแผนการทำงาน — ใส่เอง หรือกรอกแผนในกล่องด้านบน';
-  $('wk_pcHint').textContent=String(w.planCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoPc)+')':'ว่างไว้ = สะสมยกมา + แผนงานแต่ละสัปดาห์ = '+pct3(c.autoPc);
+  $('wk_pcHint').textContent=String(w.planCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoPc)+')':(planOn()&&!String(w.plan).trim()?'ว่างไว้ = จากแผนการทำงาน (S-Curve) = ':'ว่างไว้ = สะสมยกมา + แผนงานแต่ละสัปดาห์ = ')+pct3(c.autoPc);
   $('wk_actHint').textContent=String(w.act).trim()?'ใส่เอง (ว่างไว้ = คิดจากปริมาณงาน '+pct3(c.autoAct)+')':'ว่างไว้ = คิดจากปริมาณงานในตาราง = '+pct3(c.autoAct)+' %';
   $('wk_acHint').textContent=String(w.actCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoAc)+')':'ว่างไว้ = '+pct3(c.autoAc);
   $('wk_noHint').textContent='ที่ '+wkPrefix(W)+(w.memoNo||'...');$('wk_prefixHint').textContent=W.prefix?'':'ว่างไว้ = '+wkPrefix(W);
@@ -2502,14 +2530,18 @@ function renderDy(){const D=dyOf(),d=dyCur();$('dyEmpty').hidden=!!d;$('dyForm')
   $('dyPick').innerHTML=D.list.map((x,j)=>`<option value="${j}"${j===D.cur?' selected':''}>${x.date?thDate(x.date):'(ยังไม่ใส่วันที่)'}${x.date&&S.h.start?' · วันที่ '+daysBetween(S.h.start,x.date)+' ของสัญญา':''}</option>`).join('');
   $('dyCount').textContent=D.list.length?`ทั้งหมด ${D.list.length} วัน`:'';
   if(!d)return;DYF.forEach(k=>$('dy_'+k).value=d[k]??'');
-  $('dy_dateHint').textContent=d.date&&S.h.start?`วันที่ทำงานที่ ${daysBetween(S.h.start,d.date)} ของสัญญา · สัปดาห์ที่ ${Math.floor(dayDiff(S.h.start,d.date)/7)+1}`:'';
+  if(d.date&&S.h.start){const wn=Math.floor(dayDiff(S.h.start,d.date)/7)+1;const has=wkOf().list.some(x=>x.from&&x.from<=d.date&&x.to>=d.date);
+    $('dy_dateHint').innerHTML=`วันที่ทำงานที่ ${daysBetween(S.h.start,d.date)} ของสัญญา · <b>รวมอยู่ในรายงานประจำสัปดาห์ที่ ${wn}</b> <button type="button" class="linkbtn" data-gowk="${wn}">${has?'ไปดูสัปดาห์ที่ '+wn+' →':'+ สร้างรายงานสัปดาห์ที่ '+wn+' →'}</button>`}else $('dy_dateHint').textContent='';
   const g=(L,obj)=>L.map(([k,t,u])=>`<label><span>${t}</span><input data-k="${k}" inputmode="numeric" value="${esc(obj[k]||'')}"><span class="u">${u||'คน'}</span></label>`).join('');
   $('dyLabor').innerHTML=g(DY_LAB,d.lab);
   $('dyMach').innerHTML=g([...DY_M1,...DY_M2,...DY_M3],d.mach)+`<label><input data-o="othName" value="${esc(d.othName||'')}" placeholder="อื่น ๆ (ระบุ)" style="text-align:left"><input data-o="othN" inputmode="numeric" value="${esc(d.othN||'')}"><span class="u"></span></label>`;
   const wr=(nm,v,o)=>DY_WX.map(([k,t])=>`<label><input type="radio" name="${nm}" value="${k}"${v===k?' checked':''}> ${t}${k==='other'?` <input data-wo="${nm}" value="${esc(o||'')}" style="flex:1">`:''}</label>`).join('');
   $('dyAM').innerHTML=wr('wAM',d.wAM,d.wAMo);$('dyPM').innerHTML=wr('wPM',d.wPM,d.wPMo);
   renderDyItems();renderDyRows()}
-function dyChanged(){save();if(insPage==='dly')renderIns()}
+function dyChanged(){save();if(insPage==='dly'||insPage==='wk')renderIns()}
+$('dyForm').addEventListener('click',e=>{const b=e.target.closest('[data-gowk]');if(!b)return;const n=+b.dataset.gowk,W=wkOf();let j=W.list.findIndex(x=>parse(x.no)===n);
+  if(j<0){const last=W.list.reduce((a,x)=>!a||parse(x.no)>parse(a.no)?x:a,null);W.list.push(wkNew(n,last));W.list.sort((a,b)=>parse(a.no)-parse(b.no));j=W.list.findIndex(x=>parse(x.no)===n);const nw=W.list[j];nw.q={};nw.rows=[];nw.problem=''}
+  W.cur=j;save();setSec('weekly',true);renderWk();renderIns();$('wkBox').scrollIntoView({behavior:'smooth',block:'start'})});
 DYF.forEach(k=>$('dy_'+k).addEventListener('input',e=>{const d=dyCur();if(!d)return;d[k]=e.target.value;
   if(k==='date'){const D=dyOf();D.list.sort((a,b)=>String(a.date).localeCompare(String(b.date)));D.cur=D.list.indexOf(d);renderDy()}dyChanged()}));
 $('dyLabor').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;dyCur().lab[k]=e.target.value;dyChanged()});
@@ -2548,6 +2580,7 @@ function setSec(sec,quiet){if(insEditMode){toast('กดบันทึกหร
   $('insSec').querySelectorAll('[data-sec]').forEach(b=>b.setAttribute('aria-selected',b.dataset.sec===sec));
   document.querySelectorAll('#insView .icard[data-sec]').forEach(el=>el.hidden=el.dataset.sec!==sec);
   $('insPick').querySelectorAll('[data-ip]').forEach(b=>b.hidden=b.dataset.sec!==sec);
+  if(sec==='weekly'&&S){renderPlan();renderWk()}if(sec==='daily'&&S)renderDy();
   if(!SEC_PAGES[sec].includes(insPage)){insPage=SEC_DOC[sec];$('insPick').querySelectorAll('[data-ip]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip===insPage))}
   $('docNum').textContent=sec==='pay'?'4':sec==='contract'?'4':sec==='weekly'?'3':'2';
   const one=$('insPick').querySelectorAll('[data-ip]:not([hidden])').length<2;$('insPick').hidden=one;
@@ -3096,7 +3129,7 @@ async function exportWord(){
 $('bInsWord').addEventListener('click',exportWord);
 
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 20 · 25 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 21 · 25 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3119,7 +3152,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 20 · 25 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 21 · 25 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
