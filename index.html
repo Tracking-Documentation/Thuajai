@@ -281,6 +281,23 @@ table.itbl{min-width:1300px;font-size:.86rem}
 .ichk li.ok{background:var(--ok-bg);color:var(--ok)}.ichk li.e{background:var(--err-bg);color:var(--err)}.ichk li.w{background:var(--warn-bg);color:var(--warn)}
 .ichk li span{font-weight:700}
 #insDesk{display:block}
+.penbox{background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.penbox h3{font-size:1rem}
+.pinfo2{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.pinfo2 .pc{background:var(--sunk);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column}
+.pinfo2 .pc .k{font-size:.78rem;color:var(--muted)}.pinfo2 .pc .v{font-weight:700;font-variant-numeric:tabular-nums}
+.pinfo2 .pc.e .v{color:var(--err)}.pinfo2 .pc.ok .v{color:var(--ok)}
+.ptitle{font-weight:600;font-family:var(--display);font-size:.9rem;margin-top:4px}
+table.ptb{min-width:720px;font-size:.88rem}
+.ptb th{background:var(--sunk);font-size:.76rem;color:var(--muted);text-align:left;padding:5px 6px;position:static}
+.ptb td{padding:3px 4px}.ptb input{background:var(--bg);border-color:var(--line)}
+.ptb .empty-r td{color:var(--muted);font-size:.84rem;padding:8px}
+.ipaper .sgt{display:grid;grid-template-columns:auto auto 14em auto;column-gap:6px;row-gap:0;width:max-content;margin:10px auto 0;align-items:end}
+.ipaper .sgt .gap{grid-column:1/-1;height:20px}
+.ipaper .sgt .dlc{border-bottom:1px dotted #000;height:1.1em;margin-bottom:.45em}
+.ipaper .sgt .nmc{text-align:center;white-space:nowrap}
+.ipaper .sgt>span{white-space:nowrap}
+.ipaper .sgt .lh{padding-right:14px}
 
 /* ---- ตรวจรับงาน (paper) — always black on white like the printed form ---- */
 .ipaper{font-family:"Sarabun","TH SarabunPSK",sans-serif;font-size:14.2px;line-height:1.62;color:#000;position:relative}
@@ -465,24 +482,31 @@ table.itbl{min-width:1300px;font-size:.86rem}
     </div>
 
     <details class="insbox" id="insProjBox">
-      <summary>ข้อมูลประกอบการตรวจรับ (ใช้ทุกงวด) — บันทึกแก้ไขสัญญา ผู้รับมอบอำนาจ การรับประกัน ค่าปรับ</summary>
+      <summary>ข้อมูลประกอบการตรวจรับ (ใช้ทุกงวด) — ผู้รับมอบอำนาจ การรับประกัน หัวบันทึกข้อความ</summary>
       <div class="grid">
         <label class="f">ที่ตั้ง กม. (ใช้เมื่อรายการไม่ได้ระบุ)<input id="ip_defLoc" placeholder="กม.975+500"></label>
-        <label class="f wide">บันทึกเพิ่มเติมแนบท้ายสัญญา (ถ้ามี)<input id="ip_amend" placeholder="เช่น บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง (ฉบับที่ 1) ลงวันที่ 14 พฤษภาคม 2569"></label>
-        <label class="f">วันสิ้นสุดสัญญา (ใหม่) ตามบันทึกแก้ไข<input id="ip_newEnd" type="date"><span class="hint">ว่างไว้ = ใช้วันสิ้นสุดสัญญาเดิม</span></label>
         <label class="f">ผู้ส่งมอบฝ่ายผู้รับจ้าง (ชื่อ)<input id="ip_csName"></label>
         <label class="f">ฐานะผู้ส่งมอบ<input id="ip_csTitle" placeholder="ผู้รับมอบอำนาจ"></label>
         <label class="f">ข้อสัญญาการรับประกัน (ข้อ)<input id="ip_wClause" class="num"></label>
         <label class="f">ระยะเวลารับประกัน (ปี)<input id="ip_wYears" class="num"></label>
         <label class="f">ข้อสัญญาค่าปรับ (ข้อ)<input id="ip_pClause" class="num"></label>
-        <label class="f">อนุมัติงดค่าปรับ (เลขที่และวันที่)<input id="ip_waiveRef" placeholder="ที่ สทล.17.1/5070 ลงวันที่ 8 กันยายน 2569"></label>
-        <label class="f">จำนวนวันที่ได้รับงดค่าปรับ<input id="ip_waiveDays" class="num"></label>
         <label class="f">ส่วนราชการ (บันทึกข้อความ)<input id="ip_office"></label>
         <label class="f">โทร. / โทรสาร<input id="ip_phone"></label>
         <label class="f">เลขที่หนังสือ (ส่วนหน้า)<input id="ip_memoPrefix" placeholder="สทล.17 ขท.กระบี่.2(ผ)/"></label>
         <label class="f wide">อ้างอิงระเบียบ (ย่อหน้าที่ 2 ของบันทึกรายงานผลการตรวจรับ)<textarea id="ip_legal" rows="3"></textarea></label>
       </div>
     </details>
+
+    <div class="insbox penbox">
+      <h3>ระยะเวลาสัญญาและค่าปรับ</h3>
+      <div class="pinfo2" id="penInfo"></div>
+      <div class="ptitle">บันทึกแก้ไขสัญญา / ขยายระยะเวลา <span class="note">ใส่จำนวนวันที่ขยาย ระบบเลื่อนวันสิ้นสุดสัญญาให้</span></div>
+      <div class="tbl-wrap"><table class="ptb" id="amTbl"></table></div>
+      <div class="btns"><button type="button" id="bAmAdd">+ เพิ่มบันทึกแก้ไขสัญญา</button></div>
+      <div class="ptitle">อนุมัติงด / ลดค่าปรับ <span class="note">ใส่ได้หลายครั้ง ระบบรวมจำนวนวันให้</span></div>
+      <div class="tbl-wrap"><table class="ptb" id="wvTbl"></table></div>
+      <div class="btns"><button type="button" id="bWvAdd">+ เพิ่มการอนุมัติงดค่าปรับ</button></div>
+    </div>
 
     <div class="instbar">
       <div class="seg" id="instSeg"></div>
@@ -497,10 +521,10 @@ table.itbl{min-width:1300px;font-size:.86rem}
       <label class="f">ส่งงานประจำเดือน (เช่น กันยายน 2569)<input id="iv_month"></label>
       <label class="check" style="align-self:end"><input type="checkbox" id="iv_final"> เป็นงวดสุดท้าย (คำนวณจากบัญชีถัวจ่าย)</label>
       <label class="check" style="align-self:end"><input type="checkbox" id="iv_bal"> ถัวจ่ายแล้ว (แสดงค่างานหลังถัวจ่ายในหน้ารายการ)</label>
-      <label class="check" style="align-self:end"><input type="checkbox" id="iv_refund"> คืนเงินประกันผลงานที่หักไว้ในงวดก่อน</label>
+      <label class="check" style="align-self:end" id="lbRefund"><input type="checkbox" id="iv_refund"> คืนเงินประกันผลงานที่หักไว้ทุกงวด (งวดสุดท้าย)</label>
       <label class="f">หนังสือขอส่งงาน เลขที่<input id="iv_letterNo" placeholder="ซอ 0428/2569"></label>
       <label class="f">หนังสือขอส่งงาน ลงวันที่<input id="iv_letterDate" type="date"></label>
-      <label class="f">ทำการแล้วเสร็จ ตั้งแต่วันที่<input id="iv_doneDate" type="date"></label>
+      <label class="f">ทำการแล้วเสร็จ ตั้งแต่วันที่<input id="iv_doneDate" type="date"><span class="hint">ใช้คำนวณค่าปรับ (ส่งงานเกินกำหนดกี่วัน)</span></label>
       <label class="f">วันที่ตรวจรับ<input id="iv_inspDate" type="date"></label>
       <label class="f">เวลา / สถานที่นัดตรวจรับ<input id="iv_meet" placeholder="9:30 น. ณ พื้นที่ก่อสร้าง"></label>
       <label class="f">หักเงินประกันผลงาน (%)<input id="iv_ret" class="num" inputmode="decimal"></label>
@@ -679,7 +703,9 @@ const SAMPLE={
 };
 SAMPLE.h.reasonInc='ปริมาณงานจริงในสนามมากกว่าปริมาณงานในสัญญา';
 SAMPLE.h.reasonDec='ปริมาณงานจริงในสนามน้อยกว่าปริมาณงานในสัญญา';
-function migrate(o){if(!o)return o;if(!Array.isArray(o.sign))o.sign=clone(SAMPLE.sign);
+const newIid=()=>'i'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function ensureIds(o){(o.items||[]).forEach(it=>{if(!it.id)it.id=newIid()})}
+function migrate(o){if(!o)return o;ensureIds(o);if(!Array.isArray(o.sign))o.sign=clone(SAMPLE.sign);
   if(o.h&&o.h.reasonInc===undefined)o.h.reasonInc=SAMPLE.h.reasonInc;if(o.h&&o.h.reasonDec===undefined)o.h.reasonDec=SAMPLE.h.reasonDec;o.doc=o.doc||{};return o}
 const TYPOS=[['สพาน','สะพาน'],['ซึ้งเป็น','ซึ่งเป็น'],['ปริมาน','ปริมาณ'],['อนุญาติ','อนุญาต'],['ผู้รับจ้า ','ผู้รับจ้าง '],['กำหนนด','กำหนด'],['สัญญ ','สัญญา '],['เอกสารแนป','เอกสารแนบ']];
 let S=null;
@@ -1211,7 +1237,7 @@ $('tb').addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(!
   if(d.dataset.arm!=='1'){d.dataset.arm='1';d.textContent='ลบ?';d.style.color='var(--err)';setTimeout(()=>{if(d.isConnected){d.dataset.arm='';d.textContent='✕';d.style.color=''}},2500);return}
   S.items.splice(i,1);renderTable();update();toast('ลบรายการที่ '+(i+1)+' แล้ว')});
 $('cmp').addEventListener('input',e=>{const k=e.target.dataset.doc;if(!k)return;S.doc[k]=e.target.value;update()});
-$('bAdd').addEventListener('click',()=>{S.items.push({desc:'',unit:'',price:'',cq:'0',aq:'0',note:''});renderTable();update();$('d'+(S.items.length-1)).focus()});
+$('bAdd').addEventListener('click',()=>{S.items.push({id:newIid(),desc:'',unit:'',price:'',cq:'0',aq:'0',note:''});renderTable();update();$('d'+(S.items.length-1)).focus()});
 $('alerts').addEventListener('click',e=>{const f=e.target.closest('[data-f]');if(f){filt[f.dataset.f]=!filt[f.dataset.f];update();return}
   const g=e.target.closest('[data-go]');if(g){e.preventDefault();const tr=$('row'+g.dataset.go);if(tr){tr.scrollIntoView({behavior:'smooth',block:'center'});tr.classList.remove('flash');void tr.offsetWidth;tr.classList.add('flash')}}});
 $('bIO').addEventListener('click',()=>{$('ioPanel').hidden=!$('ioPanel').hidden});
@@ -1530,11 +1556,11 @@ const DEF_LEGAL='เพื่อให้เป็นไปตามพระร
 function newInst(no,final){return{no:String(no),month:'',final:!!final,bal:!!final,refund:!!final,letterNo:'',letterDate:'',doneDate:'',inspDate:'',meet:'',ret:'10',adv:'0',wEnd:'',ctlDate:'',memoNo:'',memoDate:'',cond:'',penText:'',q:{}}}
 function insDefaults(o){
   const sample=o.h&&String(o.h.no).replace(/\s/g,'')==='กบ1.29/2569';
-  const ins={amend:'',newEnd:'',csName:'',csTitle:'ผู้รับมอบอำนาจ',wClause:'8',wYears:'2',pClause:'17',waiveRef:'',waiveDays:'0',
+  const ins={amends:[],waivers:[],csName:'',csTitle:'ผู้รับมอบอำนาจ',wClause:'8',wYears:'2',pClause:'17',
     defLoc:'',office:'แขวงทางหลวงกระบี่',phone:'0-7561-1281 โทรสาร 0-7561-2091',memoPrefix:'สทล.17 ขท.กระบี่.2(ผ)/',legal:DEF_LEGAL,cur:0,list:[newInst(1,false)]};
   if(sample){
-    Object.assign(ins,{amend:'บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง (ฉบับที่ 1) ลงวันที่ 14 พฤษภาคม 2569',newEnd:'2026-08-26',defLoc:'กม.975+500',csName:'นางสาวพรรษมาภรณ์ เอี่ยมละออ',
-      waiveRef:'ที่ สทล.17.1/5070 ลงวันที่ 8 กันยายน 2569',waiveDays:'91'});
+    Object.assign(ins,{amends:[{no:'1',date:'2026-05-14',days:'7',reason:''}],defLoc:'กม.975+500',csName:'นางสาวพรรษมาภรณ์ เอี่ยมละออ',
+      waivers:[{reason:'',ref:'ที่ สทล.17.1/5070',date:'2026-09-08',days:'91'}]});
     const t=()=>'- ผลการทดลอง "ใช้ได้" ตามอันดับการทดลองที่ ';
     const i1=Object.assign(newInst(1,false),{month:'กันยายน 2569',letterNo:'ซอ 0428/2569',letterDate:'2026-09-28',doneDate:'2026-09-28',inspDate:'2026-09-29',
       meet:'9:30 น. ณ พื้นที่ก่อสร้าง',ctlDate:'2026-09-28',memoNo:'933',memoDate:'2026-09-29',
@@ -1549,7 +1575,21 @@ function insDefaults(o){
     ins.list=[i1,i2];ins.cur=1;
   }
   return ins}
-function insOf(){if(!S.ins)S.ins=insDefaults(S);S.ins.list.forEach(x=>{if(x.refund===undefined){x.refund=!!x.final;if(x.final&&String(x.ret)==='10')x.ret='0'}});return S.ins}
+function migIns(ins){
+  if(!Array.isArray(ins.amends)){ins.amends=[];if(ins.amend||ins.newEnd){const m=String(ins.amend||'').match(/ฉบับที่\s*(\d+)/);
+    ins.amends=[{no:m?m[1]:'1',date:String(ins.amend||'').includes('14 พฤษภาคม 2569')?'2026-05-14':'',days:String(ins.newEnd&&S.h.end?dayDiff(S.h.end,ins.newEnd):0),reason:''}]}}
+  if(!Array.isArray(ins.waivers)){ins.waivers=[];if((parse(ins.waiveDays)||0)>0||ins.waiveRef){const r=String(ins.waiveRef||'');
+    ins.waivers=[{reason:'',ref:r.replace(/\s*ลงวันที่.*$/,''),date:r.includes('8 กันยายน 2569')?'2026-09-08':'',days:String(ins.waiveDays||'0')}]}}
+  ['amend','newEnd','waiveRef','waiveDays'].forEach(k=>delete ins[k]);
+  ensureIds(S);
+  if(!ins.qById){ins.list.forEach(inst=>{const nq={};Object.keys(inst.q||{}).forEach(k=>{const it=/^\d+$/.test(k)?S.items[+k]:null;nq[it?it.id:k]=inst.q[k]});inst.q=nq});ins.qById=true}}
+const iid=i=>S.items[i].id;
+function effEnd(){const h=S.h;if(!h.end)return '';const add=(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0);return add?addDays(h.end,add):h.end}
+function endText(){const h=S.h,A=insOf().amends||[];if(!A.length)return `สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
+  return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} และ`+A.map(a=>`บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง (ฉบับที่ ${esc(a.no)}) ลงวันที่ ${a.date?thDate(a.date):'....................'}`).join(' และ')+` สิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
+function waiveTotal(){return (insOf().waivers||[]).reduce((t,w)=>t+(parse(w.days)||0),0)}
+function sgRows(L){return `<div class="sgt">`+L.map((x,j)=>`${j?'<div class="gap"></div>':''}<span class="lh">${x.lh||''}</span><span>(ลงชื่อ)</span><span class="dlc"></span><span>${x.role}</span><span></span><span></span><span class="nmc">(${esc(x.name)})</span><span>${esc(x.pos||'')}</span>`).join('')+`</div>`}
+function insOf(){if(!S.ins)S.ins=insDefaults(S);migIns(S.ins);S.ins.list.forEach(x=>{if(x.refund===undefined){x.refund=!!x.final;if(x.final&&String(x.ret)==='10')x.ret='0'}});return S.ins}
 const rr2=x=>Math.round(Number((+x).toFixed(6))*100)/100;
 const r6=x=>Math.round(Number((+x).toFixed(9))*1e6)/1e6;
 const thd=s=>String(s).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[d]);
@@ -1573,20 +1613,20 @@ function insCalc(k){
     const me=instItem(k,i);
     const base=inst.bal&&o.valid?o.aa:(o.valid?o.ca:0);
     return {i,it,o,p,prevQty:pq,prevAmt:pa,prevCnt:pc,qty:me.qty,amt:me.amt,auto:me.auto,base,remain:rr2(base-pa-me.amt),bad:me.bad,
-      loc:locOf(k,i),note:(inst.q[i]&&inst.q[i].note!==undefined)?inst.q[i].note:DEF_NOTE};
+      loc:locOf(k,i),note:(inst.q[iid(i)]&&inst.q[iid(i)].note!==undefined)?inst.q[iid(i)].note:DEF_NOTE};
   });
   const billed=rows.filter(r=>Math.abs(r.qty)>1e-9||Math.abs(r.amt)>0.004);
   const gross=rr2(billed.reduce((s,r)=>s+r.amt,0));
   const ret=rr2(gross*(parse(inst.ret)||0)/100),adv=rr2(gross*(parse(inst.adv)||0)/100);
   const pen=penaltyOf(k);
   let refund=0;const refFrom=[];
-  if(inst.refund)for(let j=0;j<k;j++){const pj=insCalc(j);if(pj.ret>0.004){refund+=pj.ret;refFrom.push(list[j].no)}}
+  if(inst.final&&inst.refund)for(let j=0;j<k;j++){const pj=insCalc(j);if(pj.ret>0.004){refund+=pj.ret;refFrom.push(list[j].no)}}
   refund=rr2(refund);
   const net=rr2(gross-ret-adv-pen.amt+refund);
   return {inst,rows,billed,gross,ret,adv,pen,net,refund,refFrom}}
-function locOf(k,i){const ins=insOf();for(let j=k;j>=0;j--){const q=ins.list[j].q[i];if(q&&String(q.loc||'').trim())return q.loc}return ins.defLoc||''}
+function locOf(k,i){const ins=insOf();for(let j=k;j>=0;j--){const q=ins.list[j].q[iid(i)];if(q&&String(q.loc||'').trim())return q.loc}return ins.defLoc||''}
 function instItem(k,i){
-  const inst=insOf().list[k],q=inst.q[i]||{};const it=S.items[i];
+  const inst=insOf().list[k],q=inst.q[iid(i)]||{};const it=S.items[i];
   const o=calcItem(it,rules());
   if(inst.final){
     let pq=0,pa=0;for(let j=0;j<k;j++){const c=instItem(j,i);pq+=c.qty;pa+=c.amt}
@@ -1600,30 +1640,31 @@ function instItem(k,i){
 function penaltyOf(k){
   const ins=insOf(),inst=ins.list[k],h=S.h;
   const per=rr2((parse(h.value)||0)*(parse(h.penrate)||0)/100);
-  const endD=ins.newEnd||h.end;
-  if(!endD||!inst.doneDate)return{per,days:0,late:0,amt:0,from:'',to:''};
-  const late=Math.max(0,dayDiff(endD,inst.doneDate));
-  const waive=parse(ins.waiveDays)||0;
+  const endD=effEnd();const waive=waiveTotal();
   let charged=0;for(let j=0;j<k;j++)charged+=penaltyOf(j).days;
+  if(!endD||!inst.doneDate)return{per,days:0,late:0,amt:0,from:'',to:'',waive,charged,end:endD};
+  const late=Math.max(0,dayDiff(endD,inst.doneDate));
   const days=Math.max(0,late-waive-charged);
-  return{per,late,days,amt:rr2(days*per),from:late?addDays(endD,1):'',to:inst.doneDate,waive}}
+  return{per,late,days,amt:rr2(days*per),from:late?addDays(endD,1):'',to:inst.doneDate,waive,charged,end:endD}}
 function penText(k){
   const ins=insOf(),inst=ins.list[k],p=penaltyOf(k);
   if(String(inst.penText||'').trim())return inst.penText;
   if(!inst.doneDate)return `ผู้รับจ้างต้องเสียค่าปรับตามเงื่อนไขในสัญญา ข้อ ${ins.pClause} เป็นรายวันๆ ละ ${fm(p.per)} บาท จากวันที่ .................... ถึงวันที่ .................... จำนวน ........ วัน คงเหลือค่าปรับตามสัญญา จำนวน ........ วัน (ใส่วันที่ทำการแล้วเสร็จ ระบบจะคำนวณให้)`;
   if(!p.late)return `ผู้รับจ้างส่งมอบงานภายในกำหนดเวลาตามสัญญา ไม่มีค่าปรับ`;
   let t=`ผู้รับจ้างต้องเสียค่าปรับตามเงื่อนไขในสัญญา ข้อ ${ins.pClause} เป็นรายวันๆ ละ ${fm(p.per)} บาท จากวันที่ ${thDate(p.from)} ถึงวันที่ ${thDate(p.to)} จำนวน ${p.late} วัน`;
-  if((parse(ins.waiveDays)||0)>0)t+=` โดยได้รับการงดค่าปรับ ตามอนุมัติ ${ins.waiveRef} จำนวนไม่เกินเท่ากับ ${ins.waiveDays} วัน`;
-  t+=` คงเหลือค่าปรับตามสัญญา เป็นรายวันๆ ละ ${fm(p.per)} บาท จำนวน ${p.days} วัน`;
+  const W=(ins.waivers||[]).filter(w=>(parse(w.days)||0)>0);
+  if(W.length)t+=' โดยได้รับการงดค่าปรับ '+W.map(w=>`${String(w.reason||'').trim()?'เนื่องจาก'+w.reason.trim().replace(/^เนื่องจาก\s*/,'')+' ':''}ตามอนุมัติ ${w.ref||'..........'}${w.date?' ลงวันที่ '+thDate(w.date):''} จำนวน ${parse(w.days)} วัน`).join(' และ')+(W.length>1?` รวมงดค่าปรับ ${p.waive} วัน`:'');
+  if(p.charged)t+=` หักค่าปรับไปแล้วในงวดก่อน ${p.charged} วัน`;
+  t+=` คงเหลือค่าปรับตามสัญญา เป็นรายวันๆ ละ ${fm(p.per)} บาท จำนวน ${p.days} วัน${p.days?` เป็นเงิน ${fm(p.amt)} บาท`:''}`;
   return t}
 
 /* ---- form ---- */
-const IPF=['defLoc','amend','newEnd','csName','csTitle','wClause','wYears','pClause','waiveRef','waiveDays','office','phone','memoPrefix','legal'];
+const IPF=['defLoc','csName','csTitle','wClause','wYears','pClause','office','phone','memoPrefix','legal'];
 const IVF=['no','month','letterNo','letterDate','doneDate','inspDate','meet','ret','adv','wEnd','ctlDate','memoNo','memoDate','cond','penText'];
 function fillIns(){
   const ins=insOf();ins.cur=Math.min(ins.cur||0,ins.list.length-1);const inst=ins.list[ins.cur];
   IPF.forEach(k=>$('ip_'+k).value=ins[k]??'');IVF.forEach(k=>$('iv_'+k).value=inst[k]??'');
-  $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;
+  $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;$('lbRefund').hidden=!inst.final;renderPenBox();
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
   renderInsTable();renderIns();
@@ -1635,9 +1676,9 @@ function renderInsTable(){
   C.rows.map(r=>{const o=r.o,tot=inst.bal&&o.valid?o.a:(o.valid?o.c:0);
     return `<tr data-ii="${r.i}" class="${r.bad?'sev-e':Math.abs(r.amt)>0.004?'on':''}"><td class="c">${r.i+1}</td><td>${esc(r.it.desc)}</td><td class="c">${esc(r.it.unit)}</td><td class="r">${fm(r.p)}</td>
     <td class="r">${fq(tot)}</td><td class="r dim">${fq(r.prevQty)}</td><td class="r dim">${fmd(r.prevAmt)}</td>
-    <td>${inst.final?`<span class="calc">${fq(r.qty)}</span>`:`<input class="num" data-iq="qty" id="iq${r.i}" inputmode="decimal" value="${esc((inst.q[r.i]||{}).qty||'')}" style="width:100px">`}</td>
+    <td>${inst.final?`<span class="calc">${fq(r.qty)}</span>`:`<input class="num" data-iq="qty" id="iq${r.i}" inputmode="decimal" value="${esc((inst.q[iid(r.i)]||{}).qty||'')}" style="width:100px">`}</td>
     <td class="r"><b>${fmd(r.amt)}</b></td><td class="r ${r.remain<-0.004?'minus':''}">${fmd(r.remain)}</td>
-    <td><input data-iq="loc" id="il${r.i}" value="${esc((inst.q[r.i]||{}).loc||'')}" placeholder="${esc(r.loc)}"></td><td><textarea data-iq="note" id="in${r.i}" rows="1">${esc(r.note)}</textarea></td></tr>`}).join('')+
+    <td><input data-iq="loc" id="il${r.i}" value="${esc((inst.q[iid(r.i)]||{}).loc||'')}" placeholder="${esc(r.loc)}"></td><td><textarea data-iq="note" id="in${r.i}" rows="1">${esc(r.note)}</textarea></td></tr>`}).join('')+
   `</tbody><tfoot><tr><td colspan="8" class="r">รวมงวดนี้ ${C.billed.length} รายการ</td><td class="r">${fm(C.gross)}</td><td colspan="3"></td></tr></tfoot>`;
 }
 function insChecks(){
@@ -1662,8 +1703,20 @@ function insChecks(){
   if(C.pen.days>0)out.push(['w',`มีค่าปรับ ${C.pen.days} วัน เป็นเงิน ${fm(C.pen.amt)} บาท หักในงวดนี้แล้ว`]);
   if(!out.some(x=>x[0]==='e'))out.unshift(['ok','ตัวเลขงวดนี้ถูกต้อง พร้อมพิมพ์เอกสาร']);
   return {C,out}}
+function renderPenBox(){const ins=insOf();
+  $('amTbl').innerHTML=`<thead><tr><th style="width:80px">ฉบับที่</th><th style="width:170px">ลงวันที่</th><th style="width:120px">ขยายเวลา (วัน)</th><th>เหตุผล / หมายเหตุ</th><th style="width:40px"></th></tr></thead><tbody>`+
+   (ins.amends.length?ins.amends.map((a,j)=>`<tr data-am="${j}"><td><input data-f="no" id="am_no${j}" value="${esc(a.no)}"></td><td><input type="date" data-f="date" id="am_dt${j}" value="${esc(a.date)}"></td><td><input class="num" data-f="days" id="am_d${j}" inputmode="numeric" value="${esc(a.days)}"></td><td><input data-f="reason" id="am_r${j}" value="${esc(a.reason)}"></td><td><button type="button" class="x" data-amdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join(''):'<tr class="empty-r"><td colspan="5">ไม่มีการแก้ไขสัญญา</td></tr>')+'</tbody>';
+  $('wvTbl').innerHTML=`<thead><tr><th>เนื่องจาก (เหตุผลที่งด/ลดค่าปรับ)</th><th style="width:190px">ตามอนุมัติที่</th><th style="width:170px">ลงวันที่</th><th style="width:110px">จำนวนวัน</th><th style="width:40px"></th></tr></thead><tbody>`+
+   (ins.waivers.length?ins.waivers.map((w,j)=>`<tr data-wv="${j}"><td><input data-f="reason" id="wv_r${j}" value="${esc(w.reason)}" placeholder="เช่น ฝนตกหนักเกินกว่าปกติ / รอแก้ไขแบบ"></td><td><input data-f="ref" id="wv_ref${j}" value="${esc(w.ref)}" placeholder="ที่ สทล.17.1/..."></td><td><input type="date" data-f="date" id="wv_dt${j}" value="${esc(w.date)}"></td><td><input class="num" data-f="days" id="wv_d${j}" inputmode="numeric" value="${esc(w.days)}"></td><td><button type="button" class="x" data-wvdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join(''):'<tr class="empty-r"><td colspan="5">ไม่มีการงดค่าปรับ</td></tr>')+'</tbody>';
+}
+function renderPenInfo(){const ins=insOf(),k=ins.cur,p=penaltyOf(k),h=S.h,addD=(ins.amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0);
+  const c=(k2,v,cls)=>`<div class="pc ${cls||''}"><span class="k">${k2}</span><span class="v">${v}</span></div>`;
+  $('penInfo').innerHTML=c('สิ้นสุดสัญญา (เดิม)',h.end?thDate(h.end):'–')+c('ขยายเวลารวม',addD+' วัน')+c('สิ้นสุดสัญญา (ใหม่)',p.end?thDate(p.end):'–')+c('ค่าปรับวันละ',fm(p.per)+' บาท')+
+   c(`งวดที่ ${esc(ins.list[k].no)} ส่งงานเกินกำหนด`,ins.list[k].doneDate?p.late+' วัน':'ใส่วันที่แล้วเสร็จ',p.late?'e':'ok')+c('งดค่าปรับรวม',p.waive+' วัน')+
+   c('ค่าปรับงวดนี้',p.days?`${p.days} วัน = ${fm(p.amt)} บาท`:'ไม่มี',p.days?'e':'ok')}
 function renderIns(){
   if(!S||$('insView').hidden)return;
+  renderPenInfo();
   const ins=insOf(),k=ins.cur,inst=ins.list[k],{C,out}=insChecks();
   const wAuto=addYears(inst.inspDate,parse(ins.wYears)||0);
   $('iv_wEndHint').textContent=inst.final?(inst.wEnd?'':wAuto?'ว่างไว้ = '+thDate(wAuto):'ใส่วันที่ตรวจรับก่อน'):'งวดที่ยังไม่สุดท้าย เว้นว่างได้';
@@ -1673,7 +1726,7 @@ function renderIns(){
    <div class="row"><span class="k">หักเงินประกันผลงาน ${esc(inst.ret||0)}%</span><span class="v minus">− ${fm(C.ret)}</span></div>
    <div class="row"><span class="k">หักเงินเบิกล่วงหน้า ${esc(inst.adv||0)}%</span><span class="v minus">− ${fm(C.adv)}</span></div>
    <div class="row"><span class="k">หักค่าปรับ ${C.pen.days} วัน × ${fm(C.pen.per)}</span><span class="v minus">− ${fm(C.pen.amt)}</span></div>
-   ${C.inst.refund?`<div class="row"><span class="k">คืนเงินประกันผลงาน${C.refFrom.length?' งวดที่ '+C.refFrom.join(', '):' (ไม่มียอดที่หักไว้)'}</span><span class="v plus">+ ${fm(C.refund)}</span></div>`:''}
+   ${C.inst.final&&C.inst.refund?`<div class="row"><span class="k">คืนเงินประกันผลงาน${C.refFrom.length?' งวดที่ '+C.refFrom.join(', '):' (ไม่มียอดที่หักไว้)'}</span><span class="v plus">+ ${fm(C.refund)}</span></div>`:''}
    <div class="row big"><span class="k">คงเป็นเงินที่ต้องจ่าย</span><span class="v">${fm(C.net)}</span><span class="w">(${bahtText(C.net)})</span></div></div>`;
   $('insChk').innerHTML=`<h3>ตรวจสอบ</h3><ul class="ichk">${out.map(([l,t])=>`<li class="${l}"><span>${l==='ok'?'✓':l==='e'?'✗':'!'}</span>${esc(t)}</li>`).join('')}</ul>`;
   renderInsDocs(C);
@@ -1681,7 +1734,7 @@ function renderIns(){
 IPF.forEach(k=>$('ip_'+k).addEventListener('input',e=>{insOf()[k]=e.target.value;renderInsTable();renderIns();save()}));
 IVF.forEach(k=>$('iv_'+k).addEventListener('input',e=>{const ins=insOf();ins.list[ins.cur][k]=e.target.value;if(k==='no')fillSegOnly();renderInsTable();renderIns();save()}));
 function fillSegOnly(){const ins=insOf();$('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('')}
-$('iv_final').addEventListener('change',e=>{const ins=insOf(),inst=ins.list[ins.cur];inst.final=e.target.checked;if(inst.final){inst.bal=true;$('iv_bal').checked=true;inst.refund=true;$('iv_refund').checked=true}fillSegOnly();renderInsTable();renderIns();save()});
+$('iv_final').addEventListener('change',e=>{const ins=insOf(),inst=ins.list[ins.cur];inst.final=e.target.checked;if(inst.final){inst.bal=true;$('iv_bal').checked=true;inst.refund=true;$('iv_refund').checked=true}$('lbRefund').hidden=!inst.final;fillSegOnly();renderInsTable();renderIns();save()});
 $('iv_refund').addEventListener('change',e=>{const ins=insOf();ins.list[ins.cur].refund=e.target.checked;renderIns();save()});
 $('iv_bal').addEventListener('change',e=>{const ins=insOf();ins.list[ins.cur].bal=e.target.checked;renderInsTable();renderIns();save()});
 $('instSeg').addEventListener('click',e=>{const b=e.target.closest('[data-inst]');if(!b)return;insOf().cur=+b.dataset.inst;fillIns();save()});
@@ -1698,7 +1751,7 @@ $('bInstDel').addEventListener('click',e=>{const ins=insOf();if(ins.list.length<
   if(!instDelArm){instDelArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยันลบ';setTimeout(()=>{instDelArm=0;e.target.textContent='ลบงวดนี้'},3000);return}
   instDelArm=0;e.target.textContent='ลบงวดนี้';const no=ins.list[ins.cur].no;ins.list.splice(ins.cur,1);ins.cur=Math.max(0,ins.cur-1);fillIns();save();toast('ลบงวดที่ '+no+' แล้ว')});
 $('itbl').addEventListener('input',e=>{const f=e.target.dataset.iq;if(!f)return;const i=+e.target.closest('tr').dataset.ii,ins=insOf(),inst=ins.list[ins.cur];
-  inst.q[i]=inst.q[i]||{qty:'',loc:'',note:DEF_NOTE};inst.q[i][f]=e.target.value;
+  const key=iid(i);inst.q[key]=inst.q[key]||{qty:'',loc:'',note:DEF_NOTE};inst.q[key][f]=e.target.value;
   if(f==='qty'){const tr=e.target.closest('tr');const C=insCalc(ins.cur),r=C.rows[i];tr.children[8].innerHTML='<b>'+fmd(r.amt)+'</b>';tr.children[9].textContent=fmd(r.remain);
     $('itbl').querySelector('tfoot td:nth-child(2)').textContent=fm(C.gross);$('itbl').querySelector('tfoot td').textContent='รวมงวดนี้ '+C.billed.length+' รายการ'}
   renderIns();save()});
@@ -1711,7 +1764,7 @@ function committee(){const sg=S.sign||[];const chair=sg.find(s=>/ประธา
 function ctlPerson(){return (S.sign||[]).find(s=>String(s.role).trim()==='ผู้ควบคุมงาน')}
 function sigBlock(cls){const {chair,mem}=committee();const one=(s,t)=>s?`<div class="sg"><div>(ลงชื่อ)<span class="dl"></span>${t}</div><div class="nm"><span>(${esc(s.name)})</span><span>${esc(s.pos)}</span></div></div>`:'';
   return `<div class="isig ${cls||''}"><div class="c1">${one(chair,'ประธานกรรมการตรวจรับพัสดุ')}</div><div class="c2">${mem.slice(0,2).map(m=>one(m,'กรรมการตรวจรับพัสดุ')).join('')}</div><div class="c1">${mem.slice(2).map(m=>one(m,'กรรมการตรวจรับพัสดุ')).join('')}</div></div>`}
-function introPara(C){const h=S.h,ins=insOf();const endTxt=ins.amend?`สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} และ${esc(ins.amend)} สิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(ins.newEnd)}`:`สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
+function introPara(C){const h=S.h,ins=insOf();const endTxt=endText();
   return `${esc(h.project)} ${esc(h.loc)} สัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} เริ่มต้นสัญญา วันที่ ${thDate(h.start)} ${endTxt}`}
 function instLabel(inst){return `งวดที่ ${esc(inst.no)}${inst.final?' (งวดสุดท้าย)':''}`}
 function docIns(C){const h=S.h,ins=insOf(),inst=C.inst;const wEnd=inst.final?(inst.wEnd||addYears(inst.inspDate,parse(ins.wYears)||0)):'';
@@ -1722,10 +1775,8 @@ function docIns(C){const h=S.h,ins=insOf(),inst=C.inst;const wEnd=inst.final?(in
   <p class="ind">จึงเห็นควรจ่ายเงินงวดที่ ${esc(inst.no)} ค่างานเป็นเงิน ${fm(C.gross)} บาท หักเงินประกันผลงาน ${(parse(inst.ret)||0)?esc(inst.ret):'-'} % เป็นเงิน ${fmd(C.ret)} บาท หักเงินเบิกล่วงหน้า ${(parse(inst.adv)||0)?esc(inst.adv):'-'} % เป็นเงิน ${fmd(C.adv)} บาท${C.pen.amt?` หักค่าปรับผิดสัญญา ${C.pen.days} วันๆ ละ ${fm(C.pen.per)} บาท เป็นเงิน ${fm(C.pen.amt)} บาท`:''}${C.refund>0.004?` บวกคืนเงินประกันผลงานที่หักไว้ งวดที่ ${C.refFrom.join(', ')} เป็นเงิน ${fm(C.refund)} บาท`:''} คงเป็นเงินที่ต้องจ่ายทั้งสิ้น เป็นเงิน ${fm(C.net)} บาท (${bahtText(C.net)})</p>
   <div class="ctr b" style="margin-top:14px">กรมทางหลวง&nbsp; แขวงทางหลวงกระบี่</div>
   <div class="ctr" style="margin-bottom:22px">ตรวจรับพัสดุ เมื่อวันที่ ${inst.inspDate?thDateP(inst.inspDate):'.......... ......................... พ.ศ. ..........'}</div>
-  <div class="ilist">
-   <div class="lr"><span class="lh">ผู้ส่งมอบ</span><div class="sg"><div>(ลงชื่อ)<span class="dl"></span>ผู้รับจ้าง</div><div class="nm"><span>(${esc(ins.csName||'..............................')})</span><span>${esc(ins.csTitle)}</span></div></div></div>
-   ${(()=>{const {chair,mem}=committee();return [chair,...mem].filter(Boolean).map((s,j)=>`<div class="lr"><span class="lh">${j===0?'ผู้รับมอบ':''}</span><div class="sg"><div>(ลงชื่อ)<span class="dl"></span>${j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ'}</div><div class="nm"><span>(${esc(s.name)})</span><span>${esc(s.pos)}</span></div></div></div>`).join('')})()}
-  </div></div>`]}
+  ${(()=>{const {chair,mem}=committee();return sgRows([{lh:'ผู้ส่งมอบ',role:'ผู้รับจ้าง',name:ins.csName||'..............................',pos:ins.csTitle},
+     ...[chair,...mem].filter(Boolean).map((x,j)=>({lh:j===0?'ผู้รับมอบ':'',role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos}))])})()}</div></div>`]}
 function headIntro(C,extra){const inst=C.inst;return `<p class="ind">${introPara(C)}</p>${extra||''}`}
 function blocksP137(C){const inst=C.inst,R=rules();
   const head=`<div class="garuda" aria-hidden="true">ตราครุฑ</div><div class="t-u">ใบรับรองผลการปฏิบัติงาน</div>${headIntro(C)}
@@ -1787,7 +1838,7 @@ function docCtl(C){const h=S.h,inst=C.inst,ctl=ctlPerson(),{chair,mem}=committee
    <p class="ind">เวลา ${esc(inst.meet||'....................................')}</p>
    <div class="clist">${[chair,...mem].filter(Boolean).map((s,j)=>`<div class="cl"><span>ลงนาม</span><span class="dl"></span><span>${j===0?'ประธานคณะกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ'}</span><span></span><span class="nm2">(${esc(s.name)})&nbsp;&nbsp; ${esc(s.pos)}</span></div>`).join('')}</div></div>`}
 function docMemo(C){const h=S.h,ins=insOf(),inst=C.inst,{chair,mem}=committee();const val=parse(h.value);
-  const endTxt=ins.amend?`สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} และ${esc(ins.amend)} สิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(ins.newEnd)}`:`สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
+  const endTxt=endText();
   const md=inst.memoDate?(()=>{const [y,m,d]=inst.memoDate.split('-').map(Number);return `${d} ${TM[m-1]} ${y+543}`})():'.......................................';
   const body=`<div class="memo-h"><div class="garuda sm" aria-hidden="true">ตราครุฑ</div><div class="mt">บันทึกข้อความ</div></div>
    <div class="mrow"><b>ส่วนราชการ</b><span class="ul">${esc(ins.office)} โทร. ${esc(ins.phone)}</span></div>
@@ -1798,7 +1849,7 @@ function docMemo(C){const h=S.h,ins=insOf(),inst=C.inst,{chair,mem}=committee();
    <p class="ind">${esc(ins.legal)}</p>
    <p class="ind">บัดนี้ ผู้รับจ้างได้ส่งมอบงาน${instLabel(inst)} ตามหนังสือขอส่งงานเลขที่ ${esc(inst.letterNo||'..........')} ลงวันที่ ${thDate2(inst.letterDate)} คณะกรรมการตรวจรับพัสดุได้ทำการตรวจรับแล้ว เมื่อวันที่ ${thDate2(inst.inspDate)} เห็นว่าเป็นการถูกต้องครบถ้วน เป็นไปตามแบบรูปรายการละเอียดและข้อกำหนดในสัญญา จึงขอรายงานผลการตรวจรับพัสดุดังกล่าว เพื่อบันทึกข้อมูลการตรวจรับพัสดุในระบบจัดซื้อจัดจ้างภาครัฐด้วยอิเล็กทรอนิกส์ (e-GP) ตามกระบวนการจัดซื้อจัดจ้างจนถึงการบริหารสัญญาในระบบ e-GP ภายในวันที่ได้ดำเนินการจริง</p>
    <p class="ind">จึงเรียนมาเพื่อโปรดทราบ</p>
-   <div class="ilist mlist">${[chair,...mem].filter(Boolean).map((s,j)=>`<div class="lr"><span class="lh"></span><div class="sg"><div>(ลงชื่อ)<span class="dl"></span>${j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ'}</div><div class="nm"><span>(${esc(s.name)})</span><span>${esc(s.pos)}</span></div></div></div>`).join('')}</div>`;
+   <div style="height:14px"></div>${sgRows([chair,...mem].filter(Boolean).map((x,j)=>({role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos})))}`;
   return `<div class="ipaper th memo">${thdHtml(body)}</div>`}
 function thdHtml(html){return html.replace(/>([^<]*)</g,(m,t)=>'>'+thd(t)+'<')}
 /* pagination */
@@ -1827,6 +1878,13 @@ function renderInsDocs(C){
   $('insInfo').textContent=`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง) · ตราครุฑไม่ได้พิมพ์ให้ ใช้กระดาษที่มีตราครุฑ หรือเว้นที่ไว้ตามเดิม`;
   const sh=$('insSheets');sh.style.zoom=1;const avail=$('insDesk').clientWidth-40,mw=sh.offsetWidth;sh.style.zoom=Math.min(1,avail/mw).toFixed(3);
 }
+function penEdit(e,attr,arr){const tr=e.target.closest('tr');const f=e.target.dataset.f;if(!tr||!f)return;const ins=insOf();ins[arr][+tr.dataset[attr]][f]=e.target.value;if(f!=='reason')renderInsTable();renderIns();save()}
+$('amTbl').addEventListener('input',e=>penEdit(e,'am','amends'));
+$('wvTbl').addEventListener('input',e=>penEdit(e,'wv','waivers'));
+$('amTbl').addEventListener('click',e=>{const b=e.target.closest('[data-amdel]');if(!b)return;insOf().amends.splice(+b.dataset.amdel,1);renderPenBox();renderInsTable();renderIns();save()});
+$('wvTbl').addEventListener('click',e=>{const b=e.target.closest('[data-wvdel]');if(!b)return;insOf().waivers.splice(+b.dataset.wvdel,1);renderPenBox();renderIns();save()});
+$('bAmAdd').addEventListener('click',()=>{const A=insOf().amends;A.push({no:String(A.length+1),date:'',days:'',reason:''});renderPenBox();save();$('am_dt'+(A.length-1)).focus()});
+$('bWvAdd').addEventListener('click',()=>{const W=insOf().waivers;W.push({reason:'',ref:'',date:'',days:''});renderPenBox();save();$('wv_r'+(W.length-1)).focus()});
 $('insPick').addEventListener('click',e=>{const b=e.target.closest('[data-ip]');if(!b)return;insPage=b.dataset.ip;$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderIns()});
 $('bInsPrint').addEventListener('click',()=>{renderIns();const inst=insOf().list[insOf().cur];
   printSheets(insSheets,`ตรวจรับงานงวดที่ ${inst.no} ${S.h.no}`,`ตรวจรับงานงวดที่${inst.no}_${String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'')}.html`)});
