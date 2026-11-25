@@ -290,6 +290,10 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .pfapg{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:.84rem}.pfapg input,.pfapg select{width:auto;display:inline-block;padding:3px 6px}
 #pfEvents select{min-width:300px}#pfEvents td{vertical-align:top}
 @media (max-width:700px){.pfhead{grid-template-columns:1fr}}
+.pltb{min-width:0}.pltb input{width:100%;min-width:52px;text-align:right;padding:3px 5px}.pltb td.bad,.note .bad{color:var(--err);font-weight:700}
+.pls th{text-align:left;white-space:nowrap}.pls td{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:.84rem}
+.plchart{--pl-plan:#2f855a;--pl-act:#dd6b20;color:var(--fg)}.plchart svg{width:100%;max-width:900px;height:auto;display:block}
+.plleg{display:flex;gap:18px;flex-wrap:wrap;font-size:.84rem;color:var(--muted)}.plleg i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .secnav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .secnav button{position:relative}.secnav .sn{position:absolute;top:6px;right:9px;font-size:.72rem;font-weight:700;color:var(--tc2,var(--tc));opacity:.75}
 .secnav button{display:flex;gap:12px;align-items:center;text-align:left;padding:12px 14px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--tc) 30%,var(--line));background:var(--surface);color:var(--fg);cursor:pointer;min-height:68px}
@@ -731,8 +735,21 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       </div>
     </div>
 
+    <div class="icard t-violet" id="plBox" data-sec="weekly">
+      <div class="ich"><span class="num">1</span><div class="ict"><b>📊 แผนการทำงาน (S-Curve)</b><small>ใส่ % ของงานแต่ละรายการในแต่ละเดือน ตามแผนการปฏิบัติงานที่ผู้รับจ้างเสนอ — ระบบคิดแผนรายเดือน/สะสม เทียบผลงานจริง และใช้เป็น “แผนงาน” ในรายงานประจำสัปดาห์ให้อัตโนมัติ</small></div></div>
+      <div class="grid">
+        <label class="f">หนังสือส่งแผนของผู้รับจ้าง ลงวันที่<input id="pl_date" type="date"></label>
+        <label class="f">ผู้ควบคุมงานเสนอ / ประธานกรรมการเห็นชอบ เมื่อ<input id="pl_ok" type="date"></label>
+        <label class="f">วิศวกรผู้ควบคุมงานฝ่ายผู้รับจ้าง (ภย.)<input id="pl_eng" placeholder="นายวริศ วรรคจันทร์ ภย 79346"></label>
+      </div>
+      <div class="tbl-wrap"><table class="ptb pltb" id="plTbl"></table></div>
+      <div class="note" id="plWarn"></div>
+      <div class="tbl-wrap"><table class="ptb pltb pls" id="plSum"></table></div>
+      <div class="plchart" id="plChart"></div>
+    </div>
+
     <div class="icard t-violet wkbox" id="wkBox" data-sec="weekly">
-      <div class="ich"><span class="num">1</span><div class="ict"><b>📈 รายงานความก้าวหน้าประจำสัปดาห์</b><small>ผู้ควบคุมงาน → ผอ.ขท.กระบี่ ผ่านประธานกรรมการ พร้อมสำเนาเรียนคณะกรรมการตรวจรับพัสดุ</small></div></div>
+      <div class="ich"><span class="num">2</span><div class="ict"><b>📈 รายงานความก้าวหน้าประจำสัปดาห์</b><small>ผู้ควบคุมงาน → ผอ.ขท.กระบี่ ผ่านประธานกรรมการ พร้อมสำเนาเรียนคณะกรรมการตรวจรับพัสดุ</small></div></div>
       <div class="instbar">
         <div class="seg" id="wkSeg"></div>
         <div class="btns"><button type="button" id="bWkAdd">+ เพิ่มสัปดาห์ถัดไป</button><button type="button" id="bWkDel" class="danger">ลบสัปดาห์นี้</button><button type="button" id="bWkShow" class="primary">📄 ดูเอกสารสัปดาห์นี้</button></div>
@@ -745,7 +762,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
           <label class="f">ถึงวันที่<input id="wk_to" type="date"></label>
           <label class="f">เลขที่หนังสือ (เลขท้าย)<input id="wk_memoNo" placeholder="เช่น 25"><span class="hint" id="wk_noHint"></span></label>
           <label class="f">ลงวันที่<input id="wk_memoDate" type="date"></label>
-          <label class="f">แผนงานสัปดาห์นี้ (%)<input id="wk_plan" class="num" inputmode="decimal" placeholder="เช่น 7.114"></label>
+          <label class="f">แผนงานสัปดาห์นี้ (%)<input id="wk_plan" class="num" inputmode="decimal" placeholder="เช่น 7.114"><span class="hint" id="wk_planHint"></span></label>
           <label class="f">ผลงานสัปดาห์นี้ (%)<input id="wk_act" class="num" inputmode="decimal"><span class="hint" id="wk_actHint"></span></label>
           <label class="f">แผนงานสะสม (%)<input id="wk_planCum" class="num" inputmode="decimal"><span class="hint" id="wk_pcHint"></span></label>
           <label class="f">ผลงานสะสม (%)<input id="wk_actCum" class="num" inputmode="decimal"><span class="hint" id="wk_acHint"></span></label>
@@ -1914,7 +1931,7 @@ function fillIns(){
   $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;$('lbRefund').hidden=!inst.final;renderPenBox();
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
-  renderInsTable();renderDy();renderWk();renderPf();setSec(insSec,true);renderIns();
+  planSeed();renderInsTable();renderDy();renderPlan();renderWk();renderPf();setSec(insSec,true);renderIns();
 }
 function growTA(t){t.style.height='auto';t.style.height=Math.max(76,t.scrollHeight+2)+'px'}
 function renderInsTable(){
@@ -2249,11 +2266,12 @@ function wkNew(n,prev){const r=wkRange(n);return {no:String(n),from:r.from,to:r.
   problem:prev?prev.problem:'',rows:prev?prev.rows.map(x=>({work:x.work,km:x.km,side:x.side,qty:''})):[],
   _q:prev&&prev.q?Object.fromEntries(Object.entries(prev.q).filter(([k,v])=>parseFloat(v.qty)||v.km||v.side).map(([k,v])=>[k,{qty:'',km:v.km||'',side:v.side||''}])):{}}}
 const pct3=v=>(Math.round(v*1000)/1000).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3});
-function wkCalc(j){const W=wkOf();let pc=parse(W.basePlan)||0,ac=parse(W.baseAct)||0;
-  for(let i=0;i<=j;i++){const w=W.list[i];pc=String(w.planCum).trim()!==''?parse(w.planCum):pc+(parse(w.plan)||0);ac=String(w.actCum).trim()!==''?parse(w.actCum):ac+wkActOf(i)}
+function wkPlanOf(i){const w=wkOf().list[i];if(String(w.plan).trim()!=='')return parse(w.plan)||0;if(planOn()&&w.from&&w.to)return planAt(w.to)-planAt(addDays(w.from,-1));return 0}
+function wkCalc(j){const W=wkOf(),pOn=planOn();let pc=parse(W.basePlan)||0,ac=parse(W.baseAct)||0;
+  for(let i=0;i<=j;i++){const w=W.list[i];pc=String(w.planCum).trim()!==''?parse(w.planCum):String(w.plan).trim()!==''?pc+(parse(w.plan)||0):(pOn&&w.to?planAt(w.to):pc);ac=String(w.actCum).trim()!==''?parse(w.actCum):ac+wkActOf(i)}
   const w=W.list[j],total=wkTotalDays(),el=S.h.start&&w.to?daysBetween(S.h.start,w.to):NaN;
-  const autoPc=(j?wkCalcPrev(j-1).pc:parse(W.basePlan)||0)+(parse(w.plan)||0),autoAc=(j?wkCalcPrev(j-1).ac:parse(W.baseAct)||0)+wkActOf(j);
-  return {w,plan:parse(w.plan)||0,act:wkActOf(j),autoAct:wkAutoAct(j),pc,ac,autoPc,autoAc,diff:ac-pc,total,el,rem:total-el}}
+  const autoPc=String(w.plan).trim()===''&&pOn&&w.to?planAt(w.to):(j?wkCalcPrev(j-1).pc:parse(W.basePlan)||0)+wkPlanOf(j),autoAc=(j?wkCalcPrev(j-1).ac:parse(W.baseAct)||0)+wkActOf(j);
+  return {w,plan:wkPlanOf(j),act:wkActOf(j),autoAct:wkAutoAct(j),pc,ac,autoPc,autoAc,diff:ac-pc,total,el,rem:total-el}}
 function wkCalcPrev(j){const c=wkCalc(j);return {pc:c.pc,ac:c.ac}}
 function wkStatusTxt(c){const d=Math.abs(c.diff);return Math.abs(c.diff)<0.0005?'เป็นไปตามแผน':`${c.diff<0?'ช้ากว่าแผน':'เร็วกว่าแผน'} ${pct3(d)} %`}
 function wkTimeTxt(c){if(!isFinite(c.el))return `(เวลาทำการตามสัญญา ${c.total||'....'} วัน)`;
@@ -2331,6 +2349,7 @@ function renderWkRows(){const w=wkCur();if(!w)return;
    (w.rows.length?w.rows.map((r,j)=>`<tr data-wr="${j}"><td class="c">${j+1}</td><td><input data-f="work" value="${esc(r.work)}" placeholder="เช่น ผู้รับจ้างทำงาน EARTH EXCAVATION"></td><td><input data-f="km" value="${esc(r.km)}" placeholder="2+625 - 2+730"></td><td><input data-f="side" value="${esc(r.side)}" placeholder="LT./RT."></td><td><input data-f="qty" value="${esc(r.qty)}" placeholder="1 L/S."></td><td><button type="button" class="x" data-wrdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join('')
    :'<tr class="empty-r"><td colspan="6">ไม่มี — กด “+ เพิ่มงานอื่น” ถ้ามีงานนอกรายการ</td></tr>')+'</tbody>'}
 function renderWkCalc(){const W=wkOf(),w=wkCur();if(!w)return;const c=wkCalc(W.cur);
+  $('wk_planHint').textContent=planOn()?(String(w.plan).trim()?'ใส่เอง (ว่างไว้ = จากแผนการทำงาน '+pct3(planAt(w.to)-planAt(addDays(w.from,-1)))+')':'ว่างไว้ = จากแผนการทำงาน (S-Curve) = '+pct3(c.plan)):'ยังไม่มีแผนการทำงาน — ใส่เอง หรือกรอกแผนในกล่องด้านบน';
   $('wk_pcHint').textContent=String(w.planCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoPc)+')':'ว่างไว้ = สะสมยกมา + แผนงานแต่ละสัปดาห์ = '+pct3(c.autoPc);
   $('wk_actHint').textContent=String(w.act).trim()?'ใส่เอง (ว่างไว้ = คิดจากปริมาณงาน '+pct3(c.autoAct)+')':'ว่างไว้ = คิดจากปริมาณงานในตาราง = '+pct3(c.autoAct)+' %';
   $('wk_acHint').textContent=String(w.actCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoAc)+')':'ว่างไว้ = '+pct3(c.autoAc);
@@ -2467,7 +2486,7 @@ function setSec(sec,quiet){if(insEditMode){toast('กดบันทึกหร
   document.querySelectorAll('#insView .icard[data-sec]').forEach(el=>el.hidden=el.dataset.sec!==sec);
   $('insPick').querySelectorAll('[data-ip]').forEach(b=>b.hidden=b.dataset.sec!==sec);
   if(!SEC_PAGES[sec].includes(insPage)){insPage=SEC_DOC[sec];$('insPick').querySelectorAll('[data-ip]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip===insPage))}
-  $('docNum').textContent=sec==='pay'?'4':sec==='contract'?'4':'2';
+  $('docNum').textContent=sec==='pay'?'4':sec==='contract'?'4':sec==='weekly'?'3':'2';
   const one=$('insPick').querySelectorAll('[data-ip]:not([hidden])').length<2;$('insPick').hidden=one;
   if(!quiet)renderIns()}
 $('insSec').addEventListener('click',e=>{const b=e.target.closest('[data-sec]');if(b)setSec(b.dataset.sec)});
@@ -2597,6 +2616,53 @@ function docPerf(){const h=S.h,P=pfOf(),asOf=pfToday(),R=pfScore(asOf),{chair,me
     <tr><td></td><td class="b">รวมคะแนนความเสียหายสะสม</td><td></td><td></td><td class="r b">${R.sc}</td></tr></tbody></table>
    <p class="ind" style="margin-top:10px">ผลการประเมิน: คะแนนความเสียหายสะสม ${R.sc} คะแนน ${R.sus?`อยู่ในเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญาหรือข้อตกลงเป็นหนังสือ เป็นระยะเวลา ${R.sus} วัน นับแต่วันที่ ${thDate(R.susFrom)} ถึงวันที่ ${thDate(R.susTo)}`:'ไม่ถึงเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญา'}</p>
    <div style="height:10px"></div>${sgRows([chair,...mem].filter(Boolean).map((x,j)=>({role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos})))}</div>`]}
+/* ---- แผนการทำงาน & S-Curve ---- */
+const TMS=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function plMonths(){const st=S.h.start,en=effEnd();if(!st||!en||en<st)return [];const L=[];let y=+st.slice(0,4),m=+st.slice(5,7);
+  for(let g=0;g<60;g++){const ms=`${y}-${String(m).padStart(2,'0')}-01`;if(ms>en)break;const me=addDays(m===12?`${y+1}-01-01`:`${y}-${String(m+1).padStart(2,'0')}-01`,-1);
+    L.push({from:ms<st?st:ms,to:me>en?en:me,lab:`${TMS[m-1]} ${y+543}`});m++;if(m>12){m=1;y++}}return L}
+function plItems(){const R=rules();return S.items.map((it,i)=>{const o=calcItem(it,R);const v=o.valid?o.p*o.c:0;return {it,i,v}})}
+function plOf(){if(!S.plan)S.plan={date:'',ok:'',eng:''};return S.plan}
+function plCalc(){const M=plMonths(),I=plItems();const tot=I.reduce((t,x)=>t+x.v,0)||parse(S.h.value)||0;
+  const money=M.map((_,m)=>I.reduce((t,x)=>t+x.v*(parse((x.it.pl||[])[m])||0)/100,0));
+  const pct=money.map(v=>tot?v/tot*100:0);let a=0;const acc=pct.map(p=>a+=p);
+  const has=I.some(x=>(x.it.pl||[]).some(v=>parse(v)));return {M,I,tot,money,pct,acc,has}}
+function planOn(){return plCalc().has}
+function planAt(date){const P=plCalc();if(!P.has||!date)return 0;let c=0;
+  P.M.forEach((m,k)=>{if(date>=m.to)c+=P.pct[k];else if(date>=m.from)c+=P.pct[k]*daysBetween(m.from,date)/daysBetween(m.from,m.to)});return c}
+function plActual(){/* ผลงานสะสมจริง ณ สิ้นเดือน จากรายงานประจำสัปดาห์ */const W=wkOf(),P=plCalc();
+  return P.M.map(m=>{let best=null;W.list.forEach((w,j)=>{if(w.to&&w.to<=m.to&&(!best||w.to>best.to))best={to:w.to,ac:wkCalc(j).ac}});return best?best.ac:null})}
+function renderPlan(){const P=plCalc(),Pl=plOf();['date','ok','eng'].forEach(k=>$('pl_'+k).value=Pl[k]||'');
+  if(!P.M.length){$('plTbl').innerHTML='<tbody><tr class="empty-r"><td>ใส่วันเริ่มต้นและสิ้นสุดสัญญาในหน้าถัวจ่ายก่อน</td></tr></tbody>';$('plSum').innerHTML='';$('plChart').innerHTML='';$('plWarn').textContent='';return}
+  const rows=P.I.filter(x=>x.v>0||(x.it.pl||[]).some(v=>parse(v)));const bad=[];
+  $('plTbl').innerHTML=`<thead><tr><th style="width:40px">ที่</th><th>รายการ</th><th style="width:120px">เป็นเงิน</th><th style="width:62px">%</th>${P.M.map((m,k)=>`<th class="c" style="width:74px">${k+1}<br>${m.lab}</th>`).join('')}<th style="width:62px">รวม %</th></tr></thead><tbody>`+
+   rows.map(x=>{const pl=x.it.pl||[];const s=P.M.reduce((t,_,k)=>t+(parse(pl[k])||0),0);if(x.v>0&&Math.abs(s-100)>0.01)bad.push(x.i+1);
+     return `<tr data-pl="${x.i}"><td class="c">${x.i+1}</td><td>${esc(x.it.desc)}</td><td class="r">${fm(x.v)}</td><td class="r">${P.tot?(x.v/P.tot*100).toFixed(3):'-'}</td>${P.M.map((_,k)=>`<td><input class="num" data-m="${k}" inputmode="decimal" value="${esc(pl[k]||'')}"></td>`).join('')}<td class="r ${Math.abs(s-100)>0.01&&x.v>0?'bad':''}" data-sum>${s?fm(s,0):'-'}</td></tr>`}).join('')+'</tbody>';
+  $('plWarn').innerHTML=bad.length?`<span class="bad">⚠ รายการที่ ${bad.join(', ')} ผลรวม % ยังไม่ครบ 100</span>`:P.has?'✓ ทุกรายการกระจายครบ 100%':'ใส่ % ต่อเดือนของแต่ละรายการ (ผลรวมแต่ละแถว = 100)';
+  const act=plActual();let pa=null;const mAct=act.map(v=>{if(v==null)return null;const d=v-(pa??0);pa=v;return d});
+  const r=(lab,arr,f)=>`<tr><th>${lab}</th>${arr.map(v=>`<td class="r">${v==null?'':f(v)}</td>`).join('')}</tr>`;const p3=v=>pct3(v)+'%';
+  $('plSum').innerHTML=`<thead><tr><th style="width:130px"></th>${P.M.map((m,k)=>`<th class="c">${k+1}<br>${m.lab}</th>`).join('')}</tr></thead><tbody>`+
+   r('Money',P.money,fm)+r('AccMoney',P.money.map((_,k)=>P.money.slice(0,k+1).reduce((a,b)=>a+b,0)),fm)+r('% PLAN',P.pct,p3)+r('% ACC PLAN',P.acc,p3)+
+   r('% ACTUAL',mAct,p3)+r('% ACC ACTUAL',act,p3)+r('% ACC DIFF',act.map((v,k)=>v==null?null:v-P.acc[k]),p3)+r('% PLAN/2',P.acc.map(v=>v/2),p3)+r('% PLAN/2 DIFF',act.map((v,k)=>v==null?null:v-P.acc[k]/2),p3)+'</tbody>';
+  /* S-Curve */
+  const W=760,H=280,L=48,R=40,T=26,B=36,n=P.M.length,x=k=>L+(n>1?k*(W-L-R)/(n-1):0),y=v=>T+(100-Math.max(0,Math.min(100,v)))*(H-T-B)/100;
+  const line=(arr,c,dash)=>{const pts=arr.map((v,k)=>v==null?null:[x(k),y(v)]).filter(Boolean);if(!pts.length)return '';
+    return `<polyline fill="none" stroke="${c}" stroke-width="2.5" ${dash?'stroke-dasharray="6 4"':''} points="${pts.map(p=>p.join(',')).join(' ')}"/>`+pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="${c}"/>`).join('')};
+  const lbl=(arr,c,dy)=>arr.map((v,k)=>v==null?'':`<text x="${x(k)}" y="${y(v)+dy}" text-anchor="middle" font-size="11" fill="${c}">${pct3(v)}%</text>`).join('');
+  const grid=[0,20,40,60,80,100].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" stroke-opacity=".12"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".6">${v}%</text>`).join('');
+  const xl=P.M.map((m,k)=>`<text x="${x(k)}" y="${H-12}" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".7">${m.lab}</text>`).join('');
+  $('plChart').innerHTML=P.has?`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="S-Curve แผนงานเทียบผลงาน">${grid}${xl}${line(P.acc,'var(--pl-plan)')}${line(act,'var(--pl-act)')}${lbl(P.acc,'var(--pl-plan)',-9)}${lbl(act,'var(--pl-act)',16)}</svg>
+    <div class="plleg"><span><i style="background:var(--pl-plan)"></i>แผนงานสะสม (% ACC PLAN)</span><span><i style="background:var(--pl-act)"></i>ผลงานสะสมจริง (จากรายงานประจำสัปดาห์)</span></div>`:''}
+$('plTbl').addEventListener('input',e=>{const tr=e.target.closest('tr[data-pl]'),m=e.target.dataset.m;if(!tr||m==null)return;const it=S.items[+tr.dataset.pl];it.pl=it.pl||[];it.pl[+m]=e.target.value;
+  const s=(it.pl||[]).reduce((t,v)=>t+(parse(v)||0),0);const td=tr.querySelector('[data-sum]');td.textContent=s?fm(s,0):'-';td.classList.toggle('bad',Math.abs(s-100)>0.01);save()});
+$('plTbl').addEventListener('change',()=>{renderPlan();renderWkCalc&&wkCur()&&renderWkCalc();renderSecInfo();if(insPage==='wk'||insPage==='perf')renderIns()});
+['date','ok','eng'].forEach(k=>$('pl_'+k).addEventListener('input',e=>{plOf()[k]=e.target.value;save()}));
+/* แผนตัวอย่าง สัญญา กบ1.29/2569 (ตามแผนการปฏิบัติงานที่ บ.ซีเอส จักรกล เสนอ 16 มี.ค. 2569) */
+const PL_SAMPLE={'กบ1.29/2569':{0:{1:100},1:{3:100},2:{0:50,1:50},3:{3:100},4:{1:20,2:20,3:20,4:20,5:20},5:{2:50,3:50},6:{2:50,3:50},7:{2:25,3:25,4:50},8:{4:100},9:{4:100},10:{5:100},11:{5:75,6:25},12:{1:40,2:60},13:{0:100}}};
+function planSeed(){const k=String(S.h.no||'').replace(/\s+/g,''),P=PL_SAMPLE[k];if(!P||S.items.some(it=>(it.pl||[]).some(v=>parse(v))))return;
+  if(!/REMOVAL OF EXISTING BUS STOP/i.test((S.items[0]||{}).desc||'')||!/ป้าย/.test((S.items[13]||{}).desc||''))return;
+  Object.entries(P).forEach(([i,mm])=>{const it=S.items[+i];it.pl=[];Object.entries(mm).forEach(([m,v])=>it.pl[+m]=String(v))});
+  const Pl=plOf();if(!Pl.date)Object.assign(Pl,{date:'2026-03-16',ok:'2026-03-17',eng:'นายวริศ วรรคจันทร์ ภย 79346'})}
 function renderInsDocs(C){
   if(insEditMode&&$('insSheets')){updEditBar();return}
   const want=insPage,set=[];
