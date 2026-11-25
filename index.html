@@ -317,6 +317,23 @@ table.ptb{min-width:720px;font-size:.88rem}
 #mtgConf .day tr.me td{font-weight:700;color:var(--text)}
 .ipaper .mh{text-align:center;margin:0}
 .ipaper .mh.b{font-weight:700;font-size:18px;margin-bottom:2px}
+.wkbox{display:flex;flex-direction:column;gap:12px}
+.wkbox h3{font-size:1rem;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.wkbox .ptitle{font-weight:600}
+.wkcalc{border-radius:8px;padding:10px 12px;background:var(--sunk);font-size:.9rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:6px 14px}
+.wkcalc b{font-variant-numeric:tabular-nums}.wkcalc .late{color:var(--err)}.wkcalc .fast{color:var(--ok)}
+.wkset summary{cursor:pointer;font-weight:600}.wkset[open] summary{margin-bottom:10px}
+.f.chk{flex-direction:row;align-items:center;gap:8px}
+#insPick .wkpick{border-left:2px solid var(--line)}
+.ipaper .wkl{display:grid;grid-template-columns:3.4em 14em 7.5em 1fr;column-gap:6px;padding-left:3.2em}
+.ipaper .wkl .n{text-align:right}
+.ipaper .cc{display:grid;grid-template-columns:auto 1fr;column-gap:10px;margin-top:22px}
+.ipaper .wkh{display:grid;grid-template-columns:9em 1fr 8em 12em;row-gap:3px;margin:8px 0 10px;font-size:14px}
+.ipaper .wkh b{font-weight:700}
+.ipaper table.ib.wkt td,.ipaper table.ib.wkt th{border:var(--bw,.6px) solid #000!important;height:1.9em;vertical-align:middle;padding:1px 6px}
+.ipaper table.ib.wks{width:62%;margin:18px auto 14px}
+.ipaper table.ib.wks td{border:var(--bw,.6px) solid #000!important;padding:1px 8px}
+.ipaper .wkrm{border:var(--bw,.6px) solid #000;border-top:0;padding:4px 8px;min-height:6em}
 .ipaper .hrl{border-top:1px solid #000;width:40%;margin:8px auto 10px}
 .ipaper .att{display:grid;grid-template-columns:2.2em 15.5em 1fr 10.5em;column-gap:6px;padding-left:2.2em}
 .ipaper .ag{font-weight:700;margin-top:8px}
@@ -601,6 +618,46 @@ table.ptb{min-width:720px;font-size:.88rem}
       <div class="panel isum" id="insChk"></div>
     </div>
 
+    <div class="insbox wkbox" id="wkBox">
+      <h3>📈 รายงานความก้าวหน้าประจำสัปดาห์ <span class="note">ผู้ควบคุมงาน → ผอ.ขท.กระบี่ ผ่านประธานกรรมการ พร้อมสำเนาเรียนคณะกรรมการตรวจรับพัสดุ</span></h3>
+      <div class="instbar">
+        <div class="seg" id="wkSeg"></div>
+        <div class="btns"><button type="button" id="bWkAdd">+ เพิ่มสัปดาห์ถัดไป</button><button type="button" id="bWkDel" class="danger">ลบสัปดาห์นี้</button><button type="button" id="bWkShow" class="primary">📄 ดูเอกสารสัปดาห์นี้</button></div>
+      </div>
+      <div class="note" id="wkEmpty" hidden>ยังไม่มีรายงานประจำสัปดาห์ — กด “+ เพิ่มสัปดาห์ถัดไป” ระบบจะคำนวณสัปดาห์ที่และช่วงวันที่จากวันเริ่มต้นสัญญาให้</div>
+      <div id="wkForm">
+        <div class="grid">
+          <label class="f">สัปดาห์ที่<input id="wk_no" class="num" inputmode="numeric"><span class="hint">แก้เลข ระบบเลื่อนช่วงวันที่ให้</span></label>
+          <label class="f">ระหว่างวันที่<input id="wk_from" type="date"></label>
+          <label class="f">ถึงวันที่<input id="wk_to" type="date"></label>
+          <label class="f">เลขที่หนังสือ (เลขท้าย)<input id="wk_memoNo" placeholder="25"><span class="hint" id="wk_noHint"></span></label>
+          <label class="f">ลงวันที่<input id="wk_memoDate" type="date"></label>
+          <label class="f">แผนงานสัปดาห์นี้ (%)<input id="wk_plan" class="num" inputmode="decimal" placeholder="7.114"></label>
+          <label class="f">ผลงานสัปดาห์นี้ (%)<input id="wk_act" class="num" inputmode="decimal" placeholder="0.058"></label>
+          <label class="f">แผนงานสะสม (%)<input id="wk_planCum" class="num" inputmode="decimal"><span class="hint" id="wk_pcHint"></span></label>
+          <label class="f">ผลงานสะสม (%)<input id="wk_actCum" class="num" inputmode="decimal"><span class="hint" id="wk_acHint"></span></label>
+          <label class="f wide">ปัญหาและอุปสรรค / หมายเหตุ (บรรทัดละ 1 เรื่อง)<textarea id="wk_problem" rows="3" placeholder="เช่น เสาไฟฟ้า และท่อประปา ติดขัดงานก่อสร้าง"></textarea></label>
+        </div>
+        <div class="ptitle">งานที่ผู้รับจ้างทำในสัปดาห์นี้ <span class="note">ใช้ในหน้า “บันทึกการปฏิบัติงานประจำสัปดาห์”</span></div>
+        <div class="tbl-wrap"><table class="ptb" id="wkRows"></table></div>
+        <div class="btns"><button type="button" id="bWkRow">+ เพิ่มงาน</button></div>
+        <div class="wkcalc" id="wkCalc"></div>
+      </div>
+      <details class="wkset">
+        <summary>ตั้งค่าหัวบันทึก ผู้รับหนังสือ และสำเนา (ใช้ทุกสัปดาห์)</summary>
+        <div class="grid">
+          <label class="f wide">เรียน<input id="wk_toLine"></label>
+          <label class="f">ส่วนราชการ<input id="wk_office"></label>
+          <label class="f">โทรศัพท์ / โทรสาร<input id="wk_phone"></label>
+          <label class="f">เลขที่หนังสือ (ส่วนหน้า)<input id="wk_prefix"><span class="hint" id="wk_prefixHint"></span></label>
+          <label class="f">แผนงานสะสมยกมา ก่อนสัปดาห์แรกที่บันทึก (%)<input id="wk_basePlan" class="num" inputmode="decimal" placeholder="0"></label>
+          <label class="f">ผลงานสะสมยกมา (%)<input id="wk_baseAct" class="num" inputmode="decimal" placeholder="0"></label>
+          <label class="f wide chk"><input type="checkbox" id="wk_cc"> ใส่ “สำเนาเรียน คณะกรรมการตรวจรับพัสดุ” ท้ายบันทึกข้อความ (ดึงรายชื่อจากแท็บผู้ลงนาม)</label>
+          <label class="f wide">สำเนาเรียนเพิ่มเติม (บรรทัดละ 1 ราย)<textarea id="wk_ccExtra" rows="2" placeholder="เช่น หัวหน้างานพัสดุและสัญญา"></textarea></label>
+        </div>
+      </details>
+    </div>
+
     <div class="doc-bar">
       <div class="doc-pick" id="insPick">
         <button type="button" data-ip="all" aria-pressed="true">ทั้งชุด</button>
@@ -611,6 +668,7 @@ table.ptb{min-width:720px;font-size:.88rem}
         <button type="button" data-ip="ctl" aria-pressed="false">บันทึกผู้ควบคุมงาน</button>
         <button type="button" data-ip="mtg" aria-pressed="false">รายงานการประชุม</button>
         <button type="button" data-ip="memo" aria-pressed="false">บันทึกรายงานผล</button>
+        <button type="button" data-ip="wk" aria-pressed="false" class="wkpick">รายงานประจำสัปดาห์</button>
       </div>
       <div class="btns"><button type="button" id="bInsEdit">✏️ แก้ไขข้อความในเอกสาร</button><button type="button" id="bInsWord">⬇ ดาวน์โหลดเป็น Word (.docx)</button><button type="button" id="bInsPrint" class="primary">🖨 พิมพ์ / บันทึกเป็น PDF</button></div>
     </div>
@@ -1735,7 +1793,7 @@ function fillIns(){
   $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;$('lbRefund').hidden=!inst.final;renderPenBox();
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
-  renderInsTable();renderIns();
+  renderInsTable();renderWk();renderIns();
 }
 function growTA(t){t.style.height='auto';t.style.height=Math.max(76,t.scrollHeight+2)+'px'}
 function renderInsTable(){
@@ -2058,6 +2116,107 @@ function paginate(head,items,tail,fix){
   if(cur.length)pages.push(cur);ms.innerHTML='';
   if(fix)pages.forEach((p,j)=>fix(p,j));
   return pages.map(p=>`<div class="ipaper">${p.map(b=>`<div class="blk">${b}</div>`).join('')}</div>`)}
+/* ---- รายงานความก้าวหน้าประจำสัปดาห์ (ผู้ควบคุมงาน) ---- */
+function wkOf(){const ins=insOf();if(!S.wk)S.wk={};const W=S.wk;
+  const D={toLine:'ผอ.ขท.กระบี่ ผ่าน ประธานกรรมการตรวจรับพัสดุ',office:ins.office||'แขวงทางหลวงกระบี่',phone:ins.phone||'',prefix:'',basePlan:'',baseAct:'',cc:true,ccExtra:'',cur:0,list:[]};
+  Object.keys(D).forEach(k=>{if(W[k]===undefined)W[k]=D[k]});W.cur=Math.max(0,Math.min(W.cur||0,W.list.length-1));return W}
+const wkCur=()=>{const W=wkOf();return W.list[W.cur]||null};
+const wkPrefix=W=>W.prefix||`สทล.17 ขท.กระบี่/(${String(S.h.no||'').replace(/\s+/g,'')})/`;
+function wkTotalDays(){return (parse(S.h.days)||0)+(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0)}
+function wkRange(n){const st=S.h.start;if(!st||!(n>=1))return {from:'',to:''};const from=addDays(st,7*(n-1));return {from,to:addDays(from,6)}}
+function wkNew(n,prev){const r=wkRange(n);return {no:String(n),from:r.from,to:r.to,memoNo:'',memoDate:'',plan:'',act:'',planCum:'',actCum:'',
+  problem:prev?prev.problem:'',rows:prev?prev.rows.map(x=>({work:x.work,km:x.km,side:x.side,qty:''})):[]}}
+const pct3=v=>(Math.round(v*1000)/1000).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3});
+function wkCalc(j){const W=wkOf();let pc=parse(W.basePlan)||0,ac=parse(W.baseAct)||0;
+  for(let i=0;i<=j;i++){const w=W.list[i];pc=String(w.planCum).trim()!==''?parse(w.planCum):pc+(parse(w.plan)||0);ac=String(w.actCum).trim()!==''?parse(w.actCum):ac+(parse(w.act)||0)}
+  const w=W.list[j],total=wkTotalDays(),el=S.h.start&&w.to?daysBetween(S.h.start,w.to):NaN;
+  const autoPc=(j?wkCalcPrev(j-1).pc:parse(W.basePlan)||0)+(parse(w.plan)||0),autoAc=(j?wkCalcPrev(j-1).ac:parse(W.baseAct)||0)+(parse(w.act)||0);
+  return {w,plan:parse(w.plan)||0,act:parse(w.act)||0,pc,ac,autoPc,autoAc,diff:ac-pc,total,el,rem:total-el}}
+function wkCalcPrev(j){const c=wkCalc(j);return {pc:c.pc,ac:c.ac}}
+function wkStatusTxt(c){const d=Math.abs(c.diff);return Math.abs(c.diff)<0.0005?'เป็นไปตามแผน':`${c.diff<0?'ช้ากว่าแผน':'เร็วกว่าแผน'} ${pct3(d)} %`}
+function wkTimeTxt(c){if(!isFinite(c.el))return `(เวลาทำการตามสัญญา ${c.total||'....'} วัน)`;
+  return `(เวลาทำการตามสัญญา ${c.total} วัน ผ่านไป ${c.el} วัน ${c.rem>=0?`คงเหลือ ${c.rem} วัน`:`เกินกำหนด ${-c.rem} วัน`})`}
+function docWkMemo(j){const h=S.h,W=wkOf(),c=wkCalc(j),w=c.w,ctl=ctlPerson(),{chair,mem}=committee();
+  const per=parse(h.pendoc)||rr2((parse(h.value)||0)*(parse(h.penrate)||0)/100);
+  const md=w.memoDate?thDate(w.memoDate):'.......................................';
+  const L=(a,b,u)=>`<span></span><span>${a}</span><span class="n">${b}</span><span>${u||'%'}</span>`;
+  const probs=String(w.problem||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const cc=[];if(W.cc){if(chair)cc.push(`ประธานกรรมการตรวจรับพัสดุ (${esc(chair.name)})`);mem.forEach(m=>cc.push(`กรรมการตรวจรับพัสดุ (${esc(m.name)})`))}
+  String(W.ccExtra||'').split('\n').map(x=>x.trim()).filter(Boolean).forEach(x=>cc.push(esc(x)));
+  const body=`<div class="memo-h"><img class="garuda sm" src="${GARUDA}" alt="ตราครุฑ"><div class="mt">บันทึกข้อความ</div></div>
+   <div class="mrow"><b>ส่วนราชการ</b><span class="ul">${esc(W.office)}${W.phone?' โทรศัพท์ '+esc(W.phone):''}</span></div>
+   <div class="mrow two"><b>ที่</b><span class="ul">${esc(wkPrefix(W))}${esc(w.memoNo)}</span><b>วันที่</b><span class="ul">${md}</span></div>
+   <div class="mrow"><b>เรื่อง</b><span class="ul">รายงานผลความก้าวหน้าประจำสัปดาห์ที่ ${esc(w.no)}</span></div>
+   <p style="margin-top:10px">เรียน ${esc(W.toLine)}</p>
+   <p class="ind">ตามสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} ${esc(h.project)} ${esc(h.loc)} ในวงเงิน ${fm(parse(h.value)||0)} บาท เวลาทำการ ${esc(h.days)} วัน เริ่มต้นสัญญาวันที่ ${thDate(h.start)} ${endText()} ค่าปรับวันละ ${fm(per)} บาท โดย ${esc(h.contractor)} เป็นผู้รับจ้าง นั้น</p>
+   <p class="ind">ขอรายงานความก้าวหน้าผลงานประจำสัปดาห์ที่ ${esc(w.no)} ระหว่างวันที่ ${thDate2(w.from)} ถึงวันที่ ${thDate2(w.to)}</p>
+   <div class="wkl"><span></span><span style="grid-column:span 3">${wkTimeTxt(c)}</span>${L('แผนงาน',pct3(c.plan))}${L('ผลงาน',pct3(c.act))}${L('แผนงานสะสม',pct3(c.pc))}${L('ผลงานสะสม',pct3(c.ac))}
+     <span>สรุป</span><span>ผลงานทำได้ ${Math.abs(c.diff)<0.0005?'เท่ากับแผน':c.diff<0?'ช้ากว่าแผน':'เร็วกว่าแผน'}</span><span class="n">${Math.abs(c.diff)<0.0005?'-':pct3(Math.abs(c.diff))}</span><span>%</span>
+     <span></span><span style="grid-column:span 3">ปัญหาและอุปสรรค ${probs.length?probs.map(esc).join(' '):'- ไม่มี -'}</span></div>
+   <p class="ind" style="margin-top:4px">จึงเรียนมาเพื่อโปรดทราบและพิจารณาต่อไป</p>
+   <div style="margin:46px 0 0 38%;text-align:center;line-height:1.55">(${esc(ctl?ctl.name:'..............................')})<br>${esc(ctl?ctl.pos:'')}<br>ผู้ควบคุมงาน</div>
+   ${cc.length?`<div class="cc"><span>สำเนาเรียน</span><span>${cc.join('<br>')}<br>เพื่อโปรดทราบ</span></div>`:''}`;
+  return `<div class="ipaper th memo wkdoc">${thdHtml(body)}</div>`}
+function docWkSheet(j){const h=S.h,c=wkCalc(j),w=c.w,ctl=ctlPerson();
+  const rows=(w.rows||[]).filter(r=>String(r.work||'').trim());const n=Math.max(12,rows.length);
+  const tr=[];for(let i=0;i<n;i++){const r=rows[i];tr.push(r?`<tr><td class="c">${i+1}</td><td>${esc(r.work)}</td><td class="c">${esc(r.km)}</td><td class="c">${esc(r.side)}</td><td class="c">${esc(r.qty)}</td></tr>`:'<tr><td></td><td></td><td></td><td></td><td></td></tr>')}
+  const probs=String(w.problem||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const m=String(h.loc||'').match(/^(ทางหลวงหมายเลข\s*\S+.*?)(\s+ปริมาณงาน\s+(.+))?$/);
+  return `<div class="ipaper wkdoc"><p class="ctr b" style="font-size:16px;margin:0">บันทึกการปฏิบัติงานประจำสัปดาห์</p>
+   <p class="ctr b">ประจำสัปดาห์ที่ ${esc(w.no)} ระหว่างวันที่ ${thDate2(w.from)} ถึง วันที่ ${thDate2(w.to)}</p>
+   <div class="wkh"><b>ชื่อโครงการ</b><span style="grid-column:span 3">${esc(h.project)}</span>
+    <b>ทางหลวงหมายเลข</b><span style="grid-column:span 3">${esc(m?m[1].replace(/^ทางหลวงหมายเลข\s*/,''):h.loc)}</span>
+    <b>ปริมาณงาน</b><span>${esc(m&&m[3]?m[3]:'-')}</span><b>ระยะเวลา</b><span>${esc(h.days)} วัน</span>
+    <b>สัญญาจ้างเลขที่</b><span>${esc(h.no)}</span><b>ลงวันที่</b><span>${esc(h.date)}</span>
+    <b>เริ่มสัญญาวันที่</b><span>${thDate(h.start)}</span><b>สิ้นสุดสัญญา</b><span>${thDate(effEnd())}</span>
+    <b>ผู้รับจ้าง</b><span>${esc(h.contractor)}</span><b>ค่างานก่อสร้าง</b><span>${fm(parse(h.value)||0)}</span></div>
+   <table class="ib wkt"><colgroup><col style="width:8%"><col style="width:44%"><col style="width:20%"><col style="width:12%"><col style="width:16%"></colgroup>
+    <thead><tr><th>ลำดับ</th><th>งาน</th><th>กม. - กม.</th><th>ด้าน</th><th>ผลงานที่ทำได้</th></tr></thead><tbody>${tr.join('')}</tbody></table>
+   <table class="ib wks"><colgroup><col style="width:62%"><col style="width:24%"><col style="width:14%"></colgroup><tbody>
+    <tr><td class="c">ผลงานสัปดาห์นี้</td><td class="r">${pct3(c.act)}</td><td class="c">%</td></tr>
+    <tr><td class="c">ผลงานรวม</td><td class="r">${pct3(c.ac)}</td><td class="c">%</td></tr>
+    <tr><td class="c">แผนงานรวม</td><td class="r">${pct3(c.pc)}</td><td class="c">%</td></tr>
+    <tr><td class="c">${Math.abs(c.diff)<0.0005?'เป็นไปตามแผน':c.diff<0?'ช้ากว่าแผน':'เร็วกว่าแผน'}</td><td class="r">${pct3(Math.abs(c.diff))}</td><td class="c">%</td></tr></tbody></table>
+   <p class="b">หมายเหตุ</p><div class="wkrm" style="border-top:var(--bw,.6px) solid #000">${probs.length?probs.map(x=>`<p style="padding-left:2em">${esc(/^[-•]/.test(x)?x:'- '+x)}</p>`).join(''):'<p style="padding-left:2em">- ไม่มี -</p>'}</div>
+   ${sgRows([{role:'ผู้ควบคุมงาน',name:ctl?ctl.name:'..............................',pos:ctl?ctl.pos:''}]).replace('class="sgt ','class="sgt one ').replace('<div class="sgt','<div style="margin:26px 0 0 30%"><div class="sgt')}</div></div>`}
+function docWk(){const W=wkOf();if(!W.list.length)return [`<div class="ipaper"><p class="ctr" style="margin-top:120px;color:#777">ยังไม่มีรายงานประจำสัปดาห์ — กด “+ เพิ่มสัปดาห์ถัดไป” ในกล่องรายงานความก้าวหน้าประจำสัปดาห์</p></div>`];
+  return [docWkMemo(W.cur),docWkSheet(W.cur)]}
+const WKF=['no','from','to','memoNo','memoDate','plan','act','planCum','actCum','problem'],WKS=['toLine','office','phone','prefix','basePlan','baseAct','ccExtra'];
+function renderWkRows(){const w=wkCur();if(!w)return;
+  $('wkRows').innerHTML=`<thead><tr><th style="width:46px">ลำดับ</th><th>งาน</th><th style="width:160px">กม. - กม.</th><th style="width:100px">ด้าน</th><th style="width:130px">ผลงานที่ทำได้</th><th style="width:40px"></th></tr></thead><tbody>`+
+   (w.rows.length?w.rows.map((r,j)=>`<tr data-wr="${j}"><td class="c">${j+1}</td><td><input data-f="work" value="${esc(r.work)}" placeholder="เช่น ผู้รับจ้างทำงาน EARTH EXCAVATION"></td><td><input data-f="km" value="${esc(r.km)}" placeholder="2+625 - 2+730"></td><td><input data-f="side" value="${esc(r.side)}" placeholder="LT./RT."></td><td><input data-f="qty" value="${esc(r.qty)}" placeholder="1 L/S."></td><td><button type="button" class="x" data-wrdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join('')
+   :'<tr class="empty-r"><td colspan="6">ยังไม่มีงานในสัปดาห์นี้ — กด “+ เพิ่มงาน”</td></tr>')+'</tbody>'}
+function renderWkCalc(){const W=wkOf(),w=wkCur();if(!w)return;const c=wkCalc(W.cur);
+  $('wk_pcHint').textContent=String(w.planCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoPc)+')':'ว่างไว้ = สะสมยกมา + แผนงานแต่ละสัปดาห์ = '+pct3(c.autoPc);
+  $('wk_acHint').textContent=String(w.actCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoAc)+')':'ว่างไว้ = '+pct3(c.autoAc);
+  $('wk_noHint').textContent='ที่ '+wkPrefix(W)+(w.memoNo||'...');$('wk_prefixHint').textContent=W.prefix?'':'ว่างไว้ = '+wkPrefix(W);
+  const ccN=W.cc?[committee().chair,...committee().mem].filter(Boolean).length:0;
+  $('wkCalc').innerHTML=`<span>เวลาทำการ <b>${c.total||'-'}</b> วัน</span><span>ผ่านไป <b>${isFinite(c.el)?c.el:'-'}</b> วัน</span><span class="${c.rem<0?'late':''}">${c.rem>=0||!isFinite(c.el)?'คงเหลือ':'เกินกำหนด'} <b>${isFinite(c.el)?Math.abs(c.rem):'-'}</b> วัน</span>
+   <span>แผนงานสะสม <b>${pct3(c.pc)}</b> %</span><span>ผลงานสะสม <b>${pct3(c.ac)}</b> %</span><span class="${c.diff<-0.0005?'late':'fast'}"><b>${wkStatusTxt(c)}</b></span>
+   <span>สำเนาเรียน: <b>${ccN?ccN+' ท่าน (คณะกรรมการตรวจรับ)':'ไม่ใส่'}</b></span>`}
+function renderWk(){const W=wkOf();$('wkEmpty').hidden=!!W.list.length;$('wkForm').hidden=!W.list.length;$('bWkDel').disabled=!W.list.length;$('bWkShow').disabled=!W.list.length;
+  $('wkSeg').innerHTML=W.list.map((x,j)=>`<button type="button" data-wk="${j}" aria-pressed="${j===W.cur}">สัปดาห์ที่ ${esc(x.no)}</button>`).join('');
+  WKS.forEach(k=>$('wk_'+k).value=W[k]??'');$('wk_cc').checked=!!W.cc;
+  const w=wkCur();if(w){WKF.forEach(k=>$('wk_'+k).value=w[k]??'');renderWkRows();renderWkCalc()}}
+function wkChanged(){renderWkCalc();save();if(insPage==='wk')renderIns()}
+WKF.forEach(k=>$('wk_'+k).addEventListener('input',e=>{const w=wkCur();if(!w)return;w[k]=e.target.value;
+  if(k==='no'){const r=wkRange(parse(w.no));if(r.from){w.from=r.from;w.to=r.to;$('wk_from').value=r.from;$('wk_to').value=r.to}
+    $('wkSeg').querySelectorAll('button')[wkOf().cur].textContent='สัปดาห์ที่ '+w.no}
+  wkChanged()}));
+WKS.forEach(k=>$('wk_'+k).addEventListener('input',e=>{wkOf()[k]=e.target.value;wkChanged()}));
+$('wk_cc').addEventListener('change',e=>{wkOf().cc=e.target.checked;wkChanged()});
+$('wkRows').addEventListener('input',e=>{const tr=e.target.closest('tr[data-wr]'),f=e.target.dataset.f;if(!tr||!f)return;wkCur().rows[+tr.dataset.wr][f]=e.target.value;save();if(insPage==='wk')renderIns()});
+$('wkRows').addEventListener('click',e=>{const b=e.target.closest('[data-wrdel]');if(!b)return;wkCur().rows.splice(+b.dataset.wrdel,1);renderWkRows();wkChanged()});
+$('bWkRow').addEventListener('click',()=>{const w=wkCur();if(!w)return;w.rows.push({work:'',km:'',side:'',qty:''});renderWkRows();save();const ins=$('wkRows').querySelectorAll('tr[data-wr] input[data-f="work"]');ins[ins.length-1].focus()});
+$('wkSeg').addEventListener('click',e=>{const b=e.target.closest('[data-wk]');if(!b)return;if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}wkOf().cur=+b.dataset.wk;renderWk();save();if(insPage==='wk')renderIns()});
+$('bWkAdd').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}const W=wkOf();const last=W.list.reduce((a,x)=>!a||parse(x.no)>parse(a.no)?x:a,null);
+  let n;if(last)n=(parse(last.no)||0)+1;else{const st=S.h.start;const today=new Date().toISOString().slice(0,10);n=st?Math.max(1,Math.floor(dayDiff(st,today)/7)+1):1;const mx=Math.max(1,Math.ceil((wkTotalDays()||7)/7));if(n>mx)n=mx}
+  if(!S.h.start)toast('ยังไม่มีวันเริ่มต้นสัญญา — ใส่ช่วงวันที่เองได้');
+  W.list.push(wkNew(n,last));W.list.sort((a,b)=>parse(a.no)-parse(b.no));W.cur=W.list.findIndex(x=>parse(x.no)===n);renderWk();save();if(insPage==='wk')renderIns();toast('เพิ่มสัปดาห์ที่ '+n+' แล้ว'+(last?' (คัดลอกรายการงานและปัญหาจากสัปดาห์ก่อนให้)':''))});
+let wkDelArm=0;$('bWkDel').addEventListener('click',e=>{const W=wkOf(),w=wkCur();if(!w)return;
+  if(!wkDelArm){wkDelArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยันลบ';setTimeout(()=>{wkDelArm=0;e.target.textContent='ลบสัปดาห์นี้'},3000);return}
+  wkDelArm=0;e.target.textContent='ลบสัปดาห์นี้';toast('ลบรายงานสัปดาห์ที่ '+w.no+' แล้ว');W.list.splice(W.cur,1);W.cur=Math.max(0,W.cur-1);renderWk();save();if(insPage==='wk')renderIns()});
+$('bWkShow').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insPage='wk';$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip==='wk'));renderIns();$('insPick').scrollIntoView({behavior:'smooth',block:'start'})});
 function renderInsDocs(C){
   if(insEditMode&&$('insSheets')){updEditBar();return}
   const want=insPage,set=[];
@@ -2070,12 +2229,13 @@ function renderInsDocs(C){
   if(want==='all'||want==='ctl')set.push({g:'ctl',pages:[docCtl(C)]});
   if(want==='all'||want==='mtg')set.push({g:'mtg',pages:docMtg(C)});
   if(want==='all'||want==='memo')set.push({g:'memo',pages:[docMemo(C)]});
-  const gen=set.flatMap(s=>s.pages);const sv=savedEdit(C.inst);const all=sv?sv.pages:gen;
+  if(want==='wk')set.push({g:'wk',pages:docWk()});
+  const gen=set.flatMap(s=>s.pages);const sv=savedEdit();const all=sv?sv.pages:gen;
   insSheets=all.map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));
   $('insDesk').innerHTML=`<div class="sheets" id="insSheets">${insSheets.map((s,i)=>`<div class="sheet" style="width:${(210*MM).toFixed(1)}px;height:${(297*MM).toFixed(1)}px;padding:${IPAD[0]}mm ${IPAD[1]}mm ${IPAD[2]}mm ${IPAD[3]}mm">${s.html}<div class="pno">หน้า ${i+1}/${insSheets.length}</div></div>`).join('')}</div>`;
   if(insEditMode)$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});
   updEditBar();
-  $('insInfo').textContent=`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
+  $('insInfo').textContent=want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
   const sh=$('insSheets');sh.style.zoom=1;const avail=$('insDesk').clientWidth-40,mw=sh.offsetWidth;sh.style.zoom=Math.min(1,avail/mw).toFixed(3);
 }
 function penEdit(e,attr,arr){const tr=e.target.closest('tr');const f=e.target.dataset.f;if(!tr||!f)return;const ins=insOf();ins[arr][+tr.dataset[attr]][f]=e.target.value;if(f!=='reason')renderInsTable();renderIns();save()}
@@ -2087,13 +2247,16 @@ $('bAmAdd').addEventListener('click',()=>{const A=insOf().amends;A.push({no:Stri
 $('bWvAdd').addEventListener('click',()=>{const W=insOf().waivers;W.push({reason:'',ref:'',date:'',days:''});renderPenBox();save();$('wv_r'+(W.length-1)).focus()});
 $('insPick').addEventListener('click',e=>{const b=e.target.closest('[data-ip]');if(!b)return;if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insPage=b.dataset.ip;$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderIns()});
 $('bInsPrint').addEventListener('click',()=>{if(insEditMode)insSheets=domPages().map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));else renderIns();const inst=insOf().list[insOf().cur];
-  printSheets(insSheets,`ตรวจรับงานงวดที่ ${inst.no} ${S.h.no}`,`ตรวจรับงานงวดที่${inst.no}_${String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'')}.html`)});
+  const nm=docFileBase(inst);printSheets(insSheets,nm.replace(/_/,' '),nm+'.html')});
+function docFileBase(inst){const no=String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'');const w=wkCur();
+  return insPage==='wk'&&w?`รายงานประจำสัปดาห์ที่${w.no}_${no}`:`ตรวจรับงานงวดที่${inst.no}_${no}`}
 window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('insSheets');if(sh){sh.style.zoom=1;sh.style.zoom=Math.min(1,($('insDesk').clientWidth-40)/sh.offsetWidth).toFixed(3)}}});
 
 /* ---- แก้ไขเอกสารก่อนพิมพ์ ---- */
 let insEditMode=false;
 function insEditKey(){return insPage}
-function savedEdit(inst){return inst.docEdits&&inst.docEdits[insEditKey()]||null}
+function editTarget(){if(insPage==='wk')return wkCur();const ins=insOf();return ins.list[ins.cur]}
+function savedEdit(){const t=editTarget();return t&&t.docEdits&&t.docEdits[insEditKey()]||null}
 function domPages(){return [...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');c.removeAttribute('spellcheck');return c.outerHTML})}
 /* รหัสยืนยัน */
 const CODE_HASH='ecf15cdf904ee62e3db43b0ffc8cedf0a411bb699bd8cfaea97548dfe851297b',CODE_SALT='thuajai·krabi';
@@ -2104,7 +2267,7 @@ function askCode(title,msg){return new Promise(res=>{const m=$('codeModal');$('c
   const esc1=e=>{if(e.key==='Escape')done(false)};document.addEventListener('keydown',esc1);
   $('cmCancel').onclick=()=>done(false);
   $('codeForm').onsubmit=async e=>{e.preventDefault();if(await codeOk($('cmCode').value))done(true);else{$('cmErr').textContent='รหัสไม่ถูกต้อง ลองใหม่อีกครั้ง';$('cmCode').value='';$('cmCode').focus()}}})}
-function updEditBar(){const ins=insOf(),inst=ins.list[ins.cur],sv=savedEdit(inst);
+function updEditBar(){const sv=savedEdit();
   $('bInsEdit').hidden=insEditMode;
   $('insEditBar').hidden=!(insEditMode||sv);
   $('insEditBar').classList.toggle('on',insEditMode);
@@ -2114,11 +2277,11 @@ function updEditBar(){const ins=insOf(),inst=ins.list[ins.cur],sv=savedEdit(inst
 $('bInsEdit').addEventListener('click',async()=>{if(!await askCode('ใส่รหัสเพื่อแก้ไขเอกสาร','เมื่อแก้เสร็จ กด "บันทึกการแก้ไข" เพื่อเก็บไว้'))return;
   insEditMode=true;$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});updEditBar();toast('คลิกที่ข้อความในหน้ากระดาษเพื่อแก้ไข')});
 $('insEditBar').addEventListener('click',async e=>{const id=e.target.id;
-  if(id==='bEditSave'){const ins=insOf(),inst=ins.list[ins.cur];inst.docEdits=inst.docEdits||{};inst.docEdits[insEditKey()]={pages:domPages(),at:Date.now()};
+  if(id==='bEditSave'){const inst=editTarget();if(!inst)return;inst.docEdits=inst.docEdits||{};inst.docEdits[insEditKey()]={pages:domPages(),at:Date.now()};
     insEditMode=false;save();renderIns();toast('บันทึกการแก้ไขเอกสารแล้ว')}
   else if(id==='bEditCancel'){insEditMode=false;renderIns();toast('ยกเลิกการแก้ไข ไม่ได้บันทึก')}
   else if(id==='bEditReset'){if(!await askCode('ใส่รหัสเพื่อล้างการแก้ไข','เอกสารจะกลับไปใช้ฉบับที่ระบบสร้างจากข้อมูล'))return;
-    const ins=insOf();const it=ins.list[ins.cur];if(it.docEdits)delete it.docEdits[insEditKey()];save();renderIns();toast('กลับไปใช้เอกสารจากระบบแล้ว')}});
+    const it=editTarget();if(it&&it.docEdits)delete it.docEdits[insEditKey()];save();renderIns();toast('กลับไปใช้เอกสารจากระบบแล้ว')}});
 /* ---- HTML (Word-style, from convKids) -> real .docx (WordprocessingML), zipped in-page ---- */
 const XE=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function sty(el){const o={};(el.getAttribute&&el.getAttribute('style')||'').split(';').forEach(d=>{const i=d.indexOf(':');if(i>0)o[d.slice(0,i).trim().toLowerCase()]=d.slice(i+1).trim()});return o}
@@ -2356,7 +2519,7 @@ function exportWord(){
   const pages=[...sh.querySelectorAll('.sheet .ipaper')];
   const groups=[];pages.forEach(p=>{const g=groups[groups.length-1];if(p.classList.contains('mtgdoc')&&g&&g.flow)g.pages.push(p);else groups.push({flow:p.classList.contains('mtgdoc'),pages:[p]})});
   const body=groups.map((g,i)=>{const br=i?'<br clear="all" style="page-break-before:always">':'';
-    if(!g.flow){const p=g.pages[0];WS=p.querySelector('.pgno')?0.875:1;return br+convKids(p)}
+    if(!g.flow){const p=g.pages[0];WS=p.querySelector('.pgno')||p.classList.contains('wkdoc')?0.875:1;return br+convKids(p)}
     /* รายงานการประชุม: ต่อเนื่องเป็นเอกสารเดียว รวมตารางเป็นตารางเดียว */
     WS=0.875;const c=document.createElement('div');c.className='ipaper mtgdoc';c.style.width=g.pages[0].getBoundingClientRect().width+'px';$('measure').appendChild(c);
     g.pages.forEach(p=>[...p.children].forEach(k=>c.appendChild(k.cloneNode(true))));
@@ -2368,7 +2531,7 @@ function exportWord(){
   sh.style.zoom=z;
   const inst=insOf().list[insOf().cur];
   try{const bytes=buildDocx(docxFromHtml(body),IPAD);
-    saveFile(`ตรวจรับงานงวดที่${inst.no}_${String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'')}.docx`,bytes.buffer,'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
+    saveFile(docFileBase(inst)+'.docx',bytes.buffer,'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
   catch(e){console.error(e);toast('สร้างไฟล์ Word ไม่สำเร็จ: '+(e&&e.message||e))}
 }
 $('bInsWord').addEventListener('click',exportWord);
