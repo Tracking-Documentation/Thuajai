@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5c4a">
 <meta name="author" content="Miss Narama Woraklan">
-<meta name="description" content="คำนวณถัวจ่ายงานก่อสร้าง ตรวจความถูกต้อง และพิมพ์บัญชีสรุปและรายละเอียดรายการเพิ่ม/ลด">
+<meta name="description" content="บริหารโครงการงานสัญญา: ถัวจ่าย รายงานประจำวัน/สัปดาห์ ตรวจรับ และเบิกจ่าย">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ถัวจ่าย">
+<meta name="apple-mobile-web-app-title" content="บริหารสัญญา">
 <script>try{if(localStorage.getItem('thuajai-activation')!=='ecf15cdf904ee62e3db43b0ffc8cedf0a411bb699bd8cfaea97548dfe851297b')document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}</script>
 <style>html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
-<title>ระบบคำนวณถัวจ่าย</title>
+<title>การบริหารโครงการงานสัญญา</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap">
@@ -264,6 +264,28 @@ select{font:inherit;font-size:.92rem;color:var(--fg);background:var(--bg);border
 
 /* ---- ตรวจรับงาน (form) ---- */
 .ins-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.t-slate{--tc:#5b6b7a}.t-amber{--tc:#b7791f}.t-green{--tc:#2f855a}.t-teal{--tc:#0f7c86}.t-sky{--tc:#2b6cb0}.t-violet{--tc:#6b46c1}.t-ink{--tc:#1f5c4a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) :is(.t-slate,.t-amber,.t-green,.t-teal,.t-sky,.t-violet,.t-ink){--tc2:color-mix(in srgb,var(--tc) 70%,#fff)}}
+:root[data-theme="dark"] :is(.t-slate,.t-amber,.t-green,.t-teal,.t-sky,.t-violet,.t-ink){--tc2:color-mix(in srgb,var(--tc) 70%,#fff)}
+.icard{border:1px solid color-mix(in srgb,var(--tc) 32%,var(--line));border-left:5px solid var(--tc);border-radius:12px;padding:14px 16px;background:color-mix(in srgb,var(--tc) 5%,var(--surface));display:flex;flex-direction:column;gap:12px;min-width:0}
+details.icard{display:block}details.icard>summary{list-style:none;cursor:pointer}details.icard>summary::-webkit-details-marker{display:none}
+details.icard[open]>summary{margin-bottom:12px}
+details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weight:400}details.icard:not([open])>summary .ict b::after{content:" ▸"}
+.ich{display:flex;gap:12px;align-items:center}
+.ich .num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--tc);color:#fff;display:grid;place-items:center;font-weight:700;font-family:var(--display);font-size:.95rem}
+.ich .ict{display:flex;flex-direction:column;gap:1px;min-width:0}
+.ich .ict b{font-family:var(--display);font-size:1.04rem;color:var(--tc2,var(--tc))}
+.ich .ict small{color:var(--muted);font-size:.84rem;line-height:1.4}
+.secnav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.secnav button{position:relative}.secnav .sn{position:absolute;top:6px;right:9px;font-size:.72rem;font-weight:700;color:var(--tc2,var(--tc));opacity:.75}
+.secnav button{display:flex;gap:12px;align-items:center;text-align:left;padding:12px 14px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--tc) 30%,var(--line));background:var(--surface);color:var(--fg);cursor:pointer;min-height:68px}
+.secnav button:hover{background:color-mix(in srgb,var(--tc) 7%,var(--surface))}
+.secnav button[aria-selected="true"]{border-color:var(--tc);background:color-mix(in srgb,var(--tc) 13%,var(--surface));box-shadow:inset 0 -4px 0 var(--tc)}
+.secnav .si{font-size:1.6rem;flex:none}.secnav .st{display:flex;flex-direction:column;min-width:0}
+.secnav .st b{font-family:var(--display);font-size:1rem;color:var(--tc2,var(--tc))}.secnav .st small{color:var(--muted);font-size:.8rem;line-height:1.35}
+@media (max-width:1100px){.secnav{grid-template-columns:1fr 1fr}}@media (max-width:620px){.secnav{grid-template-columns:1fr}.secnav button{min-height:0}}
+.icard .schedbox,.icard.schedbox{background:color-mix(in srgb,var(--tc) 5%,var(--surface))}
+.icard .insbox{background:var(--surface)}
 .insbox{border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:var(--sunk)}
 .insbox summary{cursor:pointer;font-weight:600;font-family:var(--display)}
 .insbox[open] summary{margin-bottom:12px}
@@ -444,9 +466,9 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   <header class="top">
     <div class="ttl">
       <button type="button" id="bHome" class="crumb" hidden><span class="ar" aria-hidden="true">←</span>กลับหน้าสรุปโครงการ</button>
-      <h1 id="hTitle">ระบบคำนวณถัวจ่าย</h1>
-      <div class="eyebrow home-only">Construction Pay Balancing System</div>
-      <div class="sub" id="hSub">บัญชีสรุปปริมาณงานและค่างานก่อสร้าง · คำนวณ ตรวจความถูกต้อง และพิมพ์เอกสารถัวจ่าย</div>
+      <h1 id="hTitle">การบริหารโครงการงานสัญญา</h1>
+      <div class="eyebrow home-only">Contract Project Management System</div>
+      <div class="sub" id="hSub">ถัวจ่าย · รายงานประจำวัน/สัปดาห์ · ตรวจรับ และเบิกจ่ายงานก่อสร้าง</div>
     </div>
     <div class="btns proj-only" hidden>
       <button type="button" id="bXlsx" class="primary">บันทึกเป็น Excel (มีสูตร)</button>
@@ -492,7 +514,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   <div class="tabs" role="tablist">
     <button type="button" class="tab" role="tab" id="tabCalc" aria-selected="true">คำนวณ / แก้ไขข้อมูล</button>
     <button type="button" class="tab" role="tab" id="tabDoc" aria-selected="false">หน้าเอกสารถัวจ่าย</button>
-    <button type="button" class="tab" role="tab" id="tabIns" aria-selected="false">ตรวจรับงาน / เบิกจ่าย</button>
+    <button type="button" class="tab" role="tab" id="tabIns" aria-selected="false">บริหารสัญญา · รายงาน · ตรวจรับ</button>
   </div>
 
   <section class="panel" id="docView" hidden>
@@ -548,13 +570,32 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   <section class="panel" id="insView" hidden>
     <div class="ins-top">
       <div>
-        <h2><span class="n">ต</span>ตรวจรับงาน / เบิกจ่ายรายงวด</h2>
-        <div class="note">งวดสุดท้ายคำนวณจากบัญชีถัวจ่ายให้อัตโนมัติ: ปริมาณ = ปริมาณในสนามหลังถัวจ่าย − ที่เบิกไปแล้ว · เงิน = ค่างานหลังถัวจ่าย − ที่เบิกไปแล้ว</div>
+        <h2><span class="n">ต</span>งานควบคุม ตรวจรับ และเบิกจ่าย</h2>
+        <div class="note">เลือกงานที่ต้องการด้านล่าง — ทุกส่วนใช้ข้อมูลสัญญาและรายการงานชุดเดียวกับหน้าถัวจ่าย</div>
       </div>
     </div>
+    <div class="secnav" id="insSec" role="tablist" aria-label="เลือกงาน">
+      <button type="button" role="tab" data-sec="contract" class="t-amber"><span class="sn">1</span><span class="si">📑</span><span class="st"><b>ข้อมูลสัญญา &amp; ค่าปรับ</b><small id="secCtInfo">ขยายเวลา งดค่าปรับ ข้อมูลประกอบ</small></span></button>
+      <button type="button" role="tab" data-sec="daily" class="t-sky"><span class="sn">2</span><span class="si">📋</span><span class="st"><b>รายงานประจำวัน</b><small id="secDyInfo">แรงงาน เครื่องจักร งานที่ทำ สภาพอากาศ</small></span></button>
+      <button type="button" role="tab" data-sec="weekly" class="t-violet"><span class="sn">3</span><span class="si">📈</span><span class="st"><b>รายงานประจำสัปดาห์</b><small id="secWkInfo">ความก้าวหน้า + สำเนาเรียนคณะกรรมการ</small></span></button>
+      <button type="button" role="tab" data-sec="pay" class="t-green"><span class="sn">4</span><span class="si">💰</span><span class="st"><b>ตรวจรับ / เบิกจ่ายรายงวด</b><small id="secPayInfo">ใบตรวจรับ พ.1-37 บัญชีค่างาน รายงานการประชุม</small></span></button>
+    </div>
 
-    <details class="insbox" id="insProjBox">
-      <summary>ข้อมูลประกอบการตรวจรับ (ใช้ทุกงวด) — ผู้รับมอบอำนาจ การรับประกัน หัวบันทึกข้อความ</summary>
+
+
+    <div class="icard t-amber penbox" data-sec="contract">
+      <div class="ich"><span class="num">1</span><div class="ict"><b>⏱ ระยะเวลาสัญญาและค่าปรับ</b><small>บันทึกแก้ไขสัญญา ขยายเวลา และการงดค่าปรับ — ใช้คำนวณทุกงวด</small></div></div>
+      <div class="pinfo2" id="penInfo"></div>
+      <div class="ptitle">บันทึกแก้ไขสัญญา / ขยายระยะเวลา <span class="note">ใส่จำนวนวันที่ขยาย ระบบเลื่อนวันสิ้นสุดสัญญาให้</span></div>
+      <div class="tbl-wrap"><table class="ptb" id="amTbl"></table></div>
+      <div class="btns"><button type="button" id="bAmAdd">+ เพิ่มบันทึกแก้ไขสัญญา</button></div>
+      <div class="ptitle">อนุมัติงด / ลดค่าปรับ <span class="note">ใส่ได้หลายครั้ง ระบบรวมจำนวนวันให้</span></div>
+      <div class="tbl-wrap"><table class="ptb" id="wvTbl"></table></div>
+      <div class="btns"><button type="button" id="bWvAdd">+ เพิ่มการอนุมัติงดค่าปรับ</button></div>
+    </div>
+
+    <details class="icard t-amber" id="insProjBox" data-sec="contract" open>
+      <summary><div class="ich"><span class="num">2</span><div class="ict"><b>🗂 ข้อมูลประกอบเอกสาร (ใช้ทุกงวด)</b><small>ผู้รับมอบอำนาจ การรับประกัน หัวบันทึกข้อความ — กดเพื่อเปิด/ปิด</small></div></div></summary>
       <div class="grid">
         <label class="f">ที่ตั้ง กม. (ใช้เมื่อรายการไม่ได้ระบุ)<input id="ip_defLoc" placeholder="กม.975+500"></label>
         <label class="f">ผู้ส่งมอบฝ่ายผู้รับจ้าง (ชื่อ)<input id="ip_csName"></label>
@@ -569,17 +610,8 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       </div>
     </details>
 
-    <div class="insbox penbox">
-      <h3>ระยะเวลาสัญญาและค่าปรับ</h3>
-      <div class="pinfo2" id="penInfo"></div>
-      <div class="ptitle">บันทึกแก้ไขสัญญา / ขยายระยะเวลา <span class="note">ใส่จำนวนวันที่ขยาย ระบบเลื่อนวันสิ้นสุดสัญญาให้</span></div>
-      <div class="tbl-wrap"><table class="ptb" id="amTbl"></table></div>
-      <div class="btns"><button type="button" id="bAmAdd">+ เพิ่มบันทึกแก้ไขสัญญา</button></div>
-      <div class="ptitle">อนุมัติงด / ลดค่าปรับ <span class="note">ใส่ได้หลายครั้ง ระบบรวมจำนวนวันให้</span></div>
-      <div class="tbl-wrap"><table class="ptb" id="wvTbl"></table></div>
-      <div class="btns"><button type="button" id="bWvAdd">+ เพิ่มการอนุมัติงดค่าปรับ</button></div>
-    </div>
-
+    <div class="icard t-green" data-sec="pay">
+    <div class="ich"><span class="num">1</span><div class="ict"><b>🧾 งวดงาน</b><small>เลือกงวด แล้วกรอกเลขหนังสือส่งงาน วันที่ และเงื่อนไขของงวดนั้น</small></div></div>
     <div class="instbar">
       <div class="seg" id="instSeg"></div>
       <div class="btns">
@@ -608,8 +640,10 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <label class="f wide">หมายเหตุเรื่องค่าปรับ (ว่างไว้ = ระบบเขียนให้)<textarea id="iv_penText" rows="2"></textarea><span class="hint" id="iv_penAuto"></span></label>
     </div>
 
-    <div class="schedbox">
-      <h3>📅 นัดตรวจรับงาน และประชุมสรุปผล งวดนี้</h3>
+    </div>
+
+    <div class="icard t-teal schedbox" data-sec="pay">
+      <div class="ich"><span class="num">2</span><div class="ict"><b>📅 นัดตรวจรับงาน และประชุมสรุปผล</b><small>ระบบตรวจไม่ให้เวลากรรมการชนกับโครงการอื่น</small></div></div>
       <div class="grid">
         <label class="f">ตรวจหน้างาน เวลา<input id="iv_inspTime" type="time"><span class="hint">วันที่ = วันที่ตรวจรับ ด้านบน</span></label>
         <label class="f">ตรวจหน้างาน ณ<input id="iv_inspPlace" placeholder="สถานที่ก่อสร้าง"></label>
@@ -626,17 +660,19 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <div id="mtgConf"></div>
     </div>
 
+    <div class="icard t-green" data-sec="pay">
+    <div class="ich"><span class="num">3</span><div class="ict"><b>📦 ปริมาณงานและเงินเบิกงวดนี้</b><small>ใส่ปริมาณ ที่ตั้ง และผลทดสอบของแต่ละรายการ — ระบบสรุปเงินและตรวจความถูกต้องให้</small></div></div>
     <div class="tbl-wrap">
       <table class="itbl" id="itbl"></table>
     </div>
-
     <div class="two">
       <div class="panel isum" id="insSum"></div>
       <div class="panel isum" id="insChk"></div>
     </div>
+    </div>
 
-    <div class="insbox wkbox" id="dyBox">
-      <h3>📋 รายงานประจำวัน <span class="note">แรงงาน เครื่องจักร งานที่ทำ (เลือกจากรายการงานในสัญญา) สภาพอากาศ — รวมเป็นรายงานประจำสัปดาห์ได้</span></h3>
+    <div class="icard t-sky wkbox" id="dyBox" data-sec="daily">
+      <div class="ich"><span class="num">1</span><div class="ict"><b>📋 รายงานประจำวัน</b><small>แรงงาน เครื่องจักร งานที่ทำ (เลือกจากรายการงานในสัญญา) สภาพอากาศ — รวมเป็นรายงานประจำสัปดาห์ได้</small></div></div>
       <div class="instbar">
         <div class="dynav"><button type="button" id="bDyPrev" aria-label="วันก่อนหน้า">‹</button><select id="dyPick"></select><button type="button" id="bDyNext" aria-label="วันถัดไป">›</button><span class="note" id="dyCount"></span></div>
         <div class="btns"><button type="button" id="bDyAdd">+ เพิ่มวันถัดไป</button><button type="button" id="bDyDel" class="danger">ลบวันนี้</button><button type="button" id="bDyShow" class="primary">📄 ดูรายงานวันนี้</button></div>
@@ -664,8 +700,8 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       </div>
     </div>
 
-    <div class="insbox wkbox" id="wkBox">
-      <h3>📈 รายงานความก้าวหน้าประจำสัปดาห์ <span class="note">ผู้ควบคุมงาน → ผอ.ขท.กระบี่ ผ่านประธานกรรมการ พร้อมสำเนาเรียนคณะกรรมการตรวจรับพัสดุ</span></h3>
+    <div class="icard t-violet wkbox" id="wkBox" data-sec="weekly">
+      <div class="ich"><span class="num">1</span><div class="ict"><b>📈 รายงานความก้าวหน้าประจำสัปดาห์</b><small>ผู้ควบคุมงาน → ผอ.ขท.กระบี่ ผ่านประธานกรรมการ พร้อมสำเนาเรียนคณะกรรมการตรวจรับพัสดุ</small></div></div>
       <div class="instbar">
         <div class="seg" id="wkSeg"></div>
         <div class="btns"><button type="button" id="bWkAdd">+ เพิ่มสัปดาห์ถัดไป</button><button type="button" id="bWkDel" class="danger">ลบสัปดาห์นี้</button><button type="button" id="bWkShow" class="primary">📄 ดูเอกสารสัปดาห์นี้</button></div>
@@ -707,24 +743,27 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       </details>
     </div>
 
+    <div class="icard t-ink docsec" id="docCard">
+    <div class="ich"><span class="num" id="docNum">6</span><div class="ict"><b>📄 เอกสารสำหรับพิมพ์</b><small id="docSub">เลือกเอกสาร ตรวจทาน แก้ข้อความ (ใช้รหัส) แล้วพิมพ์หรือดาวน์โหลด Word</small></div></div>
     <div class="doc-bar">
       <div class="doc-pick" id="insPick">
-        <button type="button" data-ip="all" aria-pressed="true">ทั้งชุด</button>
-        <button type="button" data-ip="ins" aria-pressed="false">ใบตรวจรับงาน</button>
-        <button type="button" data-ip="p137" aria-pressed="false">ใบรับรองผล (พ.1-37)</button>
-        <button type="button" data-ip="bill" aria-pressed="false">บัญชีค่างานต่างๆ</button>
-        <button type="button" data-ip="items" aria-pressed="false">ค่างานแยกรายการ</button>
-        <button type="button" data-ip="ctl" aria-pressed="false">บันทึกผู้ควบคุมงาน</button>
-        <button type="button" data-ip="mtg" aria-pressed="false">รายงานการประชุม</button>
-        <button type="button" data-ip="memo" aria-pressed="false">บันทึกรายงานผล</button>
-        <button type="button" data-ip="dly" aria-pressed="false" class="wkpick">รายงานประจำวัน</button>
-        <button type="button" data-ip="wk" aria-pressed="false">รายงานประจำสัปดาห์</button>
+        <button type="button" data-ip="all" data-sec="pay" aria-pressed="true">ทั้งชุด</button>
+        <button type="button" data-ip="ins" data-sec="pay" aria-pressed="false">ใบตรวจรับงาน</button>
+        <button type="button" data-ip="p137" data-sec="pay" aria-pressed="false">ใบรับรองผล (พ.1-37)</button>
+        <button type="button" data-ip="bill" data-sec="pay" aria-pressed="false">บัญชีค่างานต่างๆ</button>
+        <button type="button" data-ip="items" data-sec="pay" aria-pressed="false">ค่างานแยกรายการ</button>
+        <button type="button" data-ip="ctl" data-sec="pay" aria-pressed="false">บันทึกผู้ควบคุมงาน</button>
+        <button type="button" data-ip="mtg" data-sec="pay" aria-pressed="false">รายงานการประชุม</button>
+        <button type="button" data-ip="memo" data-sec="pay" aria-pressed="false">บันทึกรายงานผล</button>
+        <button type="button" data-ip="dly" data-sec="daily" aria-pressed="false">รายงานประจำวัน</button>
+        <button type="button" data-ip="wk" data-sec="weekly" aria-pressed="false">รายงานประจำสัปดาห์</button>
       </div>
       <div class="btns"><button type="button" id="bInsEdit">✏️ แก้ไขข้อความในเอกสาร</button><button type="button" id="bInsWord">⬇ ดาวน์โหลดเป็น Word (.docx)</button><button type="button" id="bInsPrint" class="primary">🖨 พิมพ์ / บันทึกเป็น PDF</button></div>
     </div>
     <div class="ieditbar" id="insEditBar" hidden></div>
     <div class="note" id="insInfo"></div>
     <div class="desk" id="insDesk"></div>
+    </div>
   </section>
 
 
@@ -1476,7 +1515,7 @@ function renderHome(){
 function showHome(){save();DB.cur=null;writeDB();S=null;lastJSON='';
   $('homeView').hidden=false;$('projView').hidden=true;$('bHome').hidden=true;
   document.querySelectorAll('.proj-only').forEach(e=>e.hidden=true);document.querySelectorAll('.home-only').forEach(e=>e.hidden=false);
-  $('hTitle').textContent='ระบบคำนวณถัวจ่าย';document.querySelector('.top').classList.add('hero');$('hSub').textContent='หน้าสรุปโครงการ · คำนวณ ตรวจความถูกต้อง และพิมพ์เอกสารถัวจ่ายงานก่อสร้าง';
+  $('hTitle').textContent='การบริหารโครงการงานสัญญา';document.querySelector('.top').classList.add('hero');$('hSub').textContent='หน้าสรุปโครงการ · ถัวจ่าย รายงานประจำวัน/สัปดาห์ ตรวจรับ และเบิกจ่ายงานก่อสร้าง';
   delArm=null;renderHome();window.scrollTo(0,0)}
 function openProject(id){const p=DB.projects.find(x=>x.id===id);if(!p)return showHome();
   DB.cur=id;writeDB();S=migrate(clone(p.data));lastJSON=JSON.stringify(p.data);
@@ -1508,7 +1547,7 @@ $('hImport').addEventListener('change',e=>{const f=e.target.files[0];if(!f)retur
     else if(o&&o.h&&o.r&&Array.isArray(o.items)){addProject(migrate(o));added++}
     else throw 0;
     writeDB();renderHome();toast(`นำเข้าแล้ว: เพิ่ม ${added} โครงการ`+(upd?` · อัปเดต ${upd} โครงการ`:''))}
-  catch(err){toast('ไฟล์นี้ไม่ใช่ข้อมูลจากระบบคำนวณถัวจ่าย')}};r.readAsText(f)});
+  catch(err){toast('ไฟล์นี้ไม่ใช่ข้อมูลจากระบบการบริหารโครงการงานสัญญา')}};r.readAsText(f)});
 
 /* ---- file save + print, artifact or installed app ---- */
 function saveFile(name,data,type){
@@ -1528,7 +1567,7 @@ async function exportXlsx(){
   try{await loadScript(XLSX_LIB)}catch(e){btn.disabled=false;btn.textContent=old;toast('โหลดตัวสร้าง Excel ไม่ได้ ต้องต่ออินเทอร์เน็ตครั้งแรก');return}
   try{
   const X=window.ExcelJS,wb=new X.Workbook();
-  wb.creator='ระบบคำนวณถัวจ่าย · Miss Narama Woraklan';wb.created=new Date();wb.calcProperties.fullCalcOnLoad=true;
+  wb.creator='การบริหารโครงการงานสัญญา · Miss Narama Woraklan';wb.created=new Date();wb.calcProperties.fullCalcOnLoad=true;
   const R=rules(),h=S.h,FONT='TH SarabunPSK',BLUE='FF1F3FBF';
   const thin={style:'thin',color:{argb:'FF000000'}};
   const box={top:thin,left:thin,bottom:thin,right:thin};
@@ -1843,7 +1882,7 @@ function fillIns(){
   $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;$('lbRefund').hidden=!inst.final;renderPenBox();
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
-  renderInsTable();renderDy();renderWk();renderIns();
+  renderInsTable();renderDy();renderWk();setSec(insSec,true);renderIns();
 }
 function growTA(t){t.style.height='auto';t.style.height=Math.max(76,t.scrollHeight+2)+'px'}
 function renderInsTable(){
@@ -1908,7 +1947,7 @@ function renderIns(){
    ${C.inst.final&&C.inst.refund?`<div class="row"><span class="k">คืนเงินประกันผลงาน${C.refFrom.length?' งวดที่ '+C.refFrom.join(', '):' (ไม่มียอดที่หักไว้)'}</span><span class="v plus">+ ${fm(C.refund)}</span></div>`:''}
    <div class="row big"><span class="k">คงเป็นเงินที่ต้องจ่าย</span><span class="v">${fm(C.net)}</span><span class="w">(${bahtText(C.net)})</span></div></div>`;
   $('insChk').innerHTML=`<h3>ตรวจสอบ</h3><ul class="ichk">${out.map(([l,t])=>`<li class="${l}"><span>${l==='ok'?'✓':l==='e'?'✗':'!'}</span>${esc(t)}</li>`).join('')}</ul>`;
-  renderInsDocs(C);
+  renderInsDocs(C);renderSecInfo();
 }
 IPF.forEach(k=>$('ip_'+k).addEventListener('input',e=>{insOf()[k]=e.target.value;renderInsTable();renderIns();save()}));
 IVF.forEach(k=>$('iv_'+k).addEventListener('input',e=>{const ins=insOf();ins.list[ins.cur][k]=e.target.value;if(k==='no')fillSegOnly();renderInsTable();renderIns();save()}));
@@ -2290,7 +2329,7 @@ $('bWkAdd').addEventListener('click',()=>{if(insEditMode){toast('กดบัน
 let wkDelArm=0;$('bWkDel').addEventListener('click',e=>{const W=wkOf(),w=wkCur();if(!w)return;
   if(!wkDelArm){wkDelArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยันลบ';setTimeout(()=>{wkDelArm=0;e.target.textContent='ลบสัปดาห์นี้'},3000);return}
   wkDelArm=0;e.target.textContent='ลบสัปดาห์นี้';toast('ลบรายงานสัปดาห์ที่ '+w.no+' แล้ว');W.list.splice(W.cur,1);W.cur=Math.max(0,W.cur-1);renderWk();save();if(insPage==='wk')renderIns()});
-$('bWkShow').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insPage='wk';$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip==='wk'));renderIns();$('insPick').scrollIntoView({behavior:'smooth',block:'start'})});
+$('bWkShow').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}if(insSec!=='weekly')setSec('weekly',true);insPage='wk';$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip==='wk'));renderIns();$('insPick').scrollIntoView({behavior:'smooth',block:'start'})});
 /* ---- รายงานประจำวัน ---- */
 const DY_LAB=[['eng','วิศวกร'],['tech','ช่างเทคนิค'],['surv','ช่างสำรวจ'],['fore','หัวหน้าคนงาน'],['mhead','หัวหน้าช่างซ่อม'],['lab','คนงานทั่วไป'],
   ['opr','พนักงานขับเครื่องจักร'],['survo','พนักงานสำรวจ'],['rep','พนักงานซ่อมเครื่องจักร'],['drv','พนักงานขับรถ'],['fuel','พนักงานเติมน้ำมัน']];
@@ -2376,7 +2415,7 @@ $('bDyAdd').addEventListener('click',()=>{if(insEditMode){toast('กดบัน
 let dyDelArm=0;$('bDyDel').addEventListener('click',e=>{const D=dyOf(),d=dyCur();if(!d)return;
   if(!dyDelArm){dyDelArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยันลบ';setTimeout(()=>{dyDelArm=0;e.target.textContent='ลบวันนี้'},3000);return}
   dyDelArm=0;e.target.textContent='ลบวันนี้';D.list.splice(D.cur,1);D.cur=Math.max(0,D.cur-1);renderDy();save();if(insPage==='dly')renderIns();toast('ลบรายงานประจำวันแล้ว')});
-$('bDyShow').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insPage='dly';$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip==='dly'));renderIns();$('insPick').scrollIntoView({behavior:'smooth',block:'start'})});
+$('bDyShow').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}if(insSec!=='daily')setSec('daily',true);insPage='dly';$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip==='dly'));renderIns();$('insPick').scrollIntoView({behavior:'smooth',block:'start'})});
 /* รวมรายงานประจำวันเข้ารายงานประจำสัปดาห์ */
 $('bWkFromDy').addEventListener('click',()=>{const w=wkCur();if(!w)return;if(!w.from||!w.to){toast('ใส่ช่วงวันที่ของสัปดาห์ก่อน');return}
   const days=dyOf().list.filter(d=>d.date&&d.date>=w.from&&d.date<=w.to);if(!days.length){toast('ไม่มีรายงานประจำวันในช่วง '+thDate(w.from)+' – '+thDate(w.to));return}
@@ -2387,6 +2426,26 @@ $('bWkFromDy').addEventListener('click',()=>{const w=wkCur();if(!w)return;if(!w.
   w.rows=Object.values(oth).map(o=>({work:o.work,km:uniq(o.km),side:uniq(o.side),qty:uniq(o.qty)}));
   const pr=[...new Set(days.flatMap(d=>String(d.problem||'').split('\n').map(x=>x.trim().replace(/^[-•]\s*/,'')).filter(x=>x&&x!=='-')))];if(pr.length)w.problem=pr.join('\n');
   renderWk();wkChanged();toast(`รวมงานจากรายงานประจำวัน ${days.length} วันแล้ว (${Object.keys(q).length} รายการงาน)`)});
+/* ---- การ์ดเลือกงาน 4 ส่วน ---- */
+const SEC_DOC={pay:'all',daily:'dly',weekly:'wk'},SEC_PAGES={pay:['all','ins','p137','bill','items','ctl','mtg','memo'],daily:['dly'],weekly:['wk']};
+let insSec=(()=>{try{return localStorage.getItem('thuajai-v1-sec')||'pay'}catch(e){return 'pay'}})();
+function setSec(sec,quiet){if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}
+  if(!['contract','daily','weekly','pay'].includes(sec))sec='pay';insSec=sec;try{localStorage.setItem('thuajai-v1-sec',sec)}catch(e){}
+  $('insSec').querySelectorAll('[data-sec]').forEach(b=>b.setAttribute('aria-selected',b.dataset.sec===sec));
+  document.querySelectorAll('#insView .icard[data-sec]').forEach(el=>el.hidden=el.dataset.sec!==sec);
+  $('docCard').hidden=sec==='contract';
+  $('insPick').querySelectorAll('[data-ip]').forEach(b=>b.hidden=b.dataset.sec!==sec);
+  if(sec!=='contract'&&!SEC_PAGES[sec].includes(insPage)){insPage=SEC_DOC[sec];$('insPick').querySelectorAll('[data-ip]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip===insPage))}
+  $('docNum').textContent=sec==='pay'?'4':'2';
+  const one=$('insPick').querySelectorAll('[data-ip]:not([hidden])').length<2;$('insPick').hidden=one;
+  if(!quiet)renderIns()}
+$('insSec').addEventListener('click',e=>{const b=e.target.closest('[data-sec]');if(b)setSec(b.dataset.sec)});
+function renderSecInfo(){try{
+  const ins=insOf(),am=(ins.amends||[]).length,wv=waiveTotal(),end=effEnd();
+  $('secCtInfo').textContent=`สิ้นสุด ${end?thDate(end):'-'}${am?` · ขยาย ${am} ครั้ง`:''}${wv?` · งดค่าปรับ ${wv} วัน`:''}`;
+  const D=dyOf();$('secDyInfo').textContent=D.list.length?`${D.list.length} วัน · ล่าสุด ${thDate(D.list[D.list.length-1].date)}`:'ยังไม่มี — แรงงาน เครื่องจักร งานที่ทำ';
+  const W=wkOf();if(W.list.length){const j=W.list.length-1,c=wkCalc(j);$('secWkInfo').textContent=`สัปดาห์ที่ ${W.list[j].no} · ผลงานสะสม ${pct3(c.ac)}% · ${wkStatusTxt(c)}`}else $('secWkInfo').textContent='ยังไม่มี — ความก้าวหน้า + สำเนาเรียนกรรมการ';
+  const inst=ins.list[ins.cur],C=insCalc(ins.cur);$('secPayInfo').textContent=`${ins.list.length} งวด · งวดที่ ${inst.no} จ่ายสุทธิ ${fm(C.net)} บาท`}catch(e){console.warn(e)}}
 function renderInsDocs(C){
   if(insEditMode&&$('insSheets')){updEditBar();return}
   const want=insPage,set=[];
@@ -2718,8 +2777,8 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
   <div class="lk-road" aria-hidden="true"></div>
   <form class="lk-card" id="lkForm" autocomplete="off">
     <div class="lk-mark" aria-hidden="true"><span>NW</span></div>
-    <div class="lk-eyebrow">Construction Pay Balancing System</div>
-    <h1 id="lkTitle">ระบบคำนวณถัวจ่าย</h1>
+    <div class="lk-eyebrow">Contract Project Management System</div>
+    <h1 id="lkTitle">การบริหารโครงการงานสัญญา</h1>
     <p class="lk-sub">ใส่รหัสเพื่อเปิดใช้งานโปรแกรมบนเครื่องนี้</p>
     <label class="lk-lbl" for="lkCode">รหัสเปิดใช้งาน</label>
     <input id="lkCode" type="password" inputmode="numeric" autocomplete="off" maxlength="32" required>

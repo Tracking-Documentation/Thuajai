@@ -1,7 +1,7 @@
 {
- "name": "ระบบคำนวณถัวจ่าย",
- "short_name": "ถัวจ่าย",
- "description": "คำนวณถัวจ่ายงานก่อสร้าง ตรวจความถูกต้อง และพิมพ์เอกสาร · Concept & Development by Miss Narama Woraklan",
+ "name": "การบริหารโครงการงานสัญญา",
+ "short_name": "บริหารสัญญา",
+ "description": "บริหารโครงการงานสัญญา: ถัวจ่าย รายงานประจำวัน/สัปดาห์ ตรวจรับ และเบิกจ่าย · Concept & Development by Miss Narama Woraklan",
  "lang": "th",
  "start_url": "./",
  "scope": "./",
