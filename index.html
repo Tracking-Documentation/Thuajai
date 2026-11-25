@@ -290,6 +290,7 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .pfapg{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:.84rem}.pfapg input,.pfapg select{width:auto;display:inline-block;padding:3px 6px}
 #pfEvents select{min-width:300px}#pfEvents td{vertical-align:top}
 @media (max-width:700px){.pfhead{grid-template-columns:1fr}}
+.ipaper table.ib.wcv{font-size:11.5px;margin:6px 0 0}.ipaper table.ib.wcv th{font-size:11px;line-height:1.25}.ipaper table.ib.wcv td{height:1.6em}
 .pltb{min-width:0}.pltb input{width:100%;min-width:52px;text-align:right;padding:3px 5px}.pltb td.bad,.note .bad{color:var(--err);font-weight:700}
 .pls th{text-align:left;white-space:nowrap}.pls td{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:.84rem}
 .plchart{--pl-plan:#2f855a;--pl-act:#dd6b20;color:var(--fg)}.plchart svg{width:100%;max-width:900px;height:auto;display:block}
@@ -2321,7 +2322,7 @@ function docWkSheet(j){const h=S.h,c=wkCalc(j),w=c.w,ctl=ctlPerson();
    <p class="b">หมายเหตุ</p><div class="wkrm" style="border-top:var(--bw,.6px) solid #000">${probs.length?probs.map(x=>`<p style="padding-left:2em">${esc(/^[-•]/.test(x)?x:'- '+x)}</p>`).join(''):'<p style="padding-left:2em">- ไม่มี -</p>'}</div>
    ${sgRows([{role:'ผู้ควบคุมงาน',name:ctl?ctl.name:'..............................',pos:ctl?ctl.pos:''}]).replace('class="sgt ','class="sgt one ').replace('<div class="sgt','<div style="margin:26px 0 0 30%"><div class="sgt')}</div></div>`}
 function docWk(){const W=wkOf();if(!W.list.length)return [`<div class="ipaper"><p class="ctr" style="margin-top:120px;color:#777">ยังไม่มีรายงานประจำสัปดาห์ — กด “+ เพิ่มสัปดาห์ถัดไป” ในกล่องรายงานความก้าวหน้าประจำสัปดาห์</p></div>`];
-  return [docWkMemo(W.cur),docWkSheet(W.cur)]}
+  return [docWkMemo(W.cur),docWkSheet(W.cur),docWkCurve(W.cur)]}
 const WKF=['no','from','to','memoNo','memoDate','plan','act','planCum','actCum','problem'],WKS=['toLine','office','phone','prefix','basePlan','baseAct','ccExtra'];
 /* รายการงานตามสัญญา / หลังถัวจ่าย สำหรับรายงานประจำสัปดาห์ */
 function wkItems(j){const W=wkOf(),R=rules(),val=parse(S.h.value)||0,bal=W.basis==='bal';
@@ -2663,6 +2664,47 @@ function planSeed(){const k=String(S.h.no||'').replace(/\s+/g,''),P=PL_SAMPLE[k]
   if(!/REMOVAL OF EXISTING BUS STOP/i.test((S.items[0]||{}).desc||'')||!/ป้าย/.test((S.items[13]||{}).desc||''))return;
   Object.entries(P).forEach(([i,mm])=>{const it=S.items[+i];it.pl=[];Object.entries(mm).forEach(([m,v])=>it.pl[+m]=String(v))});
   const Pl=plOf();if(!Pl.date)Object.assign(Pl,{date:'2026-03-16',ok:'2026-03-17',eng:'นายวริศ วรรคจันทร์ ภย 79346'})}
+/* ---- หน้า S-Curve ในรายงานประจำสัปดาห์ ---- */
+function curveSvg(j,opt){const P=plCalc(),W=wkOf(),w=W.list[j],st=S.h.start,en=effEnd();if(!st||!en)return '';
+  const Wd=opt&&opt.w||680,H=opt&&opt.h||330,L=46,R=24,T=22,B=40,span=Math.max(1,dayDiff(st,en)+1);
+  const x=d=>L+Math.max(0,Math.min(1,(dayDiff(st,d)+1)/span))*(Wd-L-R),y=v=>T+(100-Math.max(0,Math.min(100,v)))*(H-T-B)/100;
+  const CP='#1f7a4d',CA='#d9480f';
+  const plan=P.has?[[addDays(st,-1),0],...P.M.map((m,k)=>[m.to,P.acc[k]])]:[];
+  const act=[];W.list.forEach((x2,i)=>{if(i<=j&&x2.to)act.push([x2.to,wkCalc(i).ac])});
+  if(act.length&&!(parse(W.baseAct)||0)&&parse(W.list[0].no)===1)act.unshift([addDays(st,-1),0]);
+  const poly=(pts,c,dash)=>pts.length?`<polyline fill="none" stroke="${c}" stroke-width="2.4" ${dash?'stroke-dasharray="7 4"':''} points="${pts.map(([d,v])=>x(d).toFixed(1)+','+y(v).toFixed(1)).join(' ')}"/>`+pts.map(([d,v])=>`<circle cx="${x(d).toFixed(1)}" cy="${y(v).toFixed(1)}" r="3" fill="${c}"/>`).join(''):'';
+  const grid=[0,10,20,30,40,50,60,70,80,90,100].map(v=>`<line x1="${L}" x2="${Wd-R}" y1="${y(v)}" y2="${y(v)}" stroke="#000" stroke-opacity="${v%50?0.08:0.18}"/><text x="${L-5}" y="${y(v)+4}" text-anchor="end" font-size="10" fill="#333">${v}%</text>`).join('');
+  const mlab=P.M.map(m=>{const xm=(x(m.from)+x(m.to))/2;return `<line x1="${x(m.to)}" x2="${x(m.to)}" y1="${T}" y2="${H-B}" stroke="#000" stroke-opacity=".08"/><text x="${xm}" y="${H-B+15}" text-anchor="middle" font-size="10" fill="#333">${m.lab}</text>`}).join('');
+  const lblP=P.has?P.M.map((m,k)=>`<text x="${x(m.to)}" y="${y(P.acc[k])-7}" text-anchor="middle" font-size="9.5" fill="${CP}">${pct3(P.acc[k])}</text>`).join(''):'';
+  const last=act[act.length-1];const lblA=last?`<text x="${x(last[0])+4}" y="${y(last[1])+14}" font-size="10" font-weight="700" fill="${CA}">${pct3(last[1])}%</text>`:'';
+  const now=w&&w.to?`<line x1="${x(w.to)}" x2="${x(w.to)}" y1="${T-6}" y2="${H-B}" stroke="#555" stroke-dasharray="3 3"/><text x="${x(w.to)}" y="${T-9}" text-anchor="middle" font-size="10" fill="#333">สัปดาห์ที่ ${esc(w.no)}</text>`:'';
+  const leg=`<g font-size="10.5" fill="#222"><line x1="${L+8}" x2="${L+34}" y1="${H-10}" y2="${H-10}" stroke="${CP}" stroke-width="2.4"/><text x="${L+40}" y="${H-6}">แผนงานสะสม</text><line x1="${L+140}" x2="${L+166}" y1="${H-10}" y2="${H-10}" stroke="${CA}" stroke-width="2.4" stroke-dasharray="7 4"/><text x="${L+172}" y="${H-6}">ผลงานสะสมจริง</text></g>`;
+  return `<svg class="wchart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${Wd} ${H}" width="${Wd}" height="${H}" style="width:100%;height:auto;display:block;font-family:Sarabun,'TH SarabunPSK',sans-serif"><rect width="${Wd}" height="${H}" fill="#fff"/>${grid}${mlab}${poly(plan,CP)}${poly(act,CA,1)}${lblP}${lblA}${now}${leg}</svg>`}
+function docWkCurve(j){const h=S.h,P=plCalc(),W=wkOf(),w=W.list[j],c=wkCalc(j),ctl=ctlPerson();
+  const accAt=P.M.map(m=>{if(!w.to||m.from>w.to)return null;let v=null;W.list.forEach((x,i)=>{if(i<=j&&x.to&&x.to<=m.to)v=wkCalc(i).ac});return v});
+  const th=P.M.map((m,k)=>`<th>${k+1}<br>${m.lab}</th>`).join('');const td=(arr,f)=>arr.map(v=>`<td class="r">${v==null?'':f(v)}</td>`).join('');
+  const tbl=P.M.length?`<table class="ib wkt wcv"><thead><tr><th style="width:17%"></th>${th}</tr></thead><tbody>
+    <tr><td>% แผนรายเดือน</td>${td(P.pct,pct3)}</tr><tr><td>% แผนสะสม</td>${td(P.acc,pct3)}</tr>
+    <tr><td>% ผลงานสะสม</td>${td(accAt,pct3)}</tr><tr><td>% ช้า(−)/เร็ว(+)</td>${td(accAt.map((v,k)=>v==null?null:v-P.acc[k]),v=>(v>0?'+':'')+pct3(v))}</tr></tbody></table>`:'';
+  return `<div class="ipaper wkdoc"><p class="ctr b" style="font-size:16px;margin:0">แผนและผลการดำเนินงาน (S-Curve)</p>
+   <p class="ctr b">ประจำสัปดาห์ที่ ${esc(w.no)} ระหว่างวันที่ ${thDate2(w.from)} ถึง วันที่ ${thDate2(w.to)}</p>
+   <div class="wkh"><b>ชื่อโครงการ</b><span style="grid-column:span 3">${esc(h.project)} ${esc(h.loc)}</span>
+    <b>สัญญาจ้างเลขที่</b><span>${esc(h.no)} ลงวันที่ ${esc(h.date)}</span><b>ค่างานก่อสร้าง</b><span>${fm(parse(h.value)||0)} บาท</span>
+    <b>เริ่มสัญญาวันที่</b><span>${thDate(h.start)}</span><b>สิ้นสุดสัญญา</b><span>${thDate(effEnd())}</span>
+    <b>ผู้รับจ้าง</b><span style="grid-column:span 3">${esc(h.contractor)}</span></div>
+   ${P.has?curveSvg(j):'<p class="ctr" style="margin:40px 0;color:#777">ยังไม่มีแผนการทำงาน — กรอกในกล่อง “แผนการทำงาน (S-Curve)”</p>'}
+   ${tbl}
+   <table class="ib wks"><colgroup><col style="width:62%"><col style="width:24%"><col style="width:14%"></colgroup><tbody>
+    <tr><td class="c">แผนงานสะสม ณ ${thDate(w.to)}</td><td class="r">${pct3(c.pc)}</td><td class="c">%</td></tr>
+    <tr><td class="c">ผลงานสะสม ณ ${thDate(w.to)}</td><td class="r">${pct3(c.ac)}</td><td class="c">%</td></tr>
+    <tr><td class="c">${Math.abs(c.diff)<0.0005?'เป็นไปตามแผน':c.diff<0?'ช้ากว่าแผน':'เร็วกว่าแผน'}</td><td class="r b">${pct3(Math.abs(c.diff))}</td><td class="c">%</td></tr></tbody></table>
+   ${sgRows([{role:'ผู้ควบคุมงาน',name:ctl?ctl.name:'..............................',pos:ctl?ctl.pos:''}]).replace('class="sgt ','class="sgt one ').replace('<div class="sgt','<div style="margin:10px 0 0 30%"><div class="sgt')}</div></div>`}
+/* SVG → PNG สำหรับไฟล์ Word */
+let WIMGS=[];
+function svgToPng(svg,scale){return new Promise(res=>{const xml=new XMLSerializer().serializeToString(svg);const vb=svg.viewBox.baseVal;const w=vb.width*scale,h=vb.height*scale;
+  const img=new Image();img.onload=()=>{try{const cv=document.createElement('canvas');cv.width=w;cv.height=h;const g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,w,h);g.drawImage(img,0,0,w,h);
+    const b64=cv.toDataURL('image/png').split(',')[1];res(Uint8Array.from(atob(b64),c=>c.charCodeAt(0)))}catch(e){res(null)}};img.onerror=()=>res(null);
+  img.src='data:image/svg+xml;base64,'+b64utf8(xml)})}
 function renderInsDocs(C){
   if(insEditMode&&$('insSheets')){updEditBar();return}
   const want=insPage,set=[];
@@ -2768,7 +2810,7 @@ function docxFromHtml(html){
       if(n.nodeType!==1)return;const tag=n.tagName.toLowerCase();
       if(tag==='br'){if(/page-break/.test(n.getAttribute('style')||'')){flush();blocks.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>')}else runs.push('<w:r><w:br/></w:r>');return}
       if(tag==='img'){const w=ptv(sty(n).width)||ptv(n.getAttribute('width'))*0.75,h=ptv(sty(n).height)||ptv(n.getAttribute('height'))*0.75;imgId++;
-        runs.push(`<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${Math.round(w*12700)}" cy="${Math.round(h*12700)}"/><wp:docPr id="${imgId}" name="garuda${imgId}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${imgId}" name="garuda.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rIdGaruda"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${Math.round(w*12700)}" cy="${Math.round(h*12700)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`);return}
+        runs.push(`<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${Math.round(w*12700)}" cy="${Math.round(h*12700)}"/><wp:docPr id="${imgId}" name="garuda${imgId}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${imgId}" name="${n.getAttribute('src')||'garuda.png'}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${(n.getAttribute('src')||'garuda.png')==='garuda.png'?'rIdGaruda':'rIdM_'+(n.getAttribute('src')||'').replace(/\W/g,'')}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${Math.round(w*12700)}" cy="${Math.round(h*12700)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`);return}
       if(tag==='table'&&n.getAttribute('data-cols')){flush();blocks.push(tabRowsXml(n,p,r));return}
       if(tag==='table'){flush();blocks.push(tblXml(n,r));blocks.push(`<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/></w:pPr><w:r><w:rPr><w:sz w:val="4"/><w:szCs w:val="4"/></w:rPr></w:r></w:p>`);return}
       if(tag==='p'||tag==='div'){flush();const pp=pProps(n,p),rr=rStyle(n,r);const sub=walk(n,pp,rr);
@@ -2885,9 +2927,9 @@ function buildDocx(bodyXml,mar){
   const styles=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="TH SarabunPSK" w:hAnsi="TH SarabunPSK" w:eastAsia="TH SarabunPSK" w:cs="TH SarabunPSK"/><w:sz w:val="32"/><w:szCs w:val="32"/><w:lang w:val="en-US" w:bidi="th-TH"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style><w:style w:type="table" w:default="1" w:styleId="TableNormal"><w:name w:val="Normal Table"/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="40" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="40" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style></w:styles>`;
   const ct=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`;
   const rels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`;
-  const drels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdGaruda" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/garuda.png"/></Relationships>`;
+  const drels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdGaruda" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/garuda.png"/>${WIMGS.map(m=>`<Relationship Id="rIdM_${m.name.replace(/\W/g,'')}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/${m.name}"/>`).join('')}</Relationships>`;
   const png=Uint8Array.from(atob(GARUDA.split(',')[1]),c=>c.charCodeAt(0));
-  return zipStore([{name:'[Content_Types].xml',data:ct},{name:'_rels/.rels',data:rels},{name:'word/document.xml',data:doc},{name:'word/styles.xml',data:styles},{name:'word/_rels/document.xml.rels',data:drels},{name:'word/media/garuda.png',data:png}])}
+  return zipStore([{name:'[Content_Types].xml',data:ct},{name:'_rels/.rels',data:rels},{name:'word/document.xml',data:doc},{name:'word/styles.xml',data:styles},{name:'word/_rels/document.xml.rels',data:drels},{name:'word/media/garuda.png',data:png},...WIMGS.map(m=>({name:'word/media/'+m.name,data:m.data}))])}
 
 /* ---- ดาวน์โหลดเป็น Word ---- */
 const PT=px=>Math.round(parseFloat(px)*0.75*10)/10;
@@ -2907,7 +2949,7 @@ function convNode(n){
   if(cs.display==='none'||el.classList.contains('pno'))return '';
   if(tag==='br')return '<br>';
   if(tag==='img'){const h=PT(el.getBoundingClientRect().height/curZoom()),w=PT(el.getBoundingClientRect().width/curZoom());
-    const im=`<img src="garuda.png" width="${Math.round(w/0.75)}" height="${Math.round(h/0.75)}" style="width:${w}pt;height:${h}pt">`;
+    const im=`<img src="${el.dataset.media||'garuda.png'}" width="${Math.round(w/0.75)}" height="${Math.round(h/0.75)}" style="width:${w}pt;height:${h}pt">`;
     return cs.display==='block'&&cs.marginLeft===cs.marginRight&&parseFloat(cs.marginLeft)>0?`<p style="text-align:center;margin:0">${im}</p>`:im}
   if(tag==='table')return convTable(el);
   if(cs.display==='grid')return convGrid(el,cs);
@@ -2963,9 +3005,13 @@ function convTable(t){
 function curZoom(){return parseFloat($('insSheets').style.zoom||1)||1}
 function b64utf8(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin)}
 const wrap76=s=>s.replace(/(.{76})/g,'$1\r\n');
-function exportWord(){
+async function exportWord(){
   if(!insEditMode)renderIns();
   const sh=$('insSheets');const z=sh.style.zoom;sh.style.zoom=1;
+  WIMGS=[];const swaps=[];
+  for(const sv of [...sh.querySelectorAll('.sheet svg.wchart')]){const data=await svgToPng(sv,2);if(!data)continue;const name=`chart${WIMGS.length+1}.png`;WIMGS.push({name,data});
+    const r=sv.getBoundingClientRect();const im=document.createElement('img');im.dataset.media=name;im.src='data:image/png;base64,';im.style.cssText=`width:${r.width}px;height:${r.height}px;display:block;margin:0 auto`;
+    sv.replaceWith(im);swaps.push([im,sv])}
   const pages=[...sh.querySelectorAll('.sheet .ipaper')];
   const groups=[];pages.forEach(p=>{const g=groups[groups.length-1];if(p.classList.contains('mtgdoc')&&g&&g.flow)g.pages.push(p);else groups.push({flow:p.classList.contains('mtgdoc'),pages:[p]})});
   const body=groups.map((g,i)=>{const br=i?'<br clear="all" style="page-break-before:always">':'';
@@ -2978,6 +3024,7 @@ function exportWord(){
       [...t.tBodies].forEach(b=>[...b.rows].forEach(r=>tb.appendChild(r)));const blk=t.parentElement;t.remove();if(blk&&blk!==c&&!blk.textContent.trim()&&!blk.children.length)blk.remove()});
     if(master)master.classList.remove('cont');
     const out=br+convKids(c);c.remove();return out}).join('');WS=1;
+  swaps.forEach(([im,sv])=>im.replaceWith(sv));
   sh.style.zoom=z;
   const inst=insOf().list[insOf().cur];
   try{const bytes=buildDocx(docxFromHtml(body),IPAD);
