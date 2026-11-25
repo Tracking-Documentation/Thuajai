@@ -264,9 +264,9 @@ select{font:inherit;font-size:.92rem;color:var(--fg);background:var(--bg);border
 
 /* ---- ตรวจรับงาน (form) ---- */
 .ins-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.t-slate{--tc:#5b6b7a}.t-amber{--tc:#b7791f}.t-green{--tc:#2f855a}.t-teal{--tc:#0f7c86}.t-sky{--tc:#2b6cb0}.t-violet{--tc:#6b46c1}.t-ink{--tc:#1f5c4a}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) :is(.t-slate,.t-amber,.t-green,.t-teal,.t-sky,.t-violet,.t-ink){--tc2:color-mix(in srgb,var(--tc) 70%,#fff)}}
-:root[data-theme="dark"] :is(.t-slate,.t-amber,.t-green,.t-teal,.t-sky,.t-violet,.t-ink){--tc2:color-mix(in srgb,var(--tc) 70%,#fff)}
+.t-rose{--tc:#b83256}.t-slate{--tc:#5b6b7a}.t-amber{--tc:#b7791f}.t-green{--tc:#2f855a}.t-teal{--tc:#0f7c86}.t-sky{--tc:#2b6cb0}.t-violet{--tc:#6b46c1}.t-ink{--tc:#1f5c4a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) :is(.t-rose,.t-slate,.t-amber,.t-green,.t-teal,.t-sky,.t-violet,.t-ink){--tc2:color-mix(in srgb,var(--tc) 70%,#fff)}}
+:root[data-theme="dark"] :is(.t-rose,.t-slate,.t-amber,.t-green,.t-teal,.t-sky,.t-violet,.t-ink){--tc2:color-mix(in srgb,var(--tc) 70%,#fff)}
 .icard{border:1px solid color-mix(in srgb,var(--tc) 32%,var(--line));border-left:5px solid var(--tc);border-radius:12px;padding:14px 16px;background:color-mix(in srgb,var(--tc) 5%,var(--surface));display:flex;flex-direction:column;gap:12px;min-width:0}
 details.icard{display:block}details.icard>summary{list-style:none;cursor:pointer}details.icard>summary::-webkit-details-marker{display:none}
 details.icard[open]>summary{margin-bottom:12px}
@@ -276,6 +276,15 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .ich .ict{display:flex;flex-direction:column;gap:1px;min-width:0}
 .ich .ict b{font-family:var(--display);font-size:1.04rem;color:var(--tc2,var(--tc))}
 .ich .ict small{color:var(--muted);font-size:.84rem;line-height:1.4}
+.pfhead{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch}
+.pfst,.pfsc{border-radius:10px;padding:10px 14px;background:var(--sunk);display:flex;flex-direction:column;gap:2px;justify-content:center}
+.pfst.on{background:color-mix(in srgb,var(--tc) 12%,var(--surface))}.pfst b{color:var(--tc2,var(--tc))}.pfst span{font-size:.86rem;color:var(--muted)}
+.pfsc{text-align:center;min-width:220px;background:var(--ok-bg);color:var(--ok)}.pfsc.warn{background:var(--warn-bg);color:var(--warn)}.pfsc.bad{background:var(--err-bg);color:var(--err)}
+.pfsc b{font-size:2rem;line-height:1.1;font-family:var(--display)}.pfsc span,.pfsc small{font-size:.8rem}
+.pftl tr.pf-ok td{color:var(--ok)}.pftl tr.pf-warn td{background:var(--warn-bg);color:var(--warn)}.pftl tr.pf-bad td{background:var(--err-bg);color:var(--err)}.pftl tr.pf-wait td{color:var(--muted)}
+.pftl td{padding:6px 8px;font-size:.88rem;vertical-align:top}.pfb{font-weight:700}
+#pfEvents select{min-width:300px}#pfEvents td{vertical-align:top}
+@media (max-width:700px){.pfhead{grid-template-columns:1fr}}
 .secnav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .secnav button{position:relative}.secnav .sn{position:absolute;top:6px;right:9px;font-size:.72rem;font-weight:700;color:var(--tc2,var(--tc));opacity:.75}
 .secnav button{display:flex;gap:12px;align-items:center;text-align:left;padding:12px 14px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--tc) 30%,var(--line));background:var(--surface);color:var(--fg);cursor:pointer;min-height:68px}
@@ -363,6 +372,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 .ipaper .dlyt{text-align:center;font-weight:700;font-size:16px;margin:0 0 4px}
 .wkset summary{cursor:pointer;font-weight:600}.wkset[open] summary{margin-bottom:10px}
 .f.chk{flex-direction:row;align-items:center;gap:8px}
+.f.chk input[type=checkbox]{width:auto;flex:none;margin:0}.f.chk{display:flex;align-self:end;padding-bottom:10px}
 #insPick .wkpick{border-left:2px solid var(--line)}
 .ipaper .wkl{display:grid;grid-template-columns:3.4em 14em 7.5em 1fr;column-gap:6px;padding-left:3.2em}
 .ipaper .wkl .n{text-align:right}
@@ -610,6 +620,21 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       </div>
     </details>
 
+    <div class="icard t-rose" id="pfBox" data-sec="contract">
+      <div class="ich"><span class="num">3</span><div class="ict"><b>⚖️ ประเมินผลการปฏิบัติงานผู้ประกอบการ &amp; คะแนนความเสียหาย</b><small>ตามเอกสารแนบท้ายเอกสารประกวดราคา ข้อ 1.16 (ข้อ 190/3) — เฝ้าระวังทุกขั้นตอน ไม่ให้หลุดกำหนด</small></div></div>
+      <div class="pfhead" id="pfHead"></div>
+      <div class="grid">
+        <label class="f">ใช้บังคับเมื่อวงเงินสัญญาตั้งแต่ (บาท)<input id="pf_thr" class="num" inputmode="decimal"></label>
+        <label class="f">ตรวจสถานะ ณ วันที่<input id="pf_asof" type="date"><span class="hint">ว่างไว้ = วันนี้</span></label>
+        <label class="f chk"><input type="checkbox" id="pf_force"> ใช้บังคับกับสัญญานี้ แม้วงเงินต่ำกว่าเกณฑ์</label>
+      </div>
+      <div class="ptitle">🗓 จุดเฝ้าระวังตามระยะเวลาสัญญา <span class="note">ระบบคำนวณวันให้จากวันเริ่ม-สิ้นสุดสัญญา ความก้าวหน้าจากรายงานประจำสัปดาห์ และค่าปรับ</span></div>
+      <div class="tbl-wrap"><table class="ptb pftl" id="pfTimeline"></table></div>
+      <div class="ptitle">📝 เหตุที่ทำให้เกิดคะแนนความเสียหาย <span class="note">บันทึกเมื่อมีหนังสือแจ้ง/เกิดเหตุ — ระบบนับวันและเพิ่มคะแนนตามกำหนดให้อัตโนมัติ (รวมทุก 30 วัน)</span></div>
+      <div class="tbl-wrap"><table class="ptb" id="pfEvents"></table></div>
+      <div class="btns"><button type="button" id="bPfAdd">+ บันทึกเหตุ / หนังสือแจ้ง</button></div>
+    </div>
+
     <div class="icard t-green" data-sec="pay">
     <div class="ich"><span class="num">1</span><div class="ict"><b>🧾 งวดงาน</b><small>เลือกงวด แล้วกรอกเลขหนังสือส่งงาน วันที่ และเงื่อนไขของงวดนั้น</small></div></div>
     <div class="instbar">
@@ -757,6 +782,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
         <button type="button" data-ip="memo" data-sec="pay" aria-pressed="false">บันทึกรายงานผล</button>
         <button type="button" data-ip="dly" data-sec="daily" aria-pressed="false">รายงานประจำวัน</button>
         <button type="button" data-ip="wk" data-sec="weekly" aria-pressed="false">รายงานประจำสัปดาห์</button>
+        <button type="button" data-ip="perf" data-sec="contract" aria-pressed="false">สรุปคะแนนความเสียหาย</button>
       </div>
       <div class="btns"><button type="button" id="bInsEdit">✏️ แก้ไขข้อความในเอกสาร</button><button type="button" id="bInsWord">⬇ ดาวน์โหลดเป็น Word (.docx)</button><button type="button" id="bInsPrint" class="primary">🖨 พิมพ์ / บันทึกเป็น PDF</button></div>
     </div>
@@ -1882,7 +1908,7 @@ function fillIns(){
   $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;$('lbRefund').hidden=!inst.final;renderPenBox();
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
-  renderInsTable();renderDy();renderWk();setSec(insSec,true);renderIns();
+  renderInsTable();renderDy();renderWk();renderPf();setSec(insSec,true);renderIns();
 }
 function growTA(t){t.style.height='auto';t.style.height=Math.max(76,t.scrollHeight+2)+'px'}
 function renderInsTable(){
@@ -2427,25 +2453,115 @@ $('bWkFromDy').addEventListener('click',()=>{const w=wkCur();if(!w)return;if(!w.
   const pr=[...new Set(days.flatMap(d=>String(d.problem||'').split('\n').map(x=>x.trim().replace(/^[-•]\s*/,'')).filter(x=>x&&x!=='-')))];if(pr.length)w.problem=pr.join('\n');
   renderWk();wkChanged();toast(`รวมงานจากรายงานประจำวัน ${days.length} วันแล้ว (${Object.keys(q).length} รายการงาน)`)});
 /* ---- การ์ดเลือกงาน 4 ส่วน ---- */
-const SEC_DOC={pay:'all',daily:'dly',weekly:'wk'},SEC_PAGES={pay:['all','ins','p137','bill','items','ctl','mtg','memo'],daily:['dly'],weekly:['wk']};
+const SEC_DOC={pay:'all',daily:'dly',weekly:'wk',contract:'perf'},SEC_PAGES={pay:['all','ins','p137','bill','items','ctl','mtg','memo'],daily:['dly'],weekly:['wk'],contract:['perf']};
 let insSec=(()=>{try{return localStorage.getItem('thuajai-v1-sec')||'pay'}catch(e){return 'pay'}})();
 function setSec(sec,quiet){if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}
   if(!['contract','daily','weekly','pay'].includes(sec))sec='pay';insSec=sec;try{localStorage.setItem('thuajai-v1-sec',sec)}catch(e){}
   $('insSec').querySelectorAll('[data-sec]').forEach(b=>b.setAttribute('aria-selected',b.dataset.sec===sec));
   document.querySelectorAll('#insView .icard[data-sec]').forEach(el=>el.hidden=el.dataset.sec!==sec);
-  $('docCard').hidden=sec==='contract';
   $('insPick').querySelectorAll('[data-ip]').forEach(b=>b.hidden=b.dataset.sec!==sec);
-  if(sec!=='contract'&&!SEC_PAGES[sec].includes(insPage)){insPage=SEC_DOC[sec];$('insPick').querySelectorAll('[data-ip]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip===insPage))}
-  $('docNum').textContent=sec==='pay'?'4':'2';
+  if(!SEC_PAGES[sec].includes(insPage)){insPage=SEC_DOC[sec];$('insPick').querySelectorAll('[data-ip]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip===insPage))}
+  $('docNum').textContent=sec==='pay'?'4':sec==='contract'?'4':'2';
   const one=$('insPick').querySelectorAll('[data-ip]:not([hidden])').length<2;$('insPick').hidden=one;
   if(!quiet)renderIns()}
 $('insSec').addEventListener('click',e=>{const b=e.target.closest('[data-sec]');if(b)setSec(b.dataset.sec)});
 function renderSecInfo(){try{
   const ins=insOf(),am=(ins.amends||[]).length,wv=waiveTotal(),end=effEnd();
-  $('secCtInfo').textContent=`สิ้นสุด ${end?thDate(end):'-'}${am?` · ขยาย ${am} ครั้ง`:''}${wv?` · งดค่าปรับ ${wv} วัน`:''}`;
+  const pr=pfOn()?pfScore(pfToday()):null;
+  $('secCtInfo').textContent=`สิ้นสุด ${end?thDate(end):'-'}${am?` · ขยาย ${am} ครั้ง`:''}${wv?` · งดค่าปรับ ${wv} วัน`:''}${pr?` · คะแนนความเสียหาย ${pr.sc}`:''}`;
   const D=dyOf();$('secDyInfo').textContent=D.list.length?`${D.list.length} วัน · ล่าสุด ${thDate(D.list[D.list.length-1].date)}`:'ยังไม่มี — แรงงาน เครื่องจักร งานที่ทำ';
   const W=wkOf();if(W.list.length){const j=W.list.length-1,c=wkCalc(j);$('secWkInfo').textContent=`สัปดาห์ที่ ${W.list[j].no} · ผลงานสะสม ${pct3(c.ac)}% · ${wkStatusTxt(c)}`}else $('secWkInfo').textContent='ยังไม่มี — ความก้าวหน้า + สำเนาเรียนกรรมการ';
   const inst=ins.list[ins.cur],C=insCalc(ins.cur);$('secPayInfo').textContent=`${ins.list.length} งวด · งวดที่ ${inst.no} จ่ายสุทธิ ${fm(C.net)} บาท`}catch(e){console.warn(e)}}
+/* ---- ประเมินผลการปฏิบัติงานผู้ประกอบการ & คะแนนความเสียหาย (เอกสารแนบท้าย ข้อ 1.16 / ข้อ 190/3) ---- */
+const PF_T={
+ p2:{g:'ช่วงปฏิบัติงานตามสัญญา',t:'(2) ถูกบอกเลิกสัญญา ตามมาตรา 103 วรรคหนึ่ง (2)',pts:60},
+ p3a:{g:'ช่วงปฏิบัติงานตามสัญญา',t:'(3)(ก) ไม่เป็นไปตามหลักวิชาช่าง/ประมาทร้ายแรง — มีผู้ถึงแก่ความตาย',pts:60},
+ p3b:{g:'ช่วงปฏิบัติงานตามสัญญา',t:'(3)(ข) … — มีผู้ได้รับอันตรายสาหัส',pts:30},
+ p3c:{g:'ช่วงปฏิบัติงานตามสัญญา',t:'(3)(ค) ทรัพย์สินเสียหาย สั่งหยุดงาน กระทบการจราจร/ประโยชน์สาธารณะ',pts:10},
+ p3d:{g:'ช่วงปฏิบัติงานตามสัญญา',t:'(3)(ง) ทรัพย์สินเสียหาย สั่งหยุดงาน กระทบแผนงาน',pts:5},
+ p3e:{g:'ช่วงปฏิบัติงานตามสัญญา',t:'(3)(จ) ไม่แก้ไขตามหนังสือแจ้ง (หลักวิชาช่าง/ความปลอดภัย)',esc:[[0,10],[30,10]],every:20,needDue:1},
+ w4a:{g:'ช่วงรับประกันความชำรุดบกพร่อง',t:'(4)(ก)(ข) กระทบโครงสร้างหลัก — ไม่เข้าแก้ไขตามกำหนดในสัญญา',esc:[[0,1],[30,5]],every:5,needDue:1},
+ w4c:{g:'ช่วงรับประกันความชำรุดบกพร่อง',t:'(4)(ค) กระทบโครงสร้างหลัก — เข้าแก้แล้วไม่เสร็จตามที่กำหนด',pts:5},
+ w4d:{g:'ช่วงรับประกันความชำรุดบกพร่อง',t:'(4)(ง) กระทบโครงสร้างหลัก — รัฐต้องแก้เอง/จ้างผู้อื่น',pts:60},
+ w5a:{g:'ช่วงรับประกันความชำรุดบกพร่อง',t:'(5)(ก) ไม่กระทบโครงสร้างหลัก — เข้าแก้แล้วไม่เสร็จตามที่กำหนด',pts:5},
+ w5b:{g:'ช่วงรับประกันความชำรุดบกพร่อง',t:'(5)(ข) ไม่กระทบโครงสร้างหลัก — รัฐต้องแก้เอง/จ้างผู้อื่น',pts:60}};
+const PF_SUS=[[240,720],[180,540],[120,360],[60,180],[30,90],[10,30],[1,0]];
+const pfSus=sc=>{for(const [m,d] of PF_SUS)if(sc>=m)return d;return 0};
+function pfOf(){if(!S.perf)S.perf={thr:'5000000',force:false,asof:'',events:[]};return S.perf}
+const pfToday=()=>pfOf().asof||new Date(Date.now()+7*3600e3).toISOString().slice(0,10);
+function pfOn(){const P=pfOf();return !!P.force||(parse(S.h.value)||0)>=(parse(P.thr)||0)}
+/* คะแนนของเหตุหนึ่งรายการ: ที่เกิดแล้ว ณ asOf และที่จะเกิดถัดไป */
+function pfEval(e,asOf){const T=PF_T[e.type];if(!T)return {now:0,steps:[],next:null};
+  if(T.pts)return {now:e.date&&e.date<=asOf?T.pts:0,steps:[{d:e.date,p:T.pts}],next:e.date&&e.date>asOf?{d:e.date,p:T.pts}:null};
+  if(!e.due)return {now:0,steps:[],next:null,needDue:true};
+  const stop=e.fixed||null,steps=[];T.esc.forEach(([off,p])=>steps.push({d:addDays(e.due,off+1),p}));
+  let d=addDays(e.due,1+T.esc[T.esc.length-1][0]);for(let i=0;i<60;i++){d=addDays(d,30);steps.push({d,p:T.every,rep:1})}
+  const live=steps.filter(s=>!stop||s.d<=stop);const now=live.filter(s=>s.d<=asOf).reduce((t,s)=>t+s.p,0);
+  const next=stop?null:live.find(s=>s.d>asOf)||null;return {now,steps:live,next}}
+function pfAuto(asOf){/* (1) ล่วงเลยกำหนด และค่าปรับเกิน 10% ของวงเงิน */
+  const val=parse(S.h.value)||0,per=rr2(val*(parse(S.h.penrate)||0)/100),end=effEnd();if(!end||!per||!val)return null;
+  const ins=insOf(),fin=ins.list.find(x=>x.final);const done=fin&&fin.doneDate||null;
+  const dLim=Math.floor(val*0.10/per)+1;const hitDate=addDays(end,waiveTotal()+dLim);
+  const lateNow=Math.max(0,dayDiff(end,done||asOf)-waiveTotal());const penNow=rr2(lateNow*per);
+  return {per,end,dLim,hitDate,done,lateNow,penNow,over:penNow>val*0.10,pts:penNow>val*0.10?30:0}}
+function pfScore(asOf){const P=pfOf();const ev=P.events.map(e=>({e,r:pfEval(e,asOf)}));const a=pfAuto(asOf);
+  const sc=ev.reduce((t,x)=>t+x.r.now,0)+(a&&a.pts||0);return {ev,a,sc,sus:pfSus(sc)}}
+function pfTimeline(asOf){const h=S.h,st=h.start,end=effEnd(),L=[];if(!st||!end)return L;
+  const tot=daysBetween(st,end),at=f=>addDays(st,Math.round(tot*f)-1);
+  const W=wkOf(),cumAt=d=>{let best=null;W.list.forEach((w,j)=>{if(w.to&&w.to<=d){const c=wkCalc(j);best={ac:c.ac,pc:c.pc,no:w.no,to:w.to}}});return best};
+  const chk=(d,lab,lim)=>{const c=cumAt(d);const past=d<=asOf;let s,msg;
+    if(!past){s='wait';msg=`รอ (อีก ${dayDiff(asOf,d)} วัน)`}else if(!c){s='warn';msg='ไม่มีรายงานประจำสัปดาห์ถึงวันนี้ — ตรวจผลงานสะสมด้วย'}
+    else if(c.ac<lim){s='bad';msg=`ผลงานสะสม ${pct3(c.ac)}% ต่ำกว่า ${lim}% (สัปดาห์ที่ ${c.no}) → พิจารณาเร่งรัด/บอกเลิกสัญญา ม.103 วรรคหนึ่ง (2) หากเป็นความผิดผู้รับจ้าง`}
+    else {s='ok';msg=`ผลงานสะสม ${pct3(c.ac)}% ผ่านเกณฑ์ ${lim}%`}
+    L.push({d,lab,s,msg})};
+  chk(at(0.5),'ครึ่งหนึ่งของเวลาสัญญา — ผลงานสะสมต้องไม่ต่ำกว่า 25%',25);
+  chk(at(0.75),'3 ใน 4 ของเวลาสัญญา — ผลงานสะสมต้องไม่ต่ำกว่า 65%',65);
+  chk(end,'ครบกำหนดสัญญา — ผลงานสะสมต้องไม่ต่ำกว่า 85% และตรวจว่าส่งมอบครบหรือไม่',85);
+  const a=pfAuto(asOf);if(a){const s=a.over?'bad':a.done&&!a.over?'ok':a.hitDate<=addDays(asOf,15)?'warn':asOf>end?'warn':'wait';
+    L.push({d:a.hitDate,lab:`ค่าปรับจะเกิน 10% ของวงเงิน (เกินกำหนด ${a.dLim} วัน หลังหักงดค่าปรับ ${waiveTotal()} วัน)`,s,
+      msg:a.over?`ค่าปรับ ${fm(a.penNow)} บาท เกิน 10% แล้ว → คะแนนความเสียหาย 30 คะแนน (ข้อ 1(1)) · พิจารณาบอกเลิกสัญญา (ข้อ 183)`:a.done?`ส่งมอบแล้ว ${thDate(a.done)} ค่าปรับ ${fm(a.penNow)} บาท ไม่เกิน 10%`:asOf>a.end?`เลยกำหนดสัญญา ${dayDiff(a.end,asOf)} วัน (หักงดค่าปรับ ${waiveTotal()} วัน คิดค่าปรับ ${a.lateNow} วัน = ${fm(a.penNow)} บาท) — มีหนังสือแจ้งสงวนสิทธิ์ค่าปรับ และเร่งรัดผู้รับจ้าง`:'ยังไม่ถึงกำหนด'})}
+  const fin=insOf().list.find(x=>x.final);
+  if(fin&&fin.inspDate){const wy=parse(insOf().wYears)||0;const wEnd=fin.wEnd||addYears(fin.inspDate,wy);
+    L.push({d:fin.inspDate,lab:'ตรวจรับงานงวดสุดท้าย — ประเมินผลการปฏิบัติงานของผู้ประกอบการ',s:fin.inspDate<=asOf?'ok':'wait',msg:fin.inspDate<=asOf?'สรุปคะแนนความเสียหายช่วงปฏิบัติงานตามสัญญา (พิมพ์จากปุ่มเอกสารด้านล่าง)':'รอ'});
+    if(wEnd){const wa=addDays(wEnd,-60);L.push({d:wa,lab:'ก่อนสิ้นสุดระยะรับประกัน 60 วัน — ออกตรวจความชำรุดบกพร่อง',s:wa<=asOf?(wEnd<asOf?'ok':'warn'):'wait',msg:wa<=asOf?'แจ้งผู้รับจ้างแก้ไขหากพบความชำรุด (บันทึกเหตุ (4)/(5) ด้านล่าง)':'รอ'});
+      L.push({d:wEnd,lab:'สิ้นสุดระยะเวลารับประกัน — สรุปคะแนนช่วงรับประกัน และคืนหลักประกันสัญญา',s:wEnd<=asOf?'ok':'wait',msg:wEnd<=asOf?'ครบกำหนดแล้ว':'รอ'})}}
+  return L.sort((x,y)=>x.d.localeCompare(y.d))}
+const PF_S={ok:['✓','ok'],warn:['!','w'],bad:['✗','e'],wait:['○','wait']};
+function renderPf(){const P=pfOf(),asOf=pfToday(),on=pfOn(),R=pfScore(asOf);
+  $('pf_thr').value=P.thr;$('pf_force').checked=!!P.force;$('pf_asof').value=P.asof||'';
+  $('pfHead').innerHTML=`<div class="pfst ${on?'on':''}"><b>${on?'✓ ใช้บังคับกับสัญญานี้':'ไม่อยู่ในเกณฑ์บังคับ'}</b><span>วงเงินสัญญา ${fm(parse(S.h.value)||0)} บาท ${on?(P.force&&(parse(S.h.value)||0)<(parse(P.thr)||0)?'(เลือกใช้บังคับเอง)':`≥ ${fm(parse(P.thr)||0)} บาท`):`< ${fm(parse(P.thr)||0)} บาท`}</span></div>
+   <div class="pfsc ${R.sc>=10?'bad':R.sc?'warn':''}"><span>คะแนนความเสียหายสะสม ณ ${thDate(asOf)}</span><b>${R.sc}</b><small>${R.sus?`ระงับการยื่นข้อเสนอ/ทำสัญญา ${R.sus} วัน`:R.sc?'ยังไม่ถึงเกณฑ์ระงับ (10 คะแนน)':'ไม่มีคะแนนความเสียหาย'}</small></div>`;
+  const TL=pfTimeline(asOf);
+  $('pfTimeline').innerHTML=`<thead><tr><th style="width:150px">วันที่</th><th>จุดตรวจ</th><th style="width:44%">สถานะ / สิ่งที่ต้องทำ</th></tr></thead><tbody>`+(TL.length?TL.map(x=>`<tr class="pf-${x.s}"><td>${thDate(x.d)}</td><td>${esc(x.lab)}</td><td><span class="pfb">${PF_S[x.s][0]}</span> ${esc(x.msg)}</td></tr>`).join(''):'<tr class="empty-r"><td colspan="3">ใส่วันเริ่มต้นและสิ้นสุดสัญญาในหน้าถัวจ่ายก่อน</td></tr>')+'</tbody>';
+  const opt=v=>{let g='',o='';Object.entries(PF_T).forEach(([k,t])=>{if(t.g!==g){if(g)o+='</optgroup>';g=t.g;o+=`<optgroup label="${t.g}">`}o+=`<option value="${k}"${k===v?' selected':''}>${esc(t.t)}${t.pts?` — ${t.pts} คะแนน`:''}</option>`});return o+'</optgroup>'};
+  $('pfEvents').innerHTML=`<thead><tr><th>เหตุ (ตามบัญชีคะแนนความเสียหาย)</th><th style="width:140px">วันที่เกิดเหตุ / ลงหนังสือแจ้ง</th><th style="width:150px">หนังสือแจ้งเลขที่</th><th style="width:140px">กำหนดให้แก้ไขภายใน</th><th style="width:140px">แก้ไขแล้วเมื่อ</th><th style="width:170px">คะแนน ณ วันตรวจ</th><th style="width:40px"></th></tr></thead><tbody>`+
+   (R.ev.length?R.ev.map(({e,r},j)=>{const T=PF_T[e.type]||{};return `<tr data-pe="${j}" class="${r.now?'sev-e':''}"><td><select data-f="type">${opt(e.type)}</select><input data-f="note" value="${esc(e.note||'')}" placeholder="รายละเอียด เช่น ไม่ติดตั้งป้ายเตือน กม.2+700" style="margin-top:4px"></td>
+     <td><input type="date" data-f="date" value="${esc(e.date||'')}"></td><td><input data-f="ref" value="${esc(e.ref||'')}" placeholder="ขท.กบ./..."></td>
+     <td>${T.needDue?`<input type="date" data-f="due" value="${esc(e.due||'')}">`:'<span class="note">-</span>'}</td><td>${T.needDue?`<input type="date" data-f="fixed" value="${esc(e.fixed||'')}">`:'<span class="note">-</span>'}</td>
+     <td><b>${r.now}</b> คะแนน${r.needDue?'<br><span class="note">ใส่วันกำหนดแก้ไข</span>':''}${r.next?`<br><span class="note">ถ้ายังไม่แก้: +${r.next.p} วันที่ ${thDate(r.next.d)}</span>`:''}</td><td><button type="button" class="x" data-pedel="${j}" aria-label="ลบ">✕</button></td></tr>`}).join('')
+   :'<tr class="empty-r"><td colspan="7">ยังไม่มีเหตุ — ดีมาก 🎉 (คะแนนข้อ 1(1) ค่าปรับเกิน 10% ระบบคิดให้เองจากข้อมูลค่าปรับ)</td></tr>')+
+   (R.a&&R.a.pts?`<tr class="sev-e"><td colspan="5">(1) ล่วงเลยกำหนดสัญญา และค่าปรับเกินร้อยละ 10 ของวงเงินค่าจ้าง — ค่าปรับ ${fm(R.a.penNow)} บาท (คิดอัตโนมัติ)</td><td><b>30</b> คะแนน</td><td></td></tr>`:'')+'</tbody>'}
+$('pf_thr').addEventListener('input',e=>{pfOf().thr=e.target.value;renderPf();renderSecInfo();save()});
+$('pf_asof').addEventListener('input',e=>{pfOf().asof=e.target.value;renderPf();save();if(insPage==='perf')renderIns()});
+$('pf_force').addEventListener('change',e=>{pfOf().force=e.target.checked;renderPf();renderSecInfo();save()});
+$('pfEvents').addEventListener('change',e=>{const tr=e.target.closest('tr[data-pe]'),f=e.target.dataset.f;if(!tr||!f)return;pfOf().events[+tr.dataset.pe][f]=e.target.value;renderPf();renderSecInfo();save();if(insPage==='perf')renderIns()});
+$('pfEvents').addEventListener('click',e=>{const b=e.target.closest('[data-pedel]');if(!b)return;pfOf().events.splice(+b.dataset.pedel,1);renderPf();renderSecInfo();save();if(insPage==='perf')renderIns()});
+$('bPfAdd').addEventListener('click',()=>{pfOf().events.push({type:'p3e',date:pfToday(),ref:'',due:'',fixed:'',note:''});renderPf();save()});
+function docPerf(){const h=S.h,P=pfOf(),asOf=pfToday(),R=pfScore(asOf),{chair,mem}=committee();
+  const rows=[];R.ev.forEach(({e,r})=>{const T=PF_T[e.type]||{};rows.push(`<tr><td class="c">${rows.length+1}</td><td>${esc(T.t||'')}${e.note?'<br>'+esc(e.note):''}</td><td class="c">${e.date?thDate(e.date):'-'}${e.ref?'<br>'+esc(e.ref):''}</td><td class="c">${T.needDue?(e.due?thDate(e.due):'-')+(e.fixed?'<br>แก้ไขแล้ว '+thDate(e.fixed):''):'-'}</td><td class="r">${r.now}</td></tr>`)});
+  if(R.a&&R.a.pts)rows.push(`<tr><td class="c">${rows.length+1}</td><td>(1) ปฏิบัติงานล่วงเลยระยะเวลาครบกำหนดตามสัญญา และมีค่าปรับเกินร้อยละ 10 ของวงเงินค่าจ้าง (ค่าปรับ ${fm(R.a.penNow)} บาท)</td><td class="c">${thDate(R.a.hitDate)}</td><td class="c">-</td><td class="r">30</td></tr>`);
+  return [`<div class="ipaper"><p class="ctr b" style="font-size:17px;margin:0">แบบสรุปผลการประเมินการปฏิบัติงานของผู้ประกอบการ</p>
+   <p class="ctr">และคะแนนความเสียหาย ตามเอกสารแนบท้ายเอกสารประกวดราคาอิเล็กทรอนิกส์ ข้อ 1.16</p><div class="hrl"></div>
+   <div class="wkh"><b>สัญญาเลขที่</b><span>${esc(h.no)} ลงวันที่ ${esc(h.date)}</span><b>วงเงิน</b><span>${fm(parse(h.value)||0)} บาท</span>
+    <b>ชื่องาน</b><span style="grid-column:span 3">${esc(h.project)} ${esc(h.loc)}</span>
+    <b>ผู้รับจ้าง</b><span style="grid-column:span 3">${esc(h.contractor)}</span>
+    <b>ระยะเวลา</b><span>${thDate(h.start)} – ${thDate(effEnd())}</span><b>ณ วันที่</b><span>${thDate(asOf)}</span></div>
+   <table class="ib wkt"><colgroup><col style="width:7%"><col style="width:52%"><col style="width:16%"><col style="width:15%"><col style="width:10%"></colgroup>
+    <thead><tr><th>ที่</th><th>ความเสียหาย</th><th>วันที่ / หนังสือ</th><th>กำหนดแก้ไข</th><th>คะแนน</th></tr></thead>
+    <tbody>${rows.length?rows.join(''):'<tr><td></td><td>- ไม่มีเหตุที่ทำให้เกิดคะแนนความเสียหาย -</td><td></td><td></td><td class="r">0</td></tr>'}
+    <tr><td></td><td class="b">รวมคะแนนความเสียหายสะสม</td><td></td><td></td><td class="r b">${R.sc}</td></tr></tbody></table>
+   <p class="ind" style="margin-top:10px">ผลการประเมิน: คะแนนความเสียหายสะสม ${R.sc} คะแนน ${R.sus?`อยู่ในเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญาหรือข้อตกลงเป็นหนังสือ เป็นระยะเวลา ${R.sus} วัน`:'ไม่ถึงเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญา'}</p>
+   <div style="height:10px"></div>${sgRows([chair,...mem].filter(Boolean).map((x,j)=>({role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos})))}</div>`]}
 function renderInsDocs(C){
   if(insEditMode&&$('insSheets')){updEditBar();return}
   const want=insPage,set=[];
@@ -2460,6 +2576,7 @@ function renderInsDocs(C){
   if(want==='all'||want==='memo')set.push({g:'memo',pages:[docMemo(C)]});
   if(want==='wk')set.push({g:'wk',pages:docWk()});
   if(want==='dly')set.push({g:'dly',pages:docDly()});
+  if(want==='perf')set.push({g:'perf',pages:docPerf()});
   const gen=set.flatMap(s=>s.pages);const sv=savedEdit();const all=sv?sv.pages:gen;
   insSheets=all.map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));
   $('insDesk').innerHTML=`<div class="sheets" id="insSheets">${insSheets.map((s,i)=>`<div class="sheet" style="width:${(210*MM).toFixed(1)}px;height:${(297*MM).toFixed(1)}px;padding:${IPAD[0]}mm ${IPAD[1]}mm ${IPAD[2]}mm ${IPAD[3]}mm">${s.html}<div class="pno">หน้า ${i+1}/${insSheets.length}</div></div>`).join('')}</div>`;
@@ -2479,6 +2596,7 @@ $('insPick').addEventListener('click',e=>{const b=e.target.closest('[data-ip]');
 $('bInsPrint').addEventListener('click',()=>{if(insEditMode)insSheets=domPages().map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));else renderIns();const inst=insOf().list[insOf().cur];
   const nm=docFileBase(inst);printSheets(insSheets,nm.replace(/_/,' '),nm+'.html')});
 function docFileBase(inst){const no=String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'');const w=wkCur();
+  if(insPage==='perf')return `สรุปคะแนนความเสียหาย_${no}`;
   const d=dyCur();if(insPage==='dly'&&d)return `รายงานประจำวัน${d.date||''}_${no}`;
   return insPage==='wk'&&w?`รายงานประจำสัปดาห์ที่${w.no}_${no}`:`ตรวจรับงานงวดที่${inst.no}_${no}`}
 window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('insSheets');if(sh){sh.style.zoom=1;sh.style.zoom=Math.min(1,($('insDesk').clientWidth-40)/sh.offsetWidth).toFixed(3)}}});
@@ -2486,7 +2604,7 @@ window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('in
 /* ---- แก้ไขเอกสารก่อนพิมพ์ ---- */
 let insEditMode=false;
 function insEditKey(){return insPage}
-function editTarget(){if(insPage==='wk')return wkCur();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
+function editTarget(){if(insPage==='wk')return wkCur();if(insPage==='perf')return pfOf();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
 function savedEdit(){const t=editTarget();return t&&t.docEdits&&t.docEdits[insEditKey()]||null}
 function domPages(){return [...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');c.removeAttribute('spellcheck');return c.outerHTML})}
 /* รหัสยืนยัน */
