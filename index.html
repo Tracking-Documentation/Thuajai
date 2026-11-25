@@ -741,7 +741,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <div class="grid">
         <label class="f">หนังสือส่งแผนของผู้รับจ้าง ลงวันที่<input id="pl_date" type="date"></label>
         <label class="f">ผู้ควบคุมงานเสนอ / ประธานกรรมการเห็นชอบ เมื่อ<input id="pl_ok" type="date"></label>
-        <label class="f">วิศวกรผู้ควบคุมงานฝ่ายผู้รับจ้าง (ภย.)<input id="pl_eng" placeholder="นายวริศ วรรคจันทร์ ภย 79346"></label>
+        <label class="f">วิศวกรผู้ควบคุมงานฝ่ายผู้รับจ้าง (ภย.)<input id="pl_eng" placeholder="ชื่อ-สกุล ภย เลขทะเบียน"></label>
       </div>
       <div class="tbl-wrap"><table class="ptb pltb" id="plTbl"></table></div>
       <div class="note" id="plWarn"></div>
@@ -917,7 +917,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 (function(){
 const KEY='thuajai-v1';
 const SAMPLE={
-  h:{no:'กบ1. 29/2569',date:'20 กุมภาพันธ์ 2569',round:'1',contractor:'บริษัท ซีเอสจักรกล จำกัด',
+  h:{no:'กบ1. 29/2569',date:'20 กุมภาพันธ์ 2569',round:'1',contractor:'บริษัท xxx จำกัด',
      project:'งานก่อสร้างสพานลอยคนเดินข้ามหรือทางลอด',loc:'ทางหลวงหมายเลข 4 ตอน ตลาดเก่า - คลองท่อม ที่ กม.975+500 ปริมาณงาน 1 แห่ง',
      value:'8606700',start:'2026-02-21',end:'2026-08-19',days:'180',penrate:'0.25',pendoc:'21516.75',
      remark:'ผู้รับจ้างยินดีไม่ขอรับเงินค่าชดเชยซึ้งเป็นค่า Overhead and Mobilization ที่เกิดขึ้นในทุกรายการ'},
@@ -950,13 +950,13 @@ const SAMPLE={
        rem:'273.86',remw:'สองร้อยเจ็ดสิบสามบาทแปดสิบหกสตางค์',
        incn:'8',decn:'5',contractw:'แปดล้านหกแสนหกพันเจ็ดร้อยบาทถ้วน'},
   sign:[
-    {role:'ผู้รับจ้าง/ตัวแทนผู้รับจ้าง',name:'นายวริศ วรรคจันทร์',pos:'วิศวกรควบคุมงานก่อสร้างผู้รับจ้าง'},
-    {role:'ผู้ควบคุมงาน',name:'นายนิตินัย สังข์แก้ว',pos:'วิศวกรโยธาปฏิบัติการ'},
-    {role:'ประธานกรรมการฯ',name:'นายทรงฤทธิ์ ชยานันท์',pos:'ผอ.ขท.กระบี่'},
-    {role:'กรรมการฯ',name:'นายคุณวุฒิ สุนทรนนท์',pos:'รอ.ขท กระบี่ (ว.)'},
-    {role:'ผู้ช่วยผู้ควบคุมงาน',name:'นายสุทธิพงษ์ เพ็งจันทร์',pos:'นายช่างโยธาชำนาญงาน'},
-    {role:'กรรมการฯ',name:'นายระพีพล อภิรัตนวงศ์',pos:'วิศวกรโยธาชำนาญการ'},
-    {role:'กรรมการฯ',name:'นายพิเศษ เครือสิงห์',pos:'นายช่างโยธาปฏิบัติงาน'}]
+    {role:'ผู้รับจ้าง/ตัวแทนผู้รับจ้าง',name:'xxx',pos:'วิศวกรควบคุมงานก่อสร้างผู้รับจ้าง'},
+    {role:'ผู้ควบคุมงาน',name:'xxx',pos:'วิศวกรโยธาปฏิบัติการ'},
+    {role:'ประธานกรรมการฯ',name:'xxx',pos:'ผอ.ขท.กระบี่'},
+    {role:'กรรมการฯ',name:'xxx',pos:'รอ.ขท กระบี่ (ว.)'},
+    {role:'ผู้ช่วยผู้ควบคุมงาน',name:'xxx',pos:'นายช่างโยธาชำนาญงาน'},
+    {role:'กรรมการฯ',name:'xxx',pos:'วิศวกรโยธาชำนาญการ'},
+    {role:'กรรมการฯ',name:'xxx',pos:'นายช่างโยธาปฏิบัติงาน'}]
 };
 SAMPLE.h.reasonInc='ปริมาณงานจริงในสนามมากกว่าปริมาณงานในสัญญา';
 SAMPLE.h.reasonDec='ปริมาณงานจริงในสนามน้อยกว่าปริมาณงานในสัญญา';
@@ -1551,6 +1551,7 @@ function renderHome(){
       <td class="sm">${fmD(p.updated)}</td>
       <td><div class="acts">
         <button type="button" data-copy="${p.id}" title="ทำสำเนาเป็นถัวจ่ายครั้งถัดไป">สำเนาเป็นครั้งที่ ${(parseInt(h.round)||1)+1}</button>
+        <button type="button" data-anon="${p.id}" title="เปลี่ยนชื่อบุคคลและบริษัททั้งหมดในโครงการนี้เป็น xxx เพื่อใช้เป็นตัวอย่าง">ปิดชื่อ (xxx)</button>
         <button type="button" data-del="${p.id}" class="danger" aria-label="ลบโครงการ">${delArm===p.id?'ยืนยันลบ':'ลบ'}</button></div></td></tr>`}).join('');
   $('kpis').innerHTML=`
     <div class="kpi"><span class="k">จำนวนสัญญา</span><span class="v">${nC}</span><span class="s">รวมการถัวจ่าย ${list.length} ครั้ง</span></div>
@@ -1580,7 +1581,24 @@ $('bHome').addEventListener('click',showHome);
 $('bNew').addEventListener('click',()=>{const p=addProject(blankData());try{localStorage.setItem(KEY+'-tab','calc')}catch(e){}openProject(p.id);toast('เพิ่มโครงการใหม่แล้ว เริ่มกรอกข้อมูลสัญญาได้เลย')});
 $('bSample').addEventListener('click',()=>{addProject(clone(SAMPLE));renderHome();toast('เพิ่มโครงการตัวอย่าง (สัญญา กบ1. 29/2569) แล้ว')});
 $('hSearch').addEventListener('input',renderHome);
+/* ปิดชื่อบุคคลและบริษัทเป็น xxx (ใช้เป็นโครงการตัวอย่าง) */
+const reEsc=t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+function anonData(d){const names=new Set(),TT=/^(นางสาว|น\.ส\.|นาย|นาง|ว่าที่ร้อยตรี|ดร\.)\s*/,add=n=>{n=String(n||'').trim();if(n&&!/^x+$/i.test(n.replace(TT,'')))names.add(n)};
+  (d.sign||[]).forEach(x=>add(x.name));if(d.ins){add(d.ins.csName);(d.ins.list||[]).forEach(x=>add(x.recorder))}
+  if(d.dly)(d.dly.list||[]).forEach(x=>add(x.preparer));if(d.plan)add(String(d.plan.eng||'').replace(/\s*ภย.*$/,''));
+  const pats=[];[...names].forEach(n=>{[n,n.replace(TT,'')].forEach(v=>{if(v.length>=3)pats.push(new RegExp(v.split(/\s+/).map(reEsc).join('\\s*'),'g'))})});
+  const core=String(d.h&&d.h.contractor||'').replace(/^(บริษัท|ห้างหุ้นส่วนจำกัด|หจก\.?)\s*/,'').replace(/\s*จำกัด.*$/,'').trim();
+  if(core.length>=2&&!/^x+$/i.test(core))pats.push(new RegExp(core.replace(/\s+/g,'').split('').map(reEsc).join('\\s*'),'g'));
+  pats.sort((a,b)=>b.source.length-a.source.length);
+  const fix=v=>{let t=v;pats.forEach(re=>t=t.replace(re,'xxx'));return t.replace(/ภย\.?\s*\d+/g,'ภย xxx').replace(/(นางสาว|นาง|นาย)\s*xxx/g,'xxx')};
+  const walk=o=>{if(Array.isArray(o)){o.forEach((v,i)=>{if(typeof v==='string')o[i]=fix(v);else if(v&&typeof v==='object')walk(v)})}
+    else if(o&&typeof o==='object')Object.keys(o).forEach(k=>{const v=o[k];if(typeof v==='string')o[k]=fix(v);else if(v&&typeof v==='object')walk(v)})};
+  walk(d);return {d,n:names.size+(core&&!/^x+$/i.test(core)?1:0)}}
+let anonArm=null;
 $('ptbl').addEventListener('click',e=>{
+  const an=e.target.closest('[data-anon]');
+  if(an){e.stopPropagation();const id=an.dataset.anon;if(anonArm!==id){anonArm=id;an.textContent='กดอีกครั้งเพื่อยืนยัน';setTimeout(()=>{if(anonArm===id){anonArm=null;if(!$('homeView').hidden)renderHome()}},3000);return}
+    anonArm=null;const p=DB.projects.find(x=>x.id===id);if(!p)return;const r=anonData(p.data);p.updated=Date.now();writeDB();renderHome();toast(`เปลี่ยนชื่อบุคคลและบริษัท ${r.n} รายการ เป็น xxx แล้ว`);return}
   const c=e.target.closest('[data-copy]'),d=e.target.closest('[data-del]');
   if(c){e.stopPropagation();const src=DB.projects.find(x=>x.id===c.dataset.copy);if(!src)return;const nd=clone(src.data);
     nd.h.round=String((parseInt(nd.h.round)||1)+1);nd.doc={};delete nd.meta;const p=addProject(nd);renderHome();toast('สร้างถัวจ่ายครั้งที่ '+nd.h.round+' แล้ว แก้ปริมาณในสนามได้เลย');openProject(p.id);return}
@@ -1818,7 +1836,7 @@ function insDefaults(o){
   const ins={amends:[],waivers:[],csName:'',csTitle:'ผู้รับมอบอำนาจ',wClause:'8',wYears:'2',pClause:'17',
     defLoc:'',office:'แขวงทางหลวงกระบี่',phone:'0-7561-1281 โทรสาร 0-7561-2091',memoPrefix:'สทล.17 ขท.กระบี่.2(ผ)/',legal:DEF_LEGAL,cur:0,list:[newInst(1,false)]};
   if(sample){
-    Object.assign(ins,{amends:[{no:'1',date:'2026-05-14',days:'7',reason:''}],defLoc:'กม.975+500',csName:'นางสาวพรรษมาภรณ์ เอี่ยมละออ',
+    Object.assign(ins,{amends:[{no:'1',date:'2026-05-14',days:'7',reason:''}],defLoc:'กม.975+500',csName:'xxx',
       waivers:[{reason:'',ref:'ที่ สทล.17.1/5070',date:'2026-09-08',days:'91'}]});
     const t=()=>'- ผลการทดลอง "ใช้ได้" ตามอันดับการทดลองที่ ';
     const i1=Object.assign(newInst(1,false),{month:'กันยายน 2569',letterNo:'ซอ 0428/2569',letterDate:'2026-09-28',doneDate:'2026-09-28',inspDate:'2026-09-29',
@@ -2188,7 +2206,7 @@ function recorderOf(inst){const {chair,mem}=committee();const n=String(inst.reco
 
 /* ---- ตรวจเวลาชนกันของกรรมการ (ทุกโครงการ) ---- */
 const normName=n=>String(n||'').replace(/\s+/g,'').replace(/^(นางสาว|น\.ส\.|นาย|นาง|ว่าที่ร้อยตรี|ว่าที่ร\.ต\.|ดร\.)/,'');
-function comOf(d){const sg=d.sign||[];return sg.filter(s=>/ประธาน|กรรมการ/.test(s.role)&&String(s.name||'').trim()).map(s=>({key:normName(s.name),name:s.name}))}
+function comOf(d){const sg=d.sign||[];return sg.filter(s=>/ประธาน|กรรมการ/.test(s.role)&&String(s.name||'').trim()&&!/^x+$/i.test(normName(s.name))).map(s=>({key:normName(s.name),name:s.name}))}
 function evOfInst(inst,{inspTime,inspDate}={}){const x=Object.assign({},inst);if('meet' in x&&x.inspTime===undefined){const m=parseMeet(x.meet);x.inspTime=m.time||'10:00';x.inspPlace=m.place}
   migSched(x);if(inspTime!==undefined)x.inspTime=inspTime;if(inspDate!==undefined)x.inspDate=inspDate;
   const E=[],s=hm2m(x.inspTime);
@@ -2658,12 +2676,12 @@ $('plTbl').addEventListener('input',e=>{const tr=e.target.closest('tr[data-pl]')
   const s=(it.pl||[]).reduce((t,v)=>t+(parse(v)||0),0);const td=tr.querySelector('[data-sum]');td.textContent=s?fm(s,0):'-';td.classList.toggle('bad',Math.abs(s-100)>0.01);save()});
 $('plTbl').addEventListener('change',()=>{renderPlan();renderWkCalc&&wkCur()&&renderWkCalc();renderSecInfo();if(insPage==='wk'||insPage==='perf')renderIns()});
 ['date','ok','eng'].forEach(k=>$('pl_'+k).addEventListener('input',e=>{plOf()[k]=e.target.value;save()}));
-/* แผนตัวอย่าง สัญญา กบ1.29/2569 (ตามแผนการปฏิบัติงานที่ บ.ซีเอส จักรกล เสนอ 16 มี.ค. 2569) */
+/* แผนตัวอย่าง สัญญา กบ1.29/2569 (ตามแผนการปฏิบัติงานที่ผู้รับจ้างเสนอ 16 มี.ค. 2569) */
 const PL_SAMPLE={'กบ1.29/2569':{0:{1:100},1:{3:100},2:{0:50,1:50},3:{3:100},4:{1:20,2:20,3:20,4:20,5:20},5:{2:50,3:50},6:{2:50,3:50},7:{2:25,3:25,4:50},8:{4:100},9:{4:100},10:{5:100},11:{5:75,6:25},12:{1:40,2:60},13:{0:100}}};
 function planSeed(){const k=String(S.h.no||'').replace(/\s+/g,''),P=PL_SAMPLE[k];if(!P||S.items.some(it=>(it.pl||[]).some(v=>parse(v))))return;
   if(!/REMOVAL OF EXISTING BUS STOP/i.test((S.items[0]||{}).desc||'')||!/ป้าย/.test((S.items[13]||{}).desc||''))return;
   Object.entries(P).forEach(([i,mm])=>{const it=S.items[+i];it.pl=[];Object.entries(mm).forEach(([m,v])=>it.pl[+m]=String(v))});
-  const Pl=plOf();if(!Pl.date)Object.assign(Pl,{date:'2026-03-16',ok:'2026-03-17',eng:'นายวริศ วรรคจันทร์ ภย 79346'})}
+  const Pl=plOf();if(!Pl.date)Object.assign(Pl,{date:'2026-03-16',ok:'2026-03-17',eng:'xxx ภย xxx'})}
 /* ---- หน้า S-Curve ในรายงานประจำสัปดาห์ ---- */
 function curveSvg(j,opt){const P=plCalc(),W=wkOf(),w=W.list[j],st=S.h.start,en=effEnd();if(!st||!en)return '';
   const Wd=opt&&opt.w||680,H=opt&&opt.h||330,L=46,R=24,T=22,B=40,span=Math.max(1,dayDiff(st,en)+1);
