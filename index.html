@@ -268,11 +268,14 @@ select{font:inherit;font-size:.92rem;color:var(--fg);background:var(--bg);border
 .insbox summary{cursor:pointer;font-weight:600;font-family:var(--display)}
 .insbox[open] summary{margin-bottom:12px}
 .instbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
-table.itbl{min-width:1300px;font-size:.86rem}
+table.itbl{min-width:1500px;font-size:.86rem}
 .itbl th{background:var(--sunk);font-size:.76rem;color:var(--muted);padding:6px;position:static}
 .itbl td{vertical-align:top}
 .itbl tr.on td{background:var(--accent-soft)}
-.itbl textarea{min-height:32px;font-size:.8rem;padding:4px 6px;background:var(--bg);border:1px solid var(--line)}
+.itbl textarea{min-height:76px;width:100%;min-width:340px;font-size:.86rem;line-height:1.55;padding:6px 8px;background:var(--bg);border:1px solid var(--line);resize:vertical;overflow:hidden}
+.itbl td{padding:6px 6px}
+.itbl td input[data-iq="loc"]{min-width:150px}
+.itbl tbody tr{border-bottom:1px solid var(--line)}
 .itbl td input{border-color:var(--line);background:var(--bg)}
 .itbl .calc{display:inline-block;min-width:90px;text-align:right}
 .isum h3{font-size:1rem}
@@ -298,6 +301,27 @@ table.ptb{min-width:720px;font-size:.88rem}
 .ipaper .sgt .nmc{text-align:center;white-space:nowrap}
 .ipaper .sgt>span{white-space:nowrap}
 .ipaper .sgt .lh{padding-right:14px}
+.schedbox{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.schedbox h3{font-size:1rem}
+#mtgConf .cf{border-radius:8px;padding:10px 12px;font-size:.9rem;display:flex;flex-direction:column;gap:6px}
+#mtgConf .cf.ok{background:var(--ok-bg);color:var(--ok)}#mtgConf .cf.e{background:var(--err-bg);color:var(--err)}#mtgConf .cf.w{background:var(--warn-bg);color:var(--warn)}
+#mtgConf .cf ul{margin:0;padding-left:1.2em}
+#mtgConf .cf button{align-self:flex-start;font-weight:700}
+#mtgConf .day{font-size:.84rem;color:var(--muted);margin-top:4px}
+#mtgConf .day table{min-width:0;font-size:.84rem;margin-top:4px}
+#mtgConf .day td,#mtgConf .day th{padding:3px 8px;position:static}
+#mtgConf .day tr.me td{font-weight:700;color:var(--text)}
+.ipaper .mh{text-align:center;margin:0}
+.ipaper .mh.b{font-weight:700;font-size:18px;margin-bottom:2px}
+.ipaper .hrl{border-top:1px solid #000;width:40%;margin:8px auto 10px}
+.ipaper .att{display:grid;grid-template-columns:2.2em 15.5em 1fr 10.5em;column-gap:6px;padding-left:2.2em}
+.ipaper .ag{font-weight:700;margin-top:8px}
+.ipaper .sub{font-weight:700;padding-left:2.2em;margin-top:4px}
+.ipaper .tl{padding-left:4.4em;text-indent:-1.2em}
+.ipaper table.ib.mt{margin:0;table-layout:fixed}
+.ipaper table.ib.mt td,.ipaper table.ib.mt th{border:var(--bw,.6px) solid #000!important;padding:1px 5px}
+.ipaper table.ib.mt.cont td{border-top:0!important}
+.ipaper .mny{display:grid;grid-template-columns:1fr 9em 2.4em;padding-left:4.4em;width:80%;row-gap:1px;column-gap:8px}
 
 /* ---- ตรวจรับงาน (paper) — always black on white like the printed form ---- */
 .ipaper{font-family:"Sarabun","TH SarabunPSK",sans-serif;font-size:14.2px;line-height:1.62;color:#000;position:relative}
@@ -313,7 +337,15 @@ table.ptb{min-width:720px;font-size:.88rem}
 .ipaper img.garuda.sm{height:1.5cm;margin:0}
 .ipaper[contenteditable]{outline:2px dashed #2f7d5f;outline-offset:6px;cursor:text}
 .ieditbar{background:var(--warn-bg);color:var(--fg);border-radius:8px;padding:8px 12px;font-size:.9rem;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.ieditbar button{padding:4px 10px}
+.ieditbar button{padding:5px 12px}
+.ieditbar{justify-content:space-between}
+.ieditbar.on{background:var(--accent-soft);border:1px solid var(--accent)}
+.cmodal{position:fixed;inset:0;z-index:50;background:rgba(10,20,16,.55);display:grid;place-items:center;padding:16px}
+.cmbox{background:var(--surface);color:var(--fg);border-radius:14px;padding:22px 22px 18px;width:min(380px,100%);display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 40px rgba(0,0,0,.35);text-align:center}
+.cmbox h3{font-size:1.15rem}.cmic{font-size:1.8rem}
+.cmbox input{font-size:1.4rem;letter-spacing:.4em;text-align:center;padding:10px}
+.cmerr{min-height:1.2em;color:var(--err);font-size:.88rem}
+.cmbox .btns{justify-content:center}
 .ipaper .dl{display:inline-block;width:12.5em;border-bottom:1px dotted #000;margin:0 3px;transform:translateY(-4px)}
 .ipaper .ilist{display:flex;flex-direction:column;gap:16px;margin-top:8px}
 .ipaper .lr{display:grid;grid-template-columns:5.2em 1fr;align-items:start}
@@ -528,7 +560,6 @@ table.ptb{min-width:720px;font-size:.88rem}
       <label class="f">หนังสือขอส่งงาน ลงวันที่<input id="iv_letterDate" type="date"></label>
       <label class="f">ทำการแล้วเสร็จ ตั้งแต่วันที่<input id="iv_doneDate" type="date"><span class="hint">ใช้คำนวณค่าปรับ (ส่งงานเกินกำหนดกี่วัน)</span></label>
       <label class="f">วันที่ตรวจรับ<input id="iv_inspDate" type="date"></label>
-      <label class="f">เวลา / สถานที่นัดตรวจรับ<input id="iv_meet" placeholder="9:30 น. ณ พื้นที่ก่อสร้าง"></label>
       <label class="f">หักเงินประกันผลงาน (%)<input id="iv_ret" class="num" inputmode="decimal"></label>
       <label class="f">หักเงินเบิกล่วงหน้า (%)<input id="iv_adv" class="num" inputmode="decimal"></label>
       <label class="f">สิ้นสุดการรับประกัน (วันที่)<input id="iv_wEnd" type="date"><span class="hint" id="iv_wEndHint"></span></label>
@@ -537,6 +568,24 @@ table.ptb{min-width:720px;font-size:.88rem}
       <label class="f">บันทึกรายงานผล ลงวันที่<input id="iv_memoDate" type="date"></label>
       <label class="f wide">เงื่อนไขตามเอกสารแนบคู่สัญญา (ข้อความในบันทึกผู้ควบคุมงาน)<textarea id="iv_cond" rows="4"></textarea></label>
       <label class="f wide">หมายเหตุเรื่องค่าปรับ (ว่างไว้ = ระบบเขียนให้)<textarea id="iv_penText" rows="2"></textarea><span class="hint" id="iv_penAuto"></span></label>
+    </div>
+
+    <div class="schedbox">
+      <h3>📅 นัดตรวจรับงาน และประชุมสรุปผล งวดนี้</h3>
+      <div class="grid">
+        <label class="f">ตรวจหน้างาน เวลา<input id="iv_inspTime" type="time"><span class="hint">วันที่ = วันที่ตรวจรับ ด้านบน</span></label>
+        <label class="f">ตรวจหน้างาน ณ<input id="iv_inspPlace" placeholder="สถานที่ก่อสร้าง"></label>
+        <label class="f">ใช้เวลาตรวจหน้างาน (ชม.)<input id="iv_inspDur" class="num" inputmode="decimal"></label>
+        <label class="f">ประชุมสรุป วันที่<input id="iv_mtgDate" type="date"><span class="hint" id="iv_mtgDateHint"></span></label>
+        <label class="f">ประชุมสรุป เวลา<input id="iv_mtgTime" type="time"><span class="hint" id="iv_mtgTimeHint"></span></label>
+        <label class="f">ใช้เวลาประชุม (ชม.)<input id="iv_mtgDur" class="num" inputmode="decimal"></label>
+        <label class="f wide">ห้องประชุม<input id="iv_mtgPlace" placeholder="ห้องประชุมแขวงทางหลวงกระบี่ ชั้น 3"></label>
+        <label class="f">การประชุมครั้งที่ (ว่างไว้ = ลำดับงวด/ปี พ.ศ.)<input id="iv_mtgNo" placeholder="1/2569"></label>
+        <label class="f">ผู้จดรายงานการประชุม<input id="iv_recorder"><span class="hint" id="iv_recHint"></span></label>
+        <label class="f wide">ผลการทดสอบเพิ่มเติม (นอกจากที่เขียนในช่องหมายเหตุของแต่ละรายการ) — บรรทัดละ 1 รายการ<textarea id="iv_tests" rows="4" placeholder="เช่น - ผลทดสอบกำลังอัดคอนกรีต 28 วัน ได้ 350 ksc ผ่านเกณฑ์ ตามอันดับการทดลองที่ สทล.17.C.-xxx/2569"></textarea><span class="hint" id="iv_testsHint"></span></label>
+        <label class="f wide">วาระที่ 4 เรื่องอื่น ๆ (ว่างไว้ = - ไม่มี -)<textarea id="iv_mtgOther" rows="2"></textarea></label>
+      </div>
+      <div id="mtgConf"></div>
     </div>
 
     <div class="tbl-wrap">
@@ -556,6 +605,7 @@ table.ptb{min-width:720px;font-size:.88rem}
         <button type="button" data-ip="bill" aria-pressed="false">บัญชีค่างานต่างๆ</button>
         <button type="button" data-ip="items" aria-pressed="false">ค่างานแยกรายการ</button>
         <button type="button" data-ip="ctl" aria-pressed="false">บันทึกผู้ควบคุมงาน</button>
+        <button type="button" data-ip="mtg" aria-pressed="false">รายงานการประชุม</button>
         <button type="button" data-ip="memo" aria-pressed="false">บันทึกรายงานผล</button>
       </div>
       <div class="btns"><button type="button" id="bInsEdit">✏️ แก้ไขข้อความในเอกสาร</button><button type="button" id="bInsWord">⬇ ดาวน์โหลดเป็น Word (.docx)</button><button type="button" id="bInsPrint" class="primary">🖨 พิมพ์ / บันทึกเป็น PDF</button></div>
@@ -657,6 +707,9 @@ table.ptb{min-width:720px;font-size:.88rem}
 </div>
   <footer class="credit">Concept &amp; Development by Miss Narama Woraklan · Krabi Highway District</footer>
 </div>
+<div class="cmodal" id="codeModal" hidden><form class="cmbox" id="codeForm" autocomplete="off"><div class="cmic" aria-hidden="true">🔑</div><h3 id="cmTitle">ใส่รหัสยืนยัน</h3><p id="cmMsg" class="note"></p>
+<input id="cmCode" type="password" inputmode="numeric" maxlength="32" aria-label="รหัสยืนยัน"><div class="cmerr" id="cmErr" role="alert"></div>
+<div class="btns"><button type="button" id="cmCancel">ยกเลิก</button><button type="submit" class="primary">ยืนยัน</button></div></form></div>
 <div class="toast" id="toast" hidden></div>
 
 <script>
@@ -1555,9 +1608,10 @@ async function exportXlsx(){
 $('bXlsx').addEventListener('click',exportXlsx);
 /* ==== ตรวจรับงาน / เบิกจ่ายรายงวด ==== */
 const GARUDA='data:image/png;base64,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';
+const MTG_ROOM='ห้องประชุมแขวงทางหลวงกระบี่ ชั้น 3';
 const DEF_NOTE='- ปริมาณงานได้จากการตรวจสอบตามที่ได้ปฏิบัติงานในสนาม โดยผู้ควบคุมงาน';
 const DEF_LEGAL='เพื่อให้เป็นไปตามพระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 หนังสือกรมบัญชีกลาง ด่วนที่สุด ที่ กค (กวจ) 0405.4/ว681 ลงวันที่ 4 ตุลาคม 2568 และคำสั่งกรมฯ ที่บ.1/182/2568 ลงวันที่ 3 พฤศจิกายน 2568 เรื่อง การกำหนดระยะเวลาดำเนินการและการมอบอำนาจในการอนุมัติให้ขยายเวลาดำเนินการ การพิจารณาสั่งการและการรับทราบรายงานผลการดำเนินการของคณะกรรมการและเจ้าหน้าที่ในการจัดซื้อจัดจ้างและบริหารพัสดุภาครัฐ';
-function newInst(no,final){return{no:String(no),month:'',final:!!final,bal:!!final,refund:!!final,letterNo:'',letterDate:'',doneDate:'',inspDate:'',meet:'',ret:'10',adv:'0',wEnd:'',ctlDate:'',memoNo:'',memoDate:'',cond:'',penText:'',q:{}}}
+function newInst(no,final){return{no:String(no),month:'',final:!!final,bal:!!final,refund:!!final,letterNo:'',letterDate:'',doneDate:'',inspDate:'',inspTime:'10:00',inspPlace:'สถานที่ก่อสร้าง',inspDur:'2',mtgDate:'',mtgTime:'',mtgDur:'1',mtgPlace:MTG_ROOM,mtgNo:'',recorder:'',tests:'',mtgOther:'',ret:'10',adv:'0',wEnd:'',ctlDate:'',memoNo:'',memoDate:'',cond:'',penText:'',q:{}}}
 function insDefaults(o){
   const sample=o.h&&String(o.h.no).replace(/\s/g,'')==='กบ1.29/2569';
   const ins={amends:[],waivers:[],csName:'',csTitle:'ผู้รับมอบอำนาจ',wClause:'8',wYears:'2',pClause:'17',
@@ -1567,15 +1621,14 @@ function insDefaults(o){
       waivers:[{reason:'',ref:'ที่ สทล.17.1/5070',date:'2026-09-08',days:'91'}]});
     const t=()=>'- ผลการทดลอง "ใช้ได้" ตามอันดับการทดลองที่ ';
     const i1=Object.assign(newInst(1,false),{month:'กันยายน 2569',letterNo:'ซอ 0428/2569',letterDate:'2026-09-28',doneDate:'2026-09-28',inspDate:'2026-09-29',
-      meet:'9:30 น. ณ พื้นที่ก่อสร้าง',ctlDate:'2026-09-28',memoNo:'933',memoDate:'2026-09-29',
+      inspTime:'09:30',inspPlace:'พื้นที่ก่อสร้าง',ctlDate:'2026-09-28',memoNo:'933',memoDate:'2026-09-29',
       cond:'เรื่อง รายละเอียดการควบคุมงานการจ่ายเงินและสูตรการปรับราคา ตาประกาศ ข้อ 1.5\n7.4 สะพานคนเดินข้ามถนน\nการจ่ายค่างานก่อสร้างสะพานคนเดินข้ามถนนเป็น Partial\n7.4.1 ก่อสร้างตอม่อทุกต้น พร้อมบันไดขึ้น - ลง ให้จ่ายได้ 45 %'});
     i1.q={0:{qty:'1',loc:'กม.975+500 (RT.)',note:DEF_NOTE},
       4:{qty:'0.378585',loc:'กม.975+500',note:DEF_NOTE+'\n'+t()+'สทล.17.C.-445/2569, สทล.17.C.-446/2569, สทล.17.C.-573/2569, สทล.17.C.-595/2569, สทล.17.C.-630/2569, สทล.17.C.-605/2569, ST-4215/2569, ST-4313/2569'},
       5:{qty:'137',loc:'กม.975+500',note:DEF_NOTE+'\n'+t()+'สทล.17.C.-400/2569, สทล.17.P.-41/2569, ST-4215/2569'},
       6:{qty:'11',loc:'กม.975+500',note:DEF_NOTE+'\n'+t()+'สทล.17.C.-591/2569, สทล.17.C.-604/2569, สทล.17.C.-400/2569, ST-4215/2569, ST-4313/2569'},
       12:{qty:'83.85',loc:'กม.975+500',note:DEF_NOTE+'\n'+t()+'สทล.17.C.-364/2569, สทล.17.C.-444/2569, สทล.17.C.-601/2569, ST-3595/2569, ST-4215/2569\n-ผลการทดลอง Dynamic Load Test ตามอันดับการทดลองที่ ซอ 0417/2569\n-ผลการทดลอง Seismic Test ตามอันดับการทดลองที่ ซอ 0415/2569, ซอ 0416/2569'}};
-    const i2=Object.assign(newInst(2,true),{month:'',ret:'0',cond:'เรื่อง รายละเอียดการควบคุมงานการจ่ายเงินและสูตรการปรับราคา ตาประกาศ ข้อ 1.5\n7.4 สะพานคนเดินข้ามถนน\n7.4.2 ก่อสร้างคานพร้อมพื้นสะพาน และราวสะพาน ให้จ่ายได้ 40 %\n7.4.3 ก่อสร้างราวบันได รายการรายละเอียดต่าง ๆ พร้อมการตกแต่งงานทั้งหมดแล้วเสร็จเรียบร้อยครบถ้วนตามแบบและสัญญาทุกประการ ให้จ่ายได้ 15 %\nและปริมาณงานทุกรายการเป็นไปตามบัญชีสรุปปริมาณงานและค่างานก่อสร้างการถัวจ่ายครั้งที่ 1',
-      meet:'น. ณ พื้นที่ก่อสร้าง'});
+    const i2=Object.assign(newInst(2,true),{month:'',ret:'0',cond:'เรื่อง รายละเอียดการควบคุมงานการจ่ายเงินและสูตรการปรับราคา ตาประกาศ ข้อ 1.5\n7.4 สะพานคนเดินข้ามถนน\n7.4.2 ก่อสร้างคานพร้อมพื้นสะพาน และราวสะพาน ให้จ่ายได้ 40 %\n7.4.3 ก่อสร้างราวบันได รายการรายละเอียดต่าง ๆ พร้อมการตกแต่งงานทั้งหมดแล้วเสร็จเรียบร้อยครบถ้วนตามแบบและสัญญาทุกประการ ให้จ่ายได้ 15 %\nและปริมาณงานทุกรายการเป็นไปตามบัญชีสรุปปริมาณงานและค่างานก่อสร้างการถัวจ่ายครั้งที่ 1'});
     ins.list=[i1,i2];ins.cur=1;
   }
   return ins}
@@ -1588,12 +1641,17 @@ function migIns(ins){
   ensureIds(S);
   if(!ins.qById){ins.list.forEach(inst=>{const nq={};Object.keys(inst.q||{}).forEach(k=>{const it=/^\d+$/.test(k)?S.items[+k]:null;nq[it?it.id:k]=inst.q[k]});inst.q=nq});ins.qById=true}}
 const iid=i=>S.items[i].id;
+function parseMeet(m){m=String(m||'');const t=m.match(/(\d{1,2})\s*[:.]\s*(\d{2})/);const p=m.includes('ณ')?m.slice(m.indexOf('ณ')+1).trim():'';
+  return {time:t?String(+t[1]).padStart(2,'0')+':'+t[2]:'',place:p}}
+function migSched(x){const D={inspTime:'10:00',inspPlace:'สถานที่ก่อสร้าง',inspDur:'2',mtgDate:'',mtgTime:'',mtgDur:'1',mtgPlace:MTG_ROOM,mtgNo:'',recorder:'',tests:'',mtgOther:''};
+  if('meet' in x){const m=parseMeet(x.meet);if(m.time)x.inspTime=m.time;if(m.place)x.inspPlace=m.place;delete x.meet}
+  Object.keys(D).forEach(k=>{if(x[k]===undefined)x[k]=D[k]})}
 function effEnd(){const h=S.h;if(!h.end)return '';const add=(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0);return add?addDays(h.end,add):h.end}
 function endText(){const h=S.h,A=insOf().amends||[];if(!A.length)return `สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
   return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} และ`+A.map(a=>`บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง (ฉบับที่ ${esc(a.no)}) ลงวันที่ ${a.date?thDate(a.date):'....................'}`).join(' และ')+` สิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
 function waiveTotal(){return (insOf().waivers||[]).reduce((t,w)=>t+(parse(w.days)||0),0)}
 function sgRows(L){return `<div class="sgt">`+L.map((x,j)=>`${j?'<div class="gap"></div>':''}<span class="lh">${x.lh||''}</span><span>(ลงชื่อ)</span><span class="dlc"></span><span>${x.role}</span><span></span><span></span><span class="nmc">(${esc(x.name)})</span><span>${esc(x.pos||'')}</span>`).join('')+`</div>`}
-function insOf(){if(!S.ins)S.ins=insDefaults(S);migIns(S.ins);S.ins.list.forEach(x=>{if(x.refund===undefined){x.refund=!!x.final;if(x.final&&String(x.ret)==='10')x.ret='0'}});return S.ins}
+function insOf(){if(!S.ins)S.ins=insDefaults(S);migIns(S.ins);S.ins.list.forEach(x=>{migSched(x);if(x.refund===undefined){x.refund=!!x.final;if(x.final&&String(x.ret)==='10')x.ret='0'}});return S.ins}
 const rr2=x=>Math.round(Number((+x).toFixed(6))*100)/100;
 const r6=x=>Math.round(Number((+x).toFixed(9))*1e6)/1e6;
 const thd=s=>String(s).replace(/[0-9]/g,d=>'๐๑๒๓๔๕๖๗๘๙'[d]);
@@ -1664,7 +1722,7 @@ function penText(k){
 
 /* ---- form ---- */
 const IPF=['defLoc','csName','csTitle','wClause','wYears','pClause','office','phone','memoPrefix','legal'];
-const IVF=['no','month','letterNo','letterDate','doneDate','inspDate','meet','ret','adv','wEnd','ctlDate','memoNo','memoDate','cond','penText'];
+const IVF=['no','month','letterNo','letterDate','doneDate','inspDate','inspTime','inspPlace','inspDur','mtgDate','mtgTime','mtgDur','mtgPlace','mtgNo','recorder','tests','mtgOther','ret','adv','wEnd','ctlDate','memoNo','memoDate','cond','penText'];
 function fillIns(){
   const ins=insOf();ins.cur=Math.min(ins.cur||0,ins.list.length-1);const inst=ins.list[ins.cur];
   IPF.forEach(k=>$('ip_'+k).value=ins[k]??'');IVF.forEach(k=>$('iv_'+k).value=inst[k]??'');
@@ -1673,17 +1731,19 @@ function fillIns(){
   $('bInstDel').disabled=ins.list.length<2;
   renderInsTable();renderIns();
 }
+function growTA(t){t.style.height='auto';t.style.height=Math.max(76,t.scrollHeight+2)+'px'}
 function renderInsTable(){
   const ins=insOf(),k=ins.cur,inst=ins.list[k],C=insCalc(k);
   $('itbl').innerHTML=`<thead><tr><th>ลำดับ</th><th style="min-width:230px;text-align:left">รายการ</th><th>หน่วย</th><th>ราคา/หน่วย</th><th>ปริมาณ${inst.bal?'หลังถัวจ่าย':'ตามสัญญา'}</th>
-    <th>เบิกแล้ว<br>(ปริมาณ)</th><th>เบิกแล้ว<br>(บาท)</th><th>ปริมาณงวดนี้</th><th>เงินงวดนี้ (บาท)</th><th>คงเหลือ (บาท)</th><th style="min-width:130px">ที่ตั้ง กม.</th><th style="min-width:260px">หมายเหตุ / ผลการทดลอง</th></tr></thead><tbody>`+
+    <th>เบิกแล้ว<br>(ปริมาณ)</th><th>เบิกแล้ว<br>(บาท)</th><th>ปริมาณงวดนี้</th><th>เงินงวดนี้ (บาท)</th><th>คงเหลือ (บาท)</th><th style="min-width:160px">ที่ตั้ง กม.</th><th style="min-width:360px">หมายเหตุ / ผลการทดลอง</th></tr></thead><tbody>`+
   C.rows.map(r=>{const o=r.o,tot=inst.bal&&o.valid?o.a:(o.valid?o.c:0);
     return `<tr data-ii="${r.i}" class="${r.bad?'sev-e':Math.abs(r.amt)>0.004?'on':''}"><td class="c">${r.i+1}</td><td>${esc(r.it.desc)}</td><td class="c">${esc(r.it.unit)}</td><td class="r">${fm(r.p)}</td>
     <td class="r">${fq(tot)}</td><td class="r dim">${fq(r.prevQty)}</td><td class="r dim">${fmd(r.prevAmt)}</td>
     <td>${inst.final?`<span class="calc">${fq(r.qty)}</span>`:`<input class="num" data-iq="qty" id="iq${r.i}" inputmode="decimal" value="${esc((inst.q[iid(r.i)]||{}).qty||'')}" style="width:100px">`}</td>
     <td class="r"><b>${fmd(r.amt)}</b></td><td class="r ${r.remain<-0.004?'minus':''}">${fmd(r.remain)}</td>
-    <td><input data-iq="loc" id="il${r.i}" value="${esc((inst.q[iid(r.i)]||{}).loc||'')}" placeholder="${esc(r.loc)}"></td><td><textarea data-iq="note" id="in${r.i}" rows="1">${esc(r.note)}</textarea></td></tr>`}).join('')+
+    <td><input data-iq="loc" id="il${r.i}" value="${esc((inst.q[iid(r.i)]||{}).loc||'')}" placeholder="${esc(r.loc)}"></td><td><textarea data-iq="note" id="in${r.i}" rows="3">${esc(r.note)}</textarea></td></tr>`}).join('')+
   `</tbody><tfoot><tr><td colspan="8" class="r">รวมงวดนี้ ${C.billed.length} รายการ</td><td class="r">${fm(C.gross)}</td><td colspan="3"></td></tr></tfoot>`;
+  requestAnimationFrame(()=>$('itbl').querySelectorAll('textarea').forEach(growTA));
 }
 function insChecks(){
   const ins=insOf(),k=ins.cur,C=insCalc(k),out=[];
@@ -1722,6 +1782,7 @@ function renderIns(){
   if(!S||$('insView').hidden)return;
   renderPenInfo();
   const ins=insOf(),k=ins.cur,inst=ins.list[k],{C,out}=insChecks();
+  {const st=renderSched();st.own.forEach(t=>out.push(['e','นัดหมาย: '+t]));st.cl.forEach(c=>out.push(['e',`${c.a.kind}ชนกับ${c.b.kind} สัญญา ${c.b.proj} งวด ${c.b.instNo} (${c.who.join(', ')}) — ดูเวลาที่แนะนำในกล่องนัดหมาย`]));if(st.cl.length||st.own.length){const i=out.findIndex(x=>x[0]==='ok'&&/พร้อมพิมพ์/.test(x[1]));if(i>=0)out.splice(i,1)}}
   const wAuto=addYears(inst.inspDate,parse(ins.wYears)||0);
   $('iv_wEndHint').textContent=inst.final?(inst.wEnd?'':wAuto?'ว่างไว้ = '+thDate(wAuto):'ใส่วันที่ตรวจรับก่อน'):'งวดที่ยังไม่สุดท้าย เว้นว่างได้';
   $('iv_penAuto').textContent='ข้อความอัตโนมัติ: '+penText(k).slice(0,400);
@@ -1741,12 +1802,12 @@ function fillSegOnly(){const ins=insOf();$('instSeg').innerHTML=ins.list.map((x,
 $('iv_final').addEventListener('change',e=>{const ins=insOf(),inst=ins.list[ins.cur];inst.final=e.target.checked;if(inst.final){inst.bal=true;$('iv_bal').checked=true;inst.refund=true;$('iv_refund').checked=true}$('lbRefund').hidden=!inst.final;fillSegOnly();renderInsTable();renderIns();save()});
 $('iv_refund').addEventListener('change',e=>{const ins=insOf();ins.list[ins.cur].refund=e.target.checked;renderIns();save()});
 $('iv_bal').addEventListener('change',e=>{const ins=insOf();ins.list[ins.cur].bal=e.target.checked;renderInsTable();renderIns();save()});
-$('instSeg').addEventListener('click',e=>{const b=e.target.closest('[data-inst]');if(!b)return;insOf().cur=+b.dataset.inst;fillIns();save()});
+$('instSeg').addEventListener('click',e=>{const b=e.target.closest('[data-inst]');if(!b)return;if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insOf().cur=+b.dataset.inst;fillIns();save()});
 $('bInstAdd').addEventListener('click',()=>{const ins=insOf(),L=ins.list,last=L[L.length-1];
   const fin=last.final&&L.length>0;const prev=fin?(L[L.length-2]||null):last;
   const no=fin?(parseInt(last.no)||L.length):((parseInt(last.no)||L.length)+1);
   const n=newInst(no,false);const src=prev||last;
-  Object.assign(n,{meet:src.meet,ret:prev?prev.ret:'10'});Object.keys(src.q||{}).forEach(i=>n.q[i]={qty:'',loc:src.q[i].loc,note:DEF_NOTE});
+  migSched(src);Object.assign(n,{inspTime:src.inspTime,inspPlace:src.inspPlace,inspDur:src.inspDur,mtgDur:src.mtgDur,mtgPlace:src.mtgPlace,recorder:src.recorder,ret:prev?prev.ret:'10'});Object.keys(src.q||{}).forEach(i=>n.q[i]={qty:'',loc:src.q[i].loc,note:DEF_NOTE});
   if(fin){L.splice(L.length-1,0,n);last.no=String(no+1);ins.cur=L.length-2;toast('เพิ่มงวดที่ '+no+' แล้ว งวดสุดท้ายเลื่อนเป็นงวดที่ '+last.no)}
   else{L.push(n);ins.cur=L.length-1;toast('เพิ่มงวดที่ '+no+' แล้ว')}
   fillIns();save()});
@@ -1754,7 +1815,7 @@ let instDelArm=0;
 $('bInstDel').addEventListener('click',e=>{const ins=insOf();if(ins.list.length<2)return;
   if(!instDelArm){instDelArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยันลบ';setTimeout(()=>{instDelArm=0;e.target.textContent='ลบงวดนี้'},3000);return}
   instDelArm=0;e.target.textContent='ลบงวดนี้';const no=ins.list[ins.cur].no;ins.list.splice(ins.cur,1);ins.cur=Math.max(0,ins.cur-1);fillIns();save();toast('ลบงวดที่ '+no+' แล้ว')});
-$('itbl').addEventListener('input',e=>{const f=e.target.dataset.iq;if(!f)return;const i=+e.target.closest('tr').dataset.ii,ins=insOf(),inst=ins.list[ins.cur];
+$('itbl').addEventListener('input',e=>{const f=e.target.dataset.iq;if(!f)return;if(e.target.tagName==='TEXTAREA')growTA(e.target);const i=+e.target.closest('tr').dataset.ii,ins=insOf(),inst=ins.list[ins.cur];
   const key=iid(i);inst.q[key]=inst.q[key]||{qty:'',loc:'',note:DEF_NOTE};inst.q[key][f]=e.target.value;
   if(f==='qty'){const tr=e.target.closest('tr');const C=insCalc(ins.cur),r=C.rows[i];tr.children[8].innerHTML='<b>'+fmd(r.amt)+'</b>';tr.children[9].textContent=fmd(r.remain);
     $('itbl').querySelector('tfoot td:nth-child(2)').textContent=fm(C.gross);$('itbl').querySelector('tfoot td').textContent='รวมงวดนี้ '+C.billed.length+' รายการ'}
@@ -1839,7 +1900,8 @@ function docCtl(C){const h=S.h,inst=C.inst,ctl=ctlPerson(),{chair,mem}=committee
    <div class="csig"><div class="dl2"></div><div>(${esc(ctl?ctl.name:'..............................')})</div><div>ผู้ควบคุมงาน</div><div>${inst.ctlDate?thDate(inst.ctlDate):'..........................'}</div></div>
    <p class="ind" style="margin-top:18px">ตาม (๒) คณะกรรมการฯ ได้ตรวจสอบข้อมูลเอกสารส่งงานของผู้รับจ้างโดยเปรียบเทียบกับตารางปริมาณงานและราคาแล้ว พบว่าสามารถตรวจรับงาน ${instLabel(inst)} ได้ ตามเงื่อนไขในเอกสารแนบคู่สัญญา เห็นชอบตามผู้ควบคุมงานเสนอ</p>
    <p class="ind">จึงนัดตรวจรับงานในวันที่ ${inst.inspDate?thDate(inst.inspDate):'....................................'}</p>
-   <p class="ind">เวลา ${esc(inst.meet||'....................................')}</p>
+   <p class="ind">เวลา ${inst.inspTime?thTime(inst.inspTime)+' น.':'.............. น.'} ณ ${esc(inst.inspPlace||'....................................')}</p>
+   <p class="ind">และประชุมสรุปผลการตรวจรับ${mtgDateOf(inst)&&mtgDateOf(inst)!==inst.inspDate?' วันที่ '+thDate(mtgDateOf(inst)):''} เวลา ${mtgTimeOf(inst)?thTime(mtgTimeOf(inst))+' น.':'.............. น.'} ณ ${esc(inst.mtgPlace||MTG_ROOM)}</p>
    <div class="clist">${[chair,...mem].filter(Boolean).map((s,j)=>`<div class="cl"><span>ลงนาม</span><span class="dl"></span><span>${j===0?'ประธานคณะกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ'}</span><span></span><span class="nm2">(${esc(s.name)})&nbsp;&nbsp; ${esc(s.pos)}</span></div>`).join('')}</div></div>`}
 function docMemo(C){const h=S.h,ins=insOf(),inst=C.inst,{chair,mem}=committee();const val=parse(h.value);
   const endTxt=endText();
@@ -1855,9 +1917,132 @@ function docMemo(C){const h=S.h,ins=insOf(),inst=C.inst,{chair,mem}=committee();
    <p class="ind">จึงเรียนมาเพื่อโปรดทราบ</p>
    <div style="height:14px"></div>${sgRows([chair,...mem].filter(Boolean).map((x,j)=>({role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos})))}`;
   return `<div class="ipaper th memo">${thdHtml(body)}</div>`}
+/* ---- นัดตรวจรับ / ประชุมสรุป ---- */
+const hm2m=t=>{const m=String(t||'').match(/^(\d{1,2}):(\d{2})/);return m?(+m[1])*60+(+m[2]):null};
+const m2hm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const thTime=t=>{const m=hm2m(t);return m==null?'....':`${String(Math.floor(m/60)).padStart(2,'0')}.${String(m%60).padStart(2,'0')}`};
+const durM=(v,d)=>{const x=parse(v);return Math.round((x>0?x:d)*60)};
+function mtgDateOf(inst){return inst.mtgDate||inst.inspDate||''}
+function mtgTimeOf(inst){if(inst.mtgTime)return inst.mtgTime;const s=hm2m(inst.inspTime);return s==null?'':m2hm(Math.min(s+180,23*60))}
+function mtgEndOf(inst){const s=hm2m(mtgTimeOf(inst));return s==null?'':m2hm(Math.min(s+durM(inst.mtgDur,1),23*60+59))}
+function mtgNoOf(inst,k){if(String(inst.mtgNo||'').trim())return inst.mtgNo.trim();const d=mtgDateOf(inst);return `${k+1}/${d?(+d.slice(0,4))+543:'..........'}`}
+function testLines(C){const out=[];
+  C.billed.forEach(r=>{const L=String(r.note||'').split('\n').map(x=>x.trim()).filter(x=>x&&x!==DEF_NOTE.trim()&&!/^-?\s*ปริมาณงานได้จากการตรวจสอบ/.test(x));
+    if(L.length)out.push({i:r.i,desc:r.it.desc,lines:L})});
+  const extra=String(C.inst.tests||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  return {items:out,extra}}
+function docMtg(C){const h=S.h,ins=insOf(),inst=C.inst,k=insCalcIndex(C),{chair,mem}=committee();
+  const ctl=ctlPerson(),asst=(S.sign||[]).filter(s=>/ผู้ช่วยผู้ควบคุมงาน/.test(s.role)&&s.name);
+  const md=mtgDateOf(inst),mt=mtgTimeOf(inst),me=mtgEndOf(inst);
+  const att=(L)=>L.map((x,j)=>`<div class="att"><span>${j+1}.</span><span>${esc(x.name)}</span><span>${esc(x.pos||'')}</span><span>${x.role}</span></div>`).join('');
+  const P=s=>`<p class="ind">${s}</p>`;
+  const head=`<div class="mh b">รายงานการประชุมคณะกรรมการตรวจรับพัสดุ</div>
+   <div class="mh">${/^งาน/.test(String(h.project||'').trim())?'':'งาน'}${esc(h.project)} ${esc(h.loc)}</div>
+   <div class="mh">สัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} — การตรวจรับงาน${instLabel(inst)}</div>
+   <div class="mh">ครั้งที่ ${esc(mtgNoOf(inst,k))}</div>
+   <div class="mh">เมื่อวันที่ ${thDateP(md)} เวลา ${thTime(mt)} น.</div>
+   <div class="mh">ณ ${esc(inst.mtgPlace||MTG_ROOM)}</div><div class="hrl"></div>`;
+  const B=[];
+  B.push(`<p class="b">ผู้มาประชุม</p>`+att([chair,...mem].filter(Boolean).map((x,j)=>({name:x.name,pos:x.pos,role:j===0?'ประธานกรรมการ':'กรรมการ'}))));
+  B.push(`<p class="b">ผู้ไม่มาประชุม</p><div class="att"><span></span><span>- ไม่มี -</span></div>`);
+  const join=[];if(ctl)join.push({name:ctl.name,pos:ctl.pos,role:'ผู้ควบคุมงาน'});asst.forEach(a=>join.push({name:a.name,pos:a.pos,role:'ผู้ช่วยผู้ควบคุมงาน'}));
+  join.push({name:ins.csName||'..............................',pos:ins.csTitle?`${ins.csTitle} ${h.contractor||''}`:h.contractor,role:'ผู้แทนผู้รับจ้าง'});
+  B.push(`<p class="b">ผู้เข้าร่วมประชุม</p>`+att(join));
+  B.push(`<p class="b" style="margin-top:6px">เริ่มประชุมเวลา ${thTime(mt)} น.</p>`+P(`ประธานกรรมการตรวจรับพัสดุ กล่าวเปิดการประชุม และดำเนินการประชุมตามระเบียบวาระ ดังนี้`));
+  B.push(`<p class="ag">ระเบียบวาระที่ 1 เรื่องที่ประธานแจ้งให้ที่ประชุมทราบ</p>`+
+    P(`ตามที่ ${esc(h.contractor)} ได้มีหนังสือเลขที่ ${esc(inst.letterNo||'..........')} ลงวันที่ ${thDate2(inst.letterDate)} ขอส่งมอบงาน${instLabel(inst)}${inst.month?' ประจำเดือน '+esc(inst.month):''} และผู้ควบคุมงานได้ตรวจสอบเอกสารส่งงานเปรียบเทียบกับตารางปริมาณงานและราคาแล้ว เสนอให้คณะกรรมการฯ ตรวจรับ คณะกรรมการตรวจรับพัสดุได้ออกตรวจหน้างาน เมื่อวันที่ ${thDate2(inst.inspDate)} เวลา ${thTime(inst.inspTime)} น. ณ ${esc(inst.inspPlace||'สถานที่ก่อสร้าง')}${ins.defLoc?' บริเวณ '+esc(ins.defLoc):''} ร่วมกับผู้ควบคุมงานและผู้แทนผู้รับจ้าง แล้วจึงประชุมสรุปผลการตรวจรับในครั้งนี้`)+
+    `<p class="sub">มติที่ประชุม&nbsp; รับทราบ</p>`);
+  const prev=k>0?ins.list[k-1]:null;
+  B.push(`<p class="ag">ระเบียบวาระที่ 2 เรื่องรับรองรายงานการประชุมครั้งที่แล้ว</p>`+(prev?
+    P(`รายงานการประชุมการตรวจรับงานงวดที่ ${esc(prev.no)} ครั้งที่ ${esc(mtgNoOf(prev,k-1))} เมื่อวันที่ ${thDateP(mtgDateOf(prev))}`)+`<p class="sub">มติที่ประชุม&nbsp; รับรองรายงานการประชุม โดยไม่มีการแก้ไข</p>`:
+    P(`- ไม่มี - (เป็นการประชุมตรวจรับงานครั้งแรกของสัญญานี้)`)));
+  B.push(`<p class="ag">ระเบียบวาระที่ 3 เรื่องเพื่อพิจารณา</p><p class="sub">3.1 ผลการตรวจสอบปริมาณงานที่ส่งมอบ${instLabel(inst)}</p>`+
+    P(`คณะกรรมการฯ ได้ตรวจสอบปริมาณงานในสนามเปรียบเทียบกับเอกสารส่งงาน${inst.bal?' และบัญชีถัวจ่ายค่างาน':''} จำนวน ${C.billed.length} รายการ ดังนี้`));
+  const W=['9%','43%','9%','14%','25%'];
+  const cg=`<colgroup>${W.map(w=>`<col style="width:${w}">`).join('')}</colgroup>`;
+  const th=`<table class="ib mt">${cg}<thead><tr><th>ลำดับที่</th><th>รายการ</th><th>หน่วย</th><th>ปริมาณงวดนี้</th><th>จำนวนเงิน (บาท)</th></tr></thead></table>`;
+  const rows=C.billed.map(r=>`<table class="ib mt cont">${cg}<tbody><tr><td class="c">${r.i+1}</td><td>${esc(r.it.desc)}</td><td class="c">${esc(r.it.unit)}</td><td class="r">${fq(r.qty)}</td><td class="r">${fmd(r.amt)}</td></tr></tbody></table>`);
+  rows.push(`<table class="ib mt cont">${cg}<tbody><tr><td></td><td class="b">รวม ${C.billed.length} รายการ</td><td></td><td></td><td class="r b">${fm(C.gross)}</td></tr></tbody></table>`);
+  if(rows.length)rows[0]=th+rows[0].replace('ib mt cont','ib mt');
+  B.push(...rows);
+  const T=testLines(C);
+  B.push(`<p class="sub" style="margin-top:8px">3.2 ผลการทดสอบวัสดุและผลการทดสอบงาน</p>`+P(T.items.length||T.extra.length?`ผู้ควบคุมงานรายงานผลการทดสอบวัสดุและงานที่เกี่ยวข้องกับงานงวดนี้ ให้คณะกรรมการฯ ทราบ ดังนี้`:`- ไม่มีรายการทดสอบในงวดนี้ -`));
+  T.items.forEach(t=>B.push(`<p class="tl">รายการที่ ${t.i+1} ${esc(t.desc)}</p>`+t.lines.map(l=>`<p class="tl" style="padding-left:5.6em">${esc(/^[-•]/.test(l)?l:'- '+l)}</p>`).join('')));
+  if(T.extra.length)B.push(`<p class="tl">ผลการทดสอบอื่น ๆ</p>`+T.extra.map(l=>`<p class="tl" style="padding-left:5.6em">${esc(/^[-•]/.test(l)?l:'- '+l)}</p>`).join(''));
+  B.push(`<p class="sub" style="margin-top:6px">3.3 ระยะเวลาการก่อสร้างและค่าปรับ</p>`+P(`${endText()}`)+P(esc(inst.penText||penText(k))));
+  const mr=(a,b)=>`<span>${a}</span><span class="n">${b}</span><span>บาท</span>`;
+  B.push(`<p class="sub" style="margin-top:6px">3.4 การเบิกจ่ายเงินค่างาน${instLabel(inst)}</p><div class="mny">${mr(`ค่างานงวดนี้ ${C.billed.length} รายการ`,fm(C.gross))}${mr(`หักเงินประกันผลงาน ${(parse(inst.ret)||0)?esc(inst.ret)+'%':''}`,fmd(C.ret))}${mr(`หักเงินจ่ายล่วงหน้า ${(parse(inst.adv)||0)?esc(inst.adv)+'%':''}`,fmd(C.adv))}${mr(`หักค่าปรับ ${C.pen.days||'-'} วัน`,fmd(C.pen.amt))}${C.refund>0.004?mr(`บวกคืนเงินประกันผลงาน งวดที่ ${C.refFrom.join(', ')}`,fm(C.refund)):''}${mr('<b>คงเป็นเงินที่จะต้องจ่าย</b>','<b>'+fm(C.net)+'</b>')}</div><p class="ctr">(${bahtText(C.net)})</p>`);
+  B.push(`<p class="sub">มติที่ประชุม</p>`+P(`คณะกรรมการตรวจรับพัสดุได้พิจารณาแล้ว เห็นว่าผู้รับจ้างได้ทำงาน${instLabel(inst)} ถูกต้องครบถ้วน เป็นไปตามแบบรูปรายการละเอียดและข้อกำหนดในสัญญา ผลการทดสอบวัสดุและงานเป็นไปตามข้อกำหนด ที่ประชุมจึงมีมติเป็นเอกฉันท์ให้ตรวจรับงาน${instLabel(inst)} และลงนามในใบตรวจรับงาน เพื่อเบิกจ่ายเงินค่างานจำนวน ${fm(C.net)} บาท ให้แก่ผู้รับจ้าง${C.refund>0.004?` ซึ่งรวมการคืนเงินประกันผลงานจำนวน ${fm(C.refund)} บาท`:''} ต่อไป`));
+  B.push(`<p class="ag">ระเบียบวาระที่ 4 เรื่องอื่น ๆ</p>`+String(inst.mtgOther||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>P(esc(x))).join('')+(String(inst.mtgOther||'').trim()?'':P('- ไม่มี -')));
+  const rec=recorderOf(inst);
+  const tail=`<p class="b" style="margin-top:8px">ปิดประชุมเวลา ${thTime(me)} น.</p><div style="height:10px"></div>`+
+    sgRows([{role:'ผู้จดรายงานการประชุม',name:rec?rec.name:'..............................',pos:rec?rec.pos:''},{role:'ผู้ตรวจรายงานการประชุม',name:chair?chair.name:'..............................',pos:chair?'ประธานกรรมการตรวจรับพัสดุ':''}]);
+  const items=B.slice(0);
+  return paginate(head,items,tail,(p,j)=>{if(j>0&&p[0]&&p[0].startsWith('<table class="ib mt cont"'))p[0]=th.replace('ib mt','ib mt rh')+p[0].replace('ib mt cont','ib mt')}).map((pg,j)=>pg.replace('<div class="ipaper">',`<div class="ipaper mtgdoc">${j?`<div class="mh pn" style="margin-bottom:6px">- ${j+1} -</div>`:''}`))}
+function recorderOf(inst){const {chair,mem}=committee();const n=String(inst.recorder||'').trim();
+  if(n){const f=(S.sign||[]).find(s=>normName(s.name)===normName(n));return f?{name:f.name,pos:f.pos}:{name:n,pos:''}}
+  const l=mem[mem.length-1]||chair;return l?{name:l.name,pos:l.pos}:null}
+
+/* ---- ตรวจเวลาชนกันของกรรมการ (ทุกโครงการ) ---- */
+const normName=n=>String(n||'').replace(/\s+/g,'').replace(/^(นางสาว|น\.ส\.|นาย|นาง|ว่าที่ร้อยตรี|ว่าที่ร\.ต\.|ดร\.)/,'');
+function comOf(d){const sg=d.sign||[];return sg.filter(s=>/ประธาน|กรรมการ/.test(s.role)&&String(s.name||'').trim()).map(s=>({key:normName(s.name),name:s.name}))}
+function evOfInst(inst,{inspTime,inspDate}={}){const x=Object.assign({},inst);if('meet' in x&&x.inspTime===undefined){const m=parseMeet(x.meet);x.inspTime=m.time||'10:00';x.inspPlace=m.place}
+  migSched(x);if(inspTime!==undefined)x.inspTime=inspTime;if(inspDate!==undefined)x.inspDate=inspDate;
+  const E=[],s=hm2m(x.inspTime);
+  if(x.inspDate&&s!=null)E.push({kind:'ตรวจหน้างาน',date:x.inspDate,s,e:s+durM(x.inspDur,2),place:x.inspPlace||'สถานที่ก่อสร้าง'});
+  const md=mtgDateOf(x),ms=hm2m(mtgTimeOf(x));if(md&&ms!=null)E.push({kind:'ประชุมสรุป',date:md,s:ms,e:ms+durM(x.mtgDur,1),place:x.mtgPlace||MTG_ROOM});
+  return E}
+function allEvents(){const out=[];
+  DB.projects.forEach(p=>{const d=p.id===DB.cur&&S?S:p.data;if(!d||!d.ins||!Array.isArray(d.ins.list))return;const com=comOf(d);if(!com.length)return;
+    d.ins.list.forEach((inst,j)=>evOfInst(inst).forEach(ev=>out.push(Object.assign(ev,{pid:p.id,j,proj:(d.h&&(d.h.no||d.h.project))||'โครงการ',cno:String(d.h&&d.h.no||'').replace(/\s/g,''),instNo:inst.no,com}))))});
+  return out}
+function clashes(mine,com,others){const keys=new Set(com.map(c=>c.key)),res=[];
+  mine.forEach(a=>others.forEach(b=>{if(a.date!==b.date||!(a.s<b.e&&b.s<a.e))return;const who=b.com.filter(c=>keys.has(c.key)).map(c=>c.name);if(who.length)res.push({a,b,who})}));
+  return res}
+function schedState(){const ins=insOf(),k=ins.cur,inst=ins.list[k],com=comOf(S);
+  const cno=String(S.h.no||'').replace(/\s/g,'');/* สำเนาถัวจ่ายครั้งอื่นของสัญญาเดียวกัน = นัดเดียวกัน ไม่นับว่าชน */
+  const others=allEvents().filter(e=>e.pid===DB.cur?e.j!==k:!(cno&&e.cno===cno));const mine=evOfInst(inst);
+  const own=[];const i0=mine.find(e=>e.kind==='ตรวจหน้างาน'),m0=mine.find(e=>e.kind==='ประชุมสรุป');
+  if(i0&&m0&&i0.date===m0.date&&m0.s<i0.e)own.push(`เวลาประชุมสรุป (${m2hm(m0.s)}) เริ่มก่อนตรวจหน้างานเสร็จ (${m2hm(i0.e)})`);
+  if(m0&&inst.inspDate&&m0.date<inst.inspDate)own.push('วันประชุมสรุปอยู่ก่อนวันที่ตรวจรับ');
+  return {ins,k,inst,com,others,mine,own,cl:clashes(mine,com,others)}}
+function nextWorkday(iso){let d=iso;do{d=addDays(d,1);const w=new Date(d+'T00:00:00Z').getUTCDay();if(w!==0&&w!==6)return d}while(true)}
+function suggestSlot(st){const {inst,com,others}=st;if(!inst.inspDate)return null;
+  const s0=hm2m(inst.inspTime)??600,onlyMtg=st.cl.every(c=>c.a.kind==='ประชุมสรุป')&&!st.own.length&&!inst.mtgDate;
+  if(onlyMtg){const i0=st.mine.find(e=>e.kind==='ตรวจหน้างาน'),from=Math.max(i0?i0.e:0,hm2m(mtgTimeOf(inst))||0);
+    for(let t=Math.ceil(from/30)*30;t+durM(inst.mtgDur,1)<=17*60;t+=30){const ev=evOfInst(Object.assign({},inst,{mtgTime:m2hm(t)}));if(!clashes(ev,com,others).length)return {mtgTime:m2hm(t),txt:`เลื่อนประชุมสรุปเป็นเวลา ${thTime(m2hm(t))} น. (วันเดิม)`}}}
+  let date=inst.inspDate;
+  for(let d=0;d<15;d++){
+    const TT=[];for(let t=8*60+30;t<=14*60;t+=30)TT.push(t);if(!d)TT.sort((x,y)=>(x<s0)-(y<s0)||Math.abs(x-s0)-Math.abs(y-s0));
+    for(const t of TT){const x=Object.assign({},inst,{inspDate:date,inspTime:m2hm(t),mtgTime:inst.mtgTime&&!d&&t===s0?inst.mtgTime:'',mtgDate:''});
+      const ev=evOfInst(x);if(ev.some(e=>e.e>17*60))continue;if(!clashes(ev,com,others).length)
+        return {inspDate:date,inspTime:m2hm(t),mtgTime:x.mtgTime,txt:`${d?'เลื่อนเป็นวันที่ '+thDate(date)+' ':''}ตรวจหน้างาน ${thTime(m2hm(t))} น. → ประชุมสรุป ${thTime(mtgTimeOf(x))} น.`}}
+    date=nextWorkday(date)}
+  return null}
+let lastSug=null;
+function renderSched(){const ins=insOf(),inst=ins.list[ins.cur];
+  $('iv_mtgDateHint').textContent=inst.mtgDate?'':'ว่างไว้ = วันเดียวกับวันตรวจรับ'+(inst.inspDate?` (${thDate(inst.inspDate)})`:'');
+  $('iv_mtgTimeHint').textContent=inst.mtgTime?'':(inst.inspTime?`ว่างไว้ = ตรวจหน้างาน + 3 ชม. (${thTime(mtgTimeOf(inst))} น.)`:'ใส่เวลาตรวจหน้างานก่อน');
+  const rec=recorderOf(inst);$('iv_recHint').textContent=inst.recorder?'':'ว่างไว้ = '+(rec?rec.name:'-');
+  const C=insCalc(ins.cur),T=testLines(C);$('iv_testsHint').textContent=`ดึงผลทดสอบจากช่องหมายเหตุของรายการงานแล้ว ${T.items.length} รายการ — ใส่เพิ่มที่นี่ได้`;
+  const st=schedState();let h='';
+  if(!inst.inspDate)h=`<div class="cf w">ใส่ “วันที่ตรวจรับ” ด้านบน เพื่อให้ระบบตรวจว่าเวลาของกรรมการชนกับโครงการอื่นหรือไม่</div>`;
+  else if(!st.com.length)h=`<div class="cf w">ยังไม่มีรายชื่อคณะกรรมการตรวจรับในแท็บผู้ลงนาม</div>`;
+  else if(st.cl.length||st.own.length){lastSug=suggestSlot(st);
+    h=`<div class="cf e"><b>✗ เวลานัดชนกัน</b><ul>${st.own.map(t=>`<li>${esc(t)}</li>`).join('')}${st.cl.map(c=>`<li>${c.a.kind} ${m2hm(c.a.s)}–${m2hm(c.a.e)} น. ชนกับ ${esc(c.b.kind)} ${m2hm(c.b.s)}–${m2hm(c.b.e)} น. ของสัญญา ${esc(c.b.proj)} งวดที่ ${esc(c.b.instNo)} — กรรมการ: ${c.who.map(esc).join(', ')}</li>`).join('')}</ul>
+      ${lastSug?`<div>เวลาว่างที่แนะนำ: <b>${esc(lastSug.txt)}</b></div><button type="button" id="bSugApply">✓ ใช้เวลาที่แนะนำ</button>`:'<div>ไม่พบช่วงเวลาว่างใน 15 วันทำการ กรุณาปรับเอง</div>'}</div>`}
+  else h=`<div class="cf ok">✓ เวลานัดไม่ชนกับโครงการอื่น — ตรวจหน้างาน ${thTime(inst.inspTime)} น. (${thDate(inst.inspDate)}) · ประชุมสรุป ${thTime(mtgTimeOf(inst))}–${thTime(mtgEndOf(inst))} น. ${esc(inst.mtgPlace||MTG_ROOM)}</div>`;
+  if(inst.inspDate&&st.com.length){const keys=new Set(st.com.map(c=>c.key));const days=new Set(st.mine.map(e=>e.date));
+    const same=st.others.filter(e=>days.has(e.date)&&e.com.some(c=>keys.has(c.key))).map(e=>Object.assign({me:false},e));
+    const L=[...st.mine.map(e=>Object.assign({me:true,proj:S.h.no||'โครงการนี้',instNo:inst.no},e)),...same].sort((a,b)=>a.date.localeCompare(b.date)||a.s-b.s);
+    if(same.length)h+=`<div class="day">นัดของกรรมการชุดนี้ในวันเดียวกัน<table><thead><tr><th>วันที่</th><th>เวลา</th><th>นัด</th><th>สัญญา / งวด</th><th>สถานที่</th></tr></thead><tbody>${L.map(e=>`<tr class="${e.me?'me':''}"><td>${thDate(e.date)}</td><td>${m2hm(e.s)}–${m2hm(e.e)}</td><td>${e.kind}</td><td>${esc(e.proj)} งวด ${esc(e.instNo)}${e.me?' (งวดนี้)':''}</td><td>${esc(e.place)}</td></tr>`).join('')}</tbody></table></div>`}
+  $('mtgConf').innerHTML=h;return st}
+$('mtgConf').addEventListener('click',e=>{if(e.target.id!=='bSugApply'||!lastSug)return;const ins=insOf(),inst=ins.list[ins.cur];
+  ['inspDate','inspTime','mtgTime'].forEach(f=>{if(lastSug[f]!==undefined){inst[f]=lastSug[f];$('iv_'+f).value=lastSug[f]}});
+  toast('ปรับเวลานัดแล้ว: '+lastSug.txt);renderIns();save()});
 function thdHtml(html){return html.replace(/>([^<]*)</g,(m,t)=>'>'+thd(t)+'<')}
 /* pagination */
-function paginate(head,items,tail){
+function paginate(head,items,tail,fix){
   const ms=$('measure'),[mt,mr,mb,ml]=IPAD,iw=(210-ml-mr)*MM,ih=(297-mt-mb)*MM-26;
   const blocks=[head,...items,tail];
   ms.innerHTML=`<div class="ipaper" style="width:${iw}px">${blocks.map(b=>`<div class="blk">${b}</div>`).join('')}</div>`;
@@ -1865,8 +2050,10 @@ function paginate(head,items,tail){
   const pages=[];let cur=[],used=0;
   blocks.forEach((b,i)=>{if(cur.length&&used+hs[i]>ih){pages.push(cur);cur=[];used=0}cur.push(b);used+=hs[i]});
   if(cur.length)pages.push(cur);ms.innerHTML='';
+  if(fix)pages.forEach((p,j)=>fix(p,j));
   return pages.map(p=>`<div class="ipaper">${p.map(b=>`<div class="blk">${b}</div>`).join('')}</div>`)}
 function renderInsDocs(C){
+  if(insEditMode&&$('insSheets')){updEditBar();return}
   const want=insPage,set=[];
   if(want==='all'||want==='ins')set.push({g:'ins',pages:docIns(C)});
   const numbered=[];
@@ -1875,6 +2062,7 @@ function renderInsDocs(C){
   if(want==='all'||want==='items')C.billed.forEach(r=>numbered.push({h:blocksItem(C,r)}));
   if(numbered.length)set.push({g:'num',pages:numbered.map((x,j)=>x.h.replace('<div class="ipaper">',`<div class="ipaper"><div class="pgno">หน้า ${j+1} ของ ${numbered.length} หน้า${x.first?'<br>พ.1-37':''}</div>`))});
   if(want==='all'||want==='ctl')set.push({g:'ctl',pages:[docCtl(C)]});
+  if(want==='all'||want==='mtg')set.push({g:'mtg',pages:docMtg(C)});
   if(want==='all'||want==='memo')set.push({g:'memo',pages:[docMemo(C)]});
   const gen=set.flatMap(s=>s.pages);const sv=savedEdit(C.inst);const all=sv?sv.pages:gen;
   insSheets=all.map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));
@@ -1891,8 +2079,8 @@ $('amTbl').addEventListener('click',e=>{const b=e.target.closest('[data-amdel]')
 $('wvTbl').addEventListener('click',e=>{const b=e.target.closest('[data-wvdel]');if(!b)return;insOf().waivers.splice(+b.dataset.wvdel,1);renderPenBox();renderIns();save()});
 $('bAmAdd').addEventListener('click',()=>{const A=insOf().amends;A.push({no:String(A.length+1),date:'',days:'',reason:''});renderPenBox();save();$('am_dt'+(A.length-1)).focus()});
 $('bWvAdd').addEventListener('click',()=>{const W=insOf().waivers;W.push({reason:'',ref:'',date:'',days:''});renderPenBox();save();$('wv_r'+(W.length-1)).focus()});
-$('insPick').addEventListener('click',e=>{const b=e.target.closest('[data-ip]');if(!b)return;insPage=b.dataset.ip;$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderIns()});
-$('bInsPrint').addEventListener('click',()=>{if(insEditMode){clearTimeout(editTimer);captureEdits()}renderIns();const inst=insOf().list[insOf().cur];
+$('insPick').addEventListener('click',e=>{const b=e.target.closest('[data-ip]');if(!b)return;if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insPage=b.dataset.ip;$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderIns()});
+$('bInsPrint').addEventListener('click',()=>{if(insEditMode)insSheets=domPages().map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));else renderIns();const inst=insOf().list[insOf().cur];
   printSheets(insSheets,`ตรวจรับงานงวดที่ ${inst.no} ${S.h.no}`,`ตรวจรับงานงวดที่${inst.no}_${String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'')}.html`)});
 window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('insSheets');if(sh){sh.style.zoom=1;sh.style.zoom=Math.min(1,($('insDesk').clientWidth-40)/sh.offsetWidth).toFixed(3)}}});
 
@@ -1900,24 +2088,31 @@ window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('in
 let insEditMode=false;
 function insEditKey(){return insPage}
 function savedEdit(inst){return inst.docEdits&&inst.docEdits[insEditKey()]||null}
-let editTimer=null;
-function captureEdits(){const ins=insOf(),inst=ins.list[ins.cur];
-  const pages=[...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');return c.outerHTML});
-  inst.docEdits=inst.docEdits||{};inst.docEdits[insEditKey()]={pages,at:Date.now()};save();updEditBar()}
-$('insDesk').addEventListener('input',()=>{if(!insEditMode)return;clearTimeout(editTimer);editTimer=setTimeout(captureEdits,400)});
+function domPages(){return [...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');c.removeAttribute('spellcheck');return c.outerHTML})}
+/* รหัสยืนยัน */
+const CODE_HASH='ecf15cdf904ee62e3db43b0ffc8cedf0a411bb699bd8cfaea97548dfe851297b',CODE_SALT='thuajai·krabi';
+async function codeOk(v){v=String(v||'').trim();try{if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(CODE_SALT+v));
+  return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('')===CODE_HASH}}catch(e){}return v==='2569'}
+function askCode(title,msg){return new Promise(res=>{const m=$('codeModal');$('cmTitle').textContent=title;$('cmMsg').textContent=msg||'';$('cmErr').textContent='';$('cmCode').value='';m.hidden=false;setTimeout(()=>$('cmCode').focus(),30);
+  const done=v=>{m.hidden=true;$('codeForm').onsubmit=null;$('cmCancel').onclick=null;document.removeEventListener('keydown',esc1);res(v)};
+  const esc1=e=>{if(e.key==='Escape')done(false)};document.addEventListener('keydown',esc1);
+  $('cmCancel').onclick=()=>done(false);
+  $('codeForm').onsubmit=async e=>{e.preventDefault();if(await codeOk($('cmCode').value))done(true);else{$('cmErr').textContent='รหัสไม่ถูกต้อง ลองใหม่อีกครั้ง';$('cmCode').value='';$('cmCode').focus()}}})}
 function updEditBar(){const ins=insOf(),inst=ins.list[ins.cur],sv=savedEdit(inst);
-  $('bInsEdit').textContent=insEditMode?'✓ แก้ไขเสร็จแล้ว':'✏️ แก้ไขข้อความในเอกสาร';
-  $('bInsEdit').classList.toggle('primary',insEditMode);
+  $('bInsEdit').hidden=insEditMode;
   $('insEditBar').hidden=!(insEditMode||sv);
-  $('insEditBar').innerHTML=insEditMode?'<b>กำลังแก้ไข</b> — คลิกที่ข้อความในหน้ากระดาษแล้วพิมพ์แก้ได้เลย ระบบบันทึกให้อัตโนมัติ · พิมพ์และดาวน์โหลด Word จะใช้ฉบับที่แก้'
-    :sv?`<b>เอกสารชุดนี้แก้ไขด้วยมือแล้ว</b> (${new Date(sv.at).toLocaleString('th-TH')}) — ตัวเลขจะไม่เปลี่ยนตามข้อมูลที่แก้ภายหลัง <button type="button" id="bEditReset" class="danger">ล้างที่แก้ กลับไปใช้เอกสารจากระบบ</button>`:'';}
-$('bInsEdit').addEventListener('click',()=>{insEditMode=!insEditMode;if(!insEditMode){clearTimeout(editTimer);captureEdits()}renderIns();
-  if(insEditMode)toast('คลิกที่ข้อความในหน้ากระดาษเพื่อแก้ไข')});
-let editResetArm=0;
-$('insEditBar').addEventListener('click',e=>{if(e.target.id!=='bEditReset')return;
-  if(!editResetArm){editResetArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยัน';setTimeout(()=>{editResetArm=0;if(e.target.isConnected)e.target.textContent='ล้างที่แก้ กลับไปใช้เอกสารจากระบบ'},3000);return}
-  editResetArm=0;const ins=insOf();const it=ins.list[ins.cur];if(it.docEdits)delete it.docEdits[insEditKey()];insEditMode=false;save();renderIns();toast('กลับไปใช้เอกสารจากระบบแล้ว')});
-
+  $('insEditBar').classList.toggle('on',insEditMode);
+  $('insEditBar').innerHTML=insEditMode?`<span><b>🔓 กำลังแก้ไข</b> — คลิกที่ข้อความในหน้ากระดาษแล้วพิมพ์แก้ได้เลย · ยังไม่ได้บันทึกจนกว่าจะกด "บันทึกการแก้ไข"</span><span class="btns"><button type="button" id="bEditSave" class="primary">💾 บันทึกการแก้ไข</button><button type="button" id="bEditCancel">ยกเลิก ไม่บันทึก</button></span>`
+    :sv?`<span><b>🔒 เอกสารชุดนี้แก้ไขด้วยมือแล้ว</b> (บันทึกเมื่อ ${new Date(sv.at).toLocaleString('th-TH')}) — ตัวเลขจะไม่เปลี่ยนตามข้อมูลที่แก้ภายหลัง</span><span class="btns"><button type="button" id="bEditReset" class="danger">ล้างที่แก้ กลับไปใช้เอกสารจากระบบ</button></span>`:'';
+  ['bInsWord','bInsPrint'].forEach(id=>$(id).title=insEditMode?'ใช้ฉบับที่กำลังแก้ (ยังไม่บันทึก)':'')}
+$('bInsEdit').addEventListener('click',async()=>{if(!await askCode('ใส่รหัสเพื่อแก้ไขเอกสาร','เมื่อแก้เสร็จ กด "บันทึกการแก้ไข" เพื่อเก็บไว้'))return;
+  insEditMode=true;$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});updEditBar();toast('คลิกที่ข้อความในหน้ากระดาษเพื่อแก้ไข')});
+$('insEditBar').addEventListener('click',async e=>{const id=e.target.id;
+  if(id==='bEditSave'){const ins=insOf(),inst=ins.list[ins.cur];inst.docEdits=inst.docEdits||{};inst.docEdits[insEditKey()]={pages:domPages(),at:Date.now()};
+    insEditMode=false;save();renderIns();toast('บันทึกการแก้ไขเอกสารแล้ว')}
+  else if(id==='bEditCancel'){insEditMode=false;renderIns();toast('ยกเลิกการแก้ไข ไม่ได้บันทึก')}
+  else if(id==='bEditReset'){if(!await askCode('ใส่รหัสเพื่อล้างการแก้ไข','เอกสารจะกลับไปใช้ฉบับที่ระบบสร้างจากข้อมูล'))return;
+    const ins=insOf();const it=ins.list[ins.cur];if(it.docEdits)delete it.docEdits[insEditKey()];save();renderIns();toast('กลับไปใช้เอกสารจากระบบแล้ว')}});
 /* ---- HTML (Word-style, from convKids) -> real .docx (WordprocessingML), zipped in-page ---- */
 const XE=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function sty(el){const o={};(el.getAttribute&&el.getAttribute('style')||'').split(';').forEach(d=>{const i=d.indexOf(':');if(i>0)o[d.slice(0,i).trim().toLowerCase()]=d.slice(i+1).trim()});return o}
@@ -2148,11 +2343,20 @@ function curZoom(){return parseFloat($('insSheets').style.zoom||1)||1}
 function b64utf8(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin)}
 const wrap76=s=>s.replace(/(.{76})/g,'$1\r\n');
 function exportWord(){
-  if(insEditMode){clearTimeout(editTimer);captureEdits()}
-  renderIns();
+  if(!insEditMode)renderIns();
   const sh=$('insSheets');const z=sh.style.zoom;sh.style.zoom=1;
   const pages=[...sh.querySelectorAll('.sheet .ipaper')];
-  const body=pages.map((p,i)=>{WS=p.querySelector('.pgno')?0.875:1;return (i?'<br clear="all" style="page-break-before:always">':'')+convKids(p)}).join('');WS=1;
+  const groups=[];pages.forEach(p=>{const g=groups[groups.length-1];if(p.classList.contains('mtgdoc')&&g&&g.flow)g.pages.push(p);else groups.push({flow:p.classList.contains('mtgdoc'),pages:[p]})});
+  const body=groups.map((g,i)=>{const br=i?'<br clear="all" style="page-break-before:always">':'';
+    if(!g.flow){const p=g.pages[0];WS=p.querySelector('.pgno')?0.875:1;return br+convKids(p)}
+    /* รายงานการประชุม: ต่อเนื่องเป็นเอกสารเดียว รวมตารางเป็นตารางเดียว */
+    WS=0.875;const c=document.createElement('div');c.className='ipaper mtgdoc';c.style.width=g.pages[0].getBoundingClientRect().width+'px';$('measure').appendChild(c);
+    g.pages.forEach(p=>[...p.children].forEach(k=>c.appendChild(k.cloneNode(true))));
+    c.querySelectorAll('.pn,table.rh').forEach(e=>e.remove());
+    let master=null;c.querySelectorAll('table.mt').forEach(t=>{if(!master){master=t;return}const tb=master.tBodies[0]||master.appendChild(document.createElement('tbody'));
+      [...t.tBodies].forEach(b=>[...b.rows].forEach(r=>tb.appendChild(r)));const blk=t.parentElement;t.remove();if(blk&&blk!==c&&!blk.textContent.trim()&&!blk.children.length)blk.remove()});
+    if(master)master.classList.remove('cont');
+    const out=br+convKids(c);c.remove();return out}).join('');WS=1;
   sh.style.zoom=z;
   const inst=insOf().list[insOf().cur];
   try{const bytes=buildDocx(docxFromHtml(body),IPAD);
