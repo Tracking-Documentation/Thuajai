@@ -295,7 +295,11 @@ table.ptb{min-width:720px;font-size:.88rem}
 .ptb th{background:var(--sunk);font-size:.76rem;color:var(--muted);text-align:left;padding:5px 6px;position:static}
 .ptb td{padding:3px 4px}.ptb input{background:var(--bg);border-color:var(--line)}
 .ptb .empty-r td{color:var(--muted);font-size:.84rem;padding:8px}
-.ipaper .sgt{display:grid;grid-template-columns:auto auto 14em auto;column-gap:6px;row-gap:0;width:max-content;margin:10px auto 0;align-items:end}
+.ipaper .sgt{display:grid;grid-template-columns:auto auto minmax(14em,max-content) auto;column-gap:6px;row-gap:0;width:max-content;margin:10px auto 0;align-items:end}
+.ipaper .sgt .nmc.ps{line-height:1.45}
+.ipaper .sgt.one{margin:0 auto}
+.ipaper .isig .c2 .sgt{grid-template-columns:auto auto minmax(8.5em,max-content) auto;column-gap:4px}
+.ipaper .isig div.c2{display:flex;justify-content:space-around;gap:10px}
 .ipaper .sgt .gap{grid-column:1/-1;height:20px}
 .ipaper .sgt .dlc{border-bottom:1px dotted #000;height:1.1em;margin-bottom:.45em}
 .ipaper .sgt .nmc{text-align:center;white-space:nowrap}
@@ -1650,7 +1654,9 @@ function effEnd(){const h=S.h;if(!h.end)return '';const add=(insOf().amends||[])
 function endText(){const h=S.h,A=insOf().amends||[];if(!A.length)return `สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
   return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} และ`+A.map(a=>`บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง (ฉบับที่ ${esc(a.no)}) ลงวันที่ ${a.date?thDate(a.date):'....................'}`).join(' และ')+` สิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
 function waiveTotal(){return (insOf().waivers||[]).reduce((t,w)=>t+(parse(w.days)||0),0)}
-function sgRows(L){return `<div class="sgt">`+L.map((x,j)=>`${j?'<div class="gap"></div>':''}<span class="lh">${x.lh||''}</span><span>(ลงชื่อ)</span><span class="dlc"></span><span>${x.role}</span><span></span><span></span><span class="nmc">(${esc(x.name)})</span><span>${esc(x.pos||'')}</span>`).join('')+`</div>`}
+/* ช่องลงนามมาตรฐาน: (ลงชื่อ) ......... ตำแหน่งในคณะ / (ชื่อ) และตำแหน่ง จัดกึ่งกลางใต้เส้นจุด */
+function sgRows(L,cls){return `<div class="sgt ${cls||''}">`+L.map((x,j)=>`${j?'<div class="gap"></div>':''}<span class="lh">${x.lh||''}</span><span>${x.sl||'(ลงชื่อ)'}</span><span class="dlc"></span><span class="rl">${x.role}</span>`+
+  `<span></span><span></span><span class="nmc">(${esc(x.name)})</span><span></span>`+(String(x.pos||'').trim()?`<span></span><span></span><span class="nmc ps">${esc(x.pos)}</span><span></span>`:'')+(x.ex?`<span></span><span></span><span class="nmc ps">${x.ex}</span><span></span>`:'')).join('')+`</div>`}
 function insOf(){if(!S.ins)S.ins=insDefaults(S);migIns(S.ins);S.ins.list.forEach(x=>{migSched(x);if(x.refund===undefined){x.refund=!!x.final;if(x.final&&String(x.ret)==='10')x.ret='0'}});return S.ins}
 const rr2=x=>Math.round(Number((+x).toFixed(6))*100)/100;
 const r6=x=>Math.round(Number((+x).toFixed(9))*1e6)/1e6;
@@ -1827,7 +1833,7 @@ let insPage='all',insSheets=[];
 const IPAD=[15,15,12,22];
 function committee(){const sg=S.sign||[];const chair=sg.find(s=>/ประธาน/.test(s.role));const mem=sg.filter(s=>!/ประธาน/.test(s.role)&&/กรรมการ/.test(s.role));return{chair,mem}}
 function ctlPerson(){return (S.sign||[]).find(s=>String(s.role).trim()==='ผู้ควบคุมงาน')}
-function sigBlock(cls){const {chair,mem}=committee();const one=(s,t)=>s?`<div class="sg"><div>(ลงชื่อ)<span class="dl"></span>${t}</div><div class="nm"><span>(${esc(s.name)})</span><span>${esc(s.pos)}</span></div></div>`:'';
+function sigBlock(cls){const {chair,mem}=committee();const one=(s,t)=>s?sgRows([{role:t,name:s.name,pos:s.pos}],'one'):'';
   return `<div class="isig ${cls||''}"><div class="c1">${one(chair,'ประธานกรรมการตรวจรับพัสดุ')}</div><div class="c2">${mem.slice(0,2).map(m=>one(m,'กรรมการตรวจรับพัสดุ')).join('')}</div><div class="c1">${mem.slice(2).map(m=>one(m,'กรรมการตรวจรับพัสดุ')).join('')}</div></div>`}
 function introPara(C){const h=S.h,ins=insOf();const endTxt=endText();
   return `${esc(h.project)} ${esc(h.loc)} สัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} เริ่มต้นสัญญา วันที่ ${thDate(h.start)} ${endTxt}`}
@@ -1897,12 +1903,12 @@ function docCtl(C){const h=S.h,inst=C.inst,ctl=ctlPerson(),{chair,mem}=committee
    ${cond}
    <p class="ind">เห็นควรแจ้งคณะกรรมการตรวจรับพัสดุร่วมพิจารณาตรวจสอบ หากพิจารณาเห็นชอบ โปรดนัดคณะกรรมการฯ ตรวจรับงานต่อไป</p>
    <p class="ind">จึงเรียนมาเพื่อโปรดพิจารณา</p>
-   <div class="csig"><div class="dl2"></div><div>(${esc(ctl?ctl.name:'..............................')})</div><div>ผู้ควบคุมงาน</div><div>${inst.ctlDate?thDate(inst.ctlDate):'..........................'}</div></div>
+   <div style="margin:16px 0 0 32%">${sgRows([{role:'ผู้ควบคุมงาน',name:ctl?ctl.name:'..............................',pos:ctl?ctl.pos:'',ex:inst.ctlDate?thDate(inst.ctlDate):'..........................'}]).replace('class="sgt ','class="sgt one ')}</div>
    <p class="ind" style="margin-top:18px">ตาม (๒) คณะกรรมการฯ ได้ตรวจสอบข้อมูลเอกสารส่งงานของผู้รับจ้างโดยเปรียบเทียบกับตารางปริมาณงานและราคาแล้ว พบว่าสามารถตรวจรับงาน ${instLabel(inst)} ได้ ตามเงื่อนไขในเอกสารแนบคู่สัญญา เห็นชอบตามผู้ควบคุมงานเสนอ</p>
    <p class="ind">จึงนัดตรวจรับงานในวันที่ ${inst.inspDate?thDate(inst.inspDate):'....................................'}</p>
    <p class="ind">เวลา ${inst.inspTime?thTime(inst.inspTime)+' น.':'.............. น.'} ณ ${esc(inst.inspPlace||'....................................')}</p>
    <p class="ind">และประชุมสรุปผลการตรวจรับ${mtgDateOf(inst)&&mtgDateOf(inst)!==inst.inspDate?' วันที่ '+thDate(mtgDateOf(inst)):''} เวลา ${mtgTimeOf(inst)?thTime(mtgTimeOf(inst))+' น.':'.............. น.'} ณ ${esc(inst.mtgPlace||MTG_ROOM)}</p>
-   <div class="clist">${[chair,...mem].filter(Boolean).map((s,j)=>`<div class="cl"><span>ลงนาม</span><span class="dl"></span><span>${j===0?'ประธานคณะกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ'}</span><span></span><span class="nm2">(${esc(s.name)})&nbsp;&nbsp; ${esc(s.pos)}</span></div>`).join('')}</div></div>`}
+   <div style="margin-top:14px">${sgRows([chair,...mem].filter(Boolean).map((s,j)=>({sl:'ลงนาม',role:j===0?'ประธานคณะกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:s.name,pos:s.pos})))}</div></div>`}
 function docMemo(C){const h=S.h,ins=insOf(),inst=C.inst,{chair,mem}=committee();const val=parse(h.value);
   const endTxt=endText();
   const md=inst.memoDate?(()=>{const [y,m,d]=inst.memoDate.split('-').map(Number);return `${d} ${TM[m-1]} ${y+543}`})():'.......................................';
@@ -2197,7 +2203,9 @@ function docxFromHtml(html){
           const tabs=`<w:tabs><w:tab w:val="left" w:pos="${TW(ind+lhW+6)}"/></w:tabs>`;
           const rest=cells.filter(c=>c.td!==tds[0]||!lh).map(c=>c.txt?c.runs:dotsRun(nD)).join('');
           out+=para((lh?cells[0].runs:'')+'<w:r><w:tab/></w:r>'+rest,'left',tabs,ind)}
-        else{const nmInd=ind+lhW+6+textW('(ลงชื่อ)',r.sz)+4;out+=para(cells.map(c=>c.runs).join('<w:r><w:t xml:space="preserve">   </w:t></w:r>'),'left','',nmInd)}
+        else{const slW=Math.max(textW('(ลงชื่อ)',r.sz),...all.map(rw=>rw.length>=4&&/dotted/.test(sty(rw[2])['border-bottom']||'')?textW((rw[1].textContent||'').trim(),r.sz):0));
+          const dStart=ind+lhW+6+slW,dW=nD*0.38*r.sz;const txt=cells.map(c=>c.txt).join('   ');const nmInd=Math.max(0,dStart+(dW-textW(txt,r.sz))/2);
+          out+=para(cells.map(c=>c.runs).join('<w:r><w:t xml:space="preserve">   </w:t></w:r>'),'left','',nmInd)}
         return}
       let k=-1;cells.forEach((c,i)=>{if(c.al==='right'&&c.txt&&i>0)k=i});
       if(k<0){out+=para(cells.map(c=>c.txt?c.runs:dotsRun(30)).join(sp),'left','',ml);return}
