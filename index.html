@@ -283,6 +283,11 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .pfsc b{font-size:2rem;line-height:1.1;font-family:var(--display)}.pfsc span,.pfsc small{font-size:.8rem}
 .pftl tr.pf-ok td{color:var(--ok)}.pftl tr.pf-warn td{background:var(--warn-bg);color:var(--warn)}.pftl tr.pf-bad td{background:var(--err-bg);color:var(--err)}.pftl tr.pf-wait td{color:var(--muted)}
 .pftl td{padding:6px 8px;font-size:.88rem;vertical-align:top}.pfb{font-weight:700}
+.pfnote{grid-column:1/-1;font-size:.8rem;color:var(--muted);line-height:1.5}
+#pfEvents tr.pfap td{border-top:0;padding-top:0;background:color-mix(in srgb,var(--tc) 4%,transparent)}
+.pfwho{font-size:.84rem;margin-bottom:4px;line-height:1.5}
+#pfEvents .pfapg select,#pfEvents .pfapg input{width:auto;min-width:0;display:inline-block}
+.pfapg{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:.84rem}.pfapg input,.pfapg select{width:auto;display:inline-block;padding:3px 6px}
 #pfEvents select{min-width:300px}#pfEvents td{vertical-align:top}
 @media (max-width:700px){.pfhead{grid-template-columns:1fr}}
 .secnav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -621,12 +626,13 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     </details>
 
     <div class="icard t-rose" id="pfBox" data-sec="contract">
-      <div class="ich"><span class="num">3</span><div class="ict"><b>⚖️ ประเมินผลการปฏิบัติงานผู้ประกอบการ &amp; คะแนนความเสียหาย</b><small>ตามเอกสารแนบท้ายเอกสารประกวดราคา ข้อ 1.16 (ข้อ 190/3) — เฝ้าระวังทุกขั้นตอน ไม่ให้หลุดกำหนด</small></div></div>
+      <div class="ich"><span class="num">3</span><div class="ict"><b>⚖️ ประเมินผลการปฏิบัติงานผู้ประกอบการ &amp; คะแนนความเสียหาย</b><small>ระเบียบกระทรวงการคลังฯ (ฉบับที่ 3) พ.ศ. 2569 (ราชกิจจานุเบกษา เล่ม 143 ตอนพิเศษ 169 ง, 9 ก.ค. 2569 · มีผล 10 ก.ค. 2569) และเอกสารแนบท้ายเอกสารประกวดราคา ข้อ 1.16 — เฝ้าระวังทุกขั้นตอน ไม่ให้หลุดกำหนด</small></div></div>
       <div class="pfhead" id="pfHead"></div>
       <div class="grid">
         <label class="f">ใช้บังคับเมื่อวงเงินสัญญาตั้งแต่ (บาท)<input id="pf_thr" class="num" inputmode="decimal"></label>
         <label class="f">ตรวจสถานะ ณ วันที่<input id="pf_asof" type="date"><span class="hint">ว่างไว้ = วันนี้</span></label>
-        <label class="f chk"><input type="checkbox" id="pf_force"> ใช้บังคับกับสัญญานี้ แม้วงเงินต่ำกว่าเกณฑ์</label>
+        <label class="f">ประกาศเชิญชวน / เอกสารประกวดราคา<select id="pf_bid"><option value="auto">อัตโนมัติ (เดาจากวันเริ่มสัญญา ≥ 10 ก.ค. 2569)</option><option value="yes">ประกาศตั้งแต่ 10 ก.ค. 2569 / มีข้อ 1.16 — ใช้บังคับ</option><option value="no">ประกาศก่อน 10 ก.ค. 2569 — ใช้ระเบียบเดิม (ข้อ 5)</option></select></label>
+        <label class="f chk"><input type="checkbox" id="pf_force"> บังคับใช้กับสัญญานี้ (แม้ไม่เข้าเงื่อนไข)</label>
       </div>
       <div class="ptitle">🗓 จุดเฝ้าระวังตามระยะเวลาสัญญา <span class="note">ระบบคำนวณวันให้จากวันเริ่ม-สิ้นสุดสัญญา ความก้าวหน้าจากรายงานประจำสัปดาห์ และค่าปรับ</span></div>
       <div class="tbl-wrap"><table class="ptb pftl" id="pfTimeline"></table></div>
@@ -2485,13 +2491,21 @@ const PF_T={
  w4d:{g:'ช่วงรับประกันความชำรุดบกพร่อง',t:'(4)(ง) กระทบโครงสร้างหลัก — รัฐต้องแก้เอง/จ้างผู้อื่น',pts:60},
  w5a:{g:'ช่วงรับประกันความชำรุดบกพร่อง',t:'(5)(ก) ไม่กระทบโครงสร้างหลัก — เข้าแก้แล้วไม่เสร็จตามที่กำหนด',pts:5},
  w5b:{g:'ช่วงรับประกันความชำรุดบกพร่อง',t:'(5)(ข) ไม่กระทบโครงสร้างหลัก — รัฐต้องแก้เอง/จ้างผู้อื่น',pts:60}};
+const PF_WHO={
+ A:{t:'หัวหน้าเจ้าหน้าที่เป็นผู้ประเมิน (ข้อ 190/5 (1))',st:'หัวหน้าเจ้าหน้าที่ประเมิน + จัดทำแบบแจ้งผลการประเมินและคะแนนความเสียหาย → เสนอหัวหน้าหน่วยงานของรัฐเห็นชอบ → แจ้งผู้ประกอบการผ่าน e-GP ภายในวันทำการถัดไป'},
+ B:{t:'คณะกรรมการตรวจรับพัสดุเป็นผู้ประเมิน จากรายงานของผู้ควบคุมงาน (ข้อ 190/5 (2))',st:'ผู้ควบคุมงานรายงาน → คณะกรรมการตรวจรับพัสดุประเมิน → หัวหน้าเจ้าหน้าที่จัดทำแบบแจ้งฯ เสนอหัวหน้าหน่วยงานเห็นชอบ → แจ้งผ่าน e-GP ภายในวันทำการถัดไป'},
+ C:{t:'ต้องตั้งคณะกรรมการสอบข้อเท็จจริงก่อน (ข้อ 190/5 (3))',st:'แต่งตั้งคณะกรรมการสอบข้อเท็จจริง (ประธาน 1 + กรรมการ ≥ 2 มีผู้ชำนาญการ/ผู้ทรงคุณวุฒิจากภายนอก ≥ 1) → รายงานผลโดยเร็ว → ถ้าเป็นความผิดผู้ประกอบการ คณะกรรมการตรวจรับพัสดุประเมินคะแนน → หัวหน้าเจ้าหน้าที่จัดทำแบบแจ้งฯ → หัวหน้าหน่วยงานเห็นชอบ → แจ้ง e-GP ภายในวันทำการถัดไป'}};
+const pfWho=k=>/^p3[abcd]$/.test(k)?PF_WHO.C:(k==='p3e'||k==='p1')?PF_WHO.B:PF_WHO.A;
 const PF_SUS=[[240,720],[180,540],[120,360],[60,180],[30,90],[10,30],[1,0]];
 const pfSus=sc=>{for(const [m,d] of PF_SUS)if(sc>=m)return d;return 0};
-function pfOf(){if(!S.perf)S.perf={thr:'5000000',force:false,asof:'',events:[]};return S.perf}
+function pfOf(){if(!S.perf)S.perf={thr:'5000000',force:false,asof:'',events:[]};if(!S.perf.bid)S.perf.bid='auto';return S.perf}
+const PF_EFF='2026-07-10';
+function addWorkdays(iso,n){let d=iso,k=0;while(k<n){d=addDays(d,1);const w=new Date(d+'T00:00:00Z').getUTCDay();if(w!==0&&w!==6)k++}return d}
+function pfBid(){const P=pfOf();return P.bid==='yes'?true:P.bid==='no'?false:!!(S.h.start&&S.h.start>=PF_EFF)}
 const pfToday=()=>pfOf().asof||new Date(Date.now()+7*3600e3).toISOString().slice(0,10);
-function pfOn(){const P=pfOf();return !!P.force||(parse(S.h.value)||0)>=(parse(P.thr)||0)}
+function pfOn(){const P=pfOf();return !!P.force||((parse(S.h.value)||0)>=(parse(P.thr)||0)&&pfBid())}
 /* คะแนนของเหตุหนึ่งรายการ: ที่เกิดแล้ว ณ asOf และที่จะเกิดถัดไป */
-function pfEval(e,asOf){const T=PF_T[e.type];if(!T)return {now:0,steps:[],next:null};
+function pfEval(e,asOf){const T=PF_T[e.type];if(!T||e.appealRes==='void')return {now:0,steps:[],next:null};
   if(T.pts)return {now:e.date&&e.date<=asOf?T.pts:0,steps:[{d:e.date,p:T.pts}],next:e.date&&e.date>asOf?{d:e.date,p:T.pts}:null};
   if(!e.due)return {now:0,steps:[],next:null,needDue:true};
   const stop=e.fixed||null,steps=[];T.esc.forEach(([off,p])=>steps.push({d:addDays(e.due,off+1),p}));
@@ -2505,7 +2519,12 @@ function pfAuto(asOf){/* (1) ล่วงเลยกำหนด และค�
   const lateNow=Math.max(0,dayDiff(end,done||asOf)-waiveTotal());const penNow=rr2(lateNow*per);
   return {per,end,dLim,hitDate,done,lateNow,penNow,over:penNow>val*0.10,pts:penNow>val*0.10?30:0}}
 function pfScore(asOf){const P=pfOf();const ev=P.events.map(e=>({e,r:pfEval(e,asOf)}));const a=pfAuto(asOf);
-  const sc=ev.reduce((t,x)=>t+x.r.now,0)+(a&&a.pts||0);return {ev,a,sc,sus:pfSus(sc)}}
+  const sc=ev.reduce((t,x)=>t+x.r.now,0)+(a&&a.pts||0);
+  /* วันที่คะแนนสะสมถึงเกณฑ์ระงับปัจจุบัน */
+  const steps=[];ev.forEach(x=>x.r.steps.forEach(st=>{if(st.d&&st.d<=asOf)steps.push(st)}));if(a&&a.pts)steps.push({d:a.hitDate,p:30});
+  steps.sort((x,y)=>x.d.localeCompare(y.d));const sus=pfSus(sc);let acc=0,from='';
+  if(sus){const lim=PF_SUS.find(([m,d])=>d===sus)[0];for(const st of steps){acc+=st.p;if(acc>=lim){from=addDays(st.d,1);break}}}
+  return {ev,a,sc,sus,susFrom:from,susTo:from&&sus?addDays(from,sus-1):''}}
 function pfTimeline(asOf){const h=S.h,st=h.start,end=effEnd(),L=[];if(!st||!end)return L;
   const tot=daysBetween(st,end),at=f=>addDays(st,Math.round(tot*f)-1);
   const W=wkOf(),cumAt=d=>{let best=null;W.list.forEach((w,j)=>{if(w.to&&w.to<=d){const c=wkCalc(j);best={ac:c.ac,pc:c.pc,no:w.no,to:w.to}}});return best};
@@ -2520,6 +2539,10 @@ function pfTimeline(asOf){const h=S.h,st=h.start,end=effEnd(),L=[];if(!st||!end)
   const a=pfAuto(asOf);if(a){const s=a.over?'bad':a.done&&!a.over?'ok':a.hitDate<=addDays(asOf,15)?'warn':asOf>end?'warn':'wait';
     L.push({d:a.hitDate,lab:`ค่าปรับจะเกิน 10% ของวงเงิน (เกินกำหนด ${a.dLim} วัน หลังหักงดค่าปรับ ${waiveTotal()} วัน)`,s,
       msg:a.over?`ค่าปรับ ${fm(a.penNow)} บาท เกิน 10% แล้ว → คะแนนความเสียหาย 30 คะแนน (ข้อ 1(1)) · พิจารณาบอกเลิกสัญญา (ข้อ 183)`:a.done?`ส่งมอบแล้ว ${thDate(a.done)} ค่าปรับ ${fm(a.penNow)} บาท ไม่เกิน 10%`:asOf>a.end?`เลยกำหนดสัญญา ${dayDiff(a.end,asOf)} วัน (หักงดค่าปรับ ${waiveTotal()} วัน คิดค่าปรับ ${a.lateNow} วัน = ${fm(a.penNow)} บาท) — มีหนังสือแจ้งสงวนสิทธิ์ค่าปรับ และเร่งรัดผู้รับจ้าง`:'ยังไม่ถึงกำหนด'})}
+  pfOf().events.forEach(e=>{const T=PF_T[e.type];if(T&&e.approved&&!e.notified){const nd=addWorkdays(e.approved,1);L.push({d:nd,lab:`แจ้งผลประเมินผ่าน e-GP — ${T.t}`,s:nd<asOf?'bad':'warn',msg:nd<asOf?'เลยกำหนดแจ้งแล้ว! (ภายในวันทำการถัดไปหลังหัวหน้าหน่วยงานเห็นชอบ)':'แจ้งภายในวันทำการถัดไปหลังเห็นชอบ'})}});
+  pfOf().events.forEach(e=>{const T=PF_T[e.type];if(!T||!e.notified)return;const ad=addWorkdays(e.notified,7);
+    if(!e.appealed)L.push({d:ad,lab:`ครบกำหนดอุทธรณ์ — ${T.t}`,s:ad<asOf?'ok':'warn',msg:ad<asOf?'พ้นกำหนดอุทธรณ์ → หัวหน้าเจ้าหน้าที่จัดทำประกาศ+แบบแจ้งคะแนน เสนอหัวหน้าหน่วยงาน แล้วแจ้ง/ประกาศเผยแพร่ผ่าน e-GP ภายในวันทำการถัดไป':'รอผู้ประกอบการอุทธรณ์ (7 วันทำการ)'});
+    else{const dd=addWorkdays(e.appealed,7);L.push({d:dd,lab:`ต้องพิจารณาอุทธรณ์ให้เสร็จ — ${T.t}`,s:e.appealRes?'ok':dd<asOf?'bad':'warn',msg:e.appealRes?(e.appealRes==='void'?'เพิกถอนคะแนนแล้ว':'ยืนตามเดิม'):dd<asOf?'เกินกำหนดพิจารณาอุทธรณ์!':'เสนอหัวหน้าหน่วยงานพิจารณา (7 วันทำการ)'})}});
   const fin=insOf().list.find(x=>x.final);
   if(fin&&fin.inspDate){const wy=parse(insOf().wYears)||0;const wEnd=fin.wEnd||addYears(fin.inspDate,wy);
     L.push({d:fin.inspDate,lab:'ตรวจรับงานงวดสุดท้าย — ประเมินผลการปฏิบัติงานของผู้ประกอบการ',s:fin.inspDate<=asOf?'ok':'wait',msg:fin.inspDate<=asOf?'สรุปคะแนนความเสียหายช่วงปฏิบัติงานตามสัญญา (พิมพ์จากปุ่มเอกสารด้านล่าง)':'รอ'});
@@ -2528,9 +2551,10 @@ function pfTimeline(asOf){const h=S.h,st=h.start,end=effEnd(),L=[];if(!st||!end)
   return L.sort((x,y)=>x.d.localeCompare(y.d))}
 const PF_S={ok:['✓','ok'],warn:['!','w'],bad:['✗','e'],wait:['○','wait']};
 function renderPf(){const P=pfOf(),asOf=pfToday(),on=pfOn(),R=pfScore(asOf);
-  $('pf_thr').value=P.thr;$('pf_force').checked=!!P.force;$('pf_asof').value=P.asof||'';
-  $('pfHead').innerHTML=`<div class="pfst ${on?'on':''}"><b>${on?'✓ ใช้บังคับกับสัญญานี้':'ไม่อยู่ในเกณฑ์บังคับ'}</b><span>วงเงินสัญญา ${fm(parse(S.h.value)||0)} บาท ${on?(P.force&&(parse(S.h.value)||0)<(parse(P.thr)||0)?'(เลือกใช้บังคับเอง)':`≥ ${fm(parse(P.thr)||0)} บาท`):`< ${fm(parse(P.thr)||0)} บาท`}</span></div>
-   <div class="pfsc ${R.sc>=10?'bad':R.sc?'warn':''}"><span>คะแนนความเสียหายสะสม ณ ${thDate(asOf)}</span><b>${R.sc}</b><small>${R.sus?`ระงับการยื่นข้อเสนอ/ทำสัญญา ${R.sus} วัน`:R.sc?'ยังไม่ถึงเกณฑ์ระงับ (10 คะแนน)':'ไม่มีคะแนนความเสียหาย'}</small></div>`;
+  $('pf_thr').value=P.thr;$('pf_force').checked=!!P.force;$('pf_bid').value=P.bid||'auto';$('pf_asof').value=P.asof||'';
+  $('pfHead').innerHTML=`<div class="pfst ${on?'on':''}"><b>${on?'✓ ใช้บังคับกับสัญญานี้':'ไม่อยู่ในเกณฑ์บังคับ'}</b><span>วงเงินสัญญา ${fm(parse(S.h.value)||0)} บาท ${(parse(S.h.value)||0)>=(parse(P.thr)||0)?`≥ ${fm(parse(P.thr)||0)} บาท (ข้อ 190/2 (1) กรมทางหลวง)`:`< ${fm(parse(P.thr)||0)} บาท`}${pfBid()?'':' · ประกาศเชิญชวนก่อน 10 ก.ค. 2569'}${P.force?' · เลือกบังคับใช้เอง':''}</span></div>
+   <div class="pfsc ${R.sc>=10?'bad':R.sc?'warn':''}"><span>คะแนนความเสียหายสะสม ณ ${thDate(asOf)}</span><b>${R.sc}</b><small>${R.sus?`ระงับการยื่นข้อเสนอ/ทำสัญญา ${R.sus} วัน<br>${thDate(R.susFrom)} – ${thDate(R.susTo)}`:R.sc?'ยังไม่ถึงเกณฑ์ระงับ (10 คะแนน)':'ไม่มีคะแนนความเสียหาย'}</small></div>
+   <div class="pfnote">${pfBid()||pfOf().force?'':`⚠ สัญญานี้${S.h.start&&S.h.start<PF_EFF?'เริ่มก่อนระเบียบมีผล (10 ก.ค. 2569)':'ระบุว่าประกาศก่อน 10 ก.ค. 2569'} — ข้อ 5: ประกาศ/เชิญชวนก่อนระเบียบมีผล ให้ดำเนินการตามระเบียบเดิม · `}ผู้ประกอบการอุทธรณ์ได้ภายใน 7 วันทำการนับแต่ได้รับแจ้งผ่าน e-GP และหน่วยงานต้องพิจารณาภายใน 7 วันทำการ · ระยะเวลาระงับนับถัดจากวันที่คะแนนสะสมอยู่ในเกณฑ์ (ข้อ 190/7 — หักวันที่เคยถูกระงับภายใน 2 ปี) · กรมบัญชีกลางลบคะแนนเมื่อครบ 2 ปีนับถัดจากวันประกาศเผยแพร่ · วันทำการนับเฉพาะจันทร์–ศุกร์ (ไม่หักวันหยุดราชการ)</div>`;
   const TL=pfTimeline(asOf);
   $('pfTimeline').innerHTML=`<thead><tr><th style="width:150px">วันที่</th><th>จุดตรวจ</th><th style="width:44%">สถานะ / สิ่งที่ต้องทำ</th></tr></thead><tbody>`+(TL.length?TL.map(x=>`<tr class="pf-${x.s}"><td>${thDate(x.d)}</td><td>${esc(x.lab)}</td><td><span class="pfb">${PF_S[x.s][0]}</span> ${esc(x.msg)}</td></tr>`).join(''):'<tr class="empty-r"><td colspan="3">ใส่วันเริ่มต้นและสิ้นสุดสัญญาในหน้าถัวจ่ายก่อน</td></tr>')+'</tbody>';
   const opt=v=>{let g='',o='';Object.entries(PF_T).forEach(([k,t])=>{if(t.g!==g){if(g)o+='</optgroup>';g=t.g;o+=`<optgroup label="${t.g}">`}o+=`<option value="${k}"${k===v?' selected':''}>${esc(t.t)}${t.pts?` — ${t.pts} คะแนน`:''}</option>`});return o+'</optgroup>'};
@@ -2538,11 +2562,22 @@ function renderPf(){const P=pfOf(),asOf=pfToday(),on=pfOn(),R=pfScore(asOf);
    (R.ev.length?R.ev.map(({e,r},j)=>{const T=PF_T[e.type]||{};return `<tr data-pe="${j}" class="${r.now?'sev-e':''}"><td><select data-f="type">${opt(e.type)}</select><input data-f="note" value="${esc(e.note||'')}" placeholder="รายละเอียด เช่น ไม่ติดตั้งป้ายเตือน กม.2+700" style="margin-top:4px"></td>
      <td><input type="date" data-f="date" value="${esc(e.date||'')}"></td><td><input data-f="ref" value="${esc(e.ref||'')}" placeholder="ขท.กบ./..."></td>
      <td>${T.needDue?`<input type="date" data-f="due" value="${esc(e.due||'')}">`:'<span class="note">-</span>'}</td><td>${T.needDue?`<input type="date" data-f="fixed" value="${esc(e.fixed||'')}">`:'<span class="note">-</span>'}</td>
-     <td><b>${r.now}</b> คะแนน${r.needDue?'<br><span class="note">ใส่วันกำหนดแก้ไข</span>':''}${r.next?`<br><span class="note">ถ้ายังไม่แก้: +${r.next.p} วันที่ ${thDate(r.next.d)}</span>`:''}</td><td><button type="button" class="x" data-pedel="${j}" aria-label="ลบ">✕</button></td></tr>`}).join('')
+     <td><b>${r.now}</b> คะแนน${r.needDue?'<br><span class="note">ใส่วันกำหนดแก้ไข</span>':''}${r.next?`<br><span class="note">ถ้ายังไม่แก้: +${r.next.p} วันที่ ${thDate(r.next.d)}</span>`:''}</td><td><button type="button" class="x" data-pedel="${j}" aria-label="ลบ">✕</button></td></tr>
+     <tr data-pe="${j}" class="pfap ${r.now?'sev-e':''}"><td colspan="7"><div class="pfwho">👤 <b>${pfWho(e.type).t}</b> — <span class="note">${pfWho(e.type).st}</span></div><div class="pfapg">
+       <span>หัวหน้าหน่วยงานเห็นชอบผลประเมิน <input type="date" data-f="approved" value="${esc(e.approved||'')}"></span>
+       <span>${e.approved?`แจ้งผ่าน e-GP ภายใน <b>${thDate(addWorkdays(e.approved,1))}</b>`:''}</span>
+       <span>📨 แจ้งผ่าน e-GP เมื่อ <input type="date" data-f="notified" value="${esc(e.notified||'')}"></span>
+       <span>${e.notified?`อุทธรณ์ได้ถึง <b>${thDate(addWorkdays(e.notified,7))}</b> (7 วันทำการ)`:'<span class="note">— ยังไม่แจ้ง</span>'}</span>
+       <span>รับหนังสืออุทธรณ์ <input type="date" data-f="appealed" value="${esc(e.appealed||'')}"></span>
+       <span>${e.appealed?`ต้องพิจารณาให้เสร็จภายใน <b>${thDate(addWorkdays(e.appealed,7))}</b>`:''}</span>
+       <span>ผลอุทธรณ์ <select data-f="appealRes"><option value=""${!e.appealRes?' selected':''}>-</option><option value="void"${e.appealRes==='void'?' selected':''}>หน่วยงานเห็นด้วย — เพิกถอนคะแนน</option><option value="up"${e.appealRes==='up'?' selected':''}>ไม่เห็นด้วย — ส่งผู้มีอำนาจเหนือขึ้นไป</option><option value="keep"${e.appealRes==='keep'?' selected':''}>ยืนตามเดิม (วินิจฉัยแล้ว)</option></select></span>
+       ${e.appealRes==='up'?`<span>หัวหน้าหน่วยงานเห็นชอบความเห็น <input type="date" data-f="appealDec" value="${esc(e.appealDec||'')}"></span><span>${e.appealDec?`ส่งผู้มีอำนาจเหนือขึ้นไปภายใน <b>${thDate(addWorkdays(e.appealDec,7))}</b> · ผู้มีอำนาจพิจารณาภายใน 30 วันนับแต่ได้รับ (ขยายได้ไม่เกิน 30 วัน)`:''}</span>`:''}
+       </div></td></tr>`}).join('')
    :'<tr class="empty-r"><td colspan="7">ยังไม่มีเหตุ — ดีมาก 🎉 (คะแนนข้อ 1(1) ค่าปรับเกิน 10% ระบบคิดให้เองจากข้อมูลค่าปรับ)</td></tr>')+
    (R.a&&R.a.pts?`<tr class="sev-e"><td colspan="5">(1) ล่วงเลยกำหนดสัญญา และค่าปรับเกินร้อยละ 10 ของวงเงินค่าจ้าง — ค่าปรับ ${fm(R.a.penNow)} บาท (คิดอัตโนมัติ)</td><td><b>30</b> คะแนน</td><td></td></tr>`:'')+'</tbody>'}
 $('pf_thr').addEventListener('input',e=>{pfOf().thr=e.target.value;renderPf();renderSecInfo();save()});
 $('pf_asof').addEventListener('input',e=>{pfOf().asof=e.target.value;renderPf();save();if(insPage==='perf')renderIns()});
+$('pf_bid').addEventListener('change',e=>{pfOf().bid=e.target.value;renderPf();renderSecInfo();save()});
 $('pf_force').addEventListener('change',e=>{pfOf().force=e.target.checked;renderPf();renderSecInfo();save()});
 $('pfEvents').addEventListener('change',e=>{const tr=e.target.closest('tr[data-pe]'),f=e.target.dataset.f;if(!tr||!f)return;pfOf().events[+tr.dataset.pe][f]=e.target.value;renderPf();renderSecInfo();save();if(insPage==='perf')renderIns()});
 $('pfEvents').addEventListener('click',e=>{const b=e.target.closest('[data-pedel]');if(!b)return;pfOf().events.splice(+b.dataset.pedel,1);renderPf();renderSecInfo();save();if(insPage==='perf')renderIns()});
@@ -2551,7 +2586,7 @@ function docPerf(){const h=S.h,P=pfOf(),asOf=pfToday(),R=pfScore(asOf),{chair,me
   const rows=[];R.ev.forEach(({e,r})=>{const T=PF_T[e.type]||{};rows.push(`<tr><td class="c">${rows.length+1}</td><td>${esc(T.t||'')}${e.note?'<br>'+esc(e.note):''}</td><td class="c">${e.date?thDate(e.date):'-'}${e.ref?'<br>'+esc(e.ref):''}</td><td class="c">${T.needDue?(e.due?thDate(e.due):'-')+(e.fixed?'<br>แก้ไขแล้ว '+thDate(e.fixed):''):'-'}</td><td class="r">${r.now}</td></tr>`)});
   if(R.a&&R.a.pts)rows.push(`<tr><td class="c">${rows.length+1}</td><td>(1) ปฏิบัติงานล่วงเลยระยะเวลาครบกำหนดตามสัญญา และมีค่าปรับเกินร้อยละ 10 ของวงเงินค่าจ้าง (ค่าปรับ ${fm(R.a.penNow)} บาท)</td><td class="c">${thDate(R.a.hitDate)}</td><td class="c">-</td><td class="r">30</td></tr>`);
   return [`<div class="ipaper"><p class="ctr b" style="font-size:17px;margin:0">แบบสรุปผลการประเมินการปฏิบัติงานของผู้ประกอบการ</p>
-   <p class="ctr">และคะแนนความเสียหาย ตามเอกสารแนบท้ายเอกสารประกวดราคาอิเล็กทรอนิกส์ ข้อ 1.16</p><div class="hrl"></div>
+   <p class="ctr">และคะแนนความเสียหาย ตามระเบียบกระทรวงการคลังฯ (ฉบับที่ 3) พ.ศ. 2569 และเอกสารแนบท้ายเอกสารประกวดราคาอิเล็กทรอนิกส์ ข้อ 1.16</p><div class="hrl"></div>
    <div class="wkh"><b>สัญญาเลขที่</b><span>${esc(h.no)} ลงวันที่ ${esc(h.date)}</span><b>วงเงิน</b><span>${fm(parse(h.value)||0)} บาท</span>
     <b>ชื่องาน</b><span style="grid-column:span 3">${esc(h.project)} ${esc(h.loc)}</span>
     <b>ผู้รับจ้าง</b><span style="grid-column:span 3">${esc(h.contractor)}</span>
@@ -2560,7 +2595,7 @@ function docPerf(){const h=S.h,P=pfOf(),asOf=pfToday(),R=pfScore(asOf),{chair,me
     <thead><tr><th>ที่</th><th>ความเสียหาย</th><th>วันที่ / หนังสือ</th><th>กำหนดแก้ไข</th><th>คะแนน</th></tr></thead>
     <tbody>${rows.length?rows.join(''):'<tr><td></td><td>- ไม่มีเหตุที่ทำให้เกิดคะแนนความเสียหาย -</td><td></td><td></td><td class="r">0</td></tr>'}
     <tr><td></td><td class="b">รวมคะแนนความเสียหายสะสม</td><td></td><td></td><td class="r b">${R.sc}</td></tr></tbody></table>
-   <p class="ind" style="margin-top:10px">ผลการประเมิน: คะแนนความเสียหายสะสม ${R.sc} คะแนน ${R.sus?`อยู่ในเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญาหรือข้อตกลงเป็นหนังสือ เป็นระยะเวลา ${R.sus} วัน`:'ไม่ถึงเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญา'}</p>
+   <p class="ind" style="margin-top:10px">ผลการประเมิน: คะแนนความเสียหายสะสม ${R.sc} คะแนน ${R.sus?`อยู่ในเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญาหรือข้อตกลงเป็นหนังสือ เป็นระยะเวลา ${R.sus} วัน นับแต่วันที่ ${thDate(R.susFrom)} ถึงวันที่ ${thDate(R.susTo)}`:'ไม่ถึงเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญา'}</p>
    <div style="height:10px"></div>${sgRows([chair,...mem].filter(Boolean).map((x,j)=>({role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos})))}</div>`]}
 function renderInsDocs(C){
   if(insEditMode&&$('insSheets')){updEditBar();return}
