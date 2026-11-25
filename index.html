@@ -322,6 +322,23 @@ table.ptb{min-width:720px;font-size:.88rem}
 .wkbox .ptitle{font-weight:600}
 .wkcalc{border-radius:8px;padding:10px 12px;background:var(--sunk);font-size:.9rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:6px 14px}
 .wkcalc b{font-variant-numeric:tabular-nums}.wkcalc .late{color:var(--err)}.wkcalc .fast{color:var(--ok)}
+.wkit-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px}
+table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric:tabular-nums;padding:6px}.wkit td.c{text-align:center}.wkit td.dim{color:var(--muted)}
+.wkit tr.on td{background:var(--accent-soft)}.wkit tr.sev-e td{background:var(--err-bg)}
+.dynav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.dynav select{min-width:230px}.dynav button{min-width:38px;font-size:1.1rem}
+.dygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:6px 12px}
+.dygrid label{display:grid;grid-template-columns:1fr 62px 34px;align-items:center;gap:6px;font-size:.86rem}
+.dygrid input{text-align:right;padding:4px 6px}.dygrid .u{color:var(--muted);font-size:.8rem}
+.dywx{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dywx>div{display:flex;flex-direction:column;gap:4px;font-size:.88rem}
+.dywx label{display:flex;gap:8px;align-items:center;justify-content:flex-start;text-align:left}
+.dywx input[type=radio]{width:auto;flex:none;margin:0}.dywx input[data-wo]{flex:1;min-width:0;padding:3px 6px}
+.ptb select{width:100%;min-width:220px}.ptb .uu{color:var(--muted);font-size:.82rem;white-space:nowrap}
+.ipaper table.ib.dly{font-size:11.6px;line-height:1.28;table-layout:fixed;margin:0}
+.ipaper table.ib.dly td{border:var(--bw,.6px) solid #000!important;padding:1px 4px;vertical-align:middle;height:1.5em;white-space:nowrap;overflow:hidden}
+.ipaper table.ib.dly td.wr{white-space:normal}
+.ipaper table.ib.dly td.big{vertical-align:top;height:auto}
+.ipaper table.ib.dly .hd{font-weight:700;text-align:center}
+.ipaper .dlyt{text-align:center;font-weight:700;font-size:16px;margin:0 0 4px}
 .wkset summary{cursor:pointer;font-weight:600}.wkset[open] summary{margin-bottom:10px}
 .f.chk{flex-direction:row;align-items:center;gap:8px}
 #insPick .wkpick{border-left:2px solid var(--line)}
@@ -618,6 +635,35 @@ table.ptb{min-width:720px;font-size:.88rem}
       <div class="panel isum" id="insChk"></div>
     </div>
 
+    <div class="insbox wkbox" id="dyBox">
+      <h3>📋 รายงานประจำวัน <span class="note">แรงงาน เครื่องจักร งานที่ทำ (เลือกจากรายการงานในสัญญา) สภาพอากาศ — รวมเป็นรายงานประจำสัปดาห์ได้</span></h3>
+      <div class="instbar">
+        <div class="dynav"><button type="button" id="bDyPrev" aria-label="วันก่อนหน้า">‹</button><select id="dyPick"></select><button type="button" id="bDyNext" aria-label="วันถัดไป">›</button><span class="note" id="dyCount"></span></div>
+        <div class="btns"><button type="button" id="bDyAdd">+ เพิ่มวันถัดไป</button><button type="button" id="bDyDel" class="danger">ลบวันนี้</button><button type="button" id="bDyShow" class="primary">📄 ดูรายงานวันนี้</button></div>
+      </div>
+      <div class="note" id="dyEmpty" hidden>ยังไม่มีรายงานประจำวัน — กด “+ เพิ่มวันถัดไป” (วันถัดไปจะคัดลอกแรงงาน เครื่องจักร และรายการงานจากวันก่อนมาให้แก้)</div>
+      <div id="dyForm">
+        <div class="grid">
+          <label class="f">วันที่<input id="dy_date" type="date"><span class="hint" id="dy_dateHint"></span></label>
+          <label class="f">ผู้จัดทำรายงาน (ฝ่ายผู้รับจ้าง)<input id="dy_preparer" placeholder="ชื่อ-สกุล (ว่างได้)"></label>
+        </div>
+        <div class="ptitle">แรงงาน (คน)</div><div class="dygrid" id="dyLabor"></div>
+        <div class="ptitle">เครื่องจักร</div><div class="dygrid" id="dyMach"></div>
+        <div class="ptitle">ปริมาณงานที่ทำวันนี้ — ตามรายการงาน <span class="note">ใส่เฉพาะรายการที่ทำ · กด “รวมงานจากรายงานประจำวัน” ในรายงานประจำสัปดาห์ เพื่อรวมยอดทั้งสัปดาห์</span></div>
+        <div class="tbl-wrap"><table class="ptb wkit" id="dyItems"></table></div>
+        <div class="ptitle">งานอื่น ๆ ที่ไม่อยู่ในรายการงาน</div>
+        <div class="tbl-wrap"><table class="ptb" id="dyRows"></table></div>
+        <div class="btns"><button type="button" id="bDyRow">+ เพิ่มงานอื่น</button></div>
+        <div class="grid">
+          <label class="f wide">บันทึกรายละเอียดเพิ่มเติม (บรรทัดละ 1 เรื่อง)<textarea id="dy_note" rows="2"></textarea></label>
+          <label class="f wide">วัสดุที่ใช้ปฏิบัติงาน<textarea id="dy_mat" rows="2" placeholder="เช่น หินคลุก 120 ลบ.ม."></textarea></label>
+          <label class="f wide">ปัญหาและอุปสรรค / การแก้ไขงาน<textarea id="dy_problem" rows="2"></textarea></label>
+        </div>
+        <div class="dywx"><div><b>สภาพอากาศ ช่วงเช้า</b><div id="dyAM"></div></div><div><b>ช่วงบ่าย</b><div id="dyPM"></div></div></div>
+        <div class="grid"><label class="f wide">หมายเหตุ<input id="dy_remark"></label></div>
+      </div>
+    </div>
+
     <div class="insbox wkbox" id="wkBox">
       <h3>📈 รายงานความก้าวหน้าประจำสัปดาห์ <span class="note">ผู้ควบคุมงาน → ผอ.ขท.กระบี่ ผ่านประธานกรรมการ พร้อมสำเนาเรียนคณะกรรมการตรวจรับพัสดุ</span></h3>
       <div class="instbar">
@@ -630,17 +676,20 @@ table.ptb{min-width:720px;font-size:.88rem}
           <label class="f">สัปดาห์ที่<input id="wk_no" class="num" inputmode="numeric"><span class="hint">แก้เลข ระบบเลื่อนช่วงวันที่ให้</span></label>
           <label class="f">ระหว่างวันที่<input id="wk_from" type="date"></label>
           <label class="f">ถึงวันที่<input id="wk_to" type="date"></label>
-          <label class="f">เลขที่หนังสือ (เลขท้าย)<input id="wk_memoNo" placeholder="25"><span class="hint" id="wk_noHint"></span></label>
+          <label class="f">เลขที่หนังสือ (เลขท้าย)<input id="wk_memoNo" placeholder="เช่น 25"><span class="hint" id="wk_noHint"></span></label>
           <label class="f">ลงวันที่<input id="wk_memoDate" type="date"></label>
-          <label class="f">แผนงานสัปดาห์นี้ (%)<input id="wk_plan" class="num" inputmode="decimal" placeholder="7.114"></label>
-          <label class="f">ผลงานสัปดาห์นี้ (%)<input id="wk_act" class="num" inputmode="decimal" placeholder="0.058"></label>
+          <label class="f">แผนงานสัปดาห์นี้ (%)<input id="wk_plan" class="num" inputmode="decimal" placeholder="เช่น 7.114"></label>
+          <label class="f">ผลงานสัปดาห์นี้ (%)<input id="wk_act" class="num" inputmode="decimal"><span class="hint" id="wk_actHint"></span></label>
           <label class="f">แผนงานสะสม (%)<input id="wk_planCum" class="num" inputmode="decimal"><span class="hint" id="wk_pcHint"></span></label>
           <label class="f">ผลงานสะสม (%)<input id="wk_actCum" class="num" inputmode="decimal"><span class="hint" id="wk_acHint"></span></label>
           <label class="f wide">ปัญหาและอุปสรรค / หมายเหตุ (บรรทัดละ 1 เรื่อง)<textarea id="wk_problem" rows="3" placeholder="เช่น เสาไฟฟ้า และท่อประปา ติดขัดงานก่อสร้าง"></textarea></label>
         </div>
-        <div class="ptitle">งานที่ผู้รับจ้างทำในสัปดาห์นี้ <span class="note">ใช้ในหน้า “บันทึกการปฏิบัติงานประจำสัปดาห์”</span></div>
+        <div class="wkit-h"><div class="ptitle">ปริมาณงานที่ทำได้ในสัปดาห์นี้ — ตามรายการงาน <span class="note">ใส่เฉพาะรายการที่ทำ ลำดับตรงกับรายการถัวจ่าย · ผลงาน % คิดจากมูลค่า (ปริมาณ × ราคาต่อหน่วย ÷ วงเงินสัญญา)</span></div>
+          <div class="seg" id="wkBasis"><button type="button" data-basis="contract">อิงปริมาณตามสัญญา</button><button type="button" data-basis="bal">อิงปริมาณหลังถัวจ่าย</button></div></div>
+        <div class="tbl-wrap"><table class="ptb wkit" id="wkItems"></table></div>
+        <div class="ptitle">งานอื่น ๆ ที่ไม่อยู่ในรายการงาน <span class="note">เช่น งานขุดย้ายแนวท่อเดิม — ไม่นำไปคิด % ผลงาน</span></div>
         <div class="tbl-wrap"><table class="ptb" id="wkRows"></table></div>
-        <div class="btns"><button type="button" id="bWkRow">+ เพิ่มงาน</button></div>
+        <div class="btns"><button type="button" id="bWkRow">+ เพิ่มงานอื่น</button><button type="button" id="bWkFromDy">⇣ รวมงานจากรายงานประจำวันของสัปดาห์นี้</button></div>
         <div class="wkcalc" id="wkCalc"></div>
       </div>
       <details class="wkset">
@@ -668,7 +717,8 @@ table.ptb{min-width:720px;font-size:.88rem}
         <button type="button" data-ip="ctl" aria-pressed="false">บันทึกผู้ควบคุมงาน</button>
         <button type="button" data-ip="mtg" aria-pressed="false">รายงานการประชุม</button>
         <button type="button" data-ip="memo" aria-pressed="false">บันทึกรายงานผล</button>
-        <button type="button" data-ip="wk" aria-pressed="false" class="wkpick">รายงานประจำสัปดาห์</button>
+        <button type="button" data-ip="dly" aria-pressed="false" class="wkpick">รายงานประจำวัน</button>
+        <button type="button" data-ip="wk" aria-pressed="false">รายงานประจำสัปดาห์</button>
       </div>
       <div class="btns"><button type="button" id="bInsEdit">✏️ แก้ไขข้อความในเอกสาร</button><button type="button" id="bInsWord">⬇ ดาวน์โหลดเป็น Word (.docx)</button><button type="button" id="bInsPrint" class="primary">🖨 พิมพ์ / บันทึกเป็น PDF</button></div>
     </div>
@@ -1793,7 +1843,7 @@ function fillIns(){
   $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;$('lbRefund').hidden=!inst.final;renderPenBox();
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
-  renderInsTable();renderWk();renderIns();
+  renderInsTable();renderDy();renderWk();renderIns();
 }
 function growTA(t){t.style.height='auto';t.style.height=Math.max(76,t.scrollHeight+2)+'px'}
 function renderInsTable(){
@@ -2118,20 +2168,21 @@ function paginate(head,items,tail,fix){
   return pages.map(p=>`<div class="ipaper">${p.map(b=>`<div class="blk">${b}</div>`).join('')}</div>`)}
 /* ---- รายงานความก้าวหน้าประจำสัปดาห์ (ผู้ควบคุมงาน) ---- */
 function wkOf(){const ins=insOf();if(!S.wk)S.wk={};const W=S.wk;
-  const D={toLine:'ผอ.ขท.กระบี่ ผ่าน ประธานกรรมการตรวจรับพัสดุ',office:ins.office||'แขวงทางหลวงกระบี่',phone:ins.phone||'',prefix:'',basePlan:'',baseAct:'',cc:true,ccExtra:'',cur:0,list:[]};
+  const D={toLine:'ผอ.ขท.กระบี่ ผ่าน ประธานกรรมการตรวจรับพัสดุ',basis:'contract',office:ins.office||'แขวงทางหลวงกระบี่',phone:ins.phone||'',prefix:'',basePlan:'',baseAct:'',cc:true,ccExtra:'',cur:0,list:[]};
   Object.keys(D).forEach(k=>{if(W[k]===undefined)W[k]=D[k]});W.cur=Math.max(0,Math.min(W.cur||0,W.list.length-1));return W}
 const wkCur=()=>{const W=wkOf();return W.list[W.cur]||null};
 const wkPrefix=W=>W.prefix||`สทล.17 ขท.กระบี่/(${String(S.h.no||'').replace(/\s+/g,'')})/`;
 function wkTotalDays(){return (parse(S.h.days)||0)+(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0)}
 function wkRange(n){const st=S.h.start;if(!st||!(n>=1))return {from:'',to:''};const from=addDays(st,7*(n-1));return {from,to:addDays(from,6)}}
-function wkNew(n,prev){const r=wkRange(n);return {no:String(n),from:r.from,to:r.to,memoNo:'',memoDate:'',plan:'',act:'',planCum:'',actCum:'',
-  problem:prev?prev.problem:'',rows:prev?prev.rows.map(x=>({work:x.work,km:x.km,side:x.side,qty:''})):[]}}
+function wkNew(n,prev){const r=wkRange(n);return {no:String(n),from:r.from,to:r.to,memoNo:'',memoDate:'',plan:'',act:'',planCum:'',actCum:'',q:{},
+  problem:prev?prev.problem:'',rows:prev?prev.rows.map(x=>({work:x.work,km:x.km,side:x.side,qty:''})):[],
+  _q:prev&&prev.q?Object.fromEntries(Object.entries(prev.q).filter(([k,v])=>parseFloat(v.qty)||v.km||v.side).map(([k,v])=>[k,{qty:'',km:v.km||'',side:v.side||''}])):{}}}
 const pct3=v=>(Math.round(v*1000)/1000).toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3});
 function wkCalc(j){const W=wkOf();let pc=parse(W.basePlan)||0,ac=parse(W.baseAct)||0;
-  for(let i=0;i<=j;i++){const w=W.list[i];pc=String(w.planCum).trim()!==''?parse(w.planCum):pc+(parse(w.plan)||0);ac=String(w.actCum).trim()!==''?parse(w.actCum):ac+(parse(w.act)||0)}
+  for(let i=0;i<=j;i++){const w=W.list[i];pc=String(w.planCum).trim()!==''?parse(w.planCum):pc+(parse(w.plan)||0);ac=String(w.actCum).trim()!==''?parse(w.actCum):ac+wkActOf(i)}
   const w=W.list[j],total=wkTotalDays(),el=S.h.start&&w.to?daysBetween(S.h.start,w.to):NaN;
-  const autoPc=(j?wkCalcPrev(j-1).pc:parse(W.basePlan)||0)+(parse(w.plan)||0),autoAc=(j?wkCalcPrev(j-1).ac:parse(W.baseAct)||0)+(parse(w.act)||0);
-  return {w,plan:parse(w.plan)||0,act:parse(w.act)||0,pc,ac,autoPc,autoAc,diff:ac-pc,total,el,rem:total-el}}
+  const autoPc=(j?wkCalcPrev(j-1).pc:parse(W.basePlan)||0)+(parse(w.plan)||0),autoAc=(j?wkCalcPrev(j-1).ac:parse(W.baseAct)||0)+wkActOf(j);
+  return {w,plan:parse(w.plan)||0,act:wkActOf(j),autoAct:wkAutoAct(j),pc,ac,autoPc,autoAc,diff:ac-pc,total,el,rem:total-el}}
 function wkCalcPrev(j){const c=wkCalc(j);return {pc:c.pc,ac:c.ac}}
 function wkStatusTxt(c){const d=Math.abs(c.diff);return Math.abs(c.diff)<0.0005?'เป็นไปตามแผน':`${c.diff<0?'ช้ากว่าแผน':'เร็วกว่าแผน'} ${pct3(d)} %`}
 function wkTimeTxt(c){if(!isFinite(c.el))return `(เวลาทำการตามสัญญา ${c.total||'....'} วัน)`;
@@ -2158,8 +2209,9 @@ function docWkMemo(j){const h=S.h,W=wkOf(),c=wkCalc(j),w=c.w,ctl=ctlPerson(),{ch
    ${cc.length?`<div class="cc"><span>สำเนาเรียน</span><span>${cc.join('<br>')}<br>เพื่อโปรดทราบ</span></div>`:''}`;
   return `<div class="ipaper th memo wkdoc">${thdHtml(body)}</div>`}
 function docWkSheet(j){const h=S.h,c=wkCalc(j),w=c.w,ctl=ctlPerson();
-  const rows=(w.rows||[]).filter(r=>String(r.work||'').trim());const n=Math.max(12,rows.length);
-  const tr=[];for(let i=0;i<n;i++){const r=rows[i];tr.push(r?`<tr><td class="c">${i+1}</td><td>${esc(r.work)}</td><td class="c">${esc(r.km)}</td><td class="c">${esc(r.side)}</td><td class="c">${esc(r.qty)}</td></tr>`:'<tr><td></td><td></td><td></td><td></td><td></td></tr>')}
+  const IR=wkItems(j).filter(r=>r.qty).map(r=>({work:r.it.desc,km:r.km||insOf().defLoc||'',side:r.side,qty:`${fq(r.qty)} ${r.it.unit}`,no:r.i+1}));
+  const rows=[...IR,...(w.rows||[]).filter(r=>String(r.work||'').trim())];const n=Math.max(12,rows.length);
+  const tr=[];for(let i=0;i<n;i++){const r=rows[i];tr.push(r?`<tr><td class="c">${r.no||'-'}</td><td>${esc(r.work)}</td><td class="c">${esc(r.km)}</td><td class="c">${esc(r.side)}</td><td class="c">${esc(r.qty)}</td></tr>`:'<tr><td></td><td></td><td></td><td></td><td></td></tr>')}
   const probs=String(w.problem||'').split('\n').map(x=>x.trim()).filter(Boolean);
   const m=String(h.loc||'').match(/^(ทางหลวงหมายเลข\s*\S+.*?)(\s+ปริมาณงาน\s+(.+))?$/);
   return `<div class="ipaper wkdoc"><p class="ctr b" style="font-size:16px;margin:0">บันทึกการปฏิบัติงานประจำสัปดาห์</p>
@@ -2182,12 +2234,34 @@ function docWkSheet(j){const h=S.h,c=wkCalc(j),w=c.w,ctl=ctlPerson();
 function docWk(){const W=wkOf();if(!W.list.length)return [`<div class="ipaper"><p class="ctr" style="margin-top:120px;color:#777">ยังไม่มีรายงานประจำสัปดาห์ — กด “+ เพิ่มสัปดาห์ถัดไป” ในกล่องรายงานความก้าวหน้าประจำสัปดาห์</p></div>`];
   return [docWkMemo(W.cur),docWkSheet(W.cur)]}
 const WKF=['no','from','to','memoNo','memoDate','plan','act','planCum','actCum','problem'],WKS=['toLine','office','phone','prefix','basePlan','baseAct','ccExtra'];
+/* รายการงานตามสัญญา / หลังถัวจ่าย สำหรับรายงานประจำสัปดาห์ */
+function wkItems(j){const W=wkOf(),R=rules(),val=parse(S.h.value)||0,bal=W.basis==='bal';
+  return S.items.map((it,i)=>{const o=calcItem(it,R),id=iid(i);const base=o.valid?(bal?o.a:o.c):0;const p=o.valid?o.p:0;
+    let prev=0;for(let k=0;k<j;k++){const q=W.list[k].q&&W.list[k].q[id];if(q)prev+=parse(q.qty)||0}
+    const e=(W.list[j].q||{})[id]||{};const qty=parse(e.qty)||0;const cum=prev+qty;
+    return {i,id,it,base,p,prev,qty,cum,km:e.km||'',side:e.side||'',amt:qty*p,wpct:val?qty*p/val*100:0,over:base>0?cum>base+1e-9:qty>0,show:base>0||qty>0||prev>0}})}
+function wkAutoAct(j){return wkItems(j).reduce((t,r)=>t+r.wpct,0)}
+const wkActOf=j=>{const w=wkOf().list[j];return String(w.act).trim()!==''?parse(w.act)||0:wkAutoAct(j)};
+function renderWkItems(){const W=wkOf(),w=wkCur();if(!w)return;const L=wkItems(W.cur).filter(r=>r.show);const bal=W.basis==='bal';
+  $('wkBasis').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.basis===(bal?'bal':'contract')));
+  $('wkItems').innerHTML=`<thead><tr><th style="width:46px">ลำดับ</th><th>รายการ</th><th style="width:60px">หน่วย</th><th style="width:100px">ปริมาณ${bal?'หลังถัวจ่าย':'ตามสัญญา'}</th><th style="width:96px">สะสมก่อนหน้า</th><th style="width:110px">ทำได้สัปดาห์นี้</th><th style="width:96px">สะสมรวม</th><th style="width:70px">% รายการ</th><th style="width:140px">กม. - กม.</th><th style="width:86px">ด้าน</th></tr></thead><tbody>`+
+   (L.length?L.map(r=>`<tr data-wi="${r.id}" class="${r.over?'sev-e':r.qty?'on':''}"><td class="c">${r.i+1}</td><td>${esc(r.it.desc)}</td><td class="c">${esc(r.it.unit)}</td><td class="r">${fq(r.base)}</td><td class="r dim">${fq(r.prev)}</td>
+     <td><input class="num" data-f="qty" inputmode="decimal" value="${esc(((w.q||{})[r.id]||{}).qty||'')}"></td><td class="r" data-cum>${fq(r.cum)}</td><td class="r" data-pc>${r.base>0?(r.cum/r.base*100).toFixed(2):'-'}</td>
+     <td><input data-f="km" value="${esc(r.km)}" placeholder="${esc(insOf().defLoc||'2+625 - 2+730')}"></td><td><input data-f="side" value="${esc(r.side)}" placeholder="LT./RT."></td></tr>`).join('')
+   :'<tr class="empty-r"><td colspan="10">ยังไม่มีรายการงานในหน้าถัวจ่าย</td></tr>')+'</tbody>'}
+function wkRowUpd(tr){const W=wkOf(),r=wkItems(W.cur).find(x=>x.id===tr.dataset.wi);if(!r)return;
+  tr.querySelector('[data-cum]').textContent=fq(r.cum);tr.querySelector('[data-pc]').textContent=r.base>0?(r.cum/r.base*100).toFixed(2):'-';
+  tr.className=r.over?'sev-e':r.qty?'on':''}
+$('wkItems').addEventListener('input',e=>{const tr=e.target.closest('tr[data-wi]'),f=e.target.dataset.f;if(!tr||!f)return;const w=wkCur();w.q=w.q||{};
+  const e2=w.q[tr.dataset.wi]=w.q[tr.dataset.wi]||{qty:'',km:'',side:''};e2[f]=e.target.value;if(f==='qty')wkRowUpd(tr);wkChanged()});
+$('wkBasis').addEventListener('click',e=>{const b=e.target.closest('[data-basis]');if(!b)return;wkOf().basis=b.dataset.basis;renderWkItems();wkChanged()});
 function renderWkRows(){const w=wkCur();if(!w)return;
   $('wkRows').innerHTML=`<thead><tr><th style="width:46px">ลำดับ</th><th>งาน</th><th style="width:160px">กม. - กม.</th><th style="width:100px">ด้าน</th><th style="width:130px">ผลงานที่ทำได้</th><th style="width:40px"></th></tr></thead><tbody>`+
    (w.rows.length?w.rows.map((r,j)=>`<tr data-wr="${j}"><td class="c">${j+1}</td><td><input data-f="work" value="${esc(r.work)}" placeholder="เช่น ผู้รับจ้างทำงาน EARTH EXCAVATION"></td><td><input data-f="km" value="${esc(r.km)}" placeholder="2+625 - 2+730"></td><td><input data-f="side" value="${esc(r.side)}" placeholder="LT./RT."></td><td><input data-f="qty" value="${esc(r.qty)}" placeholder="1 L/S."></td><td><button type="button" class="x" data-wrdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join('')
-   :'<tr class="empty-r"><td colspan="6">ยังไม่มีงานในสัปดาห์นี้ — กด “+ เพิ่มงาน”</td></tr>')+'</tbody>'}
+   :'<tr class="empty-r"><td colspan="6">ไม่มี — กด “+ เพิ่มงานอื่น” ถ้ามีงานนอกรายการ</td></tr>')+'</tbody>'}
 function renderWkCalc(){const W=wkOf(),w=wkCur();if(!w)return;const c=wkCalc(W.cur);
   $('wk_pcHint').textContent=String(w.planCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoPc)+')':'ว่างไว้ = สะสมยกมา + แผนงานแต่ละสัปดาห์ = '+pct3(c.autoPc);
+  $('wk_actHint').textContent=String(w.act).trim()?'ใส่เอง (ว่างไว้ = คิดจากปริมาณงาน '+pct3(c.autoAct)+')':'ว่างไว้ = คิดจากปริมาณงานในตาราง = '+pct3(c.autoAct)+' %';
   $('wk_acHint').textContent=String(w.actCum).trim()?'ใส่เอง (ว่างไว้ = '+pct3(c.autoAc)+')':'ว่างไว้ = '+pct3(c.autoAc);
   $('wk_noHint').textContent='ที่ '+wkPrefix(W)+(w.memoNo||'...');$('wk_prefixHint').textContent=W.prefix?'':'ว่างไว้ = '+wkPrefix(W);
   const ccN=W.cc?[committee().chair,...committee().mem].filter(Boolean).length:0;
@@ -2197,7 +2271,7 @@ function renderWkCalc(){const W=wkOf(),w=wkCur();if(!w)return;const c=wkCalc(W.c
 function renderWk(){const W=wkOf();$('wkEmpty').hidden=!!W.list.length;$('wkForm').hidden=!W.list.length;$('bWkDel').disabled=!W.list.length;$('bWkShow').disabled=!W.list.length;
   $('wkSeg').innerHTML=W.list.map((x,j)=>`<button type="button" data-wk="${j}" aria-pressed="${j===W.cur}">สัปดาห์ที่ ${esc(x.no)}</button>`).join('');
   WKS.forEach(k=>$('wk_'+k).value=W[k]??'');$('wk_cc').checked=!!W.cc;
-  const w=wkCur();if(w){WKF.forEach(k=>$('wk_'+k).value=w[k]??'');renderWkRows();renderWkCalc()}}
+  const w=wkCur();if(w){if(!w.q)w.q={};WKF.forEach(k=>$('wk_'+k).value=w[k]??'');renderWkItems();renderWkRows();renderWkCalc()}}
 function wkChanged(){renderWkCalc();save();if(insPage==='wk')renderIns()}
 WKF.forEach(k=>$('wk_'+k).addEventListener('input',e=>{const w=wkCur();if(!w)return;w[k]=e.target.value;
   if(k==='no'){const r=wkRange(parse(w.no));if(r.from){w.from=r.from;w.to=r.to;$('wk_from').value=r.from;$('wk_to').value=r.to}
@@ -2212,11 +2286,107 @@ $('wkSeg').addEventListener('click',e=>{const b=e.target.closest('[data-wk]');if
 $('bWkAdd').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}const W=wkOf();const last=W.list.reduce((a,x)=>!a||parse(x.no)>parse(a.no)?x:a,null);
   let n;if(last)n=(parse(last.no)||0)+1;else{const st=S.h.start;const today=new Date().toISOString().slice(0,10);n=st?Math.max(1,Math.floor(dayDiff(st,today)/7)+1):1;const mx=Math.max(1,Math.ceil((wkTotalDays()||7)/7));if(n>mx)n=mx}
   if(!S.h.start)toast('ยังไม่มีวันเริ่มต้นสัญญา — ใส่ช่วงวันที่เองได้');
-  W.list.push(wkNew(n,last));W.list.sort((a,b)=>parse(a.no)-parse(b.no));W.cur=W.list.findIndex(x=>parse(x.no)===n);renderWk();save();if(insPage==='wk')renderIns();toast('เพิ่มสัปดาห์ที่ '+n+' แล้ว'+(last?' (คัดลอกรายการงานและปัญหาจากสัปดาห์ก่อนให้)':''))});
+  const nw=wkNew(n,last);nw.q=nw._q;delete nw._q;W.list.push(nw);W.list.sort((a,b)=>parse(a.no)-parse(b.no));W.cur=W.list.findIndex(x=>parse(x.no)===n);renderWk();save();if(insPage==='wk')renderIns();toast('เพิ่มสัปดาห์ที่ '+n+' แล้ว'+(last?' (คัดลอกรายการงานและปัญหาจากสัปดาห์ก่อนให้)':''))});
 let wkDelArm=0;$('bWkDel').addEventListener('click',e=>{const W=wkOf(),w=wkCur();if(!w)return;
   if(!wkDelArm){wkDelArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยันลบ';setTimeout(()=>{wkDelArm=0;e.target.textContent='ลบสัปดาห์นี้'},3000);return}
   wkDelArm=0;e.target.textContent='ลบสัปดาห์นี้';toast('ลบรายงานสัปดาห์ที่ '+w.no+' แล้ว');W.list.splice(W.cur,1);W.cur=Math.max(0,W.cur-1);renderWk();save();if(insPage==='wk')renderIns()});
 $('bWkShow').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insPage='wk';$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip==='wk'));renderIns();$('insPick').scrollIntoView({behavior:'smooth',block:'start'})});
+/* ---- รายงานประจำวัน ---- */
+const DY_LAB=[['eng','วิศวกร'],['tech','ช่างเทคนิค'],['surv','ช่างสำรวจ'],['fore','หัวหน้าคนงาน'],['mhead','หัวหน้าช่างซ่อม'],['lab','คนงานทั่วไป'],
+  ['opr','พนักงานขับเครื่องจักร'],['survo','พนักงานสำรวจ'],['rep','พนักงานซ่อมเครื่องจักร'],['drv','พนักงานขับรถ'],['fuel','พนักงานเติมน้ำมัน']];
+const DY_M1=[['lowbed','รถบรรทุกเครื่องจักรกล'],['grader','รถเกรดเดอร์'],['dozer','รถแทรคเตอร์'],['backhoe','รถแบ็คโฮ'],['vib','รถบดสั่นสะเทือน'],['pad','รถบดสั่นสะเทือนล้อหนาม'],['tire','รถบดล้อยาง'],['steel','รถบดสามล้อเหล็ก'],['water','รถบรรทุกน้ำ'],['t10','รถบรรทุก 10 ล้อ']].map(x=>[...x,'คัน']);
+const DY_M2=[['t6','รถบรรทุก 6 ล้อ'],['tsmall','รถบรรทุกขนาดเล็ก'],['cement','รถบรรทุกซีเมนต์ผง'],['recyc','รถ Recycling'],['broom','รถไม้กวาด'],['dist','รถลาดยาง'],['paver','รถปูยาง AC'],['crane','รถเครน'],['piling','รถปั้นจั่น'],['marking','รถตีเส้นจราจร']].map(x=>[...x,'คัน']);
+const DY_M3=[['plate','เครื่องตบดินสั่นสะเทือน','ชุด'],['camera','กล้องสำรวจ','ชุด'],['testkit','เครื่องมือทดสอบ','ชุด'],['pump','เครื่องปั๊มน้ำ','ชุด'],['gen','เครื่องปั่นไฟ','ชุด'],['service','รถบริการ','คัน']];
+const DY_WX=[['clear','ท้องฟ้าแจ่มใส'],['light','ฝนตกเล็กน้อย (ไม่เป็นอุปสรรคในการทำงาน)'],['cloud','ท้องฟ้ามืดครึ้มหรือมีเมฆมาก'],['heavy','ฝนตกหนัก (ไม่สามารถทำงานได้)'],['other','อื่น ๆ']];
+const DY_WXS={light:'ฝนตกเล็กน้อย (ไม่เป็นอุปสรรค)',heavy:'ฝนตกหนัก (ทำงานไม่ได้)'};
+function dyOf(){if(!S.dly)S.dly={cur:0,list:[]};const D=S.dly;D.cur=Math.max(0,Math.min(D.cur||0,D.list.length-1));return D}
+const dyCur=()=>{const D=dyOf();return D.list[D.cur]||null};
+function dyNew(date,prev){return {date,preparer:prev?prev.preparer:'',lab:prev?Object.assign({},prev.lab):{},mach:prev?Object.assign({},prev.mach):{},othName:prev?prev.othName:'',othN:prev?prev.othN:'',
+  q:{},rows:[],note:'',mat:'',problem:prev?prev.problem:'',wAM:'clear',wPM:'clear',wAMo:'',wPMo:'',remark:''}}
+function dyItemsOf(d){const R=rules();return S.items.map((it,i)=>{const o=calcItem(it,R),id=iid(i),e=(d.q||{})[id]||{};return {i,id,it,p:o.valid?o.p:0,qty:parse(e.qty)||0,raw:e.qty||'',km:e.km||'',side:e.side||''}})}
+function dyDetailLines(d){const L=[];dyItemsOf(d).filter(r=>r.qty).forEach(r=>L.push(`- ผู้รับจ้างทำงาน ${r.it.desc} ปริมาณ ${fq(r.qty)} ${r.it.unit}${r.km?' กม.'+r.km.replace(/^กม\.?\s*/,''):''}${r.side?' ด้าน '+r.side:''}`));
+  (d.rows||[]).filter(r=>String(r.work||'').trim()).forEach(r=>L.push(`- ${r.work}${r.qty?' '+r.qty:''}${r.km?' กม.'+r.km.replace(/^กม\.?\s*/,''):''}${r.side?' ด้าน '+r.side:''}`));
+  String(d.note||'').split('\n').map(x=>x.trim()).filter(Boolean).forEach(x=>L.push(/^[-•]/.test(x)?x:'- '+x));return L}
+function docDly(){const D=dyOf(),d=dyCur();if(!d)return [`<div class="ipaper"><p class="ctr" style="margin-top:120px;color:#777">ยังไม่มีรายงานประจำวัน — กด “+ เพิ่มวันถัดไป” ในกล่องรายงานประจำวัน</p></div>`];
+  const h=S.h,ins=insOf(),ctl=ctlPerson(),n=v=>v&&parse(v)?esc(v):'';
+  const cell=(L,j,obj)=>{const x=L[j];return x?`<td>${x[1]}</td><td class="c">${n(obj[x[0]])}</td><td class="c">${x[2]||'คน'}</td>`:'<td></td><td></td><td></td>'};
+  let rows='';
+  for(let j=0;j<6;j++)rows+=`<tr>${j===0?'<td class="hd" rowspan="6">แรงงาน</td>':''}${cell(DY_LAB.slice(0,6),j,d.lab)}${cell(DY_LAB.slice(6),j,d.lab)}<td></td><td></td><td></td></tr>`;
+  const m3=[...DY_M3,['_oth',`อื่น ๆ ${esc(d.othName||'')}`,'']];
+  for(let j=0;j<10;j++)rows+=`<tr>${j===0?'<td class="hd" rowspan="10">เครื่องจักร</td>':''}${cell(DY_M1,j,d.mach)}${cell(DY_M2,j,d.mach)}${m3[j]?(m3[j][0]==='_oth'?`<td>${m3[j][1]}</td><td class="c">${n(d.othN)}</td><td></td>`:cell(m3,j,d.mach)):'<td></td><td></td><td></td>'}</tr>`;
+  const det=dyDetailLines(d),prob=String(d.problem||'').split('\n').map(x=>x.trim()).filter(Boolean),mat=String(d.mat||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const mk=on=>on?'☑':'☐';
+  const oth=[d.wAM==='other'&&d.wAMo,d.wPM==='other'&&d.wPMo].filter(Boolean).map(esc).join(' / ');
+  const wx=DY_WX.map(([k,t])=>`<td colspan="3">${k==='other'?'อื่น ๆ '+(oth||'..............................'):(DY_WXS[k]||t)}</td><td class="c">${mk(d.wAM===k)}</td><td class="c">${mk(d.wPM===k)}</td>`);
+  const col=[9,21,5,4,20,5,4,23,5,4];
+  return [`<div class="ipaper"><p class="dlyt">รายงานประจำวัน</p><table class="ib dly"><colgroup>${col.map(w=>`<col style="width:${w}%">`).join('')}</colgroup><tbody>
+   <tr><td colspan="10" class="hd" style="height:auto;padding:4px">${esc(ins.office||'แขวงทางหลวงกระบี่')}<br>กรมทางหลวง กระทรวงคมนาคม</td></tr>
+   <tr><td>โครงการ</td><td colspan="9" class="wr">${esc(h.project)} ${esc(h.loc)}</td></tr>
+   <tr><td colspan="2">สัญญาจ้างเลขที่ ${esc(h.no)}</td><td colspan="3">ผู้รับจ้าง ${esc(h.contractor)}</td><td colspan="5">ระยะเวลาดำเนินการ ${esc(h.days)} วัน</td></tr>
+   <tr><td colspan="2">เริ่มต้นสัญญา ${thDate(h.start)}</td><td colspan="3">สิ้นสุดสัญญา ${thDate(effEnd())}</td><td colspan="5"></td></tr>
+   <tr><td colspan="7" class="hd">รายงานผลการปฏิบัติงานประจำวัน</td><td colspan="3" class="c">วันที่ ${thDate2(d.date)}</td></tr>
+   ${rows}
+   <tr><td colspan="5" class="hd">บันทึกรายละเอียดการปฏิบัติงานประจำวัน</td><td colspan="5" class="hd">วัสดุที่ใช้ปฏิบัติงาน</td></tr>
+   <tr><td colspan="5" class="big wr" style="height:190px">${det.length?det.map(esc).join('<br>'):'-'}</td><td colspan="5" class="big wr">${mat.length?mat.map(esc).join('<br>'):''}</td></tr>
+   <tr><td colspan="5" class="hd">ปัญหาและอุปสรรค/การแก้ไขงาน</td><td colspan="5" class="hd">สภาพภูมิอากาศ</td></tr>
+   <tr><td colspan="5" rowspan="7" class="big wr">${prob.length?prob.map(x=>esc(/^[-•]/.test(x)?x:'- '+x)).join('<br>'):'-'}</td><td colspan="3" class="hd">สภาพ</td><td class="hd">เช้า</td><td class="hd">บ่าย</td></tr>
+   ${wx.map(x=>`<tr>${x}</tr>`).join('')}
+   <tr><td colspan="5" class="wr">หมายเหตุ ${esc(d.remark||'')}</td></tr>
+   <tr><td colspan="3" class="hd">ผู้จัดทำรายงาน</td><td colspan="2"></td><td colspan="5" class="hd">ผู้รายงาน</td></tr>
+   <tr><td colspan="3" class="big c" style="height:70px;vertical-align:bottom">${d.preparer?`(${esc(d.preparer)})<br>ผู้แทนผู้รับจ้าง`:''}</td><td colspan="2"></td>
+     <td colspan="5" class="big c" style="vertical-align:bottom;line-height:1.5">ลงชื่อ ......................................................<br>(${esc(ctl?ctl.name:'..............................')})<br>${esc(ctl?ctl.pos:'')}<br>ผู้ควบคุมงาน</td></tr>
+   </tbody></table></div>`]}
+function renderDyItems(){const d=dyCur();if(!d)return;const L=dyItemsOf(d);
+  $('dyItems').innerHTML=`<thead><tr><th style="width:46px">ลำดับ</th><th>รายการ</th><th style="width:60px">หน่วย</th><th style="width:120px">ปริมาณวันนี้</th><th style="width:170px">กม. - กม.</th><th style="width:100px">ด้าน</th></tr></thead><tbody>`+
+   (L.length?L.map(r=>`<tr data-di="${r.id}" class="${r.qty?'on':''}"><td class="c">${r.i+1}</td><td>${esc(r.it.desc)}</td><td class="c">${esc(r.it.unit)}</td><td><input class="num" data-f="qty" inputmode="decimal" value="${esc(r.raw)}"></td><td><input data-f="km" value="${esc(r.km)}"></td><td><input data-f="side" value="${esc(r.side)}" placeholder="LT./RT."></td></tr>`).join('')
+   :'<tr class="empty-r"><td colspan="6">ยังไม่มีรายการงานในหน้าถัวจ่าย</td></tr>')+'</tbody>'}
+function renderDyRows(){const d=dyCur();if(!d)return;
+  $('dyRows').innerHTML=`<thead><tr><th style="width:46px">ลำดับ</th><th>งาน</th><th style="width:140px">ปริมาณ</th><th style="width:170px">กม. - กม.</th><th style="width:100px">ด้าน</th><th style="width:40px"></th></tr></thead><tbody>`+
+   (d.rows.length?d.rows.map((r,j)=>`<tr data-dr="${j}"><td class="c">${j+1}</td><td><input data-f="work" value="${esc(r.work)}" placeholder="เช่น จัดทำงานขุดย้ายแนวท่อเดิม"></td><td><input data-f="qty" value="${esc(r.qty)}"></td><td><input data-f="km" value="${esc(r.km)}"></td><td><input data-f="side" value="${esc(r.side)}"></td><td><button type="button" class="x" data-drdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join('')
+   :'<tr class="empty-r"><td colspan="6">ไม่มี</td></tr>')+'</tbody>'}
+const DYF=['date','preparer','note','mat','problem','remark'];
+function renderDy(){const D=dyOf(),d=dyCur();$('dyEmpty').hidden=!!d;$('dyForm').hidden=!d;['bDyDel','bDyShow','bDyPrev','bDyNext','dyPick'].forEach(id=>$(id).disabled=!d);
+  $('dyPick').innerHTML=D.list.map((x,j)=>`<option value="${j}"${j===D.cur?' selected':''}>${x.date?thDate(x.date):'(ยังไม่ใส่วันที่)'}${x.date&&S.h.start?' · วันที่ '+daysBetween(S.h.start,x.date)+' ของสัญญา':''}</option>`).join('');
+  $('dyCount').textContent=D.list.length?`ทั้งหมด ${D.list.length} วัน`:'';
+  if(!d)return;DYF.forEach(k=>$('dy_'+k).value=d[k]??'');
+  $('dy_dateHint').textContent=d.date&&S.h.start?`วันที่ทำงานที่ ${daysBetween(S.h.start,d.date)} ของสัญญา · สัปดาห์ที่ ${Math.floor(dayDiff(S.h.start,d.date)/7)+1}`:'';
+  const g=(L,obj)=>L.map(([k,t,u])=>`<label><span>${t}</span><input data-k="${k}" inputmode="numeric" value="${esc(obj[k]||'')}"><span class="u">${u||'คน'}</span></label>`).join('');
+  $('dyLabor').innerHTML=g(DY_LAB,d.lab);
+  $('dyMach').innerHTML=g([...DY_M1,...DY_M2,...DY_M3],d.mach)+`<label><input data-o="othName" value="${esc(d.othName||'')}" placeholder="อื่น ๆ (ระบุ)" style="text-align:left"><input data-o="othN" inputmode="numeric" value="${esc(d.othN||'')}"><span class="u"></span></label>`;
+  const wr=(nm,v,o)=>DY_WX.map(([k,t])=>`<label><input type="radio" name="${nm}" value="${k}"${v===k?' checked':''}> ${t}${k==='other'?` <input data-wo="${nm}" value="${esc(o||'')}" style="flex:1">`:''}</label>`).join('');
+  $('dyAM').innerHTML=wr('wAM',d.wAM,d.wAMo);$('dyPM').innerHTML=wr('wPM',d.wPM,d.wPMo);
+  renderDyItems();renderDyRows()}
+function dyChanged(){save();if(insPage==='dly')renderIns()}
+DYF.forEach(k=>$('dy_'+k).addEventListener('input',e=>{const d=dyCur();if(!d)return;d[k]=e.target.value;
+  if(k==='date'){const D=dyOf();D.list.sort((a,b)=>String(a.date).localeCompare(String(b.date)));D.cur=D.list.indexOf(d);renderDy()}dyChanged()}));
+$('dyLabor').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;dyCur().lab[k]=e.target.value;dyChanged()});
+$('dyMach').addEventListener('input',e=>{const d=dyCur(),k=e.target.dataset.k,o=e.target.dataset.o;if(k)d.mach[k]=e.target.value;else if(o)d[o]=e.target.value;dyChanged()});
+['dyAM','dyPM'].forEach(id=>$(id).addEventListener('input',e=>{const d=dyCur(),t=e.target;if(t.type==='radio')d[t.name]=t.value;else if(t.dataset.wo){d[t.dataset.wo+'o']=t.value;d[t.dataset.wo]='other';const r=$(id).querySelector('input[value="other"]');if(r)r.checked=true}dyChanged()}));
+$('dyItems').addEventListener('input',e=>{const tr=e.target.closest('tr[data-di]'),f=e.target.dataset.f;if(!tr||!f)return;const d=dyCur();d.q=d.q||{};const x=d.q[tr.dataset.di]=d.q[tr.dataset.di]||{qty:'',km:'',side:''};x[f]=e.target.value;if(f==='qty')tr.className=parse(x.qty)?'on':'';dyChanged()});
+$('dyRows').addEventListener('input',e=>{const tr=e.target.closest('tr[data-dr]'),f=e.target.dataset.f;if(!tr||!f)return;dyCur().rows[+tr.dataset.dr][f]=e.target.value;dyChanged()});
+$('dyRows').addEventListener('click',e=>{const b=e.target.closest('[data-drdel]');if(!b)return;dyCur().rows.splice(+b.dataset.drdel,1);renderDyRows();dyChanged()});
+$('bDyRow').addEventListener('click',()=>{const d=dyCur();if(!d)return;d.rows.push({work:'',qty:'',km:'',side:''});renderDyRows();save();const L=$('dyRows').querySelectorAll('input[data-f="work"]');L[L.length-1].focus()});
+const dyGo=j=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}const D=dyOf();if(j<0||j>=D.list.length)return;D.cur=j;renderDy();save();if(insPage==='dly')renderIns()};
+$('dyPick').addEventListener('change',e=>dyGo(+e.target.value));
+$('bDyPrev').addEventListener('click',()=>dyGo(dyOf().cur-1));$('bDyNext').addEventListener('click',()=>dyGo(dyOf().cur+1));
+$('bDyAdd').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}const D=dyOf();const last=D.list[D.list.length-1];
+  const date=last&&last.date?addDays(last.date,1):new Date(Date.now()+7*3600e3).toISOString().slice(0,10);
+  D.list.push(dyNew(date,last));D.list.sort((a,b)=>String(a.date).localeCompare(String(b.date)));D.cur=D.list.findIndex(x=>x.date===date);renderDy();save();if(insPage==='dly')renderIns();
+  toast('เพิ่มรายงานวันที่ '+thDate(date)+' แล้ว'+(last?' (คัดลอกแรงงานและเครื่องจักรจากวันก่อน)':''))});
+let dyDelArm=0;$('bDyDel').addEventListener('click',e=>{const D=dyOf(),d=dyCur();if(!d)return;
+  if(!dyDelArm){dyDelArm=1;e.target.textContent='กดอีกครั้งเพื่อยืนยันลบ';setTimeout(()=>{dyDelArm=0;e.target.textContent='ลบวันนี้'},3000);return}
+  dyDelArm=0;e.target.textContent='ลบวันนี้';D.list.splice(D.cur,1);D.cur=Math.max(0,D.cur-1);renderDy();save();if(insPage==='dly')renderIns();toast('ลบรายงานประจำวันแล้ว')});
+$('bDyShow').addEventListener('click',()=>{if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insPage='dly';$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip==='dly'));renderIns();$('insPick').scrollIntoView({behavior:'smooth',block:'start'})});
+/* รวมรายงานประจำวันเข้ารายงานประจำสัปดาห์ */
+$('bWkFromDy').addEventListener('click',()=>{const w=wkCur();if(!w)return;if(!w.from||!w.to){toast('ใส่ช่วงวันที่ของสัปดาห์ก่อน');return}
+  const days=dyOf().list.filter(d=>d.date&&d.date>=w.from&&d.date<=w.to);if(!days.length){toast('ไม่มีรายงานประจำวันในช่วง '+thDate(w.from)+' – '+thDate(w.to));return}
+  const q={},uniq=a=>[...new Set(a.filter(Boolean))].join(', ');
+  days.forEach(d=>Object.entries(d.q||{}).forEach(([id,x])=>{const v=parse(x.qty)||0;if(!v)return;const t=q[id]=q[id]||{qty:0,km:[],side:[]};t.qty+=v;t.km.push(x.km);t.side.push(x.side)}));
+  w.q={};Object.entries(q).forEach(([id,t])=>w.q[id]={qty:String(r6(t.qty)),km:uniq(t.km),side:uniq(t.side)});
+  const oth={};days.forEach(d=>(d.rows||[]).filter(r=>String(r.work||'').trim()).forEach(r=>{const k=r.work.trim();const o=oth[k]=oth[k]||{work:k,km:[],side:[],qty:[]};o.km.push(r.km);o.side.push(r.side);o.qty.push(r.qty)}));
+  w.rows=Object.values(oth).map(o=>({work:o.work,km:uniq(o.km),side:uniq(o.side),qty:uniq(o.qty)}));
+  const pr=[...new Set(days.flatMap(d=>String(d.problem||'').split('\n').map(x=>x.trim().replace(/^[-•]\s*/,'')).filter(x=>x&&x!=='-')))];if(pr.length)w.problem=pr.join('\n');
+  renderWk();wkChanged();toast(`รวมงานจากรายงานประจำวัน ${days.length} วันแล้ว (${Object.keys(q).length} รายการงาน)`)});
 function renderInsDocs(C){
   if(insEditMode&&$('insSheets')){updEditBar();return}
   const want=insPage,set=[];
@@ -2230,12 +2400,13 @@ function renderInsDocs(C){
   if(want==='all'||want==='mtg')set.push({g:'mtg',pages:docMtg(C)});
   if(want==='all'||want==='memo')set.push({g:'memo',pages:[docMemo(C)]});
   if(want==='wk')set.push({g:'wk',pages:docWk()});
+  if(want==='dly')set.push({g:'dly',pages:docDly()});
   const gen=set.flatMap(s=>s.pages);const sv=savedEdit();const all=sv?sv.pages:gen;
   insSheets=all.map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));
   $('insDesk').innerHTML=`<div class="sheets" id="insSheets">${insSheets.map((s,i)=>`<div class="sheet" style="width:${(210*MM).toFixed(1)}px;height:${(297*MM).toFixed(1)}px;padding:${IPAD[0]}mm ${IPAD[1]}mm ${IPAD[2]}mm ${IPAD[3]}mm">${s.html}<div class="pno">หน้า ${i+1}/${insSheets.length}</div></div>`).join('')}</div>`;
   if(insEditMode)$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});
   updEditBar();
-  $('insInfo').textContent=want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
+  $('insInfo').textContent=want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
   const sh=$('insSheets');sh.style.zoom=1;const avail=$('insDesk').clientWidth-40,mw=sh.offsetWidth;sh.style.zoom=Math.min(1,avail/mw).toFixed(3);
 }
 function penEdit(e,attr,arr){const tr=e.target.closest('tr');const f=e.target.dataset.f;if(!tr||!f)return;const ins=insOf();ins[arr][+tr.dataset[attr]][f]=e.target.value;if(f!=='reason')renderInsTable();renderIns();save()}
@@ -2249,13 +2420,14 @@ $('insPick').addEventListener('click',e=>{const b=e.target.closest('[data-ip]');
 $('bInsPrint').addEventListener('click',()=>{if(insEditMode)insSheets=domPages().map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));else renderIns();const inst=insOf().list[insOf().cur];
   const nm=docFileBase(inst);printSheets(insSheets,nm.replace(/_/,' '),nm+'.html')});
 function docFileBase(inst){const no=String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'');const w=wkCur();
+  const d=dyCur();if(insPage==='dly'&&d)return `รายงานประจำวัน${d.date||''}_${no}`;
   return insPage==='wk'&&w?`รายงานประจำสัปดาห์ที่${w.no}_${no}`:`ตรวจรับงานงวดที่${inst.no}_${no}`}
 window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('insSheets');if(sh){sh.style.zoom=1;sh.style.zoom=Math.min(1,($('insDesk').clientWidth-40)/sh.offsetWidth).toFixed(3)}}});
 
 /* ---- แก้ไขเอกสารก่อนพิมพ์ ---- */
 let insEditMode=false;
 function insEditKey(){return insPage}
-function editTarget(){if(insPage==='wk')return wkCur();const ins=insOf();return ins.list[ins.cur]}
+function editTarget(){if(insPage==='wk')return wkCur();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
 function savedEdit(){const t=editTarget();return t&&t.docEdits&&t.docEdits[insEditKey()]||null}
 function domPages(){return [...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');c.removeAttribute('spellcheck');return c.outerHTML})}
 /* รหัสยืนยัน */
@@ -2391,7 +2563,7 @@ function docxFromHtml(html){
     for(let i=0;i<ncol;i++)if(!colW[i])colW[i]=30;
     const auto=t.getAttribute('data-g')==='1';
     const availAll=(210-IPAD[1]-IPAD[3])*2.8346-2;
-    if(!auto){const s0=colW.reduce((a,b)=>a+b,0);if(s0>availAll)for(let i=0;i<ncol;i++)colW[i]*=availAll/s0}
+    if(!auto){const s0=colW.reduce((a,b)=>a+b,0);if(s0>availAll||t.getAttribute('data-full')==='1')for(let i=0;i<ncol;i++)colW[i]*=availAll/s0}
     else if(false){
       const len=new Array(ncol).fill(0);
       cells.forEach(q=>{const L=q.td.textContent.replace(/[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/g,'').trim().length;if(q.cs===1)len[q.c]=Math.max(len[q.c],L)});
@@ -2506,7 +2678,7 @@ function convFlex(el,cs){
   if(el.closest('.ipaper')&&!el.classList.contains('memo-h'))return `<div style="text-align:center">`+kids.map(k=>convNode(k)).join('')+'</div>';
   return `<table data-g="1" border="0" cellspacing="0" cellpadding="0" ${jc==='center'?'align="center"':''} style="border-collapse:collapse${jc==='center'?'':';width:100%'}"><tr>`+kids.map(k=>`<td style="${cellStyle(getComputedStyle(k),PT(k.getBoundingClientRect().width/curZoom()))}">${convNode(k)}</td>`).join('')+'</tr></table>'}
 function convTable(t){
-  let h=`<table border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%">`;
+  let h=`<table border="1" cellspacing="0" cellpadding="0" ${t.classList.contains('dly')?'data-full="1" ':''}style="border-collapse:collapse;width:100%">`;
   [...t.rows].forEach(r=>{h+='<tr>';[...r.cells].forEach(c=>{const cs=getComputedStyle(c);const w=c.getBoundingClientRect().width/curZoom();
     h+=`<td ${c.colSpan>1?`colspan="${c.colSpan}"`:''} ${c.rowSpan>1?`rowspan="${c.rowSpan}"`:''} valign="${c.tagName==='TH'?'middle':'top'}" style="${cellStyle(cs,PT(w))};${c.closest('tr').classList.contains('tall')?'height:'+PT(c.getBoundingClientRect().height/curZoom())+'pt':''}"><p class="MsoNormal" style="margin:0;${txtStyle(cs)};text-align:${cs.textAlign==='start'?'left':cs.textAlign}">${convKids(c)||'&nbsp;'}</p></td>`});h+='</tr>'});
   return h+'</table>'}
@@ -2519,7 +2691,7 @@ function exportWord(){
   const pages=[...sh.querySelectorAll('.sheet .ipaper')];
   const groups=[];pages.forEach(p=>{const g=groups[groups.length-1];if(p.classList.contains('mtgdoc')&&g&&g.flow)g.pages.push(p);else groups.push({flow:p.classList.contains('mtgdoc'),pages:[p]})});
   const body=groups.map((g,i)=>{const br=i?'<br clear="all" style="page-break-before:always">':'';
-    if(!g.flow){const p=g.pages[0];WS=p.querySelector('.pgno')||p.classList.contains('wkdoc')?0.875:1;return br+convKids(p)}
+    if(!g.flow){const p=g.pages[0];WS=p.querySelector('table.dly')?0.8:p.querySelector('.pgno')||p.classList.contains('wkdoc')?0.875:1;return br+convKids(p)}
     /* รายงานการประชุม: ต่อเนื่องเป็นเอกสารเดียว รวมตารางเป็นตารางเดียว */
     WS=0.875;const c=document.createElement('div');c.className='ipaper mtgdoc';c.style.width=g.pages[0].getBoundingClientRect().width+'px';$('measure').appendChild(c);
     g.pages.forEach(p=>[...p.children].forEach(k=>c.appendChild(k.cloneNode(true))));
