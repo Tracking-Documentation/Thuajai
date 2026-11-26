@@ -557,6 +557,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 .licbox .msg.e{color:var(--err)}.licbox .msg.ok{color:var(--ok)}
 .licbox .btns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
 .licbox .contact{font-size:.84rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;white-space:pre-line}
+.lic-req-link{all:unset;cursor:pointer;color:var(--accent);font-weight:600;font-size:.9rem;text-align:center;text-decoration:underline}
 .lic-list{display:flex;flex-direction:column;gap:6px;max-height:40vh;overflow:auto}
 .lic-list div{display:flex;justify-content:space-between;gap:8px;background:var(--sunk);border-radius:8px;padding:7px 10px;font-size:.88rem}
 .lic-lock{display:inline-block;margin-left:6px;font-size:.78rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--warn-bg);color:var(--warn)}
@@ -1247,6 +1248,18 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   <div class="msg" id="licMsg" role="alert"></div>
   <div class="btns"><button type="button" id="licCancel">ยกเลิก</button><button type="submit" class="primary" id="licGo">เปิดใช้งาน</button></div>
   <div class="contact" id="licContact"></div>
+  <button type="button" class="lic-req-link" id="licReqOpen">ยังไม่มีรหัส? ขอรหัสติดตั้ง →</button>
+</form></div>
+<div class="cmodal" id="licReq" hidden><form class="licbox" id="licReqForm" autocomplete="on">
+  <div class="lhd"><img src="icon-192.png" alt="" onerror="this.remove()"><div><h3>ขอรหัสติดตั้ง</h3><p class="sub">ส่งคำขอถึงผู้ดูแลระบบ · ผู้ดูแลจะตรวจสอบแล้วส่งรหัสให้</p></div></div>
+  <label>ชื่อ-สกุล<input id="rqName" autocomplete="name" required maxlength="80"></label>
+  <label>หน่วยงาน<input id="rqOrg" autocomplete="organization" maxlength="120" placeholder="เช่น แขวงทางหลวง…"></label>
+  <label>เบอร์โทร<input id="rqPhone" type="tel" autocomplete="tel" maxlength="30"></label>
+  <label>อีเมล (ถ้ามี)<input id="rqEmail" type="email" autocomplete="email" maxlength="80"></label>
+  <label>เลขที่สัญญาที่จะใช้<input id="rqCno" required maxlength="60" placeholder="เช่น กบ1. 29/2569"></label>
+  <div class="dev"><span>รหัสเครื่องนี้</span><code id="rqDev"></code></div>
+  <div class="msg" id="rqMsg" role="alert"></div>
+  <div class="btns"><button type="button" id="rqBack">กลับ</button><button type="submit" class="primary" id="rqGo">ส่งคำขอ</button></div>
 </form></div>
 <div class="cmodal" id="licInfo" hidden><div class="licbox">
   <div class="lhd"><img src="icon-192.png" alt="" onerror="this.remove()"><div><h3>สิทธิ์การใช้งานในเครื่องนี้</h3><p class="sub">ผูกกับรหัสเครื่องและเลขที่สัญญา</p></div></div>
@@ -1964,6 +1977,17 @@ function licOpen(mode,no){licMode=mode;$('licModal').hidden=false;$('licDev').te
   $('licNo').value=no||'';$('licNo').readOnly=mode==='unlock'&&!!no;$('licCode').value='';$('licMsg').textContent='';$('licMsg').className='msg';
   $('licCancel').hidden=mode==='first';$('licModal').classList.toggle('lic-gate',mode==='first');
   setTimeout(()=>($('licNo').value?$('licCode'):$('licNo')).focus(),40)}
+$('licReqOpen').addEventListener('click',()=>{$('licReq').hidden=false;$('licReq').classList.toggle('lic-gate',$('licModal').classList.contains('lic-gate'));$('rqDev').textContent=licDev();
+  if($('licNo').value&&!$('rqCno').value)$('rqCno').value=$('licNo').value;$('rqMsg').textContent='';$('rqMsg').className='msg';setTimeout(()=>$('rqName').focus(),40)});
+$('rqBack').addEventListener('click',()=>{$('licReq').hidden=true});
+$('licReqForm').addEventListener('submit',async e=>{e.preventDefault();const m=$('rqMsg'),v=id=>$(id).value.trim();
+  if(!v('rqName')||!v('rqCno')||!(v('rqPhone')||v('rqEmail'))){m.textContent='กรุณาใส่ชื่อ-สกุล เลขที่สัญญา และเบอร์โทรหรืออีเมล';m.className='msg e';return}
+  if(!navigator.onLine){m.textContent='ต้องต่ออินเทอร์เน็ตเพื่อส่งคำขอ';m.className='msg e';return}
+  $('rqGo').disabled=true;m.textContent='กำลังส่งคำขอ…';m.className='msg';
+  try{const r=await licCall({a:'request',dev:licDev(),name:v('rqName'),org:v('rqOrg'),phone:v('rqPhone'),email:v('rqEmail'),cno:v('rqCno')});
+    if(!r||!r.ok)throw new Error(r&&r.msg||'ส่งคำขอไม่สำเร็จ');m.textContent='✓ '+r.msg;m.className='msg ok';$('rqGo').hidden=true;
+    if(!$('licNo').value)$('licNo').value=v('rqCno')}
+  catch(err){m.textContent=String(err.message||err);m.className='msg e'}finally{$('rqGo').disabled=false}});
 $('licCancel').addEventListener('click',()=>{$('licModal').hidden=true;licMode=null});
 $('licForm').addEventListener('submit',async e=>{e.preventDefault();const no=$('licNo').value.trim(),code=$('licCode').value.trim();const m=$('licMsg');
   if(!no||!code){m.textContent='กรุณาใส่เลขที่สัญญาและรหัสใช้งาน';m.className='msg e';return}
@@ -3846,7 +3870,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 39 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 40 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3875,7 +3899,7 @@ else{$('licFoot').hidden=false;showHome();
     <div class="lk-links" id="lkLinks"></div>
     <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 39 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 40 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
     </form>
 </div>
 <style>
