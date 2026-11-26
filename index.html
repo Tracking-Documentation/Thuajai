@@ -747,8 +747,10 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
           <label class="f wide">ที่อยู่ส่วนราชการ (มุมขวาบน)<textarea id="pn_addr" rows="3"></textarea></label>
           <label class="f">ผู้ลงนามหนังสือแจ้งการปรับ (ผอ.ขท.)<input id="pn_dName"></label>
           <label class="f">ตำแหน่ง<input id="pn_dPos"></label>
-          <label class="f">ผู้แทนผู้รับจ้าง (ลงชื่อรับต้นฉบับ)<input id="pn_rName"></label>
-          <label class="f">ตำแหน่ง<input id="pn_rPos"></label>
+          <label class="f">ผู้แทนผู้รับจ้างลงชื่อรับ — แจ้งการปรับ (พ.1-42)<input id="pn_rName1"></label>
+          <label class="f">ตำแหน่ง<input id="pn_rPos1"></label>
+          <label class="f">ผู้แทนผู้รับจ้างลงชื่อรับ — แจ้งสงวนสิทธิ์ (พ.1-43)<input id="pn_rName2"></label>
+          <label class="f">ตำแหน่ง<input id="pn_rPos2"></label>
           <label class="f wide">นำเงินค่าปรับไปชำระ ณ<input id="pn_payAt"></label>
           <label class="f wide">ท้ายหนังสือ (หน่วยงานเจ้าของเรื่อง / โทร. / โทรสาร)<textarea id="pn_unit" rows="3"></textarea></label>
         </div>
@@ -1862,7 +1864,7 @@ $('hSearch').addEventListener('input',renderHome);
 const reEsc=t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 function anonData(d){const names=new Set(),TT=/^(นางสาว|น\.ส\.|นาย|นาง|ว่าที่ร้อยตรี|ดร\.)\s*/,add=n=>{n=String(n||'').trim();if(n&&!/^x+$/i.test(n.replace(TT,'')))names.add(n)};
   (d.sign||[]).forEach(x=>add(x.name));if(d.ins){add(d.ins.csName);(d.ins.list||[]).forEach(x=>add(x.recorder))}
-  if(d.dly)(d.dly.list||[]).forEach(x=>add(x.preparer));if(d.pn){add(d.pn.dName);add(d.pn.rName)}if(d.plan)add(String(d.plan.eng||'').replace(/\s*ภย.*$/,''));
+  if(d.dly)(d.dly.list||[]).forEach(x=>add(x.preparer));if(d.pn){add(d.pn.dName);add(d.pn.rName);add(d.pn.rName1);add(d.pn.rName2)}if(d.plan)add(String(d.plan.eng||'').replace(/\s*ภย.*$/,''));
   const pats=[];[...names].forEach(n=>{[n,n.replace(TT,'')].forEach(v=>{if(v.length>=3)pats.push(new RegExp(v.split(/\s+/).map(reEsc).join('\\s*'),'g'))})});
   const core=String(d.h&&d.h.contractor||'').replace(/^(บริษัท|ห้างหุ้นส่วนจำกัด|หจก\.?)\s*/,'').replace(/\s*จำกัด.*$/,'').trim();
   if(core.length>=2&&!/^x+$/i.test(core))pats.push(new RegExp(core.replace(/\s+/g,'').split('').map(reEsc).join('\\s*'),'g'));
@@ -3044,14 +3046,14 @@ function svgToPng(svg,scale){return new Promise(res=>{const xml=new XMLSerialize
     const b64=cv.toDataURL('image/png').split(',')[1];res(Uint8Array.from(atob(b64),c=>c.charCodeAt(0)))}catch(e){res(null)}};img.onerror=()=>res(null);
   img.src='data:image/svg+xml;base64,'+b64utf8(xml)})}
 /* ---- แจ้งการปรับ (พ.1-42) และแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ระเบียบฯ ข้อ 181 / ป.พ.พ. มาตรา 381 วรรคสาม ---- */
-const PN_F=['no1','d1','no2','d2','pre','to','addr','dName','dPos','rName','rPos','payAt','unit'];
+const PN_F=['no1','d1','no2','d2','pre','to','addr','dName','dPos','rName1','rPos1','rName2','rPos2','payAt','unit'];
 const pnToday=()=>new Date(Date.now()+7*3600e3).toISOString().slice(0,10);
-function pnOf(){if(!S.pn)S.pn={};const P=S.pn;PN_F.forEach(k=>{if(P[k]===undefined)P[k]=''});return P}
+function pnOf(){if(!S.pn)S.pn={};const P=S.pn;if(P.rName!==undefined||P.rPos!==undefined){['1','2'].forEach(k=>{if(!P['rName'+k])P['rName'+k]=P.rName||'';if(!P['rPos'+k])P['rPos'+k]=P.rPos||''});delete P.rName;delete P.rPos}PN_F.forEach(k=>{if(P[k]===undefined)P[k]=''});return P}
 function pnDef(){const ins=insOf(),h=S.h,off=String(ins.office||'แขวงทางหลวงกระบี่').trim(),dm=!!S.demo;
   const ph=String(ins.phone||''),tel=ph.replace(/\s*โทรสาร.*$/,'').trim(),fax=((ph.match(/โทรสาร\s*(.+)$/)||[])[1]||'').trim();
   return {pre:dm?'คค xxx/':'คค 06100.1(พ)/',to:'กรรมการผู้จัดการ '+String(h.contractor||'').trim(),
     addr:dm?`${off} กรมทางหลวง\nถนน xxx อำเภอ xxx\nจังหวัด xxx xxxxx`:/กระบี่/.test(off)?`${off} กรมทางหลวง\nถนนอุตรกิจ อำเภอเมืองกระบี่\nจังหวัดกระบี่ 81000`:`${off} กรมทางหลวง\n..............................`,
-    dName:'',dPos:'ผู้อำนวยการ'+off,rName:String(ins.csName||'').trim(),rPos:String(ins.csTitle||'').trim()||'กรรมการผู้จัดการ',payAt:off,
+    dName:'',dPos:'ผู้อำนวยการ'+off,rName1:String(ins.csName||'').trim(),rPos1:String(ins.csTitle||'').trim()||'ผู้รับมอบอำนาจ',rName2:String(ins.csName||'').trim(),rPos2:String(ins.csTitle||'').trim()||'ผู้รับมอบอำนาจ',payAt:off,
     unit:`งานพัสดุและสัญญา${tel?'\nโทร. '+tel:''}${fax?'\nโทรสาร '+fax:''}`}}
 function pnV(k){const P=pnOf();return String(P[k]||'').trim()||pnDef()[k]||''}
 function pnCalc(){const ins=insOf(),h=S.h,end=effEnd(),today=pnToday();const k=ins.list.findIndex(x=>x.final),fin=k>=0?ins.list[k]:null,done=fin&&fin.doneDate||'';
@@ -3081,7 +3083,7 @@ function pnRefs(date){const h=S.h,A=(insOf().amends||[]).filter(a=>!date||!a.dat
 const pnMY=iso=>{if(!iso)return '................................';const [y,m]=iso.split('-').map(Number);return TM[m-1]+' '+(y+543)};
 function pnPage(o){const br=t=>esc(t).split('\n').join('<br>');
   const ack=o.copy?`<div class="exack"><p class="ind" style="margin:0">ได้รับต้นฉบับ${o.ackOf}แล้ว</p>
-   <div class="exack2 xcc">${[['ลงชื่อ..........................................','ลงชื่อ..........................................'],['ผู้รับจ้าง/ตัวแทนผู้รับจ้าง','ผู้ว่าจ้าง/ตัวแทนผู้ว่าจ้าง'],[`(${esc(pnV('rName')||'..........................................')})`,`(${esc((o.ackName!==undefined?o.ackName:o.sigName)||'..........................................')})`],[esc(pnV('rPos')),esc(o.ackPos||o.sigPos)]].map(([a,b])=>`<div>${a}</div><div>${b}</div>`).join('')}</div>
+   <div class="exack2 xcc">${[['ลงชื่อ..........................................','ลงชื่อ..........................................'],['ผู้รับจ้าง/ตัวแทนผู้รับจ้าง','ผู้ว่าจ้าง/ตัวแทนผู้ว่าจ้าง'],[`(${esc(pnV('rName'+o.rk)||'..........................................')})`,`(${esc((o.ackName!==undefined?o.ackName:o.sigName)||'..........................................')})`],[esc(pnV('rPos'+o.rk)),esc(o.ackPos||o.sigPos)]].map(([a,b])=>`<div>${a}</div><div>${b}</div>`).join('')}</div>
    <p style="padding-left:50%;margin:2px 0 0">วันที่ ............ ${pnMY(o.date)}</p></div>`:'';
   return `<div class="ipaper th exl">${thdHtml(`${o.copy&&!o.noMark?'<p class="excp">- สำเนาคู่ฉบับ -</p>':''}
    <p class="exfc">${o.code}<br>กรมทางหลวง<br>เริ่มใช้ มี.ค. 33</p><img class="garuda exg" src="${GARUDA}" alt="ตราครุฑ">
@@ -3099,7 +3101,7 @@ function docPnNote(){const P=pnOf(),c=pnCalc(),ins=insOf(),C=esc(String(S.h.cont
    <p class="ind">บัดนี้ ได้ล่วงเลยกำหนดเวลาส่งมอบงานจ้างตามสัญญาแล้ว แต่${C} ยังไม่ส่งมอบงานจ้างซึ่งแล้วเสร็จบริบูรณ์ตามสัญญา</p>
    <p class="ind">ฉะนั้น กรมทางหลวงผู้ว่าจ้างจึงเรียกค่าปรับจาก ${C} ตามข้อกำหนดในสัญญาข้อ ${esc(ins.pClause||'....')} โดยให้${C} นำเงินค่าปรับวันละ ${fm(c.per)} บาท (${bahtText(c.per)}) นับตั้งแต่วันถัดจากวันครบกำหนดตามสัญญา (วันที่ ${c.from?thDate(c.from):'..........'}) จนถึงวันที่ส่งมอบงานจ้างแล้วเสร็จบริบูรณ์ หรือวันบอกเลิกสัญญา ไปชำระ ณ ${esc(pnV('payAt'))}</p>
    <p class="ind">จึงเรียนมาเพื่อทราบ</p>`;
-  const {chair}=committee();const o={code:'พ.1-42',title:'แบบแจ้งการปรับตามสัญญาจ้าง',no:P.no1,date:dt,subj:'แจ้งการปรับกรณีผิดสัญญาจ้าง',refs:pnRefs(dt),body,sigName:pnV('dName'),sigPos:pnV('dPos'),ackOf:'หนังสือแจ้งการปรับตามสัญญาจ้าง',ackName:chair?chair.name:'',ackPos:'ประธานกรรมการตรวจรับพัสดุ'};
+  const {chair}=committee();const o={code:'พ.1-42',title:'แบบแจ้งการปรับตามสัญญาจ้าง',no:P.no1,date:dt,subj:'แจ้งการปรับกรณีผิดสัญญาจ้าง',refs:pnRefs(dt),body,sigName:pnV('dName'),sigPos:pnV('dPos'),ackOf:'หนังสือแจ้งการปรับตามสัญญาจ้าง',rk:'1',ackName:chair?chair.name:'',ackPos:'ประธานกรรมการตรวจรับพัสดุ'};
   return [pnPage(o),pnPage(Object.assign({},o,{copy:true,noMark:true}))]}
 function docPnReserve(){const P=pnOf(),c=pnCalc(),C=esc(String(S.h.contractor||'..............................').trim()),dt=P.d2||c.done||'',{chair}=committee();
   const D='....................',fin=c.fin;
@@ -3113,7 +3115,7 @@ function docPnReserve(){const P=pnOf(),c=pnCalc(),C=esc(String(S.h.contractor||'
    <p style="text-align:right">เป็นเงินค่าปรับทั้งสิ้น ${c.lateDone?fm(c.amt):'....................'} บาท</p>
    ${c.lateDone?`<p style="text-align:right">(${bahtText(c.amt)})</p>`:''}`;
   const o={code:'พ.1-43',title:'แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง',no:P.no2,date:dt,subj:'แจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง',refs:pnRefs(dt),body,
-    sigName:chair?chair.name:'',sigPos:'ประธานกรรมการตรวจรับพัสดุ',ackOf:'หนังสือแจ้งสงวนสิทธิ์การเรียกค่าปรับ'};
+    sigName:chair?chair.name:'',sigPos:'ประธานกรรมการตรวจรับพัสดุ',ackOf:'หนังสือแจ้งสงวนสิทธิ์การเรียกค่าปรับ',rk:'2'};
   return [pnPage(o),pnPage(Object.assign({},o,{copy:true}))]}
 /* ---- เตือนค่าปรับ 7.5% / 10% และผ่อนปรนการบอกเลิกสัญญา (ผู้ควบคุมงานดำเนินการ) ---- */
 function pwOf(){if(!S.pw)S.pw={};const P=S.pw;['warn','asof','no1','d1','cNo','cDate','no2','d2','mDate','mTime','mPlace','no3','d3','cause'].forEach(k=>{if(P[k]===undefined)P[k]=''});return P}
@@ -3660,7 +3662,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 32 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 33 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3683,7 +3685,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 32 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 33 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
