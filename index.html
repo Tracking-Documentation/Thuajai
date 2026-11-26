@@ -40,7 +40,7 @@
 html{font-size:17px}@media (max-width:640px){html{font-size:16px}}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1rem;line-height:1.6;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
-.wrap{max-width:1500px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.wrap{max-width:1880px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.25}
 h1{font-size:1.6rem}
 h2{font-size:1.1rem;display:flex;align-items:center;gap:10px}
@@ -74,7 +74,8 @@ input.bad{border-color:var(--err);background:var(--err-bg)}
 .chip{font-size:.8rem;padding:2px 10px;border-radius:99px;font-weight:600;border:1px solid transparent;cursor:pointer;background:none}
 .chip.e{background:var(--err-bg);color:var(--err)} .chip.w{background:var(--warn-bg);color:var(--warn)} .chip.i{background:var(--info-bg);color:var(--info)}
 .chip[aria-pressed="false"]{opacity:.45}
-.alist{list-style:none;margin:0;padding:0;max-height:300px;overflow:auto}
+.alist{list-style:none;margin:0;padding:0;max-height:260px;overflow:auto}
+.chip.tog{background:var(--sunk);color:var(--fg)}
 .alist li{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:9px 16px;border-top:1px solid var(--line);font-size:.92rem}
 .alist li:first-child{border-top:0}
 .alist .lv{font-size:.75rem;font-weight:700;border-radius:5px;padding:2px 6px;align-self:start;text-align:center}
@@ -314,6 +315,10 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .pwdates{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.86rem;color:var(--muted)}.pwdates b{color:var(--fg)}
 .ipaper .pwkv{display:grid;grid-template-columns:11em 1fr 11.5em 1fr;padding-left:3.2em;row-gap:1px}
 .ipaper .pwsg3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:40px;text-align:center;line-height:1.5}.ipaper .pwsg3 .dl2{border-bottom:1px dotted #000;height:1.6em;margin:0 12px 2px}
+.hometop{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(300px,1fr);gap:12px;align-items:stretch}
+.hometop .hubbar{grid-template-columns:1fr;gap:6px}.hometop .hub{padding:7px 12px;gap:10px;border-width:1.5px}.hometop .hub .hi{font-size:1.3rem}.hometop .hub b{font-size:.95rem;display:inline}.hometop .hub small{display:inline;margin-left:6px}
+@media (max-width:1100px){.hometop{grid-template-columns:1fr}.hometop .hubbar{grid-template-columns:repeat(3,1fr)}.hometop .hub small{display:block;margin:0}}
+@media (max-width:700px){.hometop .hubbar{grid-template-columns:1fr}}
 .hubbar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .hub{--tc:#2b6cb0;display:flex;gap:12px;align-items:center;text-align:left;padding:14px 16px;border-radius:14px;border:2px solid color-mix(in srgb,var(--tc) 40%,var(--line));background:color-mix(in srgb,var(--tc) 8%,var(--surface));cursor:pointer;font:inherit;color:var(--fg)}
 .hub:hover{background:color-mix(in srgb,var(--tc) 15%,var(--surface))}.hub .hi{font-size:1.8rem}.hub b{display:block;font-size:1.05rem;color:var(--tc2,var(--tc))}.hub small{color:var(--muted);font-size:.82rem}
@@ -323,14 +328,14 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .calhead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.calhead h2{font-size:1.2rem}.calhead .btns{align-items:center}.calhead b{min-width:9em;text-align:center;font-size:1.05rem}
 .callegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}.callegend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;background:var(--cc)}
 .c-end{--cc:#c53030}.c-insp{--cc:#2b6cb0}.c-pen{--cc:#dd6b20}.c-chk{--cc:#6b46c1}.c-wk{--cc:#718096}.c-war{--cc:#2f855a}
-.calwrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}
+.calwrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);gap:16px;align-items:start}
 .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.cdh{text-align:center;font-size:.78rem;color:var(--muted);font-weight:700;padding:2px}
-.cd{all:unset;box-sizing:border-box;min-height:86px;border:1px solid var(--line);border-radius:8px;padding:4px;display:flex;flex-direction:column;gap:2px;cursor:pointer;background:var(--bg);overflow:hidden}
+.cd{all:unset;box-sizing:border-box;min-height:68px;border:1px solid var(--line);border-radius:8px;padding:4px;display:flex;flex-direction:column;gap:2px;cursor:pointer;background:var(--bg);overflow:hidden}
 .cd.pad{border:0;background:none;cursor:default}.cd:hover{border-color:var(--accent)}.cd.today{border:2px solid var(--accent)}.cd.sel{background:color-mix(in srgb,var(--accent) 10%,var(--bg))}
 .cd .dn{font-size:.8rem;font-weight:700}.cd.today .dn{color:var(--accent)}
 .ce{font-size:.66rem;line-height:1.25;padding:1px 4px;border-radius:4px;color:#fff;background:var(--cc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ce.s-ok{opacity:.45}.ce.s-bad{outline:2px solid #c53030}
 .cd .more{font-size:.66rem;color:var(--muted)}
-.callist{display:flex;flex-direction:column;gap:6px;max-height:640px;overflow:auto}.callist h3{font-size:.95rem;margin-top:6px}
+.callist{display:flex;flex-direction:column;gap:6px;max-height:560px;overflow:auto}.callist h3{font-size:.95rem;margin-top:6px}
 .cr{display:grid;grid-template-columns:5.6em 1fr auto;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;border-left:4px solid var(--cc);background:var(--sunk);font-size:.85rem}
 .cr.s-bad{background:var(--err-bg)}.cr.s-warn{background:var(--warn-bg)}.cr .cdt{font-weight:700;font-size:.8rem}.cr button{padding:3px 10px;font-size:.8rem}
 @media (max-width:900px){.calwrap{grid-template-columns:1fr}.hubbar{grid-template-columns:1fr}.cd{min-height:58px}.ce{font-size:.6rem}}
@@ -549,11 +554,12 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   </header>
 
   <section id="homeView" class="home">
-    <div class="kpis" id="kpis"></div>
+    <div class="hometop"><div class="kpis" id="kpis"></div>
     <div class="hubbar">
       <button type="button" class="hub t-sky" id="hubCal"><span class="hi">📅</span><span><b>ปฏิทินแจ้งเตือน</b><small id="hubCalInfo">กำหนดการทุกโครงการ</small></span></button>
       <button type="button" class="hub t-violet" data-guide><span class="hi">📘</span><span><b>คู่มือการใช้งาน</b><small>ทีละขั้นตอน ตั้งแต่เพิ่มโครงการจนเบิกจ่าย</small></span></button>
       <button type="button" class="hub t-amber" data-law><span class="hi">⚖️</span><span><b>ระเบียบ / ข้อกฎหมาย</b><small>พ.ร.บ. 2560 · ระเบียบฯ · ฉบับที่ 3 พ.ศ. 2569 · ว 124</small></span></button>
+    </div>
     </div>
     <div class="htools">
       <input id="hSearch" type="search" placeholder="ค้นหา สัญญาเลขที่ ชื่องาน ผู้รับจ้าง">
@@ -591,13 +597,13 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     </div>
   </section>
 
-  <section class="alerts" id="alerts" aria-live="polite"></section>
-
   <div class="tabs" role="tablist">
     <button type="button" class="tab" role="tab" id="tabCalc" aria-selected="true"><span class="ti">🧮</span><span class="tt">คำนวณ / แก้ไขข้อมูล<small>ปริมาณงาน ราคา ถัวจ่าย</small></span></button>
     <button type="button" class="tab" role="tab" id="tabDoc" aria-selected="false"><span class="ti">📄</span><span class="tt">หน้าเอกสารถัวจ่าย<small>บัญชีสรุป · รายการเพิ่ม/ลด · พิมพ์</small></span></button>
     <button type="button" class="tab" role="tab" id="tabIns" aria-selected="false"><span class="ti">🏗️</span><span class="tt">บริหารสัญญา · รายงาน · ตรวจรับ<small>รายวัน · รายสัปดาห์ · S-Curve · เบิกจ่าย</small></span></button>
   </div>
+
+  <section class="alerts" id="alerts" aria-live="polite"></section>
 
   <section class="panel" id="docView" hidden>
     <div class="doc-bar">
@@ -1597,9 +1603,10 @@ function renderAlerts(list){
   const order={e:0,w:1,i:2};list.sort((a,b)=>order[a.lv]-order[b.lv]);
   const lvT={e:'ผิดพลาด',w:'ควรตรวจ',i:'ข้อสังเกต'};
   const shown=list.filter(a=>filt[a.lv]);
+  const open=alOpen===null?n.e>0:alOpen;
   $('alerts').innerHTML=`<div class="alerts-head"><div class="status"><span class="dot" style="background:${st[0]}"></span>${st[1]}</div>
-   <div class="chips">${['e','w','i'].map(k=>`<button type="button" class="chip ${k}" data-f="${k}" aria-pressed="${filt[k]}">${lvT[k]} ${n[k]}</button>`).join('')}</div></div>
-   ${list.length?`<ul class="alist">${shown.map(a=>`<li><span class="lv ${a.lv}">${lvT[a.lv]}</span><div><span class="where">${a.row!==undefined?`<a href="#row${a.row}" data-go="${a.row}">${esc(a.where)}</a>`:esc(a.where)}</span> — ${esc(a.msg)}<div class="fix">${esc(a.fix)}</div></div></li>`).join('')}</ul>`:'<div class="allok">ไม่พบข้อผิดพลาด ตัวเลขทุกยอดตรงกัน</div>'}`;
+   <div class="chips">${['e','w','i'].map(k=>`<button type="button" class="chip ${k}" data-f="${k}" aria-pressed="${filt[k]}">${lvT[k]} ${n[k]}</button>`).join('')}${list.length?`<button type="button" class="chip tog" data-tog>${open?'ซ่อนรายละเอียด ▴':'ดูรายละเอียด ▾'}</button>`:''}</div></div>
+   ${!open&&list.length?'':list.length?`<ul class="alist">${shown.map(a=>`<li><span class="lv ${a.lv}">${lvT[a.lv]}</span><div><span class="where">${a.row!==undefined?`<a href="#row${a.row}" data-go="${a.row}">${esc(a.where)}</a>`:esc(a.where)}</span> — ${esc(a.msg)}<div class="fix">${esc(a.fix)}</div></div></li>`).join('')}</ul>`:'<div class="allok">ไม่พบข้อผิดพลาด ตัวเลขทุกยอดตรงกัน</div>'}`;
 }
 
 /* ---- bind ---- */
@@ -1611,7 +1618,7 @@ $('sigBody').addEventListener('click',e=>{const d=e.target.closest('[data-sdel]'
 $('bAddSig').addEventListener('click',()=>{S.sign.push({role:'กรรมการฯ',name:'',pos:''});renderSign();update();$('sn'+(S.sign.length-1)).focus()});
 function setTab(m){const mode=m===true?'doc':m===false?'calc':m;
   $('tabCalc').setAttribute('aria-selected',mode==='calc');$('tabDoc').setAttribute('aria-selected',mode==='doc');$('tabIns').setAttribute('aria-selected',mode==='ins');
-  $('docView').hidden=mode!=='doc';$('insView').hidden=mode!=='ins';document.querySelectorAll('.calc-only').forEach(el=>el.hidden=mode!=='calc');
+  $('docView').hidden=mode!=='doc';$('insView').hidden=mode!=='ins';$('alerts').hidden=mode==='ins';document.querySelectorAll('.calc-only').forEach(el=>el.hidden=mode!=='calc');
   if(mode==='doc')renderDoc();if(mode==='ins')fillIns();
   try{localStorage.setItem(KEY+'-tab',mode)}catch(e){}}
 const PSK=['paper','o','mt','mb','ml','mr','scale','font','bw'];
@@ -1698,7 +1705,8 @@ $('tb').addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(!
   S.items.splice(i,1);renderTable();update();toast('ลบรายการที่ '+(i+1)+' แล้ว')});
 $('cmp').addEventListener('input',e=>{const k=e.target.dataset.doc;if(!k)return;S.doc[k]=e.target.value;update()});
 $('bAdd').addEventListener('click',()=>{S.items.push({id:newIid(),desc:'',unit:'',price:'',cq:'0',aq:'0',note:''});renderTable();update();$('d'+(S.items.length-1)).focus()});
-$('alerts').addEventListener('click',e=>{const f=e.target.closest('[data-f]');if(f){filt[f.dataset.f]=!filt[f.dataset.f];update();return}
+let alOpen=null;
+$('alerts').addEventListener('click',e=>{if(e.target.closest('[data-tog]')){alOpen=!(alOpen===null?$('alerts').querySelector('.alist')!==null:alOpen);update();return}const f=e.target.closest('[data-f]');if(f){filt[f.dataset.f]=!filt[f.dataset.f];alOpen=true;update();return}
   const g=e.target.closest('[data-go]');if(g){e.preventDefault();const tr=$('row'+g.dataset.go);if(tr){tr.scrollIntoView({behavior:'smooth',block:'center'});tr.classList.remove('flash');void tr.offsetWidth;tr.classList.add('flash')}}});
 $('bIO').addEventListener('click',()=>{$('ioPanel').hidden=!$('ioPanel').hidden});
 function copy(text,ok){const done=()=>toast(ok);try{navigator.clipboard.writeText(text).then(done,()=>fallback(text))}catch(e){fallback(text)}}
@@ -3425,7 +3433,7 @@ document.addEventListener('click',e=>{const gb=e.target.closest('[data-guide]');
 document.addEventListener('keydown',e=>{if(e.key==='Escape')['guideModal','lawModal'].forEach(id=>$(id).hidden=true)});
 document.querySelectorAll('.toc a').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}));
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 24 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 25 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3448,7 +3456,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 24 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 25 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
