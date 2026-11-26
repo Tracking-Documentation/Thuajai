@@ -3061,9 +3061,9 @@ function pnRefs(date){const h=S.h,A=(insOf().amends||[]).filter(a=>!date||!a.dat
 const pnMY=iso=>{if(!iso)return '................................';const [y,m]=iso.split('-').map(Number);return TM[m-1]+' '+(y+543)};
 function pnPage(o){const br=t=>esc(t).split('\n').join('<br>');
   const ack=o.copy?`<div class="exack"><p class="ind" style="margin:0">ได้รับต้นฉบับ${o.ackOf}แล้ว</p>
-   <div class="exack2 xcc">${[['ลงชื่อ..........................................','ลงชื่อ..........................................'],['ผู้รับจ้าง/ตัวแทนผู้รับจ้าง','ผู้ว่าจ้าง/ตัวแทนผู้ว่าจ้าง'],[`(${esc(pnV('rName')||'..........................................')})`,`(${esc(o.sigName||'..........................................')})`],[esc(pnV('rPos')),esc(o.sigPos)]].map(([a,b])=>`<div>${a}</div><div>${b}</div>`).join('')}</div>
+   <div class="exack2 xcc">${[['ลงชื่อ..........................................','ลงชื่อ..........................................'],['ผู้รับจ้าง/ตัวแทนผู้รับจ้าง','ผู้ว่าจ้าง/ตัวแทนผู้ว่าจ้าง'],[`(${esc(pnV('rName')||'..........................................')})`,`(${esc((o.ackName!==undefined?o.ackName:o.sigName)||'..........................................')})`],[esc(pnV('rPos')),esc(o.ackPos||o.sigPos)]].map(([a,b])=>`<div>${a}</div><div>${b}</div>`).join('')}</div>
    <p style="padding-left:50%;margin:2px 0 0">วันที่ ............ ${pnMY(o.date)}</p></div>`:'';
-  return `<div class="ipaper th exl">${thdHtml(`${o.copy?'<p class="excp">- สำเนาคู่ฉบับ -</p>':''}
+  return `<div class="ipaper th exl">${thdHtml(`${o.copy&&!o.noMark?'<p class="excp">- สำเนาคู่ฉบับ -</p>':''}
    <p class="exfc">${o.code}<br>กรมทางหลวง<br>เริ่มใช้ มี.ค. 33</p><img class="garuda exg" src="${GARUDA}" alt="ตราครุฑ">
    <p class="ext">${o.title}</p>
    <div class="exr xhang"><div>ที่ ${esc(pnV('pre'))}${esc(o.no||'')}</div><div>${br(pnV('addr'))}</div></div>
@@ -3079,8 +3079,8 @@ function docPnNote(){const P=pnOf(),c=pnCalc(),ins=insOf(),C=esc(String(S.h.cont
    <p class="ind">บัดนี้ ได้ล่วงเลยกำหนดเวลาส่งมอบงานจ้างตามสัญญาแล้ว แต่${C} ยังไม่ส่งมอบงานจ้างซึ่งแล้วเสร็จบริบูรณ์ตามสัญญา</p>
    <p class="ind">ฉะนั้น กรมทางหลวงผู้ว่าจ้างจึงเรียกค่าปรับจาก ${C} ตามข้อกำหนดในสัญญาข้อ ${esc(ins.pClause||'....')} โดยให้${C} นำเงินค่าปรับวันละ ${fm(c.per)} บาท (${bahtText(c.per)}) นับตั้งแต่วันถัดจากวันครบกำหนดตามสัญญา (วันที่ ${c.from?thDate(c.from):'..........'}) จนถึงวันที่ส่งมอบงานจ้างแล้วเสร็จบริบูรณ์ หรือวันบอกเลิกสัญญา ไปชำระ ณ ${esc(pnV('payAt'))}</p>
    <p class="ind">จึงเรียนมาเพื่อทราบ</p>`;
-  const o={code:'พ.1-42',title:'แบบแจ้งการปรับตามสัญญาจ้าง',no:P.no1,date:dt,subj:'แจ้งการปรับกรณีผิดสัญญาจ้าง',refs:pnRefs(dt),body,sigName:pnV('dName'),sigPos:pnV('dPos'),ackOf:'หนังสือแจ้งการปรับตามสัญญาจ้าง'};
-  return [pnPage(o),pnPage(Object.assign({},o,{copy:true}))]}
+  const {chair}=committee();const o={code:'พ.1-42',title:'แบบแจ้งการปรับตามสัญญาจ้าง',no:P.no1,date:dt,subj:'แจ้งการปรับกรณีผิดสัญญาจ้าง',refs:pnRefs(dt),body,sigName:pnV('dName'),sigPos:pnV('dPos'),ackOf:'หนังสือแจ้งการปรับตามสัญญาจ้าง',ackName:chair?chair.name:'',ackPos:'ประธานกรรมการตรวจรับพัสดุ'};
+  return [pnPage(o),pnPage(Object.assign({},o,{copy:true,noMark:true}))]}
 function docPnReserve(){const P=pnOf(),c=pnCalc(),C=esc(String(S.h.contractor||'..............................').trim()),dt=P.d2||c.done||'',{chair}=committee();
   const D='....................',fin=c.fin;
   const nref=P.no1||P.d1?` ตามหนังสือที่ ${esc(pnV('pre'))}${esc(P.no1||'..........')} ลงวันที่ ${P.d1?thDate(P.d1):D}`:'';
@@ -3205,7 +3205,7 @@ function renderInsDocs(C){
   $('insDesk').innerHTML=`<div class="sheets" id="insSheets">${insSheets.map((s,i)=>`<div class="sheet" style="width:${(210*MM).toFixed(1)}px;height:${(297*MM).toFixed(1)}px;padding:${IPAD[0]}mm ${IPAD[1]}mm ${IPAD[2]}mm ${IPAD[3]}mm">${s.html}<div class="pno">หน้า ${i+1}/${insSheets.length}</div></div>`).join('')}</div>`;
   if(insEditMode)$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});
   updEditBar();
-  $('insInfo').textContent=want==='pnote'?`แบบแจ้งการปรับตามสัญญาจ้าง (พ.1-42) — ต้นฉบับ + สำเนาคู่ฉบับ (มีช่องผู้รับจ้างลงชื่อรับต้นฉบับ) · ${insSheets.length} หน้า`:want==='reserve'?`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง (พ.1-43) — ต้นฉบับ + สำเนาคู่ฉบับ · ${insSheets.length} หน้า`:want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
+  $('insInfo').textContent=want==='pnote'?`แบบแจ้งการปรับตามสัญญาจ้าง (พ.1-42) — หน้า 1 ต้นฉบับ · หน้า 2 ฉบับให้ผู้รับจ้างลงชื่อรับ (ประธานกรรมการฯ ลงนามแทนผู้ว่าจ้าง) · ${insSheets.length} หน้า`:want==='reserve'?`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง (พ.1-43) — ต้นฉบับ + สำเนาคู่ฉบับ · ${insSheets.length} หน้า`:want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
   const sh=$('insSheets');sh.style.zoom=1;const avail=$('insDesk').clientWidth-40,mw=sh.offsetWidth;sh.style.zoom=Math.min(1,avail/mw).toFixed(3);
 }
 function penEdit(e,attr,arr){const tr=e.target.closest('tr');const f=e.target.dataset.f;if(!tr||!f)return;const ins=insOf();ins[arr][+tr.dataset[attr]][f]=e.target.value;if(f!=='reason')renderInsTable();renderIns();save()}
@@ -3574,7 +3574,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 27 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 28 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3597,7 +3597,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 27 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 28 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
