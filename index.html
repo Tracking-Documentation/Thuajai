@@ -692,9 +692,9 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     <div class="icard t-amber penbox" data-sec="contract">
       <div class="ich"><span class="num">1</span><div class="ict"><b>⏱ ระยะเวลาสัญญาและค่าปรับ</b><small>บันทึกแก้ไขสัญญา ขยายเวลา และการงดค่าปรับ — ใช้คำนวณทุกงวด</small></div></div>
       <div class="pinfo2" id="penInfo"></div>
-      <div class="ptitle">บันทึกแก้ไขสัญญา / ขยายระยะเวลา <span class="note">ใส่จำนวนวันที่ขยาย ระบบเลื่อนวันสิ้นสุดสัญญาให้</span></div>
+      <div class="ptitle">บันทึกแก้ไขสัญญา / ขยายระยะเวลา <span class="note">เลือกประเภท: บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง หรือ สัญญาแก้ไขเพิ่มเติม (นับฉบับที่แยกกัน) · ใส่จำนวนวันที่ขยาย — ถ้าฉบับนั้นไม่ได้ขยายเวลาให้ใส่ 0 · หนังสือทุกฉบับอ้างถึงเรียงตามวันที่ให้</span></div>
       <div class="tbl-wrap"><table class="ptb" id="amTbl"></table></div>
-      <div class="btns"><button type="button" id="bAmAdd">+ เพิ่มบันทึกแก้ไขสัญญา</button></div>
+      <div class="btns"><button type="button" id="bAmAdd">+ เพิ่มบันทึกแนบท้าย / สัญญาแก้ไขเพิ่มเติม</button></div>
       <div class="ptitle">อนุมัติงด / ลดค่าปรับ <span class="note">ใส่ได้หลายครั้ง ระบบรวมจำนวนวันให้</span></div>
       <div class="tbl-wrap"><table class="ptb" id="wvTbl"></table></div>
       <div class="btns"><button type="button" id="bWvAdd">+ เพิ่มการอนุมัติงดค่าปรับ</button></div>
@@ -2144,8 +2144,11 @@ function migSched(x){const D={inspTime:'10:00',inspPlace:'สถานที่�
   if('meet' in x){const m=parseMeet(x.meet);if(m.time)x.inspTime=m.time;if(m.place)x.inspPlace=m.place;delete x.meet}
   Object.keys(D).forEach(k=>{if(x[k]===undefined)x[k]=D[k]})}
 function effEnd(){const h=S.h;if(!h.end)return '';const add=(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0);return add?addDays(h.end,add):h.end}
+const AM_K={memo:'บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง',amend:'สัญญาแก้ไขเพิ่มเติม'};
+const amName=a=>`${AM_K[a.kind]||AM_K.memo} (ฉบับที่ ${esc(a.no)})`;
+const amSorted=A=>[...A].sort((x,y)=>(x.date||'9')<(y.date||'9')?-1:(x.date||'9')>(y.date||'9')?1:0);
 function endText(){const h=S.h,A=insOf().amends||[];if(!A.length)return `สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
-  return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} และ`+A.map(a=>`บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง (ฉบับที่ ${esc(a.no)}) ลงวันที่ ${a.date?thDate(a.date):'....................'}`).join(' และ')+` สิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
+  return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} และ`+amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'....................'}`).join(' และ')+` สิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
 function waiveTotal(){return (insOf().waivers||[]).reduce((t,w)=>t+(parse(w.days)||0),0)}
 /* ช่องลงนามมาตรฐาน: (ลงชื่อ) ......... ตำแหน่งในคณะ / (ชื่อ) และตำแหน่ง จัดกึ่งกลางใต้เส้นจุด */
 function sgRows(L,cls){return `<div class="sgt ${cls||''}">`+L.map((x,j)=>`${j?'<div class="gap"></div>':''}<span class="lh">${x.lh||''}</span><span>${x.sl||'(ลงชื่อ)'}</span><span class="dlc"></span><span class="rl">${x.role}</span>`+
@@ -2267,8 +2270,8 @@ function insChecks(){
   if(!out.some(x=>x[0]==='e'))out.unshift(['ok','ตัวเลขงวดนี้ถูกต้อง พร้อมพิมพ์เอกสาร']);
   return {C,out}}
 function renderPenBox(){const ins=insOf();
-  $('amTbl').innerHTML=`<thead><tr><th style="width:80px">ฉบับที่</th><th style="width:170px">ลงวันที่</th><th style="width:120px">ขยายเวลา (วัน)</th><th>เหตุผล / หมายเหตุ</th><th style="width:40px"></th></tr></thead><tbody>`+
-   (ins.amends.length?ins.amends.map((a,j)=>`<tr data-am="${j}"><td><input data-f="no" id="am_no${j}" value="${esc(a.no)}"></td><td><input type="date" data-f="date" id="am_dt${j}" value="${esc(a.date)}"></td><td><input class="num" data-f="days" id="am_d${j}" inputmode="numeric" value="${esc(a.days)}"></td><td><input data-f="reason" id="am_r${j}" value="${esc(a.reason)}"></td><td><button type="button" class="x" data-amdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join(''):'<tr class="empty-r"><td colspan="5">ไม่มีการแก้ไขสัญญา</td></tr>')+'</tbody>';
+  $('amTbl').innerHTML=`<thead><tr><th style="width:300px">ประเภท</th><th style="width:80px">ฉบับที่</th><th style="width:170px">ลงวันที่</th><th style="width:120px">ขยายเวลา (วัน)</th><th>เหตุผล / หมายเหตุ</th><th style="width:40px"></th></tr></thead><tbody>`+
+   (ins.amends.length?ins.amends.map((a,j)=>`<tr data-am="${j}"><td><select data-f="kind" id="am_k${j}" aria-label="ประเภท">${Object.entries(AM_K).map(([k,t])=>`<option value="${k}"${(a.kind||'memo')===k?' selected':''}>${t}</option>`).join('')}</select></td><td><input data-f="no" id="am_no${j}" value="${esc(a.no)}"></td><td><input type="date" data-f="date" id="am_dt${j}" value="${esc(a.date)}"></td><td><input class="num" data-f="days" id="am_d${j}" inputmode="numeric" value="${esc(a.days)}"></td><td><input data-f="reason" id="am_r${j}" value="${esc(a.reason)}"></td><td><button type="button" class="x" data-amdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join(''):'<tr class="empty-r"><td colspan="6">ไม่มีการแก้ไขสัญญา</td></tr>')+'</tbody>';
   $('wvTbl').innerHTML=`<thead><tr><th>เนื่องจาก (เหตุผลที่งด/ลดค่าปรับ)</th><th style="width:190px">ตามอนุมัติที่</th><th style="width:170px">ลงวันที่</th><th style="width:110px">จำนวนวัน</th><th style="width:40px"></th></tr></thead><tbody>`+
    (ins.waivers.length?ins.waivers.map((w,j)=>`<tr data-wv="${j}"><td><input data-f="reason" id="wv_r${j}" value="${esc(w.reason)}" placeholder="เช่น ฝนตกหนักเกินกว่าปกติ / รอแก้ไขแบบ"></td><td><input data-f="ref" id="wv_ref${j}" value="${esc(w.ref)}" placeholder="ที่ สทล.17.1/..."></td><td><input type="date" data-f="date" id="wv_dt${j}" value="${esc(w.date)}"></td><td><input class="num" data-f="days" id="wv_d${j}" inputmode="numeric" value="${esc(w.days)}"></td><td><button type="button" class="x" data-wvdel="${j}" aria-label="ลบ">✕</button></td></tr>`).join(''):'<tr class="empty-r"><td colspan="5">ไม่มีการงดค่าปรับ</td></tr>')+'</tbody>';
 }
@@ -3057,7 +3060,7 @@ function renderPnHead(){const c=pnCalc(),P=pnOf();
 function renderPn(){const P=pnOf(),D=pnDef();PN_F.forEach(k=>{const e=$('pn_'+k);if(!e)return;e.value=P[k]||'';if(D[k]!==undefined&&e.type!=='date')e.placeholder=D[k]||(k==='dName'?'เช่น นายxxx xxx':'')});renderPnHead()}
 PN_F.forEach(k=>$('pn_'+k).addEventListener('input',e=>{pnOf()[k]=e.target.value;renderPnHead();renderSecInfo();save();if(['pnote','reserve'].includes(insPage))renderIns()}));
 function pnRefs(date){const h=S.h,A=(insOf().amends||[]).filter(a=>!date||!a.date||a.date<=date);
-  return [`สัญญาจ้างเลขที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`,...A.map(a=>`สัญญาแก้ไขเพิ่มเติม (ฉบับที่ ${esc(a.no)}) ลงวันที่ ${a.date?thDate(a.date):'....................'}`)]}
+  return [`สัญญาจ้างเลขที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`,...amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'....................'}`)]}
 const pnMY=iso=>{if(!iso)return '................................';const [y,m]=iso.split('-').map(Number);return TM[m-1]+' '+(y+543)};
 function pnPage(o){const br=t=>esc(t).split('\n').join('<br>');
   const ack=o.copy?`<div class="exack"><p class="ind" style="margin:0">ได้รับต้นฉบับ${o.ackOf}แล้ว</p>
@@ -3125,7 +3128,7 @@ function pwMemoHead(no,date,title,to){const ins=insOf(),W=wkOf();
    <p style="margin-top:10px">เรียน ${to}</p>`}
 function pwOrig(){const h=S.h,A=insOf().amends||[],c=pwCalc();const L=(a,b,x,y)=>`<span>${a}</span><span>${b}</span><span>${x||''}</span><span>${y||''}</span>`;
   return `<p class="ag" style="padding-left:2.2em">1. เรื่องเดิม</p>
-   <p class="ind">ตามสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}${A.length?' และ'+A.map(a=>`บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง (ฉบับที่ ${esc(a.no)}) ลงวันที่ ${a.date?thDate(a.date):'..........'}`).join(' และ'):''} ${esc(h.project)} ${esc(h.loc)} โดยมีรายละเอียดดังนี้</p>
+   <p class="ind">ตามสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}${A.length?' และ'+amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'..........'}`).join(' และ'):''} ${esc(h.project)} ${esc(h.loc)} โดยมีรายละเอียดดังนี้</p>
    <div class="pwkv">${L('เริ่มต้นสัญญาวันที่',thDate(h.start),'สิ้นสุดสัญญา'+(A.length?'(เดิม)':'')+' วันที่',thDate(h.end))}${A.length?L('สิ้นสุดสัญญา(ใหม่) วันที่',thDate(effEnd()),'เวลาทำการ',`${wkTotalDays()} วัน`):L('เวลาทำการ',`${esc(h.days)} วัน`)}
     ${L('ค่างานตามสัญญา',fm(c.val)+' บาท','ค่าปรับวันละ',fm(c.per)+' บาท')}${L('ผู้รับจ้าง',esc(h.contractor))}</div>`}
 const pwSig=()=>{const ctl=ctlPerson();return `<div style="margin:34px 0 0 38%;text-align:center;line-height:1.55">(${esc(ctl?ctl.name:'..............................')})<br>${esc(ctl?ctl.pos:'')}<br>ผู้ควบคุมงาน</div>`};
@@ -3213,7 +3216,7 @@ $('amTbl').addEventListener('input',e=>penEdit(e,'am','amends'));
 $('wvTbl').addEventListener('input',e=>penEdit(e,'wv','waivers'));
 $('amTbl').addEventListener('click',e=>{const b=e.target.closest('[data-amdel]');if(!b)return;insOf().amends.splice(+b.dataset.amdel,1);renderPenBox();renderInsTable();renderIns();save()});
 $('wvTbl').addEventListener('click',e=>{const b=e.target.closest('[data-wvdel]');if(!b)return;insOf().waivers.splice(+b.dataset.wvdel,1);renderPenBox();renderIns();save()});
-$('bAmAdd').addEventListener('click',()=>{const A=insOf().amends;A.push({no:String(A.length+1),date:'',days:'',reason:''});renderPenBox();save();$('am_dt'+(A.length-1)).focus()});
+$('bAmAdd').addEventListener('click',()=>{const A=insOf().amends;{const k=(A[A.length-1]||{}).kind||'memo';A.push({kind:k,no:String(A.filter(x=>(x.kind||'memo')===k).length+1),date:'',days:'',reason:''})};renderPenBox();save();$('am_dt'+(A.length-1)).focus()});
 $('bWvAdd').addEventListener('click',()=>{const W=insOf().waivers;W.push({reason:'',ref:'',date:'',days:''});renderPenBox();save();$('wv_r'+(W.length-1)).focus()});
 $('insPick').addEventListener('click',e=>{const b=e.target.closest('[data-ip]');if(!b)return;if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}insPage=b.dataset.ip;$('insPick').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderIns()});
 $('bInsPrint').addEventListener('click',()=>{if(insEditMode)insSheets=domPages().map(html=>({W:210,H:297,pad:IPAD,hi:true,html}));else renderIns();const inst=insOf().list[insOf().cur];
@@ -3574,7 +3577,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 28 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 29 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3597,7 +3600,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 28 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 29 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
