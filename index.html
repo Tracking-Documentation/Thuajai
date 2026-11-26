@@ -569,7 +569,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     <section class="calbox" id="calBox">
       <div class="calhead">
         <h2>📅 ปฏิทินแจ้งเตือน</h2>
-        <div class="btns"><button type="button" id="calPrev" aria-label="เดือนก่อน">‹</button><b id="calTitle"></b><button type="button" id="calNext" aria-label="เดือนถัดไป">›</button><button type="button" id="calToday">วันนี้</button><button type="button" id="calIcs" title="ดาวน์โหลดไฟล์ .ics เพื่อนำเข้าปฏิทินในมือถือ/Google/Outlook">⬇ เพิ่มลงปฏิทินมือถือ (.ics)</button></div>
+        <div class="btns"><button type="button" id="calPrev" aria-label="เดือนก่อน">‹</button><b id="calTitle"></b><button type="button" id="calNext" aria-label="เดือนถัดไป">›</button><button type="button" id="calToday">วันนี้</button><button type="button" id="calIcs" title="ดาวน์โหลดไฟล์ .ics (ทุกโครงการ ทุกกำหนดการ) เพื่อนำเข้าปฏิทินในมือถือ/Google/Outlook/Apple">⬇ เพิ่มลงปฏิทินมือถือ (.ics)</button><button type="button" data-guide="g10">วิธีใช้ .ics</button></div>
       </div>
       <div class="callegend"><span class="c-end">ครบกำหนดสัญญา</span><span class="c-insp">นัดตรวจรับ/ประชุม</span><span class="c-pen">ค่าปรับ 7.5% / 10%</span><span class="c-chk">จุดตรวจความก้าวหน้า</span><span class="c-wk">ส่งรายงานประจำสัปดาห์</span><span class="c-war">รับประกัน / อุทธรณ์ / แจ้งผล</span></div>
       <div class="calwrap"><div class="calgrid" id="calGrid"></div>
@@ -1005,7 +1005,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   </footer>
   <div class="pdpa" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideT" hidden><div class="pdpa-card wide">
     <div class="mhd"><h2 id="guideT">📘 คู่มือการใช้งาน — การบริหารโครงการงานสัญญา</h2><button type="button" class="xbtn" data-close aria-label="ปิด">✕</button></div>
-    <nav class="toc"><a href="#g1">เริ่มต้น</a><a href="#g2">ถัวจ่าย</a><a href="#g3">การ์ด ① สัญญา</a><a href="#g4">② รายวัน</a><a href="#g5">③ รายสัปดาห์</a><a href="#g6">④ ตรวจรับ/เบิกจ่าย</a><a href="#g7">ปฏิทิน</a><a href="#g8">พิมพ์ · Word · Excel</a><a href="#g9">สำรอง/ย้ายเครื่อง</a></nav>
+    <nav class="toc"><a href="#g1">เริ่มต้น</a><a href="#g2">ถัวจ่าย</a><a href="#g3">การ์ด ① สัญญา</a><a href="#g4">② รายวัน</a><a href="#g5">③ รายสัปดาห์</a><a href="#g6">④ ตรวจรับ/เบิกจ่าย</a><a href="#g7">ปฏิทิน</a><a href="#g8">พิมพ์ · Word · Excel</a><a href="#g9">สำรอง/ย้ายเครื่อง</a><a href="#g10">ปฏิทินมือถือ (.ics)</a></nav>
     <h3 id="g1">1. เริ่มต้น — หน้าสรุปโครงการ</h3>
     <ol><li>กด <b>+ เพิ่มโครงการ</b> (หรือ <b>+ โครงการตัวอย่าง</b> เพื่อลองใช้) แล้วคลิกแถวโครงการเพื่อเปิด</li>
       <li>ด้านบนของโครงการมี 3 แท็บสี: <b>🧮 คำนวณ/แก้ไขข้อมูล</b> (น้ำเงิน) · <b>📄 หน้าเอกสารถัวจ่าย</b> (ส้ม) · <b>🏗️ บริหารสัญญา·รายงาน·ตรวจรับ</b> (เขียว)</li>
@@ -1038,6 +1038,20 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     <h3 id="g9">9. สำรองข้อมูล / ย้ายเครื่อง / อัปเดตแอป</h3>
     <ul><li>ข้อมูลอยู่ในเบราว์เซอร์ของเครื่องนี้ — กด <b>สำรองข้อมูลทั้งหมด</b> เป็นระยะ และใช้ <b>นำเข้าข้อมูล</b> เมื่อย้ายเครื่อง</li>
       <li>อัปเดตแอปที่ติดตั้ง: อัปโหลด index.html, sw.js, manifest.webmanifest ทับของเดิม แล้วเปิดแอปใหม่ 1–2 ครั้ง</li></ul>
+    <h3 id="g10">10. ปฏิทินในมือถือ / คอมพิวเตอร์ (ไฟล์ .ics)</h3>
+    <p>ไฟล์ .ics คือไฟล์ปฏิทินมาตรฐานที่ทุกระบบเปิดได้ — มี<b>ทุกโครงการ ทุกกำหนดการ</b> (รายการที่เสร็จแล้วมี ✓ นำหน้า รายการที่เลยกำหนดมี ⚠) และตั้ง<b>เตือนล่วงหน้า 1 วัน + เช้าวันนั้น</b>ไว้ให้ทุกรายการที่ยังไม่ถึง</p>
+    <p><b>ขั้นที่ 1</b> หน้าสรุปโครงการ → กล่อง 📅 ปฏิทินแจ้งเตือน → กด <b>⬇ เพิ่มลงปฏิทินมือถือ (.ics)</b> → ได้ไฟล์ <i>ปฏิทินบริหารสัญญา.ics</i> (ถ้าเปิดแอปบนคอมพิวเตอร์ ส่งไฟล์เข้า LINE/อีเมลตัวเองเพื่อเปิดในมือถือได้)</p>
+    <table class="lawt"><tbody>
+      <tr><th>iPhone / iPad (ปฏิทินของ Apple)</th><td>แตะไฟล์ในแอป <b>ไฟล์ (Files)</b> → ดาวน์โหลด หรือแตะไฟล์แนบในอีเมล/LINE → <b>เพิ่มทั้งหมด</b> → เลือกปฏิทิน · แนะนำสร้างปฏิทินใหม่ชื่อ “บริหารสัญญา” ก่อน (แอปปฏิทิน → ปฏิทิน → เพิ่มปฏิทิน)</td></tr>
+      <tr><th>Android — Samsung</th><td>แอป <b>ไฟล์ของฉัน</b> → ดาวน์โหลด → แตะไฟล์ → เปิดด้วย <b>ปฏิทิน Samsung</b> → <b>บันทึก/นำเข้า</b> · หรือใช้วิธี Google ปฏิทินด้านล่าง</td></tr>
+      <tr><th>Android — Xiaomi / OPPO / vivo / Huawei / อื่น ๆ</th><td>ตัวจัดการไฟล์ → ดาวน์โหลด → แตะไฟล์ → เปิดด้วย <b>ปฏิทิน</b> ของเครื่อง → นำเข้า · ถ้าเครื่องไม่มีตัวเลือกนี้ ให้นำเข้าผ่าน Google ปฏิทินบนคอมพิวเตอร์ แล้วมือถือที่ล็อกอิน Google บัญชีเดียวกันจะเห็นเอง</td></tr>
+      <tr><th>Google ปฏิทิน (Gmail) — ทำบนคอมพิวเตอร์</th><td>calendar.google.com → ⚙ <b>การตั้งค่า</b> → (แนะนำ) <b>เพิ่มปฏิทิน → สร้างปฏิทินใหม่</b> ชื่อ “บริหารสัญญา” → <b>นำเข้าและส่งออก</b> → เลือกไฟล์ .ics → เลือกปฏิทิน “บริหารสัญญา” → <b>นำเข้า</b> · แอป Google ปฏิทินในมือถือนำเข้าไฟล์เองไม่ได้ แต่จะแสดงและเตือนให้หลังนำเข้าบนคอมพิวเตอร์</td></tr>
+      <tr><th>Outlook (Windows / Microsoft 365)</th><td>ดับเบิลคลิกไฟล์ .ics หรือ <b>ไฟล์ → เปิดและส่งออก → นำเข้า/ส่งออก → นำเข้าไฟล์ iCalendar (.ics)</b> → <b>นำเข้า</b> (เลือก “นำเข้า” ไม่ใช่ “เปิดเป็นปฏิทินใหม่” ถ้าต้องการให้รวมกับปฏิทินหลัก) · Outlook บนเว็บ: ปฏิทิน → <b>เพิ่มปฏิทิน → อัปโหลดจากไฟล์</b></td></tr>
+      <tr><th>Mac (ปฏิทินของ Apple)</th><td>ดับเบิลคลิกไฟล์ หรือแอปปฏิทิน → <b>ไฟล์ → นำเข้า</b> → เลือกไฟล์ → เลือกปฏิทิน · ถ้าใช้ iCloud บัญชีเดียวกัน iPhone จะเห็นเอง</td></tr>
+      <tr><th>Windows — แอปปฏิทิน / Thunderbird</th><td>แอปปฏิทิน Windows ไม่มีปุ่มนำเข้า — ให้นำเข้าที่ Outlook หรือ Google แทน · Thunderbird: ปฏิทิน → <b>เหตุการณ์และงาน → นำเข้า</b></td></tr>
+      <tr><th>LINE / แอปแชท</th><td>ใช้ส่งไฟล์เข้ามือถือได้ แต่ LINE ไม่มีปฏิทินที่นำเข้า .ics — แตะไฟล์แล้วเลือก “เปิดด้วย” แอปปฏิทินของเครื่อง</td></tr>
+    </tbody></table>
+    <p><b>ข้อควรรู้</b> ไฟล์เป็นข้อมูล ณ วันที่ดาวน์โหลด ไม่อัปเดตเอง — เมื่อเพิ่มโครงการ เปลี่ยนวันนัด ขยายสัญญา ให้ดาวน์โหลดใหม่แล้วนำเข้าอีกครั้ง (แนะนำเดือนละครั้ง) · ถ้าเก็บไว้ในปฏิทินแยก “บริหารสัญญา” ให้ลบปฏิทินนั้นแล้วสร้างใหม่ก่อนนำเข้า จะไม่มีนัดซ้ำ · Google และ Outlook ใช้รหัสรายการ (UID) เดียวกัน การนำเข้าซ้ำจึงอัปเดตรายการเดิมได้บางส่วน แต่ iPhone อาจเพิ่มซ้ำ</p>
   </div></div>
   <div class="pdpa" id="lawModal" role="dialog" aria-modal="true" aria-labelledby="lawT" hidden><div class="pdpa-card wide">
     <div class="mhd"><h2 id="lawT">⚖️ ระเบียบ / ข้อกฎหมายที่เกี่ยวข้อง</h2><button type="button" class="xbtn" data-close aria-label="ปิด">✕</button></div>
@@ -3401,17 +3415,17 @@ $('calToday').addEventListener('click',()=>{calYM=todayISO().slice(0,7);calSel=t
 $('calGrid').addEventListener('click',e=>{const b=e.target.closest('[data-cd]');if(!b)return;calSel=b.dataset.cd;renderCal()});
 $('calBox').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;openProject(b.dataset.go);$('tabIns').click();setTimeout(()=>setSec(b.dataset.sec),50)});
 $('hubCal').addEventListener('click',()=>{$('calBox').scrollIntoView({behavior:'smooth',block:'start'})});
-$('calIcs').addEventListener('click',()=>{const E=calEvents().filter(e=>e.d>=addDays(todayISO(),-1)&&e.st!=='ok');const f=d=>d.replace(/-/g,'');
-  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//NW//Contract Project Management//TH','CALSCALE:GREGORIAN',...E.flatMap((e,i)=>['BEGIN:VEVENT',`UID:${f(e.d)}-${i}-${e.pid}@cpm`,`DTSTAMP:${f(todayISO())}T000000Z`,`DTSTART;VALUE=DATE:${f(e.d)}`,`DTEND;VALUE=DATE:${f(addDays(e.d,1))}`,`SUMMARY:${(e.proj+' · '+e.t).replace(/[,;]/g,' ')}`,'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:แจ้งเตือนล่วงหน้า 1 วัน','END:VALARM','END:VEVENT']),'END:VCALENDAR'].join('\r\n');
-  saveFile('ปฏิทินบริหารสัญญา.ics',ics,'text/calendar');toast(`ดาวน์โหลดปฏิทิน ${E.length} รายการ (แจ้งเตือนล่วงหน้า 1 วัน)`)});
+$('calIcs').addEventListener('click',()=>{const E=calEvents(),T=todayISO();const f=d=>d.replace(/-/g,'');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//NW//Contract Project Management//TH','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:บริหารสัญญา','X-WR-TIMEZONE:Asia/Bangkok',...E.flatMap((e,i)=>['BEGIN:VEVENT',`UID:${e.pid}-${e.c}-${(()=>{let h=0;for(const ch of e.t.replace(/ ✓$/,'').replace(/\d{1,2}:\d{2}.*$/,''))h=(h*31+ch.charCodeAt(0))|0;return (h>>>0).toString(36)})()}-${f(e.c==='wk'||e.c==='insp'?e.d:'')}@cpm`,`DTSTAMP:${f(todayISO())}T000000Z`,`DTSTART;VALUE=DATE:${f(e.d)}`,`DTEND;VALUE=DATE:${f(addDays(e.d,1))}`,`SUMMARY:${((e.st==='ok'?'✓ ':e.st==='bad'?'⚠ ':'')+e.proj+' · '+e.t).replace(/[,;\\]/g,' ')}`,`CATEGORIES:${{end:'ครบกำหนดสัญญา',insp:'นัดตรวจรับ',pen:'ค่าปรับ',chk:'จุดตรวจความก้าวหน้า',wk:'รายงานประจำสัปดาห์',war:'รับประกัน-อุทธรณ์'}[e.c]||'บริหารสัญญา'}`,...(e.d>=T&&e.st!=='ok'?['BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:แจ้งเตือนล่วงหน้า 1 วัน','END:VALARM','BEGIN:VALARM','TRIGGER:PT8H','ACTION:DISPLAY','DESCRIPTION:แจ้งเตือนวันนี้','END:VALARM']:[]),'END:VEVENT']),'END:VCALENDAR'].join('\r\n');
+  saveFile('ปฏิทินบริหารสัญญา.ics',ics,'text/calendar');toast(`ดาวน์โหลดปฏิทิน ${E.length} รายการ (ทุกโครงการ ทุกกำหนดการ · เตือนล่วงหน้า 1 วัน และเช้าวันนั้น)`)});
 /* คู่มือ / ระเบียบ */
-document.addEventListener('click',e=>{if(e.target.closest('[data-guide]')){$('guideModal').hidden=false}else if(e.target.closest('[data-law]')){$('lawModal').hidden=false}
+document.addEventListener('click',e=>{const gb=e.target.closest('[data-guide]');if(gb){$('guideModal').hidden=false;const t=gb.dataset.guide&&document.getElementById(gb.dataset.guide);if(t)setTimeout(()=>t.scrollIntoView({block:'start'}),30)}else if(e.target.closest('[data-law]')){$('lawModal').hidden=false}
   const c=e.target.closest('[data-close]');if(c)c.closest('.pdpa').hidden=true;
   if(e.target.classList&&e.target.classList.contains('pdpa')&&e.target.id!=='pdpaModal')e.target.hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')['guideModal','lawModal'].forEach(id=>$(id).hidden=true)});
 document.querySelectorAll('.toc a').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}));
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 23 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 24 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3434,7 +3448,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 23 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 24 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
