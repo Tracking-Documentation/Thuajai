@@ -465,6 +465,15 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 .ipaper .wkl{display:grid;grid-template-columns:3.4em 14em 7.5em 1fr;column-gap:6px;padding-left:3.2em}
 .ipaper .wkl .n{text-align:right}
 .ipaper .cc{display:grid;grid-template-columns:auto 1fr;column-gap:10px;margin-top:22px}
+.pnres{margin-top:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.pnres-h{background:var(--sunk);padding:8px 12px;font-size:.9rem;font-weight:600}
+.pnres table{width:100%;border-collapse:collapse;font-size:.92rem}
+.pnres th,.pnres td{padding:6px 8px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
+.pnres th{font-size:.8rem;color:var(--muted);font-weight:600}
+.pnres{overflow-x:auto}.pnres table{min-width:0!important}.pnres input{width:7.5em}.pnres input[type=date]{width:10.5em}.pnres td,.pnres th{vertical-align:top;padding:6px 8px}.pnres .sm{font-size:.82rem;color:var(--muted)}.pnres button{margin-top:4px;padding:3px 10px;font-size:.85rem}
+.pnres .st{font-weight:700;white-space:nowrap}.pnres .st.ok{color:var(--ok)}.pnres .st.e{color:var(--err)}
+.pnres tr.sel td{background:color-mix(in srgb,var(--tc,#d97706) 10%,transparent)}
+.pnres .none{padding:10px 12px;color:var(--muted);font-size:.9rem}
 .ipaper .exfc{text-align:right;font-size:13px;line-height:1.35;margin-bottom:-58px}
 .ipaper img.garuda.exg{height:3cm;margin:0 auto}
 .ipaper .excp{text-align:center;font-weight:700;font-size:17px;margin:0}
@@ -780,9 +789,8 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <div class="grid">
         <label class="f">แจ้งการปรับ (พ.1-42) เลขที่ (เลขท้าย)<input id="pn_no1" placeholder="เช่น 1234"></label>
         <label class="f">ลงวันที่<input id="pn_d1" type="date"><span class="hint" id="pnHint1"></span></label>
-        <label class="f">แจ้งสงวนสิทธิ์ (พ.1-43) เลขที่ (เลขท้าย)<input id="pn_no2" placeholder="เช่น 1300"></label>
-        <label class="f">ลงวันที่<input id="pn_d2" type="date"><span class="hint">ว่างไว้ = วันที่ส่งงานงวดสุดท้าย</span></label>
       </div>
+      <div class="pnres"><div class="pnres-h">แจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — <b>ทุกครั้ง</b>ที่ผู้รับจ้างส่งงานหลังครบกำหนดสัญญา</div><div id="pnResList"></div></div>
       <details class="wkset" id="pnSet">
         <summary>หัวหนังสือ / ผู้ลงนาม / ผู้รับต้นฉบับ (ตั้งครั้งเดียว — ช่องว่างใช้ค่าที่แสดงจาง ๆ)</summary>
         <div class="grid">
@@ -2004,7 +2012,7 @@ function anonData(d){const names=new Set(),TT=/^(นางสาว|น\.ส\.|�
     else if(o&&typeof o==='object')Object.keys(o).forEach(k=>{const v=o[k];if(typeof v==='string')o[k]=fix(v);else if(v&&typeof v==='object')walk(v)})};
   walk(d);
   if(d.ins)(d.ins.list||[]).forEach(x=>{if(x.memoNo)x.memoNo='xxx'});if(d.wk)(d.wk.list||[]).forEach(x=>{if(x.memoNo)x.memoNo='xxx'});
-  (d.perf&&d.perf.events||[]).forEach(x=>{if(x.ref)x.ref='xxx'});if(d.pn){['no1','no2'].forEach(k=>{if(d.pn[k])d.pn[k]='xxx'});d.pn.pre='';d.pn.addr=String(d.pn.addr||'').replace(/\d{5}/g,'xxxxx').replace(/ถนน\S+/g,'ถนน xxx').replace(/อำเภอ\S+/g,'อำเภอ xxx')}(d.ins&&d.ins.waivers||[]).forEach(x=>{if(x.ref)x.ref='ที่ xxx'});
+  (d.perf&&d.perf.events||[]).forEach(x=>{if(x.ref)x.ref='xxx'});if(d.pn){['no1','no2'].forEach(k=>{if(d.pn[k])d.pn[k]='xxx'});Object.values(d.pn.res||{}).forEach(r=>{if(r&&r.no)r.no='xxx'});d.pn.pre='';d.pn.addr=String(d.pn.addr||'').replace(/\d{5}/g,'xxxxx').replace(/ถนน\S+/g,'ถนน xxx').replace(/อำเภอ\S+/g,'อำเภอ xxx')}(d.ins&&d.ins.waivers||[]).forEach(x=>{if(x.ref)x.ref='ที่ xxx'});
   d.demo=true;return {d,n:names.size+(core&&!/^x+$/i.test(core)?1:0)+lits.length}}
 function demoScrub(){if(S&&S.demo)anonData(S)}
 let anonArm=null;
@@ -3165,9 +3173,10 @@ function svgToPng(svg,scale){return new Promise(res=>{const xml=new XMLSerialize
     const b64=cv.toDataURL('image/png').split(',')[1];res(Uint8Array.from(atob(b64),c=>c.charCodeAt(0)))}catch(e){res(null)}};img.onerror=()=>res(null);
   img.src='data:image/svg+xml;base64,'+b64utf8(xml)})}
 /* ---- แจ้งการปรับ (พ.1-42) และแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ระเบียบฯ ข้อ 181 / ป.พ.พ. มาตรา 381 วรรคสาม ---- */
-const PN_F=['no1','d1','no2','d2','pre','to','addr','dName','dPos','rName1','rPos1','rName2','rPos2','payAt','unit'];
+const PN_F=['no1','d1','pre','to','addr','dName','dPos','rName1','rPos1','rName2','rPos2','payAt','unit'];
 const pnToday=()=>new Date(Date.now()+7*3600e3).toISOString().slice(0,10);
-function pnOf(){if(!S.pn)S.pn={};const P=S.pn;if(P.rName!==undefined||P.rPos!==undefined){['1','2'].forEach(k=>{if(!P['rName'+k])P['rName'+k]=P.rName||'';if(!P['rPos'+k])P['rPos'+k]=P.rPos||''});delete P.rName;delete P.rPos}PN_F.forEach(k=>{if(P[k]===undefined)P[k]=''});return P}
+function pnOf(){if(!S.pn)S.pn={};const P=S.pn;if(!P.res||typeof P.res!=='object')P.res={};
+  if(P.no2||P.d2){const f=(insOf().list||[]).find(x=>x.final);const k=String(f?f.no:'');if(k&&!P.res[k])P.res[k]={no:P.no2||'',d:P.d2||''};delete P.no2;delete P.d2}if(P.rName!==undefined||P.rPos!==undefined){['1','2'].forEach(k=>{if(!P['rName'+k])P['rName'+k]=P.rName||'';if(!P['rPos'+k])P['rPos'+k]=P.rPos||''});delete P.rName;delete P.rPos}PN_F.forEach(k=>{if(P[k]===undefined)P[k]=''});return P}
 function pnDef(){const ins=insOf(),h=S.h,off=String(ins.office||'แขวงทางหลวงกระบี่').trim(),dm=!!S.demo;
   const ph=String(ins.phone||''),tel=ph.replace(/\s*โทรสาร.*$/,'').trim(),fax=((ph.match(/โทรสาร\s*(.+)$/)||[])[1]||'').trim();
   return {pre:dm?'คค xxx/':'คค 06100.1(พ)/',to:'กรรมการผู้จัดการ '+String(h.contractor||'').trim(),
@@ -3175,13 +3184,18 @@ function pnDef(){const ins=insOf(),h=S.h,off=String(ins.office||'แขวงท
     dName:'',dPos:'ผู้อำนวยการ'+off,rName1:String(ins.csName||'').trim(),rPos1:String(ins.csTitle||'').trim()||'ผู้รับมอบอำนาจ',rName2:String(ins.csName||'').trim(),rPos2:String(ins.csTitle||'').trim()||'ผู้รับมอบอำนาจ',payAt:off,
     unit:`งานพัสดุและสัญญา${tel?'\nโทร. '+tel:''}${fax?'\nโทรสาร '+fax:''}`}}
 function pnV(k){const P=pnOf();return String(P[k]||'').trim()||pnDef()[k]||''}
+function pnLate(){const ins=insOf(),end=effEnd(),P=pnOf(),h=S.h;if(!end)return [];
+  const perD=parse(h.pendoc);
+  return ins.list.map((x,i)=>({x,i})).filter(o=>o.x.doneDate&&o.x.doneDate>end).sort((a,b)=>a.x.doneDate<b.x.doneDate?-1:1).map(({x,i})=>{
+    const pp=penaltyOf(i),per=perD||pp.per,key=String(x.no),r=P.res[key]||{};
+    return {i,inst:x,key,done:x.doneDate,late:dayDiff(end,x.doneDate),days:pp.days,wv:pp.waive,charged:pp.charged,per,amt:rr2(pp.days*per),no:r.no||'',d:r.d||'',reserved:!!(r.no||r.d),final:!!x.final}})}
 function pnCalc(){const ins=insOf(),h=S.h,end=effEnd(),today=pnToday();const k=ins.list.findIndex(x=>x.final),fin=k>=0?ins.list[k]:null,done=fin&&fin.doneDate||'';
   const p=k>=0?penaltyOf(k):null;const per=parse(h.pendoc)||(p&&p.per)||rr2((parse(h.value)||0)*(parse(h.penrate)||0)/100);
   const due=end?addWorkdays(end,7):'',lateNow=!!(end&&!done&&today>end),lateDone=!!(end&&done&&done>end);
   const late=lateDone?dayDiff(end,done):0,wv=p?p.waive:0,charged=p?p.charged:0,days=lateDone?Math.max(0,late-wv-charged):0;
-  const P=pnOf(),noticed=!!(P.no1||P.d1),reserved=!!(P.no2||P.d2);
-  return {end,due,done,fin,per,late,wv,charged,days,amt:rr2(days*per),from:end?addDays(end,1):'',lateNow,lateDone,needNotice:lateNow||lateDone,noticed,reserved,today,
-    noticeLate:!!(P.d1&&due&&P.d1>due),noticeOver:!!((lateNow||lateDone)&&!noticed&&today>due),reserveMiss:lateDone&&!reserved}}
+  const P=pnOf(),noticed=!!(P.no1||P.d1),L=pnLate(),anyLate=L.length>0,reserved=anyLate&&L.every(e=>e.reserved);
+  return {end,due,done,fin,per,late,wv,charged,days,amt:rr2(days*per),from:end?addDays(end,1):'',lateNow,lateDone,L,anyLate,needNotice:lateNow||lateDone||anyLate,noticed,reserved,today,
+    noticeLate:!!(P.d1&&due&&P.d1>due),noticeOver:!!((lateNow||lateDone||anyLate)&&!noticed&&today>due),reserveMiss:L.some(e=>!e.reserved)}}
 function renderPnHead(){const c=pnCalc(),P=pnOf();
   $('pnHint1').textContent=c.due?`ภายใน ${thDate(c.due)} (7 วันทำการ · ตรวจวันหยุดนักขัตฤกษ์เพิ่ม)`:'';
   if(!c.end){$('pnHead').innerHTML='<div class="pwst">ใส่วันเริ่ม/สิ้นสุดสัญญาในหน้าถัวจ่ายก่อน</div>';return}
@@ -3190,11 +3204,24 @@ function renderPnHead(){const c=pnCalc(),P=pnOf();
   if(!c.needNotice)a=c.done?box('ok','✓ ① ส่งงานภายในกำหนดสัญญา — ไม่ต้องแจ้งการปรับ',''):box('',`① ครบกำหนดสัญญา ${thDate(c.end)} — ถ้าวันนั้นยังไม่ส่งงาน ต้องมีหนังสือแจ้งการปรับ (พ.1-42) ภายใน ${thDate(c.due)}`,'ระบบขึ้นเตือนในปฏิทินให้แล้ว');
   else if(c.noticed)a=box(c.noticeLate?'w':'ok',`${c.noticeLate?'!':'✓'} ① แจ้งการปรับแล้ว ${P.no1?'ที่ '+esc(pnV('pre'))+esc(P.no1):''} ${P.d1?'ลงวันที่ '+thDate(P.d1):''}`,c.noticeLate?`ลงวันที่เกินกำหนด 7 วันทำการ (ควรภายใน ${thDate(c.due)}) — ตรวจสอบเหตุผล`:'');
   else a=box(c.noticeOver?'e':'w',`${c.noticeOver?'✗':'!'} ① เลยกำหนดสัญญาแล้ว ยังไม่ได้ส่งงาน — ต้องมีหนังสือแจ้งการปรับ (พ.1-42) ภายใน ${thDate(c.due)}${c.noticeOver?' (เลยกำหนดแล้ว ทำทันที)':''}`,`เปิดเอกสาร “แจ้งการปรับ (พ.1-42)” ด้านล่าง ใส่เลขที่/วันที่ แล้วพิมพ์ ผอ.ลงนาม · ค่าปรับวันละ ${fm(c.per)} บาท`);
-  let b='';
-  if(c.lateDone)b=c.reserved?box('ok',`✓ ② แจ้งสงวนสิทธิ์ค่าปรับแล้ว ${P.no2?'ที่ '+esc(pnV('pre'))+esc(P.no2):''} ลงวันที่ ${thDate(P.d2||c.done)}`,`${c.late} วัน${c.wv||c.charged?` (คิดค่าปรับ ${c.days} วัน)`:''} = ${fm(c.amt)} บาท`):
-    box('e',`✗ ② ส่งงานงวดสุดท้ายเมื่อ ${thDate(c.done)} (เลยกำหนด ${c.late} วัน) — ต้องแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) ในวันรับมอบงาน`,`ไม่บอกสงวนสิทธิ์ขณะรับมอบงาน จะเรียกค่าปรับไม่ได้ (ป.พ.พ. มาตรา 381 วรรคสาม) · ค่าปรับ ${c.days} วัน × ${fm(c.per)} = ${fm(c.amt)} บาท`);
-  else if(c.lateNow)b=box('w','! ② วันที่ผู้รับจ้างส่งมอบงาน — ประธานกรรมการฯ ต้องแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) ในวันนั้น','ใส่ “วันที่ทำการแล้วเสร็จ” ของงวดสุดท้าย ระบบคำนวณวัน/ค่าปรับลงหนังสือให้');
-  $('pnHead').innerHTML=a+b}
+  let b='';const miss=c.L.filter(e=>!e.reserved);
+  if(c.anyLate)b=miss.length?box('e',`✗ ② ยังไม่แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) ${miss.length} ครั้ง: ${miss.map(e=>`งวดที่ ${esc(e.inst.no)} (ส่ง ${thDate(e.done)})`).join(', ')}`,'ต้องแจ้งในวันรับมอบงานทุกครั้ง — ไม่บอกสงวนสิทธิ์ขณะรับมอบงาน จะเรียกค่าปรับไม่ได้ (ป.พ.พ. มาตรา 381 วรรคสาม)')
+    :box('ok',`✓ ② แจ้งสงวนสิทธิ์ค่าปรับครบแล้ว ${c.L.length} ครั้ง`,'');
+  if(c.lateNow)b+=box('w','! ② ทุกครั้งที่ผู้รับจ้างส่งงานหลังครบกำหนดสัญญา — ประธานกรรมการฯ ต้องแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) ในวันนั้น','ใส่ “วันที่ทำการแล้วเสร็จ” ของงวดที่ส่ง ระบบเพิ่มรายการด้านล่างและคำนวณวัน/ค่าปรับลงหนังสือให้');
+  $('pnHead').innerHTML=a+b;renderPnRes(c)}
+function renderPnRes(c){c=c||pnCalc();const P=pnOf(),L=c.L,el=$('pnResList');if(!el)return;
+  if(!L.length){el.innerHTML='<div class="none">ยังไม่มีการส่งงานหลังครบกำหนดสัญญา — เมื่อใส่ “วันที่ทำการแล้วเสร็จ” ของงวดที่ส่งหลังครบกำหนด ระบบจะเพิ่มรายการให้ (1 ครั้งที่ส่งงาน = 1 หนังสือ)</div>';return}
+  const sel=pnSel(L);if(el.contains(document.activeElement)&&el.querySelectorAll('tr[data-k]').length===L.length){el.querySelectorAll('tr[data-k]').forEach(tr=>{const e=L.find(x=>x.key===tr.dataset.k);if(!e)return;tr.classList.toggle('sel',e.key===sel.key);const st=tr.querySelector('.st');st.className='st '+(e.reserved?'ok':'e');st.textContent=e.reserved?'✓ แจ้งแล้ว':'✗ ยังไม่แจ้ง'});return}
+  el.innerHTML=`<table><thead><tr><th>ครั้งที่</th><th>งวดที่ส่ง · วันส่งงาน</th><th>ค่าปรับ</th><th>เลขที่หนังสือ</th><th>ลงวันที่</th><th>สถานะ</th></tr></thead><tbody>${L.map((e,n)=>`<tr data-k="${esc(e.key)}"${e.key===sel.key?' class="sel"':''}>
+    <td>${n+1}</td><td><b>งวดที่ ${esc(e.inst.no)}${e.final?' (สุดท้าย)':''}</b><div class="sm">ส่ง ${thDate(e.done)} · เลย ${e.late} วัน</div></td><td>${e.days} วัน<div class="sm">${fm(e.amt)} บาท</div></td>
+    <td><input data-r="no" value="${esc(e.no)}" placeholder="เช่น 1300" aria-label="เลขที่หนังสือสงวนสิทธิ์ งวดที่ ${esc(e.inst.no)}"></td>
+    <td><input data-r="d" type="date" value="${esc(e.d)}" aria-label="ลงวันที่ (ว่าง = วันส่งงาน)" title="ว่างไว้ = วันส่งงาน"></td>
+    <td><span class="st ${e.reserved?'ok':'e'}">${e.reserved?'✓ แจ้งแล้ว':'✗ ยังไม่แจ้ง'}</span><div><button type="button" data-rdoc="${esc(e.key)}">📄 เปิดหนังสือ</button></div></td></tr>`).join('')}</tbody></table>`}
+function pnSel(L){L=L||pnLate();const P=pnOf();return L.find(e=>e.key===P.rsel)||L.find(e=>!e.reserved)||L[L.length-1]||null}
+$('pnResList').addEventListener('input',e=>{const t=e.target,tr=t.closest('tr[data-k]');if(!tr||!t.dataset.r)return;const P=pnOf(),k=tr.dataset.k;P.res[k]=Object.assign({},P.res[k],{[t.dataset.r]:t.value});P.rsel=k;
+  renderPnHead();renderSecInfo();save();if(insPage==='reserve')renderIns()});
+$('pnResList').addEventListener('click',e=>{const b=e.target.closest('[data-rdoc]');if(!b)return;pnOf().rsel=b.dataset.rdoc;save();renderPnRes();const ip=document.querySelector('[data-ip="reserve"]');if(ip)ip.click();else{insPage='reserve';renderIns()}
+  setTimeout(()=>{const d=document.getElementById('docCard');if(d)d.scrollIntoView({behavior:'smooth',block:'start'})},60)});
 function renderPn(){const P=pnOf(),D=pnDef();PN_F.forEach(k=>{const e=$('pn_'+k);if(!e)return;e.value=P[k]||'';if(D[k]!==undefined&&e.type!=='date')e.placeholder=D[k]||(k==='dName'?'เช่น นายxxx xxx':'')});renderPnHead()}
 PN_F.forEach(k=>$('pn_'+k).addEventListener('input',e=>{pnOf()[k]=e.target.value;renderPnHead();renderSecInfo();save();if(['pnote','reserve'].includes(insPage))renderIns()}));
 function pnRefs(date){const h=S.h,A=(insOf().amends||[]).filter(a=>!date||!a.date||a.date<=date);
@@ -3213,7 +3240,7 @@ function pnPage(o){const br=t=>esc(t).split('\n').join('<br>');
    <div class="exk xhang"><span>เรียน</span><span>${esc(pnV('to'))}</span></div>
    <div class="exk xhang"><span>อ้างถึง</span><span>${o.refs.map((r,i)=>(i+1)+'. '+r).join('<br>')}</span></div>
    ${o.body}
-   <div class="exsig"><p>ขอแสดงความนับถือ</p><div style="height:34px"></div><p>(${esc(o.sigName||'..........................................')})</p><p>${esc(o.sigPos)}</p></div>
+   <div class="exsig"><p>ขอแสดงความนับถือ</p><div style="height:${o.copy?24:34}px"></div><p>(${esc(o.sigName||'..........................................')})</p><p>${esc(o.sigPos)}</p></div>
    <div class="exft">${br(pnV('unit'))}</div>${ack}`)}</div>`}
 function docPnNote(){const P=pnOf(),c=pnCalc(),ins=insOf(),C=esc(String(S.h.contractor||'..............................').trim()),dt=P.d1||'';
   const body=`<p class="ind">ตามสัญญาจ้างที่อ้างถึง ${C} ผู้รับจ้างตกลงจะส่งมอบงานตามสัญญาจ้างเหมาให้แล้วเสร็จบริบูรณ์ ภายในวันที่ ${c.end?thDate(c.end):'....................'} นั้น</p>
@@ -3222,18 +3249,19 @@ function docPnNote(){const P=pnOf(),c=pnCalc(),ins=insOf(),C=esc(String(S.h.cont
    <p class="ind">จึงเรียนมาเพื่อทราบ</p>`;
   const {chair}=committee();const o={code:'พ.1-42',title:'แบบแจ้งการปรับตามสัญญาจ้าง',no:P.no1,date:dt,subj:'แจ้งการปรับกรณีผิดสัญญาจ้าง',refs:pnRefs(dt),body,sigName:pnV('dName'),sigPos:pnV('dPos'),ackOf:'หนังสือแจ้งการปรับตามสัญญาจ้าง',rk:'1',ackName:chair?chair.name:'',ackPos:'ประธานกรรมการตรวจรับพัสดุ'};
   return [pnPage(o),pnPage(Object.assign({},o,{copy:true,noMark:true}))]}
-function docPnReserve(){const P=pnOf(),c=pnCalc(),C=esc(String(S.h.contractor||'..............................').trim()),dt=P.d2||c.done||'',{chair}=committee();
-  const D='....................',fin=c.fin;
+function docPnReserve(){const P=pnOf(),c0=pnCalc(),C=esc(String(S.h.contractor||'..............................').trim()),{chair}=committee();
+  const E=pnSel(c0.L);const D='....................';
+  const c=E?{end:c0.end,from:c0.from,done:E.done,late:E.late,days:E.days,charged:E.charged,per:E.per,amt:E.amt,lateDone:true}:{end:c0.end,from:c0.from,done:'',late:0,days:0,charged:0,per:c0.per,amt:0,lateDone:false};
+  const dt=E?(E.d||E.done):'',fin=E?E.inst:null;
   const nref=P.no1||P.d1?` ตามหนังสือที่ ${esc(pnV('pre'))}${esc(P.no1||'..........')} ลงวันที่ ${P.d1?thDate(P.d1):D}`:'';
   const W=(insOf().waivers||[]).filter(w=>(parse(w.days)||0)>0);
-  const body=`<p class="ind">ตามสัญญาจ้างที่อ้างถึง ${C} ซึ่งเป็นผู้รับจ้างตกลงจะส่งมอบงานตามสัญญาจ้างให้แล้วเสร็จบริบูรณ์ ภายในวันที่ ${c.end?thDate(c.end):D} แต่${C} ได้ส่งมอบงานแล้วเสร็จ งวดที่ ${esc(fin?fin.no:'....')} (งวดสุดท้าย) เมื่อวันที่ ${c.done?thDate(c.done):D} ซึ่งได้ล่วงเลยกำหนดเวลาส่งมอบไปแล้ว อันเป็นการผิดสัญญา และกรมทางหลวงได้มีหนังสือแจ้งการปรับให้${C} ทราบแล้ว${nref} นั้น</p>
+  const body=`<p class="ind">ตามสัญญาจ้างที่อ้างถึง ${C} ซึ่งเป็นผู้รับจ้างตกลงจะส่งมอบงานตามสัญญาจ้างให้แล้วเสร็จบริบูรณ์ ภายในวันที่ ${c.end?thDate(c.end):D} แต่${C} ได้ส่งมอบงาน${fin&&fin.final?'แล้วเสร็จ':''} งวดที่ ${esc(fin?fin.no:'....')}${fin&&fin.final?' (งวดสุดท้าย)':''} เมื่อวันที่ ${c.done?thDate(c.done):D} ซึ่งได้ล่วงเลยกำหนดเวลาส่งมอบไปแล้ว อันเป็นการผิดสัญญา และกรมทางหลวงได้มีหนังสือแจ้งการปรับให้${C} ทราบแล้ว${nref} นั้น</p>
    <p class="ind">ฉะนั้น กรมทางหลวง จึงขอสงวนสิทธิ์ในการเรียกค่าปรับจาก ${C} ตั้งแต่วันที่ ${c.from?thDate(c.from):D} จนถึงวันส่งมอบงาน วันที่ ${c.done?thDate(c.done):D} เป็นจำนวนทั้งสิ้น ${c.lateDone?c.late:'........'} วัน โดยคิดค่าปรับตามรายละเอียดดังนี้</p>
    ${W.map(w=>`<p class="exli">- งดค่าปรับ${String(w.reason||'').trim()?' เนื่องจาก'+esc(w.reason.trim().replace(/^เนื่องจาก\s*/,'')):''} ตามอนุมัติ ${esc(w.ref||'..........')}${w.date?' ลงวันที่ '+thDate(w.date):''} จำนวน ${parse(w.days)} วัน</p>`).join('')}
-   ${c.charged?`<p class="exli">- หักค่าปรับไปแล้วในงวดก่อน จำนวน ${c.charged} วัน</p>`:''}
+   ${c.charged?`<p class="exli">- หักจำนวนวันที่สงวนสิทธิ์/คิดค่าปรับไว้แล้วในงวดก่อน จำนวน ${c.charged} วัน</p>`:''}
    <p class="exli">- คงเหลือค่าปรับตามสัญญาเป็นรายวันๆ ละ ${fm(c.per)} บาท จำนวน ${c.lateDone?c.days:'........'} วัน</p>
-   <p style="text-align:right">เป็นเงินค่าปรับทั้งสิ้น ${c.lateDone?fm(c.amt):'....................'} บาท</p>
-   ${c.lateDone?`<p style="text-align:right">(${bahtText(c.amt)})</p>`:''}`;
-  const o={code:'พ.1-43',title:'แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง',no:P.no2,date:dt,subj:'แจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง',refs:pnRefs(dt),body,
+   <p style="text-align:right">เป็นเงินค่าปรับทั้งสิ้น ${c.lateDone?fm(c.amt):'....................'} บาท${c.lateDone?` (${bahtText(c.amt)})`:''}</p>`;
+  const o={code:'พ.1-43',title:'แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง',no:E?E.no:'',date:dt,subj:'แจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง',refs:pnRefs(dt),body,
     sigName:chair?chair.name:'',sigPos:'ประธานกรรมการตรวจรับพัสดุ',ackOf:'หนังสือแจ้งสงวนสิทธิ์การเรียกค่าปรับ',rk:'2'};
   return [pnPage(o),pnPage(Object.assign({},o,{copy:true}))]}
 /* ---- เตือนค่าปรับ 7.5% / 10% และผ่อนปรนการบอกเลิกสัญญา (ผู้ควบคุมงานดำเนินการ) ---- */
@@ -3346,7 +3374,7 @@ function renderInsDocs(C){
   $('insDesk').innerHTML=`<div class="sheets" id="insSheets">${insSheets.map((s,i)=>`<div class="sheet" style="width:${(210*MM).toFixed(1)}px;height:${(297*MM).toFixed(1)}px;padding:${IPAD[0]}mm ${IPAD[1]}mm ${IPAD[2]}mm ${IPAD[3]}mm">${s.html}<div class="pno">หน้า ${i+1}/${insSheets.length}</div></div>`).join('')}</div>`;
   if(insEditMode)$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});
   updEditBar();
-  $('insInfo').textContent=want==='pnote'?`แบบแจ้งการปรับตามสัญญาจ้าง (พ.1-42) — หน้า 1 ต้นฉบับ · หน้า 2 ฉบับให้ผู้รับจ้างลงชื่อรับ (ประธานกรรมการฯ ลงนามแทนผู้ว่าจ้าง) · ${insSheets.length} หน้า`:want==='reserve'?`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง (พ.1-43) — ต้นฉบับ + สำเนาคู่ฉบับ · ${insSheets.length} หน้า`:want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
+  $('insInfo').textContent=want==='pnote'?`แบบแจ้งการปรับตามสัญญาจ้าง (พ.1-42) — หน้า 1 ต้นฉบับ · หน้า 2 ฉบับให้ผู้รับจ้างลงชื่อรับ (ประธานกรรมการฯ ลงนามแทนผู้ว่าจ้าง) · ${insSheets.length} หน้า`:want==='reserve'?(()=>{const L=pnLate(),E=pnSel(L);return E?`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ครั้งที่ ${L.indexOf(E)+1}/${L.length}: งวดที่ ${E.inst.no} ส่ง ${thDate(E.done)} · ต้นฉบับ + สำเนาคู่ฉบับ · เลือกครั้งอื่นที่ปุ่ม “📄 เอกสาร” ในการ์ด ③`:`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ยังไม่มีการส่งงานหลังครบกำหนด (แบบฟอร์มเปล่า)`})():want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
   const sh=$('insSheets');sh.style.zoom=1;const avail=$('insDesk').clientWidth-40,mw=sh.offsetWidth;sh.style.zoom=Math.min(1,avail/mw).toFixed(3);
 }
 function penEdit(e,attr,arr){const tr=e.target.closest('tr');const f=e.target.dataset.f;if(!tr||!f)return;const ins=insOf();ins[arr][+tr.dataset[attr]][f]=e.target.value;if(f!=='reason')renderInsTable();renderIns();save()}
@@ -3361,7 +3389,7 @@ $('bInsPrint').addEventListener('click',()=>{if(insEditMode)insSheets=domPages()
   const nm=docFileBase(inst);printSheets(insSheets,nm.replace(/_/,' '),nm+'.html')});
 function docFileBase(inst){const no=String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'');const w=wkCur();
   if(insPage==='perf')return `สรุปคะแนนความเสียหาย_${no}`;
-  if(insPage==='pnote')return `แจ้งการปรับตามสัญญาจ้าง_${no}`;if(insPage==='reserve')return `แจ้งสงวนสิทธิ์การเรียกค่าปรับ_${no}`;
+  if(insPage==='pnote')return `แจ้งการปรับตามสัญญาจ้าง_${no}`;if(insPage==='reserve'){const E=pnSel();return `แจ้งสงวนสิทธิ์การเรียกค่าปรับ_${E?'งวด'+E.inst.no+'_':''}${no}`};
   if(insPage==='penw')return `บันทึกเตือนค่าปรับ_${no}`;if(insPage==='lenient')return `ขออนุมัติผ่อนปรนการบอกเลิกสัญญา_${no}`;
   const d=dyCur();if(insPage==='dly'&&d)return `รายงานประจำวัน${d.date||''}_${no}`;
   return insPage==='wk'&&w?`รายงานประจำสัปดาห์ที่${w.no}_${no}`:`ตรวจรับงานงวดที่${inst.no}_${no}`}
@@ -3370,7 +3398,7 @@ window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('in
 /* ---- แก้ไขเอกสารก่อนพิมพ์ ---- */
 let insEditMode=false;
 function insEditKey(){return insPage}
-function editTarget(){if(insPage==='pnote'||insPage==='reserve')return pnOf();if(insPage==='penw'||insPage==='lenient')return pwOf();if(insPage==='wk')return wkCur();if(insPage==='perf')return pfOf();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
+function editTarget(){if(insPage==='pnote')return pnOf();if(insPage==='reserve'){const P=pnOf(),E=pnSel();if(!E)return P;if(!P.res[E.key])P.res[E.key]={};return P.res[E.key]}if(insPage==='penw'||insPage==='lenient')return pwOf();if(insPage==='wk')return wkCur();if(insPage==='perf')return pfOf();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
 function savedEdit(){const t=editTarget();return t&&t.docEdits&&t.docEdits[insEditKey()]||null}
 function domPages(){return [...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');c.removeAttribute('spellcheck');return c.outerHTML})}
 /* รหัสยืนยัน */
@@ -3774,9 +3802,9 @@ function calEvents(){const out=[],S0=S,today=todayISO();
     S=d;try{const h=d.h||{},proj=h.no||h.project||'โครงการ',push=(dt,t,c,sec,st)=>{if(dt)out.push({d:dt,t,c,sec,st:st||'',pid:p.id,proj})};
       const end=effEnd();const fin=(insOf().list||[]).find(x=>x.final),done=fin&&fin.doneDate;
       push(end,'ครบกำหนดสัญญา'+(done?' (ส่งมอบแล้ว)':''),'end','contract',done?'ok':end<today?'bad':'');
-      if(end){const n=pnCalc();if(!n.done||n.lateDone)push(n.due,n.noticed?'แจ้งการปรับ (พ.1-42) ✓':n.needNotice?'ต้องแจ้งการปรับ (พ.1-42) ภายในวันนี้ — ข้อ 181':'ถ้ายังไม่ส่งงาน: แจ้งการปรับ (พ.1-42) ภายในวันนี้','pen','contract',n.noticed?'ok':n.noticeOver?'bad':n.needNotice?'warn':'');
-        if(n.lateDone)push(n.done,n.reserved?'แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) ✓':'แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) วันรับมอบงาน','pen','contract',n.reserved?'ok':'bad');
-        else if(n.lateNow)push(today,'ส่งงานวันไหน ต้องแจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) วันนั้น','pen','contract','warn')}
+      if(end){const n=pnCalc();if(!n.done||n.lateDone||n.anyLate)push(n.due,n.noticed?'แจ้งการปรับ (พ.1-42) ✓':n.needNotice?'ต้องแจ้งการปรับ (พ.1-42) ภายในวันนี้ — ข้อ 181':'ถ้ายังไม่ส่งงาน: แจ้งการปรับ (พ.1-42) ภายในวันนี้','pen','contract',n.noticed?'ok':n.noticeOver?'bad':n.needNotice?'warn':'');
+        n.L.forEach(e=>push(e.done,`แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) งวดที่ ${e.inst.no}${e.reserved?' ✓':' — วันรับมอบงาน'}`,'pen','contract',e.reserved?'ok':'bad'));
+        if(n.lateNow)push(today,'ส่งงานวันไหน ต้องแจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) วันนั้น','pen','contract','warn')}
       pfTimeline(today).forEach(x=>{const c=/ค่าปรับ/.test(x.lab)?'pen':/ผลงานสะสม|เวลาสัญญา|ครบกำหนดสัญญา/.test(x.lab)?'chk':'war';if(/^ครบกำหนดสัญญา/.test(x.lab))return;push(x.d,x.lab,c,'contract',x.s)});
       (insOf().list||[]).forEach((inst,j)=>evOfInst(inst).forEach(ev=>push(ev.date,`${ev.kind}งวดที่ ${inst.no} ${m2hm(ev.s)} น. · ${ev.place}`,'insp','pay','')));
       if(h.start&&end&&!done){const W=wkOf();for(let n=1;n<=Math.ceil((dayDiff(h.start,end)+1)/7)+8;n++){const r=wkRange(n);if(r.to>addDays(end,56))break;const has=W.list.some(w=>parse(w.no)===n);
@@ -3818,7 +3846,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 35 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 36 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3846,7 +3874,7 @@ else{$('licFoot').hidden=false;showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 35 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 36 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
