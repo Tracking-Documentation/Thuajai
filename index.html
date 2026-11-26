@@ -3870,7 +3870,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 40 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 41 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3899,7 +3899,7 @@ else{$('licFoot').hidden=false;showHome();
     <div class="lk-links" id="lkLinks"></div>
     <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 40 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 41 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
     </form>
 </div>
 <style>
@@ -3962,12 +3962,13 @@ html.locked .pdpa{z-index:1100;visibility:visible}
       btn.textContent='บันทึกและเข้าใช้งาน';note.textContent='ต้องใส่รหัสผ่านทุกครั้งที่เปิดแอป · ระบบล็อกเองเมื่อไม่ได้ใช้งาน 30 นาที'}
     else if(m==='login'){sub.innerHTML='<span class="lk-hello">สวัสดี '+esc(a.u)+'</span><br>ใส่รหัสผ่านเพื่อเข้าใช้งาน';F.innerHTML=inp('lkPw','รหัสผ่าน','password','autocomplete="current-password" maxlength="64"');
       btn.textContent='เข้าสู่ระบบ';note.textContent='';links.innerHTML='<button type="button" class="lk-link" data-go="forgot">ลืมรหัสผ่าน</button>'}
-    else if(m==='forgot'){sub.textContent=LIC?'ยืนยันตัวตนด้วยรหัสใช้งาน (CPM-…) ที่เคยใส่ในเครื่องนี้':'ยืนยันตัวตนด้วยรหัสเปิดใช้งานโปรแกรม';
-      F.innerHTML=inp('lkCode',LIC?'รหัสใช้งาน (CPM-XXXX-XXXX-XXXX)':'รหัสเปิดใช้งาน','password','maxlength="40" autocomplete="off"');btn.textContent='ยืนยัน';note.textContent='ยืนยันแล้วตั้งรหัสผ่านใหม่ได้ ข้อมูลโครงการไม่หาย';
+    else if(m==='forgot'){var hasC=LIC&&licCodes().length>0;sub.textContent=hasC?'ยืนยันตัวตนด้วยรหัสใช้งาน (CPM-…) ที่เคยใส่ในเครื่องนี้ หรือรหัสผู้ดูแล':'ยืนยันตัวตนด้วยรหัสผู้ดูแล (รหัสเปิดใช้งานโปรแกรม)';
+      F.innerHTML=inp('lkCode',hasC?'รหัสใช้งาน (CPM-XXXX-XXXX-XXXX) หรือรหัสผู้ดูแล':'รหัสผู้ดูแล','password','maxlength="40" autocomplete="off"');btn.textContent='ยืนยัน';note.textContent='ยืนยันแล้วตั้งชื่อผู้ใช้/รหัสผ่านใหม่ได้ ข้อมูลโครงการไม่หาย'+contact();
       links.innerHTML='<button type="button" class="lk-link" data-go="login">กลับไปหน้าเข้าสู่ระบบ</button>'}
     setTimeout(function(){var f=F.querySelector('input:not([value]),input[value=""]')||F.querySelector('input');if(f)f.focus()},60)}
   links.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)show(b.dataset.go)});
   function bad(t){err.textContent=t;var i=F.querySelector('input[type=password]');if(i){i.classList.remove('bad');void i.offsetWidth;i.classList.add('bad');i.value='';i.focus()}btn.disabled=false}
+  function contact(){return LIC&&LIC_CFG.contact?' · ติดต่อ: '+LIC_CFG.contact:''}
   function licCodes(){try{var o=JSON.parse(ls('cpm-lic')||'{}');return (o.toks||[]).map(function(t){var s=String(t.tok).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';
     var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return JSON.parse(new TextDecoder().decode(u)).c})}catch(e){return []}}
   document.getElementById('lkForm').addEventListener('submit',function(e){e.preventDefault();
@@ -3986,8 +3987,8 @@ html.locked .pdpa{z-index:1100;visibility:visible}
         var n=(tr.n||0)+1;ls(KTRY,JSON.stringify({n:n,until:n>=5?Date.now()+60000*Math.min(10,n-4):0}));
         bad(n>=5?'รหัสผ่านไม่ถูกต้อง '+n+' ครั้ง — รอ '+Math.min(10,n-4)+' นาที หรือกด “ลืมรหัสผ่าน”':'รหัสผ่านไม่ถูกต้อง')});return}
     if(mode==='forgot'){var c=v('lkCode').trim();
-      if(LIC){var C=licCodes(),cc=c.replace(/\s+/g,'').toUpperCase();if(C.length&&C.indexOf(cc)>=0)show('reset');else bad(C.length?'รหัสใช้งานไม่ตรงกับที่ใช้ในเครื่องนี้':'เครื่องนี้ยังไม่มีรหัสใช้งาน — ติดต่อผู้ขาย');return}
-      sha(SALT+c).then(function(h){if(h===HASH)show('reset');else bad('รหัสไม่ถูกต้อง')})}});
+      var C=LIC?licCodes():[],cc=c.replace(/\s+/g,'').toUpperCase();if(C.length&&C.indexOf(cc)>=0){show('reset');return}
+      sha(SALT+c).then(function(h){if(h===HASH)show('reset');else bad((C.length?'รหัสไม่ตรงกับรหัสใช้งานในเครื่องนี้':'รหัสไม่ถูกต้อง')+contact())})}});
   /* ล็อกเองเมื่อไม่ได้ใช้งาน */
   var last=Date.now();['pointerdown','keydown','wheel','touchstart'].forEach(function(t){document.addEventListener(t,function(){last=Date.now()},{passive:true})});
   setInterval(function(){if(el.hidden&&Date.now()-last>IDLE)lock()},30000);
