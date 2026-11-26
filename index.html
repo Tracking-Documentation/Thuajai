@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="บริหารสัญญา">
 <script src="license-config.js"></script>
-<script>try{if(!(window.LIC_CFG&&LIC_CFG.url&&LIC_CFG.pub)&&localStorage.getItem('thuajai-activation')!=='ecf15cdf904ee62e3db43b0ffc8cedf0a411bb699bd8cfaea97548dfe851297b')document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}</script>
+<script>try{if(!sessionStorage.getItem('cpm-unl')||!localStorage.getItem('cpm-auth'))document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}</script>
 <style>html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
@@ -1117,7 +1117,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   </section>
 </div>
   <footer class="credit">
-    <div><button type="button" class="pdpa-link" id="licFoot" hidden>🔑 สิทธิ์การใช้งาน</button> <button type="button" class="pdpa-link" data-guide>คู่มือการใช้งาน</button> · <button type="button" class="pdpa-link" data-law>ระเบียบ/ข้อกฎหมาย</button> · <button type="button" class="pdpa-link" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button> · Developed by Miss Narama Woraklan (<span class="appver"></span>)</div>
+    <div><button type="button" class="pdpa-link" id="lockNow" hidden>🔒 ออกจากระบบ</button> <button type="button" class="pdpa-link" id="licFoot" hidden>🔑 สิทธิ์การใช้งาน</button> <button type="button" class="pdpa-link" data-guide>คู่มือการใช้งาน</button> · <button type="button" class="pdpa-link" data-law>ระเบียบ/ข้อกฎหมาย</button> · <button type="button" class="pdpa-link" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button> · Developed by Miss Narama Woraklan (<span class="appver"></span>)</div>
     <div>© 2026 Narama Woraklan · ระบบนี้เป็นทรัพย์สินทางปัญญาของผู้พัฒนา ได้รับความคุ้มครองตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537 · สงวนลิขสิทธิ์ ห้ามทำซ้ำ ดัดแปลง เผยแพร่ หรือนำไปใช้ในเชิงพาณิชย์ ไม่ว่าทั้งหมดหรือบางส่วน โดยไม่ได้รับอนุญาตเป็นลายลักษณ์อักษร</div>
     <div>This system is the intellectual property of its developer, protected under the Thai Copyright Act B.E. 2537 (1994). All rights reserved. No reproduction, modification, distribution or commercial use, in whole or in part, without prior written permission.</div>
     <div>ข้อมูลโครงการเก็บไว้ในเบราว์เซอร์ของเครื่องนี้เท่านั้น ไม่ได้ส่งขึ้นเซิร์ฟเวอร์ · ควรสำรองข้อมูลเป็นไฟล์เป็นระยะจากปุ่ม “สำรองข้อมูลทั้งหมด” ที่หน้าสรุปโครงการ</div>
@@ -3846,10 +3846,11 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 36 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 37 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
+{const lk=()=>{if(typeof window.cpmLock==='function'&&$('lockNow').hidden){$('lockNow').hidden=false;$('lockNow').addEventListener('click',()=>{try{save()}catch(e){}window.cpmLock()})}};if(document.readyState==='complete')setTimeout(lk,0);else window.addEventListener('load',lk);setTimeout(lk,1500)}
 loadDB();
 if(!LIC_ON){if(DB.cur&&curProj())openProject(DB.cur);else showHome()}
 else{$('licFoot').hidden=false;showHome();
@@ -3863,65 +3864,112 @@ else{$('licFoot').hidden=false;showHome();
 
 <div id="lockScreen" class="lock" role="dialog" aria-modal="true" aria-labelledby="lkTitle">
   <div class="lk-road" aria-hidden="true"></div>
-  <form class="lk-card" id="lkForm" autocomplete="off">
-    <div class="lk-mark" aria-hidden="true"><span>NW</span></div>
+  <form class="lk-card" id="lkForm" autocomplete="off" novalidate>
+    <div class="lk-mark" aria-hidden="true"><img src="icon-192.png" alt="" onerror="this.outerHTML='<span>NW</span>'"></div>
     <div class="lk-eyebrow">Contract Project Management System</div>
     <h1 id="lkTitle">การบริหารโครงการงานสัญญา</h1>
-    <p class="lk-sub">ใส่รหัสเพื่อเปิดใช้งานโปรแกรมบนเครื่องนี้</p>
-    <label class="lk-lbl" for="lkCode">รหัสเปิดใช้งาน</label>
-    <input id="lkCode" type="password" inputmode="numeric" autocomplete="off" maxlength="32" required>
+    <p class="lk-sub" id="lkSub">เข้าสู่ระบบ</p>
+    <div class="lk-fields" id="lkFields"></div>
     <div class="lk-err" id="lkErr" role="alert"></div>
-    <button type="submit" class="lk-btn">เปิดใช้งาน</button>
-    <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
+    <button type="submit" class="lk-btn" id="lkBtn">เข้าสู่ระบบ</button>
+    <div class="lk-links" id="lkLinks"></div>
+    <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 36 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
-  </form>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 37 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    </form>
 </div>
 <style>
 html.locked body{overflow:hidden}
 html.locked .wrap{visibility:hidden}
-.lock{position:fixed;inset:0;z-index:1000;background:#103b30;color:#f4f7f5;display:grid;place-items:center;overflow:auto;
+.lock{position:fixed;inset:0;z-index:1000;background-color:#0f2a6b;color:#f4f7f5;display:grid;place-items:center;overflow:auto;
   padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
-  background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px);background-size:7px 7px;font-family:"Sarabun",system-ui,sans-serif}
+  background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px),linear-gradient(160deg,#0f2a6b,#1d4ed8 60%,#0b1d4d);background-size:7px 7px,100% 100%;background-attachment:fixed;font-family:"Sarabun",system-ui,sans-serif}
 .lock[hidden]{display:none!important}
 .lk-road{position:fixed;left:0;right:0;bottom:calc(28px + env(safe-area-inset-bottom,0px));height:10px;background:repeating-linear-gradient(90deg,#f2c230 0 46px,transparent 46px 74px);animation:road 2.4s linear 1}
 .lk-card{width:min(420px,100%);display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;margin-bottom:40px}
-.lk-mark{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:#174d3f;box-shadow:0 0 0 3px #f2c230,0 0 0 9px #103b30,0 0 0 10px rgba(242,194,48,.45);margin-bottom:12px}
+.lk-mark{width:104px;height:104px;border-radius:26px;display:grid;place-items:center;background:#1e3a8a;box-shadow:0 0 0 3px #f2c230,0 10px 30px rgba(0,0,0,.35);margin-bottom:12px;overflow:hidden}.lk-mark img{width:100%;height:100%;display:block}
 .lk-mark span{font-family:"Bai Jamjuree","Sarabun",sans-serif;font-weight:700;font-size:2.2rem;color:#f2c230;letter-spacing:.04em}
 .lk-eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.22em;color:#f2c230;font-weight:600}
-.lock h1{font-family:"Bai Jamjuree","Sarabun",sans-serif;font-size:clamp(1.9rem,7vw,2.6rem);margin:0;color:#fff;line-height:1.15}
-.lk-sub{margin:0 0 14px;color:#c9dbd4}
-.lk-lbl{align-self:flex-start;font-size:.85rem;color:#c9dbd4}
-.lock input{width:100%;font:inherit;font-size:1.5rem;letter-spacing:.4em;text-align:center;padding:10px 12px;border-radius:10px;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+.lock h1{font-family:"Bai Jamjuree","Sarabun",sans-serif;font-size:clamp(1.7rem,6vw,2.3rem);margin:0;color:#fff;line-height:1.15}
+.lk-sub{margin:0 0 14px;color:#dbe6ff}
+.lk-fields{width:100%;display:flex;flex-direction:column;gap:6px}
+.lk-lbl{align-self:flex-start;font-size:.88rem;color:#dbe6ff;text-align:left}
+.lk-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:.86rem}
+.lk-link{all:unset;cursor:pointer;color:#f2c230;text-decoration:underline}
+.lk-hello{font-size:1.05rem;color:#fff;font-weight:600}
+.lock input{width:100%;box-sizing:border-box;font:inherit;font-size:1.2rem;text-align:center;padding:10px 12px;border-radius:10px;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
 .lock input:focus{outline:none;border-color:#f2c230}
 .lock input.bad{border-color:#ff8a80;animation:shake .3s}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .lk-err{min-height:1.4em;color:#ffb4ab;font-size:.9rem}
-.lk-btn{width:100%;font:inherit;font-weight:700;font-size:1.05rem;padding:12px;border-radius:10px;border:0;background:#f2c230;color:#103b30;cursor:pointer}
+.lk-btn{width:100%;font:inherit;font-weight:700;font-size:1.05rem;padding:12px;border-radius:10px;border:0;background:#f2c230;color:#0f2a6b;cursor:pointer}.lk-btn:disabled{opacity:.6}
 .lk-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
-.lk-note{font-size:.8rem;color:#a9c4ba;margin-top:6px}
-.lk-credit{margin-top:22px;font-size:.72rem;color:#8fb0a4;line-height:1.6}
-.lk-legal{margin-top:14px;border:1px solid rgba(242,194,48,.45);border-radius:10px;padding:10px 12px;font-size:.78rem;line-height:1.6;color:#dfe9e5;text-align:left;background:rgba(0,0,0,.15)}
+.lk-note{font-size:.8rem;color:#c7d6f5;margin-top:6px}
+.lk-credit{margin-top:22px;font-size:.72rem;color:#b3c5ee;line-height:1.6}
+.lk-legal{margin-top:14px;border:1px solid rgba(242,194,48,.45);border-radius:10px;padding:10px 12px;font-size:.78rem;line-height:1.6;color:#e6edff;text-align:left;background:rgba(0,0,0,.15)}
 .lk-pdpa{all:unset;cursor:pointer;text-decoration:underline;color:#f2c230;font-weight:600}
 html.locked .pdpa{z-index:1100;visibility:visible}
 @media (prefers-reduced-motion:reduce){.lk-road,.lock input.bad{animation:none}}
 </style>
 <script>
 (function(){
-  var HASH='ecf15cdf904ee62e3db43b0ffc8cedf0a411bb699bd8cfaea97548dfe851297b',SALT='thuajai·krabi',KEYA='thuajai-activation';
-  var el=document.getElementById('lockScreen'),inp=document.getElementById('lkCode'),err=document.getElementById('lkErr');
-  function ok(){try{return localStorage.getItem(KEYA)===HASH}catch(e){return false}}
-  function unlock(){el.hidden=true;document.documentElement.classList.remove('locked')}
-  if(ok()||(window.LIC_CFG&&LIC_CFG.url&&LIC_CFG.pub)){unlock();return}
-  document.documentElement.classList.add('locked');setTimeout(function(){inp.focus()},50);
-  var tries=0;
-  function sha(t){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')})}
+  /* หน้าล็อกอิน: เปิดใช้งาน (ครั้งแรก) → ตั้งชื่อผู้ใช้/รหัสผ่าน → เข้าสู่ระบบทุกครั้งที่เปิดแอป */
+  var HASH='ecf15cdf904ee62e3db43b0ffc8cedf0a411bb699bd8cfaea97548dfe851297b',SALT='thuajai·krabi',KEYA='thuajai-activation',KAUTH='cpm-auth',KSES='cpm-unl',KTRY='cpm-auth-try',IDLE=30*60*1000;
+  var LIC=!!(window.LIC_CFG&&LIC_CFG.url&&LIC_CFG.pub);
+  var el=document.getElementById('lockScreen'),F=document.getElementById('lkFields'),err=document.getElementById('lkErr'),btn=document.getElementById('lkBtn'),
+      sub=document.getElementById('lkSub'),links=document.getElementById('lkLinks'),note=document.getElementById('lkNote'),mode='';
+  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+  function ss(k,v){try{if(v===undefined)return sessionStorage.getItem(k);if(v===null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v)}catch(e){return null}}
+  function activated(){return LIC||ls(KEYA)===HASH}
+  function auth(){try{return JSON.parse(ls(KAUTH)||'null')}catch(e){return null}}
+  function hex(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')}
+  function sha(t){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(hex)}
+  function pbk(pw,salt,it){return crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']).then(function(k){
+    return crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(salt),iterations:it,hash:'SHA-256'},k,256)}).then(hex)}
+  function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function unlock(){ss(KSES,String(Date.now()));el.hidden=true;document.documentElement.classList.remove('locked');try{window.dispatchEvent(new Event('cpm-unlocked'))}catch(e){}}
+  function lock(){ss(KSES,null);document.documentElement.classList.add('locked');el.hidden=false;show(auth()?'login':activated()?'setup':'act')}
+  window.cpmLock=lock;
+  function inp(id,lbl,type,extra){return '<label class="lk-lbl" for="'+id+'">'+lbl+'</label><input id="'+id+'" type="'+type+'" '+(extra||'')+'>'}
+  function show(m){mode=m;err.textContent='';links.innerHTML='';btn.disabled=false;var a=auth();
+    if(m==='act'){sub.textContent='ใส่รหัสเพื่อเปิดใช้งานโปรแกรมบนเครื่องนี้ (ครั้งแรก)';F.innerHTML=inp('lkCode','รหัสเปิดใช้งาน','password','inputmode="numeric" maxlength="32" autocomplete="off"');btn.textContent='เปิดใช้งาน';note.textContent='ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส'}
+    else if(m==='setup'||m==='reset'){sub.textContent=m==='reset'?'ตั้งรหัสผ่านใหม่ (ข้อมูลโครงการยังอยู่ครบ)':'ตั้งชื่อผู้ใช้และรหัสผ่านสำหรับเข้าใช้งานเครื่องนี้';
+      F.innerHTML=inp('lkUser','ชื่อผู้ใช้','text','autocomplete="username" maxlength="40" value="'+esc(a&&a.u||'')+'"')+inp('lkPw','รหัสผ่าน (อย่างน้อย 6 ตัว)','password','autocomplete="new-password" maxlength="64"')+inp('lkPw2','ยืนยันรหัสผ่าน','password','autocomplete="new-password" maxlength="64"');
+      btn.textContent='บันทึกและเข้าใช้งาน';note.textContent='ต้องใส่รหัสผ่านทุกครั้งที่เปิดแอป · ระบบล็อกเองเมื่อไม่ได้ใช้งาน 30 นาที'}
+    else if(m==='login'){sub.innerHTML='<span class="lk-hello">สวัสดี '+esc(a.u)+'</span><br>ใส่รหัสผ่านเพื่อเข้าใช้งาน';F.innerHTML=inp('lkPw','รหัสผ่าน','password','autocomplete="current-password" maxlength="64"');
+      btn.textContent='เข้าสู่ระบบ';note.textContent='';links.innerHTML='<button type="button" class="lk-link" data-go="forgot">ลืมรหัสผ่าน</button>'}
+    else if(m==='forgot'){sub.textContent=LIC?'ยืนยันตัวตนด้วยรหัสใช้งาน (CPM-…) ที่เคยใส่ในเครื่องนี้':'ยืนยันตัวตนด้วยรหัสเปิดใช้งานโปรแกรม';
+      F.innerHTML=inp('lkCode',LIC?'รหัสใช้งาน (CPM-XXXX-XXXX-XXXX)':'รหัสเปิดใช้งาน','password','maxlength="40" autocomplete="off"');btn.textContent='ยืนยัน';note.textContent='ยืนยันแล้วตั้งรหัสผ่านใหม่ได้ ข้อมูลโครงการไม่หาย';
+      links.innerHTML='<button type="button" class="lk-link" data-go="login">กลับไปหน้าเข้าสู่ระบบ</button>'}
+    setTimeout(function(){var f=F.querySelector('input:not([value]),input[value=""]')||F.querySelector('input');if(f)f.focus()},60)}
+  links.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)show(b.dataset.go)});
+  function bad(t){err.textContent=t;var i=F.querySelector('input[type=password]');if(i){i.classList.remove('bad');void i.offsetWidth;i.classList.add('bad');i.value='';i.focus()}btn.disabled=false}
+  function licCodes(){try{var o=JSON.parse(ls('cpm-lic')||'{}');return (o.toks||[]).map(function(t){var s=String(t.tok).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';
+    var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return JSON.parse(new TextDecoder().decode(u)).c})}catch(e){return []}}
   document.getElementById('lkForm').addEventListener('submit',function(e){e.preventDefault();
     if(!(window.crypto&&crypto.subtle)){err.textContent='เปิดโปรแกรมผ่านลิงก์ https เท่านั้น';return}
-    sha(SALT+inp.value.trim()).then(function(h){
-      if(h===HASH){try{localStorage.setItem(KEYA,HASH)}catch(x){}unlock();return}
-      tries++;inp.classList.remove('bad');void inp.offsetWidth;inp.classList.add('bad');inp.value='';
-      err.textContent=tries>=3?'รหัสไม่ถูกต้อง ('+tries+' ครั้ง) · ติดต่อผู้พัฒนาเพื่อขอรหัส':'รหัสไม่ถูกต้อง ลองใหม่อีกครั้ง';inp.focus()})});
+    var v=function(id){var x=document.getElementById(id);return x?x.value:''};btn.disabled=true;err.textContent='';
+    if(mode==='act'){sha(SALT+v('lkCode').trim()).then(function(h){if(h===HASH){ls(KEYA,HASH);show('setup')}else bad('รหัสไม่ถูกต้อง ลองใหม่อีกครั้ง')});return}
+    if(mode==='setup'||mode==='reset'){var u=v('lkUser').trim(),p=v('lkPw');
+      if(!u){btn.disabled=false;err.textContent='กรุณาใส่ชื่อผู้ใช้';return}
+      if(p.length<6){btn.disabled=false;err.textContent='รหัสผ่านอย่างน้อย 6 ตัว';return}
+      if(p!==v('lkPw2')){bad('รหัสผ่านสองช่องไม่ตรงกัน');return}
+      var salt=hex(crypto.getRandomValues(new Uint8Array(16)).buffer),it=150000;
+      pbk(p,salt,it).then(function(h){ls(KAUTH,JSON.stringify({u:u,s:salt,it:it,h:h,t:Date.now()}));ls(KTRY,null);unlock()});return}
+    if(mode==='login'){var a=auth(),tr={};try{tr=JSON.parse(ls(KTRY)||'{}')}catch(x){}
+      if(tr.until&&Date.now()<tr.until){btn.disabled=false;err.textContent='ใส่ผิดหลายครั้ง กรุณารอ '+Math.ceil((tr.until-Date.now())/1000)+' วินาที';return}
+      pbk(v('lkPw'),a.s,a.it).then(function(h){if(h===a.h){ls(KTRY,null);unlock();return}
+        var n=(tr.n||0)+1;ls(KTRY,JSON.stringify({n:n,until:n>=5?Date.now()+60000*Math.min(10,n-4):0}));
+        bad(n>=5?'รหัสผ่านไม่ถูกต้อง '+n+' ครั้ง — รอ '+Math.min(10,n-4)+' นาที หรือกด “ลืมรหัสผ่าน”':'รหัสผ่านไม่ถูกต้อง')});return}
+    if(mode==='forgot'){var c=v('lkCode').trim();
+      if(LIC){var C=licCodes(),cc=c.replace(/\s+/g,'').toUpperCase();if(C.length&&C.indexOf(cc)>=0)show('reset');else bad(C.length?'รหัสใช้งานไม่ตรงกับที่ใช้ในเครื่องนี้':'เครื่องนี้ยังไม่มีรหัสใช้งาน — ติดต่อผู้ขาย');return}
+      sha(SALT+c).then(function(h){if(h===HASH)show('reset');else bad('รหัสไม่ถูกต้อง')})}});
+  /* ล็อกเองเมื่อไม่ได้ใช้งาน */
+  var last=Date.now();['pointerdown','keydown','wheel','touchstart'].forEach(function(t){document.addEventListener(t,function(){last=Date.now()},{passive:true})});
+  setInterval(function(){if(el.hidden&&Date.now()-last>IDLE)lock()},30000);
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&el.hidden&&Date.now()-last>IDLE)lock()});
+  if(auth()&&ss(KSES)){unlock();return}
+  document.documentElement.classList.add('locked');el.hidden=false;show(!activated()?'act':auth()?'login':'setup');
 })();
 </script>
 
