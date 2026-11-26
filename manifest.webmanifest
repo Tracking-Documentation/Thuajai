@@ -1,7 +1,7 @@
 {
- "name": "การบริหารโครงการงานสัญญา",
+ "name": "การบริหารสัญญา (โครงการก่อสร้างฯ)",
  "short_name": "บริหารสัญญา",
- "description": "บริหารโครงการงานสัญญา: ถัวจ่าย รายงานประจำวัน/สัปดาห์ ตรวจรับ และเบิกจ่าย · Concept & Development by Miss Narama Woraklan",
+ "description": "บริหารสัญญาโครงการก่อสร้าง: ถัวจ่าย รายงานประจำวัน/สัปดาห์ ตรวจรับ และเบิกจ่าย · Concept & Development by Miss Narama Woraklan",
  "lang": "th",
  "start_url": "./",
  "scope": "./",
