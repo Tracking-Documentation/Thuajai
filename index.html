@@ -37,9 +37,10 @@
   --err:#ff8a80; --err-bg:#3a1d1b; --warn:#f2b55a; --warn-bg:#3a2c14; --ok:#7fd3a0; --ok-bg:#183326; --info:#8fbbe6; --info-bg:#1a2a3a; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;
+html{font-size:17px}@media (max-width:640px){html{font-size:16px}}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:1rem;line-height:1.6;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
-.wrap{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.wrap{max-width:1500px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.25}
 h1{font-size:1.6rem}
 h2{font-size:1.1rem;display:flex;align-items:center;gap:10px}
@@ -313,6 +314,31 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .pwdates{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.86rem;color:var(--muted)}.pwdates b{color:var(--fg)}
 .ipaper .pwkv{display:grid;grid-template-columns:11em 1fr 11.5em 1fr;padding-left:3.2em;row-gap:1px}
 .ipaper .pwsg3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:40px;text-align:center;line-height:1.5}.ipaper .pwsg3 .dl2{border-bottom:1px dotted #000;height:1.6em;margin:0 12px 2px}
+.hubbar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.hub{--tc:#2b6cb0;display:flex;gap:12px;align-items:center;text-align:left;padding:14px 16px;border-radius:14px;border:2px solid color-mix(in srgb,var(--tc) 40%,var(--line));background:color-mix(in srgb,var(--tc) 8%,var(--surface));cursor:pointer;font:inherit;color:var(--fg)}
+.hub:hover{background:color-mix(in srgb,var(--tc) 15%,var(--surface))}.hub .hi{font-size:1.8rem}.hub b{display:block;font-size:1.05rem;color:var(--tc2,var(--tc))}.hub small{color:var(--muted);font-size:.82rem}
+.hub.alert{border-color:var(--err);box-shadow:0 0 0 3px color-mix(in srgb,var(--err) 20%,transparent)}.hub.alert small{color:var(--err);font-weight:700}
+.hub.t-sky{--tc:#2b6cb0}.hub.t-violet{--tc:#6b46c1}.hub.t-amber{--tc:#b7791f}
+.calbox{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.calhead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.calhead h2{font-size:1.2rem}.calhead .btns{align-items:center}.calhead b{min-width:9em;text-align:center;font-size:1.05rem}
+.callegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}.callegend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;background:var(--cc)}
+.c-end{--cc:#c53030}.c-insp{--cc:#2b6cb0}.c-pen{--cc:#dd6b20}.c-chk{--cc:#6b46c1}.c-wk{--cc:#718096}.c-war{--cc:#2f855a}
+.calwrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}
+.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.cdh{text-align:center;font-size:.78rem;color:var(--muted);font-weight:700;padding:2px}
+.cd{all:unset;box-sizing:border-box;min-height:86px;border:1px solid var(--line);border-radius:8px;padding:4px;display:flex;flex-direction:column;gap:2px;cursor:pointer;background:var(--bg);overflow:hidden}
+.cd.pad{border:0;background:none;cursor:default}.cd:hover{border-color:var(--accent)}.cd.today{border:2px solid var(--accent)}.cd.sel{background:color-mix(in srgb,var(--accent) 10%,var(--bg))}
+.cd .dn{font-size:.8rem;font-weight:700}.cd.today .dn{color:var(--accent)}
+.ce{font-size:.66rem;line-height:1.25;padding:1px 4px;border-radius:4px;color:#fff;background:var(--cc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ce.s-ok{opacity:.45}.ce.s-bad{outline:2px solid #c53030}
+.cd .more{font-size:.66rem;color:var(--muted)}
+.callist{display:flex;flex-direction:column;gap:6px;max-height:640px;overflow:auto}.callist h3{font-size:.95rem;margin-top:6px}
+.cr{display:grid;grid-template-columns:5.6em 1fr auto;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;border-left:4px solid var(--cc);background:var(--sunk);font-size:.85rem}
+.cr.s-bad{background:var(--err-bg)}.cr.s-warn{background:var(--warn-bg)}.cr .cdt{font-weight:700;font-size:.8rem}.cr button{padding:3px 10px;font-size:.8rem}
+@media (max-width:900px){.calwrap{grid-template-columns:1fr}.hubbar{grid-template-columns:1fr}.cd{min-height:58px}.ce{font-size:.6rem}}
+.pdpa-card.wide{max-width:980px}.mhd{display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:-20px;background:var(--surface);padding:4px 0 8px;z-index:1}
+.xbtn{font-size:1.1rem;padding:4px 10px}.toc{display:flex;flex-wrap:wrap;gap:6px}.toc a{font-size:.82rem;padding:3px 10px;border-radius:999px;background:var(--sunk);color:var(--fg);text-decoration:none}
+.pdpa-card ol,.pdpa-card ul{margin:4px 0;padding-left:1.4em;line-height:1.65;font-size:.92rem}.pdpa-card h3{margin-top:14px;color:var(--accent)}
+.lawt{width:100%;min-width:0;border-collapse:collapse;font-size:.88rem}.lawt th{width:9.5em;text-align:left;vertical-align:top;padding:6px 8px;white-space:normal;position:static;background:var(--sunk)}.lawt td{padding:6px 8px;vertical-align:top;border-bottom:1px solid var(--line);line-height:1.6}.lawt td.use{width:11em;font-size:.78rem;color:var(--muted)}
+.src{font-size:.8rem;color:var(--muted)}
 .pltb{min-width:0}.pltb input{width:100%;min-width:52px;text-align:right;padding:3px 5px}.pltb td.bad,.note .bad{color:var(--err);font-weight:700}
 .pls th{text-align:left;white-space:nowrap}.pls td{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:.84rem}
 .plchart{--pl-plan:#2f855a;--pl-act:#dd6b20;color:var(--fg)}.plchart svg{width:100%;max-width:900px;height:auto;display:block}
@@ -524,6 +550,11 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 
   <section id="homeView" class="home">
     <div class="kpis" id="kpis"></div>
+    <div class="hubbar">
+      <button type="button" class="hub t-sky" id="hubCal"><span class="hi">📅</span><span><b>ปฏิทินแจ้งเตือน</b><small id="hubCalInfo">กำหนดการทุกโครงการ</small></span></button>
+      <button type="button" class="hub t-violet" data-guide><span class="hi">📘</span><span><b>คู่มือการใช้งาน</b><small>ทีละขั้นตอน ตั้งแต่เพิ่มโครงการจนเบิกจ่าย</small></span></button>
+      <button type="button" class="hub t-amber" data-law><span class="hi">⚖️</span><span><b>ระเบียบ / ข้อกฎหมาย</b><small>พ.ร.บ. 2560 · ระเบียบฯ · ฉบับที่ 3 พ.ศ. 2569 · ว 124</small></span></button>
+    </div>
     <div class="htools">
       <input id="hSearch" type="search" placeholder="ค้นหา สัญญาเลขที่ ชื่องาน ผู้รับจ้าง">
       <div class="btns">
@@ -535,6 +566,15 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     </div>
     <div class="tbl-wrap"><table class="ptbl" id="ptbl"></table></div>
     <div class="note" id="homeNote"></div>
+    <section class="calbox" id="calBox">
+      <div class="calhead">
+        <h2>📅 ปฏิทินแจ้งเตือน</h2>
+        <div class="btns"><button type="button" id="calPrev" aria-label="เดือนก่อน">‹</button><b id="calTitle"></b><button type="button" id="calNext" aria-label="เดือนถัดไป">›</button><button type="button" id="calToday">วันนี้</button><button type="button" id="calIcs" title="ดาวน์โหลดไฟล์ .ics เพื่อนำเข้าปฏิทินในมือถือ/Google/Outlook">⬇ เพิ่มลงปฏิทินมือถือ (.ics)</button></div>
+      </div>
+      <div class="callegend"><span class="c-end">ครบกำหนดสัญญา</span><span class="c-insp">นัดตรวจรับ/ประชุม</span><span class="c-pen">ค่าปรับ 7.5% / 10%</span><span class="c-chk">จุดตรวจความก้าวหน้า</span><span class="c-wk">ส่งรายงานประจำสัปดาห์</span><span class="c-war">รับประกัน / อุทธรณ์ / แจ้งผล</span></div>
+      <div class="calwrap"><div class="calgrid" id="calGrid"></div>
+        <div class="callist"><div id="calDay"></div><h3>⚠ ต้องรีบดำเนินการ</h3><div id="calUrgent"></div><h3>🗓 กำหนดการ 45 วันข้างหน้า</h3><div id="calNextList"></div></div></div>
+    </section>
   </section>
 
   <div id="projView" class="projv" hidden>
@@ -958,11 +998,84 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   </section>
 </div>
   <footer class="credit">
-    <div><button type="button" class="pdpa-link" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button> · Developed by Miss Narama Woraklan (<span class="appver"></span>)</div>
+    <div><button type="button" class="pdpa-link" data-guide>คู่มือการใช้งาน</button> · <button type="button" class="pdpa-link" data-law>ระเบียบ/ข้อกฎหมาย</button> · <button type="button" class="pdpa-link" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button> · Developed by Miss Narama Woraklan (<span class="appver"></span>)</div>
     <div>© 2026 Narama Woraklan · ระบบนี้เป็นทรัพย์สินทางปัญญาของผู้พัฒนา ได้รับความคุ้มครองตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537 · สงวนลิขสิทธิ์ ห้ามทำซ้ำ ดัดแปลง เผยแพร่ หรือนำไปใช้ในเชิงพาณิชย์ ไม่ว่าทั้งหมดหรือบางส่วน โดยไม่ได้รับอนุญาตเป็นลายลักษณ์อักษร</div>
     <div>This system is the intellectual property of its developer, protected under the Thai Copyright Act B.E. 2537 (1994). All rights reserved. No reproduction, modification, distribution or commercial use, in whole or in part, without prior written permission.</div>
     <div>ข้อมูลโครงการเก็บไว้ในเบราว์เซอร์ของเครื่องนี้เท่านั้น ไม่ได้ส่งขึ้นเซิร์ฟเวอร์ · ควรสำรองข้อมูลเป็นไฟล์เป็นระยะจากปุ่ม “สำรองข้อมูลทั้งหมด” ที่หน้าสรุปโครงการ</div>
   </footer>
+  <div class="pdpa" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideT" hidden><div class="pdpa-card wide">
+    <div class="mhd"><h2 id="guideT">📘 คู่มือการใช้งาน — การบริหารโครงการงานสัญญา</h2><button type="button" class="xbtn" data-close aria-label="ปิด">✕</button></div>
+    <nav class="toc"><a href="#g1">เริ่มต้น</a><a href="#g2">ถัวจ่าย</a><a href="#g3">การ์ด ① สัญญา</a><a href="#g4">② รายวัน</a><a href="#g5">③ รายสัปดาห์</a><a href="#g6">④ ตรวจรับ/เบิกจ่าย</a><a href="#g7">ปฏิทิน</a><a href="#g8">พิมพ์ · Word · Excel</a><a href="#g9">สำรอง/ย้ายเครื่อง</a></nav>
+    <h3 id="g1">1. เริ่มต้น — หน้าสรุปโครงการ</h3>
+    <ol><li>กด <b>+ เพิ่มโครงการ</b> (หรือ <b>+ โครงการตัวอย่าง</b> เพื่อลองใช้) แล้วคลิกแถวโครงการเพื่อเปิด</li>
+      <li>ด้านบนของโครงการมี 3 แท็บสี: <b>🧮 คำนวณ/แก้ไขข้อมูล</b> (น้ำเงิน) · <b>📄 หน้าเอกสารถัวจ่าย</b> (ส้ม) · <b>🏗️ บริหารสัญญา·รายงาน·ตรวจรับ</b> (เขียว)</li>
+      <li>ระบบบันทึกอัตโนมัติทุกครั้งที่แก้ — ไม่ต้องกดบันทึก · ปุ่ม <b>สำเนาเป็นครั้งที่ n</b> ใช้เมื่อถัวจ่ายรอบถัดไป · ปุ่ม <b>ปิดชื่อ (xxx)</b> ใช้ก่อนนำไปเป็นตัวอย่าง</li></ol>
+    <h3 id="g2">2. คำนวณถัวจ่าย (แท็บน้ำเงิน → ส้ม)</h3>
+    <ol><li>กรอกข้อมูลสัญญา: เลขที่ วันที่ วงเงิน วันเริ่ม/สิ้นสุด อัตราค่าปรับ ผู้รับจ้าง</li>
+      <li>กรอกรายการงาน: ราคาต่อหน่วย ปริมาณตามสัญญา ปริมาณที่ทำจริง — ระบบคิดเพิ่ม/ลด ราคา 90%/83% (เกิน 125%/150%) และเตือนสีแดงถ้าผิด</li>
+      <li>แท็บผู้ลงนาม: ใส่ประธาน กรรมการ ผู้ควบคุมงาน ผู้ช่วย — ใช้ในเอกสารทุกฉบับ</li>
+      <li>แท็บส้ม: ดูบัญชีสรุป/รายการเพิ่มลด ตั้งกระดาษ ขอบ ความหนาเส้น แล้วพิมพ์ หรือบันทึก Excel (มีสูตร)</li></ol>
+    <h3 id="g3">3. การ์ด ① ข้อมูลสัญญา &amp; ค่าปรับ</h3>
+    <ul><li><b>ระยะเวลาและค่าปรับ</b>: บันทึกแก้ไขสัญญา (ขยายวัน) และการงดค่าปรับ (เหตุผล/เลขที่อนุมัติ/จำนวนวัน)</li>
+      <li><b>เตือนค่าปรับ</b>: ระบบคิดวันที่ค่าปรับถึง 7.5% และเกิน 10% · ถึง 7.5% ให้ผู้ควบคุมงานพิมพ์ <b>บันทึกเตือนค่าปรับ</b> เรียน ผอ.ขท. · เกิน 10% ใช้ <b>ชุดขอผ่อนปรนการบอกเลิกสัญญา</b> (บันทึกถึงประธาน → ประชุม → บันทึกถึง ผอ.)</li>
+      <li><b>ประเมินผลผู้ประกอบการ</b> (สัญญาตั้งแต่ 5 ล้าน ประกาศตั้งแต่ 10 ก.ค. 2569): ดูจุดเฝ้าระวัง บันทึกเหตุ/หนังสือแจ้ง ระบบนับคะแนนทุก 30 วัน และกำหนดอุทธรณ์ 7 วันทำการ</li></ul>
+    <h3 id="g4">4. การ์ด ② รายงานประจำวัน</h3>
+    <ul><li>กด <b>+ เพิ่มวันถัดไป</b> (คัดลอกแรงงาน/เครื่องจักรจากวันก่อน) · ใส่ปริมาณงานตามรายการ งานอื่น วัสดุ ปัญหา สภาพอากาศ</li>
+      <li>ใต้ช่องวันที่บอกว่าอยู่สัปดาห์ไหน — กด <b>ไปดูสัปดาห์ที่ n →</b> เพื่อไปที่รายงานประจำสัปดาห์</li></ul>
+    <h3 id="g5">5. การ์ด ③ แผนงาน (S-Curve) และรายงานประจำสัปดาห์</h3>
+    <ul><li>กรอกแผนการทำงาน: % ของแต่ละรายการในแต่ละเดือน (แถวละ 100%) — ได้ S-Curve แผนรายเดือน/สะสม</li>
+      <li>รายงานประจำสัปดาห์ <b>ดึงปริมาณจากรายงานประจำวันอัตโนมัติ</b> (ช่องสีฟ้า) · % ผลงานคิดจากมูลค่า · แผนงานคิดจาก S-Curve · พิมพ์ได้ 3 หน้า (บันทึกข้อความมีสำเนาเรียนกรรมการ · บันทึกการปฏิบัติงาน · S-Curve)</li></ul>
+    <h3 id="g6">6. การ์ด ④ ตรวจรับ / เบิกจ่ายรายงวด</h3>
+    <ol><li>เลือก/เพิ่มงวด กรอกหนังสือขอส่งงาน วันที่แล้วเสร็จ วันตรวจรับ เวลานัด (ระบบตรวจเวลากรรมการชนกันข้ามโครงการ)</li>
+      <li>ใส่ปริมาณงานงวดนี้ตามรายการ — งวดสุดท้ายอิงยอดหลังถัวจ่าย คืนเงินประกันผลงานอัตโนมัติ และคิดค่าปรับ</li>
+      <li>เลือกเอกสาร: ใบตรวจรับ · พ.1-37 · บัญชีค่างาน · ค่างานแยกรายการ · บันทึกผู้ควบคุมงาน · รายงานการประชุม · บันทึกรายงานผล</li></ol>
+    <h3 id="g7">7. ปฏิทินแจ้งเตือน (หน้าสรุปโครงการ)</h3>
+    <ul><li>รวมกำหนดการทุกโครงการ: ครบสัญญา นัดตรวจรับ/ประชุม ค่าปรับ 7.5%/10% จุดตรวจ 25/65/85% ส่งรายงานสัปดาห์ รับประกัน อุทธรณ์</li>
+      <li>คลิกวันเพื่อดูรายการ คลิก <b>เปิด</b> เพื่อไปที่การ์ดของโครงการนั้น · ปุ่ม <b>.ics</b> นำเข้าปฏิทินมือถือเพื่อให้มือถือแจ้งเตือน</li></ul>
+    <h3 id="g8">8. พิมพ์ · Word · แก้ไขก่อนพิมพ์</h3>
+    <ul><li>ทุกเอกสารมีปุ่ม <b>พิมพ์</b> (บันทึกเป็น PDF ได้) และ <b>ดาวน์โหลด Word</b></li>
+      <li><b>แก้ไขเอกสาร</b>: ใส่รหัสยืนยัน → พิมพ์แก้บนหน้ากระดาษ → <b>บันทึกการแก้ไข</b> (ล้างการแก้ไขต้องใช้รหัส)</li></ul>
+    <h3 id="g9">9. สำรองข้อมูล / ย้ายเครื่อง / อัปเดตแอป</h3>
+    <ul><li>ข้อมูลอยู่ในเบราว์เซอร์ของเครื่องนี้ — กด <b>สำรองข้อมูลทั้งหมด</b> เป็นระยะ และใช้ <b>นำเข้าข้อมูล</b> เมื่อย้ายเครื่อง</li>
+      <li>อัปเดตแอปที่ติดตั้ง: อัปโหลด index.html, sw.js, manifest.webmanifest ทับของเดิม แล้วเปิดแอปใหม่ 1–2 ครั้ง</li></ul>
+  </div></div>
+  <div class="pdpa" id="lawModal" role="dialog" aria-modal="true" aria-labelledby="lawT" hidden><div class="pdpa-card wide">
+    <div class="mhd"><h2 id="lawT">⚖️ ระเบียบ / ข้อกฎหมายที่เกี่ยวข้อง</h2><button type="button" class="xbtn" data-close aria-label="ปิด">✕</button></div>
+    <p class="note">สรุปย่อเพื่อช่วยจำในการบริหารสัญญา ไม่ใช่ตัวบทกฎหมาย — ก่อนอ้างอิงในหนังสือราชการ ควรตรวจถ้อยคำจากราชกิจจานุเบกษา / ระบบ e-GP กรมบัญชีกลาง</p>
+    <h3>พระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560</h3>
+    <table class="lawt"><tbody>
+      <tr><th>มาตรา 97</th><td>สัญญาที่ลงนามแล้วแก้ไขไม่ได้ เว้นแต่เข้าข้อยกเว้น เช่น จำเป็นและไม่ทำให้หน่วยงานเสียประโยชน์ หรือเพื่อประโยชน์ของหน่วยงาน/ประโยชน์สาธารณะ · การแก้ไขรายละเอียดงานต้องทำก่อนตรวจรับงานงวดสุดท้าย</td><td class="use">การ์ด ① บันทึกแก้ไขสัญญา</td></tr>
+      <tr><th>มาตรา 102</th><td>งด/ลดค่าปรับ หรือขยายเวลา อยู่ในดุลพินิจผู้มีอำนาจ เฉพาะเหตุจากหน่วยงานของรัฐ เหตุสุดวิสัย หรือเหตุที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย · คู่สัญญาต้องแจ้งเหตุภายใน <b>15 วัน</b> นับถัดจากวันที่เหตุสิ้นสุด</td><td class="use">การ์ด ① งดค่าปรับ</td></tr>
+      <tr><th>มาตรา 103</th><td>การบอกเลิกสัญญา — ใช้ประกอบข้อ 183 และเหตุคะแนนความเสียหาย (บอกเลิกตามมาตรา 103 วรรคหนึ่ง (2) = 60 คะแนน)</td><td class="use">ชุดผ่อนปรนการบอกเลิก</td></tr>
+    </tbody></table>
+    <h3>ระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560</h3>
+    <table class="lawt"><tbody>
+      <tr><th>ข้อ 176</th><td>คณะกรรมการตรวจรับพัสดุงานก่อสร้าง: ตรวจรายงานของผู้ควบคุมงาน ออกตรวจงานที่ส่งมอบ และตรวจรับ/ออกใบรับรองผลการปฏิบัติงานเมื่อถูกต้อง <b>ภายใน 3 วันทำการ</b></td><td class="use">การ์ด ④ ใบตรวจรับ / พ.1-37</td></tr>
+      <tr><th>ข้อ 178</th><td>ผู้ควบคุมงาน: ตรวจและควบคุมงานทุกวัน <b>จดบันทึกประจำวัน</b> (อย่างน้อย 2 ฉบับ) <b>รายงานคณะกรรมการทุกสัปดาห์</b> และรายงานผลเมื่อถึงกำหนดส่งมอบงานแต่ละงวด <b>ภายใน 3 วันทำการ</b></td><td class="use">การ์ด ② ③ และบันทึกผู้ควบคุมงาน</td></tr>
+      <tr><th>ข้อ 182</th><td>การงดหรือลดค่าปรับ หรือขยายเวลาทำการตามสัญญา (รายละเอียดตามมาตรา 102)</td><td class="use">การ์ด ① งดค่าปรับ</td></tr>
+      <tr><th>ข้อ 183</th><td>ถ้าคู่สัญญาไม่สามารถปฏิบัติตามสัญญาได้ และค่าปรับ<b>จะเกินร้อยละ 10</b> ของวงเงินค่าจ้าง ให้พิจารณาบอกเลิกสัญญา เว้นแต่คู่สัญญายินยอมเสียค่าปรับโดยไม่มีเงื่อนไขใด ๆ ทั้งสิ้น ให้หัวหน้าหน่วยงานของรัฐพิจารณา<b>ผ่อนปรนการบอกเลิกสัญญา</b>ได้เท่าที่จำเป็น</td><td class="use">เตือน 7.5% · ชุดผ่อนปรน</td></tr>
+    </tbody></table>
+    <h3>ระเบียบกระทรวงการคลังฯ (ฉบับที่ 3) พ.ศ. 2569 — ประเมินผลการปฏิบัติงานของผู้ประกอบการ</h3>
+    <p class="src">ราชกิจจานุเบกษา เล่ม 143 ตอนพิเศษ 169 ง ลงวันที่ 9 ก.ค. 2569 · มีผล 10 ก.ค. 2569</p>
+    <table class="lawt"><tbody>
+      <tr><th>ข้อ 5</th><td>ประกาศ/เชิญชวนก่อนระเบียบมีผล ให้ดำเนินการตามระเบียบเดิม</td><td class="use">การ์ด ① ช่องประกาศเชิญชวน</td></tr>
+      <tr><th>ข้อ 190/2 (1)</th><td>ใช้กับงานจ้างก่อสร้างวงเงิน<b>ตั้งแต่ 5 ล้านบาท</b> ของหน่วยงานที่กำหนด (รวมกรมทางหลวง)</td><td class="use">เกณฑ์บังคับใช้</td></tr>
+      <tr><th>ข้อ 190/3</th><td>เหตุและคะแนนความเสียหาย: (1) เลยกำหนดและค่าปรับเกิน 10% = 30 · (2) ถูกบอกเลิกตาม ม.103 วรรคหนึ่ง (2) = 60 · (3)(ก)–(ง) ผิดหลักวิชาช่าง/ประมาท = 60/30/10/5 · (3)(จ) ไม่แก้ไขตามหนังสือแจ้ง = 10 → +10 (30 วัน) → +20 ทุก 30 วัน · (4)(5) ช่วงรับประกัน = 1/5/5…, 5, 60</td><td class="use">บันทึกเหตุ</td></tr>
+      <tr><th>ข้อ 190/5</th><td>ผู้ประเมิน: (1) หัวหน้าเจ้าหน้าที่ — เหตุ (2)(4)(5) · (2) คณะกรรมการตรวจรับพัสดุ จากรายงานผู้ควบคุมงาน — เหตุ (1) และ (3)(จ) · (3) เหตุ (3)(ก)–(ง) ตั้งคณะกรรมการสอบข้อเท็จจริงก่อน · หัวหน้าหน่วยงานเห็นชอบแล้ว<b>แจ้งผ่าน e-GP ภายในวันทำการถัดไป</b></td><td class="use">ขั้นตอนใต้แต่ละเหตุ</td></tr>
+      <tr><th>ข้อ 190/6</th><td>อุทธรณ์ภายใน <b>7 วันทำการ</b> นับแต่ได้รับแจ้ง · หน่วยงานพิจารณาภายใน 7 วันทำการ · ไม่เห็นด้วยส่งผู้มีอำนาจเหนือขึ้นไปภายใน 7 วันทำการ · ผู้มีอำนาจพิจารณาภายใน 30 วัน (ขยายได้ไม่เกิน 30 วัน)</td><td class="use">ปฏิทิน · จุดเฝ้าระวัง</td></tr>
+      <tr><th>ข้อ 190/7</th><td>ระงับการยื่นข้อเสนอ/ทำสัญญา นับถัดจากวันที่คะแนนสะสมอยู่ในเกณฑ์: 10–29 = 30 วัน · 30–59 = 90 · 60–119 = 180 · 120–179 = 360 · 180–239 = 540 · 240 ขึ้นไป = 720 วัน (หักวันที่เคยถูกระงับภายใน 2 ปี)</td><td class="use">กล่องคะแนนสะสม</td></tr>
+      <tr><th>ข้อ 190/9</th><td>กรมบัญชีกลางลบคะแนนเมื่อครบ 2 ปีนับถัดจากวันประกาศเผยแพร่</td><td class="use"></td></tr>
+    </tbody></table>
+    <h3>หนังสือกรมบัญชีกลาง ว 124 — แนวทางพิจารณาบอกเลิกสัญญา (ดุลพินิจ ไม่บังคับ)</h3>
+    <table class="lawt"><tbody>
+      <tr><th>เกณฑ์เวลา</th><td>เมื่อล่วงเลยครึ่งหนึ่งของเวลาตามสัญญา ผลงานสะสมต่ำกว่า <b>25%</b> · 3 ใน 4 ของเวลา ต่ำกว่า <b>65%</b> · ครบกำหนด ต่ำกว่า <b>85%</b> และค่าปรับเกิน 10% — หน่วยงานอาจพิจารณาบอกเลิกสัญญาได้ หากเป็นความผิดของผู้รับจ้าง (ไม่ใช้กับงานก่อสร้างบำรุงทาง)</td><td class="use">จุดเฝ้าระวัง · S-Curve</td></tr>
+    </tbody></table>
+    <h3>คุ้มครองข้อมูลและคอมพิวเตอร์</h3>
+    <table class="lawt"><tbody>
+      <tr><th>พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562</th><td>ข้อมูลบุคคลในเอกสาร (ชื่อ ตำแหน่ง) ใช้เพื่อการบริหารสัญญาเท่านั้น — ดู <button type="button" class="pdpa-link" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></td><td class="use"></td></tr>
+      <tr><th>พ.ร.บ. ว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550</th><td>ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาต</td><td class="use"></td></tr>
+    </tbody></table>
+  </div></div>
   <div class="pdpa" id="pdpaModal" role="dialog" aria-modal="true" aria-labelledby="pdpaT" hidden><div class="pdpa-card">
     <h2 id="pdpaT">การคุ้มครองข้อมูลส่วนบุคคล</h2>
     <p class="note">ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 · ระบบการบริหารโครงการงานสัญญา (<span class="appver"></span>)</p>
@@ -1605,7 +1718,8 @@ function projStat(d){const m=d.meta;
   return m.e?['e','ผิดพลาด '+m.e]:m.w?['w','ควรตรวจ '+m.w]:['ok','ผ่าน']}
 const fmD=t=>{if(!t)return'';const d=new Date(t);return d.getDate()+' '+TM[d.getMonth()].slice(0,3)+'. '+String(d.getFullYear()+543).slice(2)+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
 let delArm=null;
-function renderHome(){
+function renderHome(){try{setTimeout(renderCal,0)}catch(e){}
+
   const q=($('hSearch').value||'').trim().toLowerCase();
   const list=DB.projects.slice().sort((a,b)=>(b.updated||0)-(a.updated||0));
   const latest={};list.forEach(p=>{const h=p.data.h||{},k=(h.no||'').trim()||p.id,r=parseInt(h.round)||1;if(!latest[k]||r>latest[k].r)latest[k]={r,p}});
@@ -3253,8 +3367,51 @@ async function exportWord(){
 }
 $('bInsWord').addEventListener('click',exportWord);
 
+/* ---- ปฏิทินแจ้งเตือน (ทุกโครงการ) ---- */
+const todayISO=()=>new Date(Date.now()+7*3600e3).toISOString().slice(0,10);
+let calYM=todayISO().slice(0,7),calSel='';
+function calEvents(){const out=[],S0=S,today=todayISO();
+  DB.projects.forEach(p=>{let d;try{d=p.id===DB.cur&&S0?S0:migrate(clone(p.data))}catch(e){return}
+    S=d;try{const h=d.h||{},proj=h.no||h.project||'โครงการ',push=(dt,t,c,sec,st)=>{if(dt)out.push({d:dt,t,c,sec,st:st||'',pid:p.id,proj})};
+      const end=effEnd();const fin=(insOf().list||[]).find(x=>x.final),done=fin&&fin.doneDate;
+      push(end,'ครบกำหนดสัญญา'+(done?' (ส่งมอบแล้ว)':''),'end','contract',done?'ok':end<today?'bad':'');
+      pfTimeline(today).forEach(x=>{const c=/ค่าปรับ/.test(x.lab)?'pen':/ผลงานสะสม|เวลาสัญญา|ครบกำหนดสัญญา/.test(x.lab)?'chk':'war';if(/^ครบกำหนดสัญญา/.test(x.lab))return;push(x.d,x.lab,c,'contract',x.s)});
+      (insOf().list||[]).forEach((inst,j)=>evOfInst(inst).forEach(ev=>push(ev.date,`${ev.kind}งวดที่ ${inst.no} ${m2hm(ev.s)} น. · ${ev.place}`,'insp','pay','')));
+      if(h.start&&end&&!done){const W=wkOf();for(let n=1;n<=Math.ceil((dayDiff(h.start,end)+1)/7)+8;n++){const r=wkRange(n);if(r.to>addDays(end,56))break;const has=W.list.some(w=>parse(w.no)===n);
+        push(r.to,`ส่งรายงานประจำสัปดาห์ที่ ${n}${has?' ✓':''}`,'wk','weekly',has?'ok':r.to<today?'warn':'')}}
+    }catch(e){console.warn(e)}finally{S=S0}});
+  return out.sort((a,b)=>a.d.localeCompare(b.d))}
+function renderCal(){const E=calEvents(),today=todayISO();const [y,m]=calYM.split('-').map(Number);
+  $('calTitle').textContent=`${['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'][m-1]} ${y+543}`;
+  const first=`${calYM}-01`,dow=new Date(first+'T00:00:00Z').getUTCDay(),dim=new Date(Date.UTC(y,m,0)).getUTCDate();
+  const by={};E.forEach(e=>(by[e.d]=by[e.d]||[]).push(e));
+  let g=['อา','จ','อ','พ','พฤ','ศ','ส'].map(d=>`<div class="cdh">${d}</div>`).join('');for(let i=0;i<dow;i++)g+='<div class="cd pad"></div>';
+  for(let dd=1;dd<=dim;dd++){const iso=`${calYM}-${String(dd).padStart(2,'0')}`,L=by[iso]||[];
+    g+=`<button type="button" class="cd${iso===today?' today':''}${iso===calSel?' sel':''}" data-cd="${iso}"><span class="dn">${dd}</span>${L.slice(0,3).map(e=>`<span class="ce c-${e.c} s-${e.st}" title="${esc(e.proj+' · '+e.t)}">${esc(e.t.replace(/ — .*$/,''))}</span>`).join('')}${L.length>3?`<span class="more">+${L.length-3}</span>`:''}</button>`}
+  $('calGrid').innerHTML=g;
+  const row=e=>`<div class="cr c-${e.c} s-${e.st}"><span class="cdt">${thDate(e.d).replace(/ 25(\d\d)$/,' $1')}</span><span class="ctx"><b>${esc(e.proj)}</b> ${esc(e.t)}</span><button type="button" data-go="${e.pid}" data-sec="${e.sec}">เปิด</button></div>`;
+  $('calDay').innerHTML=calSel?`<h3>📌 ${thDate(calSel)}</h3>${(by[calSel]||[]).map(row).join('')||'<p class="note">ไม่มีกำหนดการ</p>'}`:'';
+  const urg=E.filter(e=>(e.st==='bad'||e.st==='warn')&&e.d>=addDays(today,-60)&&e.d<=addDays(today,15));
+  $('calUrgent').innerHTML=urg.map(row).join('')||'<p class="note">✓ ไม่มีรายการค้าง</p>';
+  const nx=E.filter(e=>e.d>=today&&e.d<=addDays(today,45)&&e.st!=='ok');$('calNextList').innerHTML=nx.map(row).join('')||'<p class="note">ไม่มีกำหนดการใน 45 วันข้างหน้า</p>';
+  $('hubCalInfo').textContent=urg.length?`⚠ ต้องรีบดำเนินการ ${urg.length} รายการ`:`${nx.length} กำหนดการใน 45 วัน`;$('hubCal').classList.toggle('alert',!!urg.length)}
+$('calPrev').addEventListener('click',()=>{const [y,m]=calYM.split('-').map(Number);const d=new Date(Date.UTC(y,m-2,1));calYM=d.toISOString().slice(0,7);renderCal()});
+$('calNext').addEventListener('click',()=>{const [y,m]=calYM.split('-').map(Number);const d=new Date(Date.UTC(y,m,1));calYM=d.toISOString().slice(0,7);renderCal()});
+$('calToday').addEventListener('click',()=>{calYM=todayISO().slice(0,7);calSel=todayISO();renderCal()});
+$('calGrid').addEventListener('click',e=>{const b=e.target.closest('[data-cd]');if(!b)return;calSel=b.dataset.cd;renderCal()});
+$('calBox').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;openProject(b.dataset.go);$('tabIns').click();setTimeout(()=>setSec(b.dataset.sec),50)});
+$('hubCal').addEventListener('click',()=>{$('calBox').scrollIntoView({behavior:'smooth',block:'start'})});
+$('calIcs').addEventListener('click',()=>{const E=calEvents().filter(e=>e.d>=addDays(todayISO(),-1)&&e.st!=='ok');const f=d=>d.replace(/-/g,'');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//NW//Contract Project Management//TH','CALSCALE:GREGORIAN',...E.flatMap((e,i)=>['BEGIN:VEVENT',`UID:${f(e.d)}-${i}-${e.pid}@cpm`,`DTSTAMP:${f(todayISO())}T000000Z`,`DTSTART;VALUE=DATE:${f(e.d)}`,`DTEND;VALUE=DATE:${f(addDays(e.d,1))}`,`SUMMARY:${(e.proj+' · '+e.t).replace(/[,;]/g,' ')}`,'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:แจ้งเตือนล่วงหน้า 1 วัน','END:VALARM','END:VEVENT']),'END:VCALENDAR'].join('\r\n');
+  saveFile('ปฏิทินบริหารสัญญา.ics',ics,'text/calendar');toast(`ดาวน์โหลดปฏิทิน ${E.length} รายการ (แจ้งเตือนล่วงหน้า 1 วัน)`)});
+/* คู่มือ / ระเบียบ */
+document.addEventListener('click',e=>{if(e.target.closest('[data-guide]')){$('guideModal').hidden=false}else if(e.target.closest('[data-law]')){$('lawModal').hidden=false}
+  const c=e.target.closest('[data-close]');if(c)c.closest('.pdpa').hidden=true;
+  if(e.target.classList&&e.target.classList.contains('pdpa')&&e.target.id!=='pdpaModal')e.target.hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')['guideModal','lawModal'].forEach(id=>$(id).hidden=true)});
+document.querySelectorAll('.toc a').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}));
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 22 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 23 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3277,7 +3434,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 22 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 23 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
