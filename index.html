@@ -294,6 +294,26 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .ich .ict{display:flex;flex-direction:column;gap:1px;min-width:0}
 .ich .ict b{font-family:var(--display);font-size:1.04rem;color:var(--tc2,var(--tc))}
 .ich .ict small{color:var(--muted);font-size:.84rem;line-height:1.4}
+/* การ์ดย่อ/ขยาย */
+.icard.acc>.ich{cursor:pointer;user-select:none;border-radius:10px;margin:-6px -8px;padding:6px 8px;transition:background .15s}
+.icard.acc>.ich:hover{background:color-mix(in srgb,var(--tc) 10%,transparent)}
+.icard.acc>.ich:focus-visible{outline:2px solid var(--tc);outline-offset:2px}
+.icard.acc>.ich .ict{flex:1}
+.ich .csum{flex:none;max-width:44%;display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600;padding:5px 12px;border-radius:999px;background:var(--sunk);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ich .csum:empty,.icard.acc:not(.cl)>.ich .csum{display:none}
+.ich .csum.e{background:var(--err-bg);color:var(--err)}
+.ich .csum.w{background:var(--warn-bg);color:var(--warn)}
+.ich .csum.ok{background:var(--ok-bg);color:var(--ok)}
+.ich .chev{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--tc) 14%,var(--surface));color:var(--tc2,var(--tc));font-size:1rem;transition:transform .2s}
+.icard.acc.cl>.ich .chev{transform:rotate(-90deg)}
+.icard.acc.cl>:not(.ich){display:none!important}
+.icard.acc.cl{padding-top:12px;padding-bottom:12px}
+.icard.acc.cl>.ich .ict small{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.icard.acc:not(.cl){box-shadow:0 4px 18px color-mix(in srgb,var(--tc) 18%,transparent)}
+.accbar{display:flex;gap:8px;justify-content:flex-end;align-items:center;font-size:.86rem;color:var(--muted)}
+.accbar button{padding:4px 12px;font-size:.86rem}
+@media (max-width:640px){.ich .csum{display:none}}
+@media print{.icard.acc.cl>:not(.ich){display:revert!important}}
 .pfhead{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch}
 .pfst,.pfsc{border-radius:10px;padding:10px 14px;background:var(--sunk);display:flex;flex-direction:column;gap:2px;justify-content:center}
 .pfst.on{background:color-mix(in srgb,var(--tc) 12%,var(--surface))}.pfst b{color:var(--tc2,var(--tc))}.pfst span{font-size:.86rem;color:var(--muted)}
@@ -714,8 +734,8 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <div class="btns"><button type="button" id="bWvAdd">+ เพิ่มการอนุมัติงดค่าปรับ</button></div>
     </div>
 
-    <details class="icard t-amber" id="insProjBox" data-sec="contract" open>
-      <summary><div class="ich"><span class="num">2</span><div class="ict"><b>🗂 ข้อมูลประกอบเอกสาร (ใช้ทุกงวด)</b><small>ผู้รับมอบอำนาจ การรับประกัน หัวบันทึกข้อความ — กดเพื่อเปิด/ปิด</small></div></div></summary>
+    <div class="icard t-amber" id="insProjBox" data-sec="contract">
+      <div class="ich"><span class="num">2</span><div class="ict"><b>🗂 ข้อมูลประกอบเอกสาร (ใช้ทุกงวด)</b><small>ผู้รับมอบอำนาจ การรับประกัน หัวบันทึกข้อความ</small></div></div>
       <div class="grid">
         <label class="f">ที่ตั้ง กม. (ใช้เมื่อรายการไม่ได้ระบุ)<input id="ip_defLoc" placeholder="กม.xxx+xxx"></label>
         <label class="f">ผู้ส่งมอบฝ่ายผู้รับจ้าง (ชื่อ)<input id="ip_csName"></label>
@@ -728,7 +748,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
         <label class="f">เลขที่หนังสือ (ส่วนหน้า)<input id="ip_memoPrefix" placeholder="สทล.17 ขท.กระบี่.2(ผ)/"></label>
         <label class="f wide">อ้างอิงระเบียบ (ย่อหน้าที่ 2 ของบันทึกรายงานผลการตรวจรับ)<textarea id="ip_legal" rows="3"></textarea></label>
       </div>
-    </details>
+    </div>
 
     <div class="icard t-amber" id="pnBox" data-sec="contract">
       <div class="ich"><span class="num">3</span><div class="ict"><b>🔔 แจ้งการปรับ &amp; สงวนสิทธิ์การเรียกค่าปรับ (ข้อ 181)</b><small>ครบกำหนดแล้วยังไม่ส่งงาน → หนังสือแจ้งการปรับ (พ.1-42) ภายใน 7 วันทำการ · วันที่ผู้รับจ้างส่งงาน → หนังสือแจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) ในวันรับมอบงาน · มีตราครุฑ พร้อมสำเนาคู่ฉบับ · ขึ้นปฏิทินเตือนให้</small></div></div>
@@ -2785,7 +2805,7 @@ function renderDy(){const D=dyOf(),d=dyCur();$('dyEmpty').hidden=!!d;$('dyForm')
 function dyChanged(){save();if(insPage==='dly'||insPage==='wk')renderIns()}
 $('dyForm').addEventListener('click',e=>{const b=e.target.closest('[data-gowk]');if(!b)return;const n=+b.dataset.gowk,W=wkOf();let j=W.list.findIndex(x=>parse(x.no)===n);
   if(j<0){const last=W.list.reduce((a,x)=>!a||parse(x.no)>parse(a.no)?x:a,null);W.list.push(wkNew(n,last));W.list.sort((a,b)=>parse(a.no)-parse(b.no));j=W.list.findIndex(x=>parse(x.no)===n);const nw=W.list[j];nw.q={};nw.rows=[];nw.problem=''}
-  W.cur=j;save();setSec('weekly',true);renderWk();renderIns();$('wkBox').scrollIntoView({behavior:'smooth',block:'start'})});
+  W.cur=j;save();setSec('weekly',true);renderWk();renderIns();openCard($('wkBox').firstElementChild);$('wkBox').scrollIntoView({behavior:'smooth',block:'start'})});
 DYF.forEach(k=>$('dy_'+k).addEventListener('input',e=>{const d=dyCur();if(!d)return;d[k]=e.target.value;
   if(k==='date'){const D=dyOf();D.list.sort((a,b)=>String(a.date).localeCompare(String(b.date)));D.cur=D.list.indexOf(d);renderDy()}dyChanged()}));
 $('dyLabor').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;dyCur().lab[k]=e.target.value;dyChanged()});
@@ -3278,6 +3298,43 @@ $('insEditBar').addEventListener('click',async e=>{const id=e.target.id;
   else if(id==='bEditCancel'){insEditMode=false;renderIns();toast('ยกเลิกการแก้ไข ไม่ได้บันทึก')}
   else if(id==='bEditReset'){if(!await askCode('ใส่รหัสเพื่อล้างการแก้ไข','เอกสารจะกลับไปใช้ฉบับที่ระบบสร้างจากข้อมูล'))return;
     const it=editTarget();if(it&&it.docEdits)delete it.docEdits[insEditKey()];save();renderIns();toast('กลับไปใช้เอกสารจากระบบแล้ว')}});
+/* ---- การ์ดในหน้าเอกสาร: ย่อไว้ คลิกหัวการ์ดเพื่อเปิด (เปิดทีละใบต่อหมวด) ---- */
+const ACC_KEY='cpm-acc';let accOpen={};try{accOpen=JSON.parse(localStorage.getItem(ACC_KEY)||'{}')||{}}catch(e){}
+const accCards=()=>[...document.querySelectorAll('.icard[data-sec]')];
+const accId=c=>c.id||('c-'+c.dataset.sec+'-'+accCards().filter(x=>x.dataset.sec===c.dataset.sec).indexOf(c));
+function accSet(c,open,quiet){c.classList.toggle('cl',!open);c.querySelector('.ich').setAttribute('aria-expanded',open?'true':'false');
+  if(open)accCards().forEach(x=>{if(x!==c&&x.dataset.sec===c.dataset.sec&&!x.classList.contains('cl')){x.classList.add('cl');x.querySelector('.ich').setAttribute('aria-expanded','false')}});
+  accOpen[c.dataset.sec]=open?accId(c):'';try{localStorage.setItem(ACC_KEY,JSON.stringify(accOpen))}catch(e){}
+  if(open&&!quiet)setTimeout(()=>{const r=c.getBoundingClientRect();if(r.top<70||r.top>innerHeight*.6)c.scrollIntoView({behavior:'smooth',block:'start'})},40)}
+function openCard(el){const c=el&&el.closest&&el.closest('.icard.acc');if(c&&c.classList.contains('cl'))accSet(c,true,true)}
+function accSum(c){
+  const ins=insOf(),inst=ins.list[ins.cur]||{},sh=d=>thDate(d).replace(/ 25(\d\d)$/,' $1');
+  if(c.classList.contains('schedbox')){const st=schedState(),n=st.own.length+st.cl.length;return n?['e',`✗ เวลานัดชนกัน ${n} รายการ`]:inst.inspDate?['ok',`✓ ไม่ชน · ตรวจ ${sh(inst.inspDate)}${inst.inspTime?' '+inst.inspTime+' น.':''}`]:['w','ยังไม่นัดวันตรวจรับ']}
+  if(c.dataset.sec==='pay'){const L=accCards().filter(x=>x.dataset.sec==='pay'),i=L.indexOf(c);
+    if(i===0)return ['',`งวดที่ ${inst.no||'-'}${inst.final?' (งวดสุดท้าย)':''}${inst.doneDate?' · เสร็จ '+sh(inst.doneDate):''}`];
+    if(i===L.length-1){const C=insCalc(ins.cur);return ['',`${C.billed.length} รายการ · เบิก ${fm(C.net)} บาท`]}}
+  if(c.id==='dyBox'){const d=dyCur();return d&&d.date?['',`รายงานวันที่ ${sh(d.date)}`]:['','']}
+  if(c.id==='wkBox'){const w=wkCur();return w?['',`สัปดาห์ที่ ${w.no||'-'}${w.from&&w.to?` · ${sh(w.from)} – ${sh(w.to)}`:''}`]:['','']}
+  if(c.id==='plBox'){const P=plCalc();return P.has?['ok',`✓ มีแผนงาน ${P.M.length} เดือน`]:['w','ยังไม่ได้ใส่แผนงาน']}
+  if(c.classList.contains('penbox')){const A=insOf().amends||[],e=effEnd();return e?['',`สิ้นสุด ${thDate(e)}${A.length?` · แก้ไข ${A.length} ฉบับ`:''}${waiveTotal()?` · งดปรับ ${waiveTotal()} วัน`:''}`]:['w','ยังไม่ใส่วันสิ้นสุดสัญญา']}
+  const st=[...c.querySelectorAll('.pwst')];const pick=st.find(x=>x.classList.contains('e'))||st.find(x=>x.classList.contains('w'))||st.find(x=>x.classList.contains('ok'));
+  if(pick){const b=pick.querySelector('b')||pick;return [pick.classList.contains('e')?'e':pick.classList.contains('w')?'w':'ok',b.textContent.trim().replace(/\s+/g,' ')]}
+  const pf=c.querySelector('.pfst');if(pf){const b=pf.querySelector('b');return [pf.classList.contains('on')?'w':'',b?b.textContent.trim():'']}
+  const er=c.querySelector('.cf.e b,.bad');if(er&&er.offsetParent!==null)return ['e',er.textContent.trim()];
+  return ['','']}
+function accSums(){accCards().forEach(c=>{const el=c.querySelector('.csum');if(!el)return;let r;try{r=accSum(c)}catch(e){r=['','']}
+  const t=r[1].length>70?r[1].slice(0,68)+'…':r[1];if(el.textContent!==t)el.textContent=t;el.className='csum '+(r[0]||'');el.title=r[1]})}
+(function accInit(){accCards().forEach(c=>{const h=c.querySelector(':scope>.ich');if(!h)return;c.classList.add('acc');
+  h.setAttribute('role','button');h.tabIndex=0;h.insertAdjacentHTML('beforeend','<span class="csum"></span><span class="chev" aria-hidden="true">▾</span>');
+  const tog=()=>accSet(c,c.classList.contains('cl'));
+  h.addEventListener('click',e=>{if(e.target.closest('a,input,select,button:not(.chev)'))return;tog()});
+  h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog()}});
+  c.classList.add('cl');h.setAttribute('aria-expanded','false')});
+  Object.values(accOpen).forEach(id=>{if(!id)return;const c=accCards().find(x=>accId(x)===id);if(c)accSet(c,true,true)});
+  [...new Set(accCards().map(c=>c.dataset.sec))].forEach(sec=>{const L=accCards().filter(c=>c.dataset.sec===sec);if(L.length===1&&!(sec in accOpen))accSet(L[0],true,true)});
+  document.querySelectorAll('#insSec, .secnav').forEach(()=>{});
+  let t=0;const mo=new MutationObserver(()=>{clearTimeout(t);t=setTimeout(accSums,120)});accCards().forEach(c=>mo.observe(c,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']}));
+  document.addEventListener('focusin',e=>{if(!e.target.closest('.ich'))openCard(e.target)});accSums()})();
 /* ---- แถบจัดรูปแบบข้อความ (โหมดแก้ไขเอกสาร) ---- */
 function rtbHtml(){const B=(c,t,h,x='')=>`<button type="button" data-rt="${c}" title="${h}" aria-label="${h}"${x}>${t}</button>`;
   return `<div class="rtb" id="rtb" role="toolbar" aria-label="จัดรูปแบบข้อความ">
@@ -3662,7 +3719,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 33 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 34 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3685,7 +3742,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 33 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 34 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
