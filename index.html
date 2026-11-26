@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1f5c4a">
+<meta name="theme-color" content="#1e3a8a">
 <meta name="author" content="Miss Narama Woraklan">
 <meta name="description" content="บริหารสัญญาโครงการก่อสร้าง: ถัวจ่าย รายงานประจำวัน/สัปดาห์ ตรวจรับ และเบิกจ่าย">
 <link rel="manifest" href="manifest.webmanifest">
@@ -23,18 +23,18 @@
 <style>
 /* Layout: one working column — contract header, rules, wide item table, then summary + checks side by side; alert panel pinned near top */
 :root{
-  --bg:#f3f4f1; --surface:#ffffff; --sunk:#eceee9; --line:#d6d9d2; --fg:#1c211f; --muted:#5d6560;
-  --accent:#1f5c4a; --accent-soft:#dcebe5; --mark:#e2b007;
+  --bg:#eef4fc; --surface:#ffffff; --sunk:#e6eefa; --line:#cdd9ee; --fg:#0f1b33; --muted:#55627a;
+  --accent:#1d4ed8; --accent-soft:#dbeafe; --mark:#e2b007;
   --err:#b42318; --err-bg:#fdecea; --warn:#9a5b00; --warn-bg:#fff4dc; --ok:#1e7a46; --ok-bg:#e3f4ea; --info:#2f5f8a; --info-bg:#e6eef7;
   --display:"Bai Jamjuree","Sarabun",system-ui,sans-serif; --body:"Sarabun",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#141816; --surface:#1c211f; --sunk:#232a27; --line:#343c38; --fg:#e7ebe8; --muted:#9ba59f;
-  --accent:#7cc4a8; --accent-soft:#1f3a31; --mark:#f0c53a;
+  --bg:#0c1427; --surface:#121c33; --sunk:#192541; --line:#29385a; --fg:#e6ecf8; --muted:#97a6c4;
+  --accent:#7fb2ff; --accent-soft:#1a2d55; --mark:#f0c53a;
   --err:#ff8a80; --err-bg:#3a1d1b; --warn:#f2b55a; --warn-bg:#3a2c14; --ok:#7fd3a0; --ok-bg:#183326; --info:#8fbbe6; --info-bg:#1a2a3a; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#141816; --surface:#1c211f; --sunk:#232a27; --line:#343c38; --fg:#e7ebe8; --muted:#9ba59f;
-  --accent:#7cc4a8; --accent-soft:#1f3a31; --mark:#f0c53a;
+  --bg:#0c1427; --surface:#121c33; --sunk:#192541; --line:#29385a; --fg:#e6ecf8; --muted:#97a6c4;
+  --accent:#7fb2ff; --accent-soft:#1a2d55; --mark:#f0c53a;
   --err:#ff8a80; --err-bg:#3a1d1b; --warn:#f2b55a; --warn-bg:#3a2c14; --ok:#7fd3a0; --ok-bg:#183326; --info:#8fbbe6; --info-bg:#1a2a3a; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -185,17 +185,17 @@ table.ptbl{min-width:980px;background:var(--surface);font-size:.9rem}
 
 /* home hero header */
 .eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.22em;font-weight:600;color:var(--accent)}
-.top.hero{--hg:#103b30;--hy:#f2c230;background:var(--hg);color:#f4f7f5;border:0;border-radius:16px;padding:34px clamp(18px,4vw,44px) 46px;overflow:hidden;isolation:isolate}
+.top.hero{--hg:#1e3a8a;--hy:#f2c230;background:linear-gradient(135deg,#1e3a8a,#1d4ed8 60%,#2563eb);color:#f4f7f5;border:0;border-radius:16px;padding:34px clamp(18px,4vw,44px) 46px;overflow:hidden;isolation:isolate}
 .top.hero::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px);background-size:7px 7px}
 .top.hero::after{left:0;right:0;bottom:16px;height:8px;background:repeating-linear-gradient(90deg,var(--hy) 0 46px,transparent 46px 74px);animation:road 2.4s linear 1}
 .top.hero h1{font-size:clamp(2rem,5vw,3.2rem);letter-spacing:.005em;color:#fff}
 .top.hero .eyebrow{color:var(--hy);margin-top:2px}
-.top.hero .sub{color:#c9dbd4;font-size:.98rem;margin-top:6px}
-.top.hero .btns button.primary{background:var(--hy);border-color:var(--hy);color:#103b30}
+.top.hero .sub{color:#dbeafe;font-size:.98rem;margin-top:6px}
+.top.hero .btns button.primary{background:var(--hy);border-color:var(--hy);color:#1e3a8a}
 @media (prefers-reduced-motion:reduce){.cr-road,.top.hero::after{animation:none}}
 .empty{padding:28px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:10px}
 .tab{--tc:#2b6cb0;position:relative;display:flex;align-items:center;gap:10px;text-align:left;border:2px solid color-mix(in srgb,var(--tc) 45%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--tc) 8%,var(--surface));padding:10px 14px;font-family:var(--display);font-weight:700;font-size:1rem;color:var(--tc2,var(--tc));cursor:pointer;min-height:58px;transition:transform .12s,box-shadow .12s,background .12s}
-#tabCalc{--tc:#2b6cb0}#tabDoc{--tc:#c05621}#tabIns{--tc:#2f855a}
+#tabCalc{--tc:#0284c7}#tabDoc{--tc:#c05621}#tabIns{--tc:#1e40af}
 .tab .ti{font-size:1.5rem;flex:none;line-height:1}.tab .tt{display:flex;flex-direction:column;min-width:0}.tab .tt small{font-weight:500;font-size:.8rem;color:var(--muted);font-family:var(--body,inherit)}
 .tab:hover{background:color-mix(in srgb,var(--tc) 15%,var(--surface));transform:translateY(-1px)}
 .tab[aria-selected="true"]{background:var(--tc);border-color:var(--tc);color:#fff;box-shadow:0 6px 16px color-mix(in srgb,var(--tc) 35%,transparent)}
@@ -283,7 +283,7 @@ select{font:inherit;font-size:.92rem;color:var(--fg);background:var(--bg);border
 
 /* ---- ตรวจรับงาน (form) ---- */
 .ins-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.t-rose{--tc:#b83256}.t-slate{--tc:#5b6b7a}.t-amber{--tc:#b7791f}.t-green{--tc:#2f855a}.t-teal{--tc:#0f7c86}.t-sky{--tc:#2b6cb0}.t-violet{--tc:#6b46c1}.t-ink{--tc:#1f5c4a}
+.t-rose{--tc:#b83256}.t-slate{--tc:#5b6b7a}.t-amber{--tc:#b7791f}.t-green{--tc:#1e40af}.t-teal{--tc:#0f7c86}.t-sky{--tc:#2b6cb0}.t-violet{--tc:#6b46c1}.t-ink{--tc:#1e40af}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) :is(.t-rose,.t-slate,.t-amber,.t-green,.t-teal,.t-sky,.t-violet,.t-ink){--tc2:color-mix(in srgb,var(--tc) 70%,#fff)}}
 :root[data-theme="dark"] :is(.t-rose,.t-slate,.t-amber,.t-green,.t-teal,.t-sky,.t-violet,.t-ink){--tc2:color-mix(in srgb,var(--tc) 70%,#fff)}
 .icard{border:1px solid color-mix(in srgb,var(--tc) 32%,var(--line));border-left:5px solid var(--tc);border-radius:12px;padding:14px 16px;background:color-mix(in srgb,var(--tc) 5%,var(--surface));display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -534,7 +534,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 .rtb .rtc{display:inline-flex;align-items:center;gap:1px}
 .rtb .rth{flex-basis:100%;font-size:.8rem;color:var(--muted);padding:4px 10px 0;border-top:1px dashed var(--line);margin-top:2px}
 @media print{.rtb{display:none!important}}
-.cmodal{position:fixed;inset:0;z-index:50;background:rgba(10,20,16,.55);display:grid;place-items:center;padding:16px}
+.cmodal{position:fixed;inset:0;z-index:50;background:rgba(10,18,45,.55);display:grid;place-items:center;padding:16px}
 .cmbox{background:var(--surface);color:var(--fg);border-radius:14px;padding:22px 22px 18px;width:min(380px,100%);display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 40px rgba(0,0,0,.35);text-align:center}
 .cmbox h3{font-size:1.15rem}.cmic{font-size:1.8rem}
 .cmbox input{font-size:1.4rem;letter-spacing:.4em;text-align:center;padding:10px}
@@ -1805,8 +1805,8 @@ async function printSheets(sheets,title,fname){
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap">
 <style>${css}
 html,body{background:#d9dcd8!important;color:#000;margin:0;padding:0}
-.bar{font-family:Sarabun,sans-serif;font-size:15px;background:#1f5c4a;color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:sticky;top:0;z-index:5}
-.bar button{font:inherit;background:#fff;color:#1f5c4a;border:0;border-radius:6px;padding:6px 16px;font-weight:700;cursor:pointer}
+.bar{font-family:Sarabun,sans-serif;font-size:15px;background:#1d4ed8;color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+.bar button{font:inherit;background:#fff;color:#1d4ed8;border:0;border-radius:6px;padding:6px 16px;font-weight:700;cursor:pointer}
 .sheets{padding:20px 0}
 @page{size:${first.W}mm ${first.H}mm;margin:0}
 ${pageCss}
@@ -3846,7 +3846,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 38 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 39 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3875,7 +3875,7 @@ else{$('licFoot').hidden=false;showHome();
     <div class="lk-links" id="lkLinks"></div>
     <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 38 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 39 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
     </form>
 </div>
 <style>
