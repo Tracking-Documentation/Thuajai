@@ -490,6 +490,18 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 .ieditbar button{padding:5px 12px}
 .ieditbar{justify-content:space-between}
 .ieditbar.on{background:var(--accent-soft);border:1px solid var(--accent)}
+.rtb{flex-basis:100%;display:flex;flex-wrap:wrap;gap:8px 0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 6px 4px;position:sticky;top:6px;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.rtg{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 12px;border-right:1px solid var(--line)}
+.rtg:last-of-type{border-right:0}
+.rtg>div{display:flex;flex-wrap:wrap;gap:4px;align-items:center;justify-content:center}
+.rtg>small{font-size:.78rem;color:var(--muted)}
+.rtb button{min-width:38px;height:36px;padding:2px 8px;font-size:1rem;line-height:1;background:transparent;border:1px solid transparent;border-radius:6px;color:var(--fg);cursor:pointer}
+.rtb button:hover{background:var(--sunk);border-color:var(--line)}
+.rtb select{height:36px;padding:2px 6px;font-size:.92rem;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg)}
+.rtb input[type=color]{width:26px;height:30px;padding:0 1px;border:1px solid var(--line);border-radius:4px;background:none;cursor:pointer}
+.rtb .rtc{display:inline-flex;align-items:center;gap:1px}
+.rtb .rth{flex-basis:100%;font-size:.8rem;color:var(--muted);padding:4px 10px 0;border-top:1px dashed var(--line);margin-top:2px}
+@media print{.rtb{display:none!important}}
 .cmodal{position:fixed;inset:0;z-index:50;background:rgba(10,20,16,.55);display:grid;place-items:center;padding:16px}
 .cmbox{background:var(--surface);color:var(--fg);border-radius:14px;padding:22px 22px 18px;width:min(380px,100%);display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 40px rgba(0,0,0,.35);text-align:center}
 .cmbox h3{font-size:1.15rem}.cmic{font-size:1.8rem}
@@ -3251,7 +3263,7 @@ function updEditBar(){const sv=savedEdit();
   $('bInsEdit').hidden=insEditMode;
   $('insEditBar').hidden=!(insEditMode||sv);
   $('insEditBar').classList.toggle('on',insEditMode);
-  $('insEditBar').innerHTML=insEditMode?`<span><b>🔓 กำลังแก้ไข</b> — คลิกที่ข้อความในหน้ากระดาษแล้วพิมพ์แก้ได้เลย · ยังไม่ได้บันทึกจนกว่าจะกด "บันทึกการแก้ไข"</span><span class="btns"><button type="button" id="bEditSave" class="primary">💾 บันทึกการแก้ไข</button><button type="button" id="bEditCancel">ยกเลิก ไม่บันทึก</button></span>`
+  $('insEditBar').innerHTML=insEditMode?`<span><b>🔓 กำลังแก้ไข</b> — คลิกที่ข้อความในหน้ากระดาษแล้วพิมพ์แก้ได้เลย · ยังไม่ได้บันทึกจนกว่าจะกด "บันทึกการแก้ไข"</span><span class="btns"><button type="button" id="bEditSave" class="primary">💾 บันทึกการแก้ไข</button><button type="button" id="bEditCancel">ยกเลิก ไม่บันทึก</button></span>${rtbHtml()}`
     :sv?`<span><b>🔒 เอกสารชุดนี้แก้ไขด้วยมือแล้ว</b> (บันทึกเมื่อ ${new Date(sv.at).toLocaleString('th-TH')}) — ตัวเลขจะไม่เปลี่ยนตามข้อมูลที่แก้ภายหลัง</span><span class="btns"><button type="button" id="bEditReset" class="danger">ล้างที่แก้ กลับไปใช้เอกสารจากระบบ</button></span>`:'';
   ['bInsWord','bInsPrint'].forEach(id=>$(id).title=insEditMode?'ใช้ฉบับที่กำลังแก้ (ยังไม่บันทึก)':'')}
 $('bInsEdit').addEventListener('click',async()=>{if(!await askCode('ใส่รหัสเพื่อแก้ไขเอกสาร','เมื่อแก้เสร็จ กด "บันทึกการแก้ไข" เพื่อเก็บไว้'))return;
@@ -3262,6 +3274,52 @@ $('insEditBar').addEventListener('click',async e=>{const id=e.target.id;
   else if(id==='bEditCancel'){insEditMode=false;renderIns();toast('ยกเลิกการแก้ไข ไม่ได้บันทึก')}
   else if(id==='bEditReset'){if(!await askCode('ใส่รหัสเพื่อล้างการแก้ไข','เอกสารจะกลับไปใช้ฉบับที่ระบบสร้างจากข้อมูล'))return;
     const it=editTarget();if(it&&it.docEdits)delete it.docEdits[insEditKey()];save();renderIns();toast('กลับไปใช้เอกสารจากระบบแล้ว')}});
+/* ---- แถบจัดรูปแบบข้อความ (โหมดแก้ไขเอกสาร) ---- */
+function rtbHtml(){const B=(c,t,h,x='')=>`<button type="button" data-rt="${c}" title="${h}" aria-label="${h}"${x}>${t}</button>`;
+  return `<div class="rtb" id="rtb" role="toolbar" aria-label="จัดรูปแบบข้อความ">
+   <div class="rtg"><div>${B('undo','↶','เลิกทำ (Ctrl+Z)')}${B('redo','↷','ทำซ้ำ (Ctrl+Y)')}</div><small>แก้ไข</small></div>
+   <div class="rtg"><div><select data-rts="size" aria-label="ขนาดตัวอักษร"><option value="">ขนาด</option>${[12,14,16,18,20,22,24,28,32].map(v=>`<option value="${v}">${v} pt</option>`).join('')}</select>
+     ${B('grow','A<sup>▲</sup>','ขยายตัวอักษร')}${B('shrink','A<sup>▼</sup>','ลดขนาดตัวอักษร')}${B('removeFormat','<span style="text-decoration:line-through">A</span>⌫','ล้างรูปแบบตัวอักษร')}</div>
+    <div>${B('bold','<b>B</b>','ตัวหนา (Ctrl+B)')}${B('italic','<i>I</i>','ตัวเอียง (Ctrl+I)')}${B('underline','<u>U</u>','ขีดเส้นใต้ (Ctrl+U)')}${B('strikeThrough','<s>ab</s>','ขีดฆ่า')}${B('subscript','x<sub>2</sub>','ตัวห้อย')}${B('superscript','x<sup>2</sup>','ตัวยก')}
+     <span class="rtc">${B('hilite','<span style="background:#ffeb3b;padding:0 3px">ab</span>','ไฮไลต์ข้อความ')}<input type="color" data-rtc="hilite" value="#ffff00" aria-label="สีไฮไลต์"></span>
+     <span class="rtc">${B('fore','<span style="color:#d00;border-bottom:3px solid #d00">A</span>','สีตัวอักษร')}<input type="color" data-rtc="fore" value="#ff0000" aria-label="สีตัวอักษร"></span></div><small>แบบอักษร</small></div>
+   <div class="rtg"><div>${B('insertUnorderedList','•≡','รายการสัญลักษณ์')}${B('insertOrderedList','1≡','รายการลำดับเลข')}${B('outdent','⇤','ลดการเยื้อง')}${B('indent','⇥','เพิ่มการเยื้อง')}
+     <select data-rts="lh" aria-label="ระยะบรรทัด"><option value="">ระยะบรรทัด</option><option value="0.85">0.85</option><option value="1">1.0 (ปกติ)</option><option value="1.15">1.15</option><option value="1.5">1.5</option><option value="2">2.0</option></select></div>
+    <div>${B('justifyLeft','⟸','ชิดซ้าย')}${B('justifyCenter','≡','กึ่งกลาง')}${B('justifyRight','⟹','ชิดขวา')}${B('justifyFull','☰','กระจายเต็มบรรทัด')}
+     <span class="rtc">${B('shade','▨','แรเงาย่อหน้า')}<input type="color" data-rtc="shade" value="#dbe8f5" aria-label="สีแรเงา"></span>
+     <select data-rts="bd" aria-label="เส้นขอบ"><option value="">เส้นขอบ</option><option value="box">กรอบรอบย่อหน้า</option><option value="top">เส้นบน</option><option value="bottom">เส้นล่าง</option><option value="none">ไม่มีเส้นขอบ / ไม่แรเงา</option></select></div><small>ย่อหน้า</small></div>
+   <div class="rth">เลือก (ลากคลุม) ข้อความในกระดาษก่อน แล้วกดปุ่มจัดรูปแบบ · ระยะบรรทัด/แรเงา/เส้นขอบ ใช้กับย่อหน้าที่เลือก · กดพิมพ์หรือ Word ได้ทันที แต่ต้องกด “บันทึกการแก้ไข” จึงจะเก็บไว้</div></div>`}
+let rtRange=null;
+document.addEventListener('selectionchange',()=>{if(!insEditMode)return;const sl=getSelection();if(!sl.rangeCount)return;const r=sl.getRangeAt(0);let n=r.commonAncestorContainer;if(n.nodeType!==1)n=n.parentElement;if(n&&n.closest&&n.closest('.ipaper[contenteditable]'))rtRange=r.cloneRange()});
+function rtRestore(){if(!rtRange)return false;const sl=getSelection();sl.removeAllRanges();sl.addRange(rtRange);return true}
+function rtSel(){return rtRange&&!rtRange.collapsed}
+const RT_BLOCK='p,li,td,th,h1,h2,h3,h4,blockquote';
+function rtBlocks(){if(!rtRange)return [];let n=rtRange.commonAncestorContainer;if(n.nodeType!==1)n=n.parentElement;const root=n.closest('.ipaper');if(!root)return [];
+  let L=[...root.querySelectorAll(RT_BLOCK+',div')].filter(e=>rtRange.intersectsNode(e)&&!e.querySelector(RT_BLOCK+',div'));
+  if(!L.length){const b=n.closest(RT_BLOCK+',div');if(b&&root.contains(b)&&b!==root)L=[b]}return L}
+function rtSize(pt){if(!rtRestore()||!rtSel()){toast('เลือกข้อความก่อน');return}
+  document.execCommand('styleWithCSS',false,false);document.execCommand('fontSize',false,'7');
+  document.querySelectorAll('.ipaper[contenteditable] font[size="7"]').forEach(f=>{const sp=document.createElement('span');sp.style.fontSize=(pt/1.127).toFixed(2)+'px';
+    f.querySelectorAll('[style]').forEach(x=>x.style.fontSize='');while(f.firstChild)sp.appendChild(f.firstChild);f.replaceWith(sp);});
+  const sl=getSelection();if(sl.rangeCount)rtRange=sl.getRangeAt(0).cloneRange()}
+function rtCurPt(){if(!rtRange)return 16;let n=rtRange.startContainer;if(n.nodeType!==1)n=n.parentElement;return Math.round(parseFloat(getComputedStyle(n).fontSize)*1.127)}
+function rtApply(c,v){
+  if(c==='grow'||c==='shrink'){rtSize(Math.max(8,rtCurPt()+(c==='grow'?2:-2)));return}
+  if(['shade','lh','bd'].includes(c)){const L=rtBlocks();if(!L.length){toast('คลิกในย่อหน้าที่ต้องการก่อน');return}
+    L.forEach(b=>{if(c==='shade'){b.style.backgroundColor=v}
+      else if(c==='lh'){const fs=parseFloat(getComputedStyle(b).fontSize)||14;b.style.lineHeight='';const base=(parseFloat(getComputedStyle(b).lineHeight)||fs*1.6)/fs;b.style.lineHeight=(base*(+v)).toFixed(2);b.dataset.lh=v}
+      else{['Top','Right','Bottom','Left'].forEach(sd=>b.style['border'+sd]='');b.style.padding='';
+        if(v==='none'){b.style.backgroundColor=''}else{const ln='1px solid #000';if(v==='box'){b.style.border=ln;b.style.padding='2px 6px'}else b.style['border'+(v==='top'?'Top':'Bottom')]=ln}}});return}
+  rtRestore();
+  if(c==='hilite'){document.execCommand('styleWithCSS',false,true);document.execCommand('hiliteColor',false,v)}
+  else if(c==='fore'){document.execCommand('styleWithCSS',false,true);document.execCommand('foreColor',false,v)}
+  else{document.execCommand('styleWithCSS',false,c!=='removeFormat');document.execCommand(c,false,null)}
+  const sl=getSelection();if(sl.rangeCount)rtRange=sl.getRangeAt(0).cloneRange()}
+const rtVal=k=>{const e=document.querySelector(`#rtb [data-rtc="${k}"]`);return e?e.value:''};
+$('insEditBar').addEventListener('mousedown',e=>{if(e.target.closest('#rtb button'))e.preventDefault()});
+$('insEditBar').addEventListener('click',e=>{const b=e.target.closest('#rtb [data-rt]');if(!b)return;const c=b.dataset.rt;rtApply(c,c==='hilite'||c==='fore'||c==='shade'?rtVal(c):null)});
+$('insEditBar').addEventListener('change',e=>{const t=e.target;if(t.dataset.rts){const v=t.value;t.value='';if(!v)return;if(t.dataset.rts==='size')rtSize(+v);else rtApply(t.dataset.rts,v)}
+  else if(t.dataset.rtc)rtApply(t.dataset.rtc,t.value)});
 /* ---- HTML (Word-style, from convKids) -> real .docx (WordprocessingML), zipped in-page ---- */
 const XE=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function sty(el){const o={};(el.getAttribute&&el.getAttribute('style')||'').split(';').forEach(d=>{const i=d.indexOf(':');if(i>0)o[d.slice(0,i).trim().toLowerCase()]=d.slice(i+1).trim()});return o}
@@ -3272,23 +3330,29 @@ function borderXml(o,tag){let x='';['top','left','bottom','right'].forEach(sd=>{
 function docxFromHtml(html){
   const dom=new DOMParser().parseFromString('<div id="root">'+html+'</div>','text/html');
   let imgId=0;const out=[];
-  const rPr=r=>`<w:rPr><w:rFonts w:ascii="TH SarabunPSK" w:hAnsi="TH SarabunPSK" w:cs="TH SarabunPSK"/>${r.b?'<w:b/><w:bCs/>':''}${r.u?`<w:u w:val="${r.u}"/>`:''}<w:sz w:val="${Math.round(r.sz*2)}"/><w:szCs w:val="${Math.round(r.sz*2)}"/><w:lang w:bidi="th-TH"/></w:rPr>`;
+  const rPr=r=>`<w:rPr><w:rFonts w:ascii="TH SarabunPSK" w:hAnsi="TH SarabunPSK" w:cs="TH SarabunPSK"/>${r.b?'<w:b/><w:bCs/>':''}${r.i?'<w:i/><w:iCs/>':''}${r.s?'<w:strike/>':''}${r.c?`<w:color w:val="${r.c}"/>`:''}<w:sz w:val="${Math.round(r.sz*2)}"/><w:szCs w:val="${Math.round(r.sz*2)}"/>${r.u?`<w:u w:val="${r.u}"/>`:''}${r.hl?`<w:shd w:val="clear" w:color="auto" w:fill="${r.hl}"/>`:''}${r.va?`<w:vertAlign w:val="${r.va==='sub'?'subscript':'superscript'}"/>`:''}<w:lang w:bidi="th-TH"/></w:rPr>`;
   const runText=(t,r)=>`<w:r>${rPr(r)}<w:t xml:space="preserve">${XE(t)}</w:t></w:r>`;
   function rStyle(el,base){const o=sty(el),r=Object.assign({},base);
     if(/bold|[6-9]00/.test(o['font-weight']||''))r.b=true;
     if(/underline/.test(o['text-decoration']||''))r.u='single';
+    if(/line-through/.test(o['text-decoration']||''))r.s=true;
+    if(/italic/.test(o['font-style']||''))r.i=true;
+    if(o['color']&&/^#[0-9a-f]{6}$/i.test(o['color']))r.c=o['color'].slice(1);
+    if(o['background-color']&&/^#[0-9a-f]{6}$/i.test(o['background-color']))r.hl=o['background-color'].slice(1);
+    if(/^(sub|super)$/.test(o['vertical-align']||''))r.va=o['vertical-align'];
     if(o['font-size'])r.sz=ptv(o['font-size']);
     if(/dotted/.test(o['border-bottom']||''))r.u='dotted';
     return r}
   function pXml(runs,p){if(!runs.length&&!p.keep)return '';
     const jc={center:'center',right:'right',justify:'thaiDistribute',left:'left'}[p.jc||'left']||'left';
     const ind=(p.left||p.first)?`<w:ind w:left="${TW(p.left||0)}" w:firstLine="${TW(p.first||0)}"/>`:'';
-    return `<w:p><w:pPr><w:spacing w:before="${TW(p.before||0)}" w:after="${TW(p.after||0)}" w:line="${WLINE}" w:lineRule="auto"/>${ind}<w:jc w:val="${jc}"/></w:pPr>${runs.join('')||`<w:r>${rPr(p.r||{sz:16})}</w:r>`}</w:p>`}
+    return `<w:p><w:pPr>${p.bdr||''}${p.shd?`<w:shd w:val="clear" w:color="auto" w:fill="${p.shd}"/>`:''}<w:spacing w:before="${TW(p.before||0)}" w:after="${TW(p.after||0)}" w:line="${Math.round(WLINE*(p.lh||1))}" w:lineRule="auto"/>${ind}<w:jc w:val="${jc}"/></w:pPr>${runs.join('')||`<w:r>${rPr(p.r||{sz:16})}</w:r>`}</w:p>`}
   function pProps(el,base){const o=sty(el),p=Object.assign({},base,{before:0,after:0,keep:false});
     if(o['text-align'])p.jc=o['text-align'];
     if(o['text-indent'])p.first=ptv(o['text-indent']);
     if(o['margin-left'])p.left=(base.left||0)+ptv(o['margin-left']);
     if(o['margin-top'])p.before=ptv(o['margin-top']);if(o['margin-bottom'])p.after=ptv(o['margin-bottom']);
+    if(o['x-lh'])p.lh=parseFloat(o['x-lh'])||1;if(o['x-pshd'])p.shd=o['x-pshd'];{const bx=borderXml(o,'w:pBdr');if(bx)p.bdr=bx}
     return p}
   // walk a container; returns array of block xml
   function walk(el,p,r){const blocks=[];let runs=[];
@@ -3429,9 +3493,14 @@ function buildDocx(bodyXml,mar){
 const PT=px=>Math.round(parseFloat(px)*0.75*10)/10;
 let WS=1,WLINE=240;const FPT=px=>Math.round(parseFloat(px)*1.127*WS*2)/2;  // Sarabun px -> TH SarabunPSK pt (WS: 14pt forms)
 function wEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\u00a0/g,'&nbsp;')}
-function txtStyle(cs){const a=[];
+const rgbHex=v=>{const m=String(v||'').match(/rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+))?/);if(!m||(m[4]!==undefined&&+m[4]===0))return '';return [m[1],m[2],m[3]].map(x=>(+x).toString(16).padStart(2,'0')).join('').toUpperCase()};
+function txtStyle(cs,el){const a=[];
   if(+cs.fontWeight>=600)a.push('font-weight:bold');
-  if(/underline/.test(cs.textDecorationLine||cs.textDecoration))a.push('text-decoration:underline');
+  const td=cs.textDecorationLine||cs.textDecoration||'';const dd=[/underline/.test(td)?'underline':'',/line-through/.test(td)?'line-through':''].filter(Boolean);if(dd.length)a.push('text-decoration:'+dd.join(' '));
+  if(cs.fontStyle==='italic')a.push('font-style:italic');
+  if(el&&(el.style&&el.style.color||el.getAttribute&&el.getAttribute('color'))){const h=rgbHex(cs.color);if(h&&h!=='000000')a.push('color:#'+h)}
+  if(el&&el.style&&el.style.backgroundColor&&/^inline/.test(cs.display)){const h=rgbHex(cs.backgroundColor);if(h)a.push('background-color:#'+h)}
+  if(cs.verticalAlign==='sub'||cs.verticalAlign==='super')a.push('vertical-align:'+cs.verticalAlign);
   a.push('font-size:'+FPT(cs.fontSize)+'pt');return a.join(';')}
 function bordersOf(cs){const a=[];['top','right','bottom','left'].forEach(s=>{const w=parseFloat(cs['border-'+s+'-width']||cs.getPropertyValue('border-'+s+'-width'));const st=cs.getPropertyValue('border-'+s+'-style');
   if(w>0&&st!=='none')a.push(`border-${s}:${st==='double'?'2.25pt double':st==='dotted'?'1pt dotted':'.5pt solid'} black`)});return a.join(';')}
@@ -3449,15 +3518,20 @@ function convNode(n){
   if(cs.display==='grid')return convGrid(el,cs);
   if(cs.display==='flex')return convFlex(el,cs);
   const inline=/^inline/.test(cs.display)&&cs.display!=='inline-block'&&cs.display!=='inline-grid';
-  if(inline)return `<span style="${txtStyle(cs)}">${convKids(el)}</span>`;
+  if(inline)return `<span style="${txtStyle(cs,el)}">${convKids(el)}</span>`;
   if(cs.display==='inline-block'){const w=parseFloat(cs.width);const bd=bordersOf(cs);
     if(bd&&!el.textContent.trim())return `<span style="${bd}">${'&nbsp;'.repeat(Math.max(4,Math.round(w/4)))}</span>`;
     return `<span style="${txtStyle(cs)}">${convKids(el)}</span>`}
   // block
-  const st=['margin:0',txtStyle(cs),'text-align:'+(cs.textAlign==='start'?'left':cs.textAlign)];
+  const st=['margin:0',txtStyle(cs,el),'text-align:'+(cs.textAlign==='start'?'left':cs.textAlign)];
+  if(el.dataset&&el.dataset.lh)st.push('x-lh:'+el.dataset.lh);
+  if(el.style&&el.style.backgroundColor){const h=rgbHex(cs.backgroundColor);if(h)st.push('x-pshd:'+h)}
+  if(el.style)['Top','Right','Bottom','Left'].forEach(sd=>{if(el.style['border'+sd+'Style']&&el.style['border'+sd+'Style']!=='none')st.push(`border-${sd.toLowerCase()}:.5pt solid black`)});
+  if(tag==='li'){const par=el.parentElement,ol=par&&par.tagName==='OL';const mk=ol?([...par.children].indexOf(el)+1)+'. ':'• ';st.push('text-indent:-12pt');
+    return `<p class="MsoNormal" style="${st.join(';')};margin-left:${PT(parseFloat(getComputedStyle(par).paddingLeft)||30)}pt">${wEsc(mk)}${convKids(el)}</p>`}
   const ti=parseFloat(cs.textIndent);if(ti)st.push('text-indent:'+PT(ti)+'pt');
   const mt=parseFloat(cs.marginTop),mb=parseFloat(cs.marginBottom);if(mt>1)st.push('margin-top:'+PT(mt)+'pt');if(mb>1)st.push('margin-bottom:'+PT(mb)+'pt');
-  const pl=parseFloat(cs.paddingLeft)+parseFloat(cs.marginLeft||0);if(pl>1)st.push('margin-left:'+PT(pl)+'pt');
+  const pl=(tag==='ul'||tag==='ol'?0:parseFloat(cs.paddingLeft))+parseFloat(cs.marginLeft||0);if(pl>1)st.push('margin-left:'+PT(pl)+'pt');
   const hasBlock=[...el.children].some(c=>!/^inline/.test(getComputedStyle(c).display)||['grid','flex','block','table'].includes(getComputedStyle(c).display));
   return hasBlock?`<div style="${st.join(';')}">${convKids(el)}</div>`:`<p class="MsoNormal" style="${st.join(';')}">${convKids(el)||'&nbsp;'}</p>`}
 function cellStyle(cs,wpt){const a=['padding:0 2pt','vertical-align:'+(cs.alignSelf==='end'||cs.verticalAlign==='bottom'?'bottom':'top')];
@@ -3580,7 +3654,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 30 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 31 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3603,7 +3677,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 30 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 31 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
