@@ -11,7 +11,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="บริหารสัญญา">
-<script>try{if(localStorage.getItem('thuajai-activation')!=='ecf15cdf904ee62e3db43b0ffc8cedf0a411bb699bd8cfaea97548dfe851297b')document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}</script>
+<script src="license-config.js"></script>
+<script>try{if(!(window.LIC_CFG&&LIC_CFG.url&&LIC_CFG.pub)&&localStorage.getItem('thuajai-activation')!=='ecf15cdf904ee62e3db43b0ffc8cedf0a411bb699bd8cfaea97548dfe851297b')document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}</script>
 <style>html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
@@ -530,6 +531,29 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 .cmbox input{font-size:1.4rem;letter-spacing:.4em;text-align:center;padding:10px}
 .cmerr{min-height:1.2em;color:var(--err);font-size:.88rem}
 .cmbox .btns{justify-content:center}
+/* สิทธิ์การใช้งาน */
+.lic-gate{position:fixed;inset:0;z-index:60;background:linear-gradient(160deg,#1e3a8a,#1d4ed8 55%,#0f172a);display:grid;place-items:center;padding:16px;overflow:auto}
+.licbox{background:var(--surface);color:var(--fg);border-radius:18px;padding:26px 24px 20px;width:min(460px,100%);display:flex;flex-direction:column;gap:12px;box-shadow:0 18px 60px rgba(0,0,0,.4)}
+.licbox .lhd{display:flex;gap:14px;align-items:center}
+.licbox .lhd img{width:58px;height:58px;border-radius:14px}
+.licbox h3{font-size:1.2rem;margin:0}
+.licbox .sub{color:var(--muted);font-size:.9rem;margin:2px 0 0}
+.licbox label{display:flex;flex-direction:column;gap:4px;font-size:.92rem;font-weight:600}
+.licbox input{font-size:1.1rem;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);color:var(--fg)}
+.licbox input.code{letter-spacing:.12em;text-transform:uppercase;font-family:ui-monospace,Menlo,Consolas,monospace}
+.licbox input[readonly]{opacity:.75}
+.licbox .dev{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--sunk);border-radius:10px;padding:8px 12px;font-size:.85rem;color:var(--muted)}
+.licbox .dev code{font-size:.95rem;color:var(--fg);letter-spacing:.06em}
+.licbox .msg{min-height:1.3em;font-size:.9rem}
+.licbox .msg.e{color:var(--err)}.licbox .msg.ok{color:var(--ok)}
+.licbox .btns{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.licbox .contact{font-size:.84rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;white-space:pre-line}
+.lic-list{display:flex;flex-direction:column;gap:6px;max-height:40vh;overflow:auto}
+.lic-list div{display:flex;justify-content:space-between;gap:8px;background:var(--sunk);border-radius:8px;padding:7px 10px;font-size:.88rem}
+.lic-lock{display:inline-block;margin-left:6px;font-size:.78rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--warn-bg);color:var(--warn)}
+.lic-demo{display:inline-block;margin-left:6px;font-size:.78rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--info-bg);color:var(--info)}
+.wm-demo{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:5;overflow:hidden}
+.wm-demo span{transform:rotate(-35deg);font:700 64px/1.1 "Sarabun",sans-serif;color:rgba(200,30,30,.16);white-space:nowrap;text-align:center}
 .ipaper .dl{display:inline-block;width:12.5em;border-bottom:1px dotted #000;margin:0 3px;transform:translateY(-4px)}
 .ipaper .ilist{display:flex;flex-direction:column;gap:16px;margin-top:8px}
 .ipaper .lr{display:grid;grid-template-columns:5.2em 1fr;align-items:start}
@@ -1085,7 +1109,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
   </section>
 </div>
   <footer class="credit">
-    <div><button type="button" class="pdpa-link" data-guide>คู่มือการใช้งาน</button> · <button type="button" class="pdpa-link" data-law>ระเบียบ/ข้อกฎหมาย</button> · <button type="button" class="pdpa-link" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button> · Developed by Miss Narama Woraklan (<span class="appver"></span>)</div>
+    <div><button type="button" class="pdpa-link" id="licFoot" hidden>🔑 สิทธิ์การใช้งาน</button> <button type="button" class="pdpa-link" data-guide>คู่มือการใช้งาน</button> · <button type="button" class="pdpa-link" data-law>ระเบียบ/ข้อกฎหมาย</button> · <button type="button" class="pdpa-link" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button> · Developed by Miss Narama Woraklan (<span class="appver"></span>)</div>
     <div>© 2026 Narama Woraklan · ระบบนี้เป็นทรัพย์สินทางปัญญาของผู้พัฒนา ได้รับความคุ้มครองตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537 · สงวนลิขสิทธิ์ ห้ามทำซ้ำ ดัดแปลง เผยแพร่ หรือนำไปใช้ในเชิงพาณิชย์ ไม่ว่าทั้งหมดหรือบางส่วน โดยไม่ได้รับอนุญาตเป็นลายลักษณ์อักษร</div>
     <div>This system is the intellectual property of its developer, protected under the Thai Copyright Act B.E. 2537 (1994). All rights reserved. No reproduction, modification, distribution or commercial use, in whole or in part, without prior written permission.</div>
     <div>ข้อมูลโครงการเก็บไว้ในเบราว์เซอร์ของเครื่องนี้เท่านั้น ไม่ได้ส่งขึ้นเซิร์ฟเวอร์ · ควรสำรองข้อมูลเป็นไฟล์เป็นระยะจากปุ่ม “สำรองข้อมูลทั้งหมด” ที่หน้าสรุปโครงการ</div>
@@ -1207,6 +1231,23 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 <div class="cmodal" id="codeModal" hidden><form class="cmbox" id="codeForm" autocomplete="off"><div class="cmic" aria-hidden="true">🔑</div><h3 id="cmTitle">ใส่รหัสยืนยัน</h3><p id="cmMsg" class="note"></p>
 <input id="cmCode" type="password" inputmode="numeric" maxlength="32" aria-label="รหัสยืนยัน"><div class="cmerr" id="cmErr" role="alert"></div>
 <div class="btns"><button type="button" id="cmCancel">ยกเลิก</button><button type="submit" class="primary">ยืนยัน</button></div></form></div>
+<div class="cmodal" id="licModal" hidden><form class="licbox" id="licForm" autocomplete="off">
+  <div class="lhd"><img src="icon-192.png" alt="" onerror="this.remove()"><div><h3 id="licTitle">เปิดใช้งานโครงการ</h3><p class="sub" id="licSub">1 รหัสใช้งาน ต่อ 1 สัญญา</p></div></div>
+  <label>เลขที่สัญญา<input id="licNo" placeholder="เช่น กบ1. 29/2569" required></label>
+  <label>รหัสใช้งาน<input id="licCode" class="code" placeholder="CPM-XXXX-XXXX-XXXX" required spellcheck="false" autocapitalize="characters"></label>
+  <div class="dev"><span>รหัสเครื่องนี้</span><code id="licDev"></code></div>
+  <div class="msg" id="licMsg" role="alert"></div>
+  <div class="btns"><button type="button" id="licCancel">ยกเลิก</button><button type="submit" class="primary" id="licGo">เปิดใช้งาน</button></div>
+  <div class="contact" id="licContact"></div>
+</form></div>
+<div class="cmodal" id="licInfo" hidden><div class="licbox">
+  <div class="lhd"><img src="icon-192.png" alt="" onerror="this.remove()"><div><h3>สิทธิ์การใช้งานในเครื่องนี้</h3><p class="sub">ผูกกับรหัสเครื่องและเลขที่สัญญา</p></div></div>
+  <div class="dev"><span>รหัสเครื่องนี้</span><code id="licDev2"></code></div>
+  <div class="lic-list" id="licList"></div>
+  <div class="msg" id="licMsg2"></div>
+  <div class="btns"><button type="button" id="licCheckNow">ตรวจสอบสิทธิ์กับเซิร์ฟเวอร์</button><button type="button" id="licAdd">+ เพิ่มรหัสใช้งาน</button><button type="button" class="primary" id="licClose">ปิด</button></div>
+  <div class="contact" id="licContact2"></div>
+</div></div>
 <div class="toast" id="toast" hidden></div>
 
 <script>
@@ -1749,7 +1790,7 @@ async function printSheets(sheets,title,fname){
   const pn=s=>'p'+String(s.W).replace('.','_')+'x'+String(s.H).replace('.','_');
   const dims={};sheets.forEach(s=>{dims[pn(s)]=[s.W,s.H]});
   const pageCss=Object.entries(dims).map(([n,[w,h]])=>`@page ${n}{size:${w}mm ${h}mm;margin:0}`).join('\n');
-  const body=sheets.map(s=>`<div class="sheet${s.hi?'':' nohi'}" style="page:${pn(s)};width:${s.W}mm;height:${s.H-0.6}mm;padding:${s.pad[0]}mm ${s.pad[1]}mm ${s.pad[2]}mm ${s.pad[3]}mm">${s.html}</div>`).join('');
+  const body=sheets.map(s=>`<div class="sheet${s.hi?'':' nohi'}" style="page:${pn(s)};width:${s.W}mm;height:${s.H-0.6}mm;padding:${s.pad[0]}mm ${s.pad[1]}mm ${s.pad[2]}mm ${s.pad[3]}mm">${licWm(s.html)}</div>`).join('');
   const first=sheets[0]||{W:210,H:297};
   const file=`<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -1839,7 +1880,7 @@ function renderHome(){try{setTimeout(renderCal,0)}catch(e){}
     if(q&&!txt.includes(q))return'';
     const over=t.val!==null&&t.tAA-t.val>0.004;
     return `<tr class="prow" data-open="${p.id}">
-      <td><div class="nm">${esc(h.no)||'<span class="sm">(ยังไม่ใส่เลขสัญญา)</span>'}</div><div class="sm">${esc(h.date)}</div></td>
+      <td><div class="nm">${esc(h.no)||'<span class="sm">(ยังไม่ใส่เลขสัญญา)</span>'}${LIC_ON?(d.demo?'<span class="lic-demo">ตัวอย่าง</span>':licOK(d)?'':'<span class="lic-lock">🔒 ยังไม่เปิดสิทธิ์</span>'):''}</div><div class="sm">${esc(h.date)}</div></td>
       <td style="min-width:280px"><div class="nm">${esc(h.project)||'<span class="sm">(ยังไม่ใส่ชื่องาน)</span>'}</div><div class="sm">${esc(h.contractor)}${h.loc?' · '+esc(h.loc):''}</div></td>
       <td style="text-align:center"><span class="rnd">${esc(h.round||'1')}</span></td>
       <td class="r">${t.val!==null?fm(t.val):'–'}</td>
@@ -1868,16 +1909,74 @@ function showHome(){save();DB.cur=null;writeDB();S=null;lastJSON='';
   $('hTitle').textContent='การบริหารโครงการงานสัญญา';document.querySelector('.top').classList.add('hero');$('hSub').textContent='หน้าสรุปโครงการ · ถัวจ่าย รายงานประจำวัน/สัปดาห์ ตรวจรับ และเบิกจ่ายงานก่อสร้าง';
   delArm=null;renderHome();window.scrollTo(0,0)}
 function openProject(id){const p=DB.projects.find(x=>x.id===id);if(!p)return showHome();
+  if(LIC_ON&&!licOK(p.data)){showHome();licOpen('unlock',p.data.h&&p.data.h.no);return}
   DB.cur=id;writeDB();S=migrate(clone(p.data));lastJSON=JSON.stringify(p.data);demoScrub();
   $('homeView').hidden=true;$('projView').hidden=false;$('bHome').hidden=false;document.querySelector('.top').classList.remove('hero');
   document.querySelectorAll('.proj-only').forEach(e=>e.hidden=false);document.querySelectorAll('.home-only').forEach(e=>e.hidden=true);
   setHeadLabel();fillForm();
   let tab='calc';try{tab=localStorage.getItem(KEY+'-tab')||'calc'}catch(e){}setTab(['calc','doc','ins'].includes(tab)?tab:'calc');window.scrollTo(0,0)}
-function setHeadLabel(){if(!S)return;const h=S.h;$('hTitle').textContent=(h.no?'สัญญา '+h.no:'โครงการใหม่')+' · ถัวจ่ายครั้งที่ '+(h.round||'1');
+function licLockNo(){const e=$('h_no');if(!e)return;const lk=LIC_ON&&S&&!S.demo&&licOK(S);e.readOnly=lk;e.title=lk?'เลขที่สัญญาผูกกับรหัสใช้งาน แก้ไม่ได้ (ติดต่อผู้ขายถ้าพิมพ์ผิด)':''}
+function setHeadLabel(){licLockNo();if(!S)return;const h=S.h;$('hTitle').textContent=(h.no?'สัญญา '+h.no:'โครงการใหม่')+' · ถัวจ่ายครั้งที่ '+(h.round||'1');
   $('hSub').textContent=h.project?h.project+(h.contractor?' · '+h.contractor:''):'กรอกข้อมูลสัญญาในหัวข้อ 1'}
+/* ===== สิทธิ์การใช้งาน (1 รหัส ต่อ 1 สัญญา · ตรวจกับเซิร์ฟเวอร์ · ลายเซ็นดิจิทัล RSA) ===== */
+const LICC=(typeof window!=='undefined'&&window.LIC_CFG&&window.LIC_CFG.url&&window.LIC_CFG.pub)?window.LIC_CFG:null;
+const LIC_ON=!!LICC,LIC_KEY='cpm-lic',LIC_DEV='cpm-dev';
+const licNorm=v=>String(v||'').replace(/\s+/g,'').toUpperCase();
+let licSet=new Set(),licReady=!LIC_ON,licToks=[];
+function licDev(){let d='';try{d=localStorage.getItem(LIC_DEV)||''}catch(e){}
+  if(!/^D[A-Z0-9-]{10,}$/.test(d)){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',b=new Uint8Array(12);crypto.getRandomValues(b);d='D'+[...b].map(x=>A[x%32]).join('').replace(/(.{4})(?=.)/g,'$1-');try{localStorage.setItem(LIC_DEV,d)}catch(e){}}
+  return d}
+const b64u=t=>{t=String(t).replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';const s=atob(t),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u};
+let licKey=null;
+async function licPub(){if(licKey)return licKey;licKey=await crypto.subtle.importKey('spki',b64u(LICC.pub),{name:'RSASSA-PKCS1-v1_5',hash:'SHA-256'},false,['verify']);return licKey}
+async function licVerify(t){try{const bytes=b64u(t.tok),ok=await crypto.subtle.verify('RSASSA-PKCS1-v1_5',await licPub(),b64u(t.sig),bytes);if(!ok)return null;
+  const o=JSON.parse(new TextDecoder().decode(bytes));return o&&o.d===licDev()&&o.n&&o.c?o:null}catch(e){return null}}
+function licStore(){try{const o=JSON.parse(localStorage.getItem(LIC_KEY)||'{}');return {toks:Array.isArray(o.toks)?o.toks:[],last:o.last||0}}catch(e){return {toks:[],last:0}}}
+function licSave(st){try{localStorage.setItem(LIC_KEY,JSON.stringify(st))}catch(e){}}
+async function licLoad(){if(!LIC_ON)return;const st=licStore();const good=[];licSet=new Set();
+  for(const t of st.toks){const o=await licVerify(t);if(o){good.push(Object.assign({},t,{c:o.c,n:o.n,t:o.t}));licSet.add(o.n)}}
+  licToks=good;if(good.length!==st.toks.length)licSave({toks:good,last:st.last});licReady=true}
+const licOK=d=>!LIC_ON||!d||!!d.demo||licSet.has(licNorm(d.h&&d.h.no));
+async function licCall(body){const r=await fetch(LICC.url,{method:'POST',body:JSON.stringify(Object.assign({app:'cpm',ver:(typeof APP_VER!=='undefined'?APP_VER:'')},body))});return r.json()}
+async function licActivate(code,no){const dev=licDev();const res=await licCall({a:'activate',code:licNorm(code),dev,cno:String(no||'').trim()});
+  if(!res||!res.ok)throw new Error(res&&res.msg||'เปิดใช้งานไม่สำเร็จ');
+  const t={tok:res.tok,sig:res.sig};const o=await licVerify(t);if(!o)throw new Error('ลายเซ็นไม่ถูกต้อง — ติดต่อผู้ขาย');
+  const st=licStore();st.toks=st.toks.filter(x=>{try{return JSON.parse(new TextDecoder().decode(b64u(x.tok))).c!==o.c}catch(e){return false}});st.toks.push(t);st.last=Date.now();licSave(st);await licLoad();return o}
+async function licCheck(force){if(!LIC_ON||!licToks.length)return;const st=licStore();if(!force&&Date.now()-(st.last||0)<3*864e5)return;if(!navigator.onLine&&!force)return;
+  const res=await licCall({a:'check',dev:licDev(),codes:licToks.map(t=>t.c)});if(!res||!res.ok)throw new Error(res&&res.msg||'ตรวจสอบไม่สำเร็จ');
+  const bad=new Set(Object.entries(res.st||{}).filter(([,v])=>v!=='ok').map(([k])=>k));
+  const keep=st.toks.filter(x=>{try{return !bad.has(JSON.parse(new TextDecoder().decode(b64u(x.tok))).c)}catch(e){return false}});
+  licSave({toks:keep,last:Date.now()});await licLoad();
+  if(bad.size){toast(`สิทธิ์ใช้งาน ${bad.size} สัญญาถูกยกเลิกหรือย้ายไปเครื่องอื่น`);if(S&&!licOK(S)){showHome()}else if(!$('homeView').hidden)renderHome()}return bad.size}
+let licMode=null;
+function licContact(){return LICC&&LICC.contact?'ติดต่อขอรหัสใช้งาน: '+LICC.contact:''}
+function licOpen(mode,no){licMode=mode;$('licModal').hidden=false;$('licDev').textContent=licDev();$('licContact').textContent=licContact();
+  $('licTitle').textContent=mode==='first'?'เปิดใช้งานโปรแกรมครั้งแรก':mode==='unlock'?'สัญญานี้ยังไม่เปิดสิทธิ์ในเครื่องนี้':'เพิ่มโครงการ (สัญญาใหม่)';
+  $('licSub').textContent=mode==='first'?'ใส่เลขที่สัญญาและรหัสใช้งานที่ได้รับ · 1 รหัส ต่อ 1 สัญญา':'1 รหัสใช้งาน ต่อ 1 สัญญา · ต้องต่ออินเทอร์เน็ตตอนเปิดใช้งาน';
+  $('licNo').value=no||'';$('licNo').readOnly=mode==='unlock'&&!!no;$('licCode').value='';$('licMsg').textContent='';$('licMsg').className='msg';
+  $('licCancel').hidden=mode==='first';$('licModal').classList.toggle('lic-gate',mode==='first');
+  setTimeout(()=>($('licNo').value?$('licCode'):$('licNo')).focus(),40)}
+$('licCancel').addEventListener('click',()=>{$('licModal').hidden=true;licMode=null});
+$('licForm').addEventListener('submit',async e=>{e.preventDefault();const no=$('licNo').value.trim(),code=$('licCode').value.trim();const m=$('licMsg');
+  if(!no||!code){m.textContent='กรุณาใส่เลขที่สัญญาและรหัสใช้งาน';m.className='msg e';return}
+  if(!navigator.onLine){m.textContent='ต้องต่ออินเทอร์เน็ตเพื่อเปิดใช้งาน';m.className='msg e';return}
+  $('licGo').disabled=true;m.textContent='กำลังตรวจสอบกับเซิร์ฟเวอร์…';m.className='msg';
+  try{const o=await licActivate(code,no);m.textContent='✓ เปิดใช้งานแล้ว';m.className='msg ok';
+    let p=DB.projects.find(x=>licNorm(x.data&&x.data.h&&x.data.h.no)===o.n&&!x.data.demo);
+    if(!p){const d=blankData();d.h.no=no;p=addProject(d)}
+    $('licModal').hidden=true;$('licModal').classList.remove('lic-gate');licMode=null;try{localStorage.setItem(KEY+'-tab','calc')}catch(x){}openProject(p.id);toast('เปิดใช้งานสัญญา '+no+' แล้ว')}
+  catch(err){m.textContent=String(err&&err.message||err);m.className='msg e'}finally{$('licGo').disabled=false}});
+function licRenderInfo(){$('licDev2').textContent=licDev();$('licContact2').textContent=licContact();
+  $('licList').innerHTML=licToks.length?licToks.map(t=>`<div><b>${esc(t.n)}</b><span>${esc(t.c.replace(/^(.{8}).*(.{4})$/,'$1…$2'))} · ${new Date(t.t).toLocaleDateString('th-TH')}</span></div>`).join(''):'<div>ยังไม่มีสัญญาที่เปิดสิทธิ์</div>'}
+$('licFoot').addEventListener('click',()=>{licRenderInfo();$('licMsg2').textContent='';$('licInfo').hidden=false});
+$('licClose').addEventListener('click',()=>$('licInfo').hidden=true);
+$('licAdd').addEventListener('click',()=>{$('licInfo').hidden=true;licOpen('new')});
+$('licCheckNow').addEventListener('click',async()=>{const m=$('licMsg2');m.textContent='กำลังตรวจสอบ…';m.className='msg';
+  try{const n=await licCheck(true);licRenderInfo();m.textContent=n?`ยกเลิกสิทธิ์ ${n} สัญญา`:'✓ สิทธิ์ทั้งหมดถูกต้อง';m.className='msg '+(n?'e':'ok')}catch(e){m.textContent=String(e.message||e)+' (ต่ออินเทอร์เน็ตแล้วลองใหม่)';m.className='msg e'}});
+function licWm(html){return LIC_ON&&S&&S.demo?html+'<div class="wm-demo"><span>ตัวอย่าง · ห้ามใช้งานจริง<br>SAMPLE ONLY</span></div>':html}
 function addProject(d){const now=Date.now(),p={id:uid(),created:now,updated:now,data:d};DB.projects.push(p);writeDB();return p}
 $('bHome').addEventListener('click',showHome);
-$('bNew').addEventListener('click',()=>{const p=addProject(blankData());try{localStorage.setItem(KEY+'-tab','calc')}catch(e){}openProject(p.id);toast('เพิ่มโครงการใหม่แล้ว เริ่มกรอกข้อมูลสัญญาได้เลย')});
+$('bNew').addEventListener('click',()=>{if(LIC_ON){licOpen('new');return}const p=addProject(blankData());try{localStorage.setItem(KEY+'-tab','calc')}catch(e){}openProject(p.id);toast('เพิ่มโครงการใหม่แล้ว เริ่มกรอกข้อมูลสัญญาได้เลย')});
 $('bSample').addEventListener('click',()=>{addProject(anonData(Object.assign(clone(SAMPLE),{demo:true})).d);renderHome();toast('เพิ่มโครงการตัวอย่างแล้ว (ชื่อและเลขที่ต่าง ๆ เป็น xxx)')});
 $('hSearch').addEventListener('input',renderHome);
 /* ปิดชื่อบุคคลและบริษัทเป็น xxx (ใช้เป็นโครงการตัวอย่าง) */
@@ -1914,7 +2013,7 @@ $('ptbl').addEventListener('click',e=>{
   if(an){e.stopPropagation();const id=an.dataset.anon;if(anonArm!==id){anonArm=id;an.textContent='กดอีกครั้งเพื่อยืนยัน';setTimeout(()=>{if(anonArm===id){anonArm=null;if(!$('homeView').hidden)renderHome()}},3000);return}
     anonArm=null;const p=DB.projects.find(x=>x.id===id);if(!p)return;const r=anonData(p.data);p.updated=Date.now();writeDB();renderHome();toast(`เปลี่ยนชื่อบุคคล บริษัท และชื่องาน ${r.n} รายการ เป็น xxx แล้ว`);return}
   const c=e.target.closest('[data-copy]'),d=e.target.closest('[data-del]');
-  if(c){e.stopPropagation();const src=DB.projects.find(x=>x.id===c.dataset.copy);if(!src)return;const nd=clone(src.data);
+  if(c){e.stopPropagation();const src=DB.projects.find(x=>x.id===c.dataset.copy);if(!src)return;if(LIC_ON&&!src.data.demo&&!licOK(src.data)){licOpen('unlock',src.data.h.no);return}const nd=clone(src.data);
     nd.h.round=String((parseInt(nd.h.round)||1)+1);nd.doc={};delete nd.meta;const p=addProject(nd);renderHome();toast('สร้างถัวจ่ายครั้งที่ '+nd.h.round+' แล้ว แก้ปริมาณในสนามได้เลย');openProject(p.id);return}
   if(d){e.stopPropagation();const id=d.dataset.del;
     if(delArm!==id){delArm=id;renderHome();setTimeout(()=>{if(delArm===id){delArm=null;if(!$('homeView').hidden)renderHome()}},3000);return}
@@ -1943,7 +2042,7 @@ $('bInstall').addEventListener('click',async()=>{if(!deferredInstall)return;defe
 const XLSX_LIB='https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js';
 function loadScript(src){return new Promise((res,rej)=>{if(window.ExcelJS)return res();const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error('load'));document.head.appendChild(s)})}
 const XPAPER={A4:9,A3:8,Letter:1,Legal:5,F4:14};
-async function exportXlsx(){
+async function exportXlsx(){if(LIC_ON&&S&&S.demo){toast('โครงการตัวอย่าง ดาวน์โหลด Excel ไม่ได้');return}
   if(!S)return;
   const btn=$('bXlsx'),old=btn.textContent;btn.disabled=true;btn.textContent='กำลังสร้างไฟล์ Excel…';
   try{await loadScript(XLSX_LIB)}catch(e){btn.disabled=false;btn.textContent=old;toast('โหลดตัวสร้าง Excel ไม่ได้ ต้องต่ออินเทอร์เน็ตครั้งแรก');return}
@@ -3638,7 +3737,7 @@ function convTable(t){
 function curZoom(){return parseFloat($('insSheets').style.zoom||1)||1}
 function b64utf8(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin)}
 const wrap76=s=>s.replace(/(.{76})/g,'$1\r\n');
-async function exportWord(){
+async function exportWord(){if(LIC_ON&&S&&S.demo){toast('โครงการตัวอย่าง ดาวน์โหลด Word ไม่ได้ — พิมพ์ได้แบบมีลายน้ำ “ตัวอย่าง”');return}
   if(!insEditMode)renderIns();
   const sh=$('insSheets');const z=sh.style.zoom;sh.style.zoom=1;
   WIMGS=[];const swaps=[];
@@ -3719,12 +3818,17 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 34 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 35 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
 loadDB();
-if(DB.cur&&curProj())openProject(DB.cur);else showHome();
+if(!LIC_ON){if(DB.cur&&curProj())openProject(DB.cur);else showHome()}
+else{$('licFoot').hidden=false;showHome();
+  licLoad().then(()=>{if(!licToks.length&&!DB.projects.some(p=>!p.data.demo&&licOK(p.data))){licOpen('first');return}
+    if(DB.cur&&curProj()&&licOK(curProj().data))openProject(DB.cur);else renderHome();
+    licCheck(false).catch(()=>{})}).catch(()=>{licReady=true;renderHome()});
+  window.addEventListener('online',()=>licCheck(false).catch(()=>{}))}
 })();
 </script>
 
@@ -3742,7 +3846,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 34 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 35 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
@@ -3780,7 +3884,7 @@ html.locked .pdpa{z-index:1100;visibility:visible}
   var el=document.getElementById('lockScreen'),inp=document.getElementById('lkCode'),err=document.getElementById('lkErr');
   function ok(){try{return localStorage.getItem(KEYA)===HASH}catch(e){return false}}
   function unlock(){el.hidden=true;document.documentElement.classList.remove('locked')}
-  if(ok()){unlock();return}
+  if(ok()||(window.LIC_CFG&&LIC_CFG.url&&LIC_CFG.pub)){unlock();return}
   document.documentElement.classList.add('locked');setTimeout(function(){inp.focus()},50);
   var tries=0;
   function sha(t){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')})}
