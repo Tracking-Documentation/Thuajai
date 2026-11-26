@@ -2147,8 +2147,11 @@ function effEnd(){const h=S.h;if(!h.end)return '';const add=(insOf().amends||[])
 const AM_K={memo:'บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง',amend:'สัญญาแก้ไขเพิ่มเติม'};
 const amName=a=>`${AM_K[a.kind]||AM_K.memo} (ฉบับที่ ${esc(a.no)})`;
 const amSorted=A=>[...A].sort((x,y)=>(x.date||'9')<(y.date||'9')?-1:(x.date||'9')>(y.date||'9')?1:0);
+/* รายการภาษาไทย: ก, ข และค */
+const thList=a=>{a=a.filter(x=>x!==''&&x!=null);return a.length<2?(a[0]||''):a.slice(0,-1).join(', ')+' และ'+a[a.length-1]};
+const fmBaht=v=>Math.abs(v-Math.round(v))<0.005?fm(v,0)+'.-':fm(v);
 function endText(){const h=S.h,A=insOf().amends||[];if(!A.length)return `สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
-  return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} และ`+amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'....................'}`).join(' และ')+` สิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
+  return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} ต่อมาได้แก้ไขสัญญาตาม${thList(amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'....................'}`))} โดยสิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
 function waiveTotal(){return (insOf().waivers||[]).reduce((t,w)=>t+(parse(w.days)||0),0)}
 /* ช่องลงนามมาตรฐาน: (ลงชื่อ) ......... ตำแหน่งในคณะ / (ชื่อ) และตำแหน่ง จัดกึ่งกลางใต้เส้นจุด */
 function sgRows(L,cls){return `<div class="sgt ${cls||''}">`+L.map((x,j)=>`${j?'<div class="gap"></div>':''}<span class="lh">${x.lh||''}</span><span>${x.sl||'(ลงชื่อ)'}</span><span class="dlc"></span><span class="rl">${x.role}</span>`+
@@ -2217,7 +2220,7 @@ function penText(k){
   if(!p.late)return `ผู้รับจ้างส่งมอบงานภายในกำหนดเวลาตามสัญญา ไม่มีค่าปรับ`;
   let t=`ผู้รับจ้างต้องเสียค่าปรับตามเงื่อนไขในสัญญา ข้อ ${ins.pClause} เป็นรายวันๆ ละ ${fm(p.per)} บาท จากวันที่ ${thDate(p.from)} ถึงวันที่ ${thDate(p.to)} จำนวน ${p.late} วัน`;
   const W=(ins.waivers||[]).filter(w=>(parse(w.days)||0)>0);
-  if(W.length)t+=' โดยได้รับการงดค่าปรับ '+W.map(w=>`${String(w.reason||'').trim()?'เนื่องจาก'+w.reason.trim().replace(/^เนื่องจาก\s*/,'')+' ':''}ตามอนุมัติ ${w.ref||'..........'}${w.date?' ลงวันที่ '+thDate(w.date):''} จำนวน ${parse(w.days)} วัน`).join(' และ')+(W.length>1?` รวมงดค่าปรับ ${p.waive} วัน`:'');
+  if(W.length)t+=' โดยได้รับการงดค่าปรับ '+thList(W.map(w=>`${String(w.reason||'').trim()?'เนื่องจาก'+w.reason.trim().replace(/^เนื่องจาก\s*/,'')+' ':''}ตามอนุมัติ ${w.ref||'..........'}${w.date?' ลงวันที่ '+thDate(w.date):''} จำนวน ${parse(w.days)} วัน`))+(W.length>1?` รวมงดค่าปรับ ${p.waive} วัน`:'');
   if(p.charged)t+=` หักค่าปรับไปแล้วในงวดก่อน ${p.charged} วัน`;
   t+=` คงเหลือค่าปรับตามสัญญา เป็นรายวันๆ ละ ${fm(p.per)} บาท จำนวน ${p.days} วัน${p.days?` เป็นเงิน ${fm(p.amt)} บาท`:''}`;
   return t}
@@ -2293,7 +2296,7 @@ function renderIns(){
    <div class="row"><span class="k">หักเงินประกันผลงาน ${esc(inst.ret||0)}%</span><span class="v minus">− ${fm(C.ret)}</span></div>
    <div class="row"><span class="k">หักเงินเบิกล่วงหน้า ${esc(inst.adv||0)}%</span><span class="v minus">− ${fm(C.adv)}</span></div>
    <div class="row"><span class="k">หักค่าปรับ ${C.pen.days} วัน × ${fm(C.pen.per)}</span><span class="v minus">− ${fm(C.pen.amt)}</span></div>
-   ${C.inst.final&&C.inst.refund?`<div class="row"><span class="k">คืนเงินประกันผลงาน${C.refFrom.length?' งวดที่ '+C.refFrom.join(', '):' (ไม่มียอดที่หักไว้)'}</span><span class="v plus">+ ${fm(C.refund)}</span></div>`:''}
+   ${C.inst.final&&C.inst.refund?`<div class="row"><span class="k">คืนเงินประกันผลงาน${C.refFrom.length?' งวดที่ '+thList(C.refFrom):' (ไม่มียอดที่หักไว้)'}</span><span class="v plus">+ ${fm(C.refund)}</span></div>`:''}
    <div class="row big"><span class="k">คงเป็นเงินที่ต้องจ่าย</span><span class="v">${fm(C.net)}</span><span class="w">(${bahtText(C.net)})</span></div></div>`;
   $('insChk').innerHTML=`<h3>ตรวจสอบ</h3><ul class="ichk">${out.map(([l,t])=>`<li class="${l}"><span>${l==='ok'?'✓':l==='e'?'✗':'!'}</span>${esc(t)}</li>`).join('')}</ul>`;
   renderInsDocs(C);renderSecInfo();
@@ -2337,8 +2340,8 @@ function instLabel(inst){return `งวดที่ ${esc(inst.no)}${inst.final?
 function docIns(C){const h=S.h,ins=insOf(),inst=C.inst;const wEnd=inst.final?(inst.wEnd||addYears(inst.inspDate,parse(ins.wYears)||0)):'';
   const val=parse(h.value);
   return [`<div class="ipaper"><div class="t-big">ใบตรวจรับงาน ${instLabel(inst)}</div>
-  <p class="ind">${introPara(C)} ค่างานตามสัญญา ${fm(val)}.- บาท (${bahtText(val)}) ผู้รับจ้าง ${esc(h.contractor)}</p>
-  <p class="ind">คณะกรรมการตรวจรับพัสดุ ผู้มีรายนามข้างท้ายนี้ได้พร้อมกันทำการตรวจรับงานตามสัญญาดังกล่าวข้างต้น ซึ่ง ${esc(h.contractor)} ได้ทำการแล้วเสร็จเรียบร้อยถูกต้อง ตามเงื่อนไขแห่งสัญญาทุกประการ ตั้งแต่วันที่ ${thDateL(inst.doneDate)} และทางบริษัทฯ ยังคงต้องรับผิดชอบตามเงื่อนไข แห่งสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} ข้อ ${esc(ins.wClause)} เป็นเวลา ${esc(ins.wYears)} ปี ทุกประการ สิ้นสุดการรับประกัน ในวันที่ ${wEnd?thDate(wEnd):'........................................'}</p>
+  <p class="ind">${introPara(C)} ค่างานตามสัญญา ${fmBaht(val)} บาท (${bahtText(val)}) ผู้รับจ้าง ${esc(h.contractor)}</p>
+  <p class="ind">คณะกรรมการตรวจรับพัสดุ ผู้มีรายนามข้างท้ายนี้ได้พร้อมกันทำการตรวจรับงานตามสัญญาดังกล่าวข้างต้น ซึ่ง ${esc(h.contractor)} ได้ทำการแล้วเสร็จเรียบร้อยถูกต้อง ตามเงื่อนไขแห่งสัญญาทุกประการ ตั้งแต่วันที่ ${thDateL(inst.doneDate)} และทางบริษัทฯ ยังคงต้องรับผิดชอบตามเงื่อนไขแห่งสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} ข้อ ${esc(ins.wClause)} เป็นเวลา ${esc(ins.wYears)} ปี ทุกประการ สิ้นสุดการรับประกัน ในวันที่ ${wEnd?thDate(wEnd):'........................................'}</p>
   <p class="ind">จึงเห็นควรจ่ายเงินงวดที่ ${esc(inst.no)} ค่างานเป็นเงิน ${fm(C.gross)} บาท หักเงินประกันผลงาน ${(parse(inst.ret)||0)?esc(inst.ret):'-'} % เป็นเงิน ${fmd(C.ret)} บาท หักเงินเบิกล่วงหน้า ${(parse(inst.adv)||0)?esc(inst.adv):'-'} % เป็นเงิน ${fmd(C.adv)} บาท${C.pen.amt?` หักค่าปรับผิดสัญญา ${C.pen.days} วันๆ ละ ${fm(C.pen.per)} บาท เป็นเงิน ${fm(C.pen.amt)} บาท`:''}${C.refund>0.004?` บวกคืนเงินประกันผลงานที่หักไว้ งวดที่ ${C.refFrom.join(', ')} เป็นเงิน ${fm(C.refund)} บาท`:''} คงเป็นเงินที่ต้องจ่ายทั้งสิ้น เป็นเงิน ${fm(C.net)} บาท (${bahtText(C.net)})</p>
   <div class="ctr b" style="margin-top:14px">กรมทางหลวง&nbsp; ${esc(insOf().office||'แขวงทางหลวงกระบี่')}</div>
   <div class="ctr" style="margin-bottom:22px">ตรวจรับพัสดุ เมื่อวันที่ ${inst.inspDate?thDateP(inst.inspDate):'.......... ......................... พ.ศ. ..........'}</div>
@@ -2359,7 +2362,7 @@ function tailMoney(C,withSig){const inst=C.inst;
    <span>หักเงินประกันผลงาน</span><span class="u c">${(parse(inst.ret)||0)?esc(inst.ret):'-'}</span><span>%</span><span>เป็นเงิน</span><span class="u n">${fmd(C.ret)}</span><span>บาท</span>
    <span>หักเงินจ่ายล่วงหน้า</span><span class="u c">${(parse(inst.adv)||0)?esc(inst.adv):'-'}</span><span>%</span><span>เป็นเงิน</span><span class="u n">${fmd(C.adv)}</span><span>บาท</span>
    <span class="sp3">หักค่าปรับผิดสัญญา ${C.pen.days||'-'} วันๆ ละ ${fm(C.pen.days?C.pen.per:0)} บาท</span><span>เป็นเงิน</span><span class="u n">${fmd(C.pen.amt)}</span><span>บาท</span>
-   ${C.refund>0.004?`<span class="sp3">บวกคืนเงินประกันผลงาน งวดที่ ${C.refFrom.join(', ')}</span><span>เป็นเงิน</span><span class="u n">${fm(C.refund)}</span><span>บาท</span>`:''}
+   ${C.refund>0.004?`<span class="sp3">บวกคืนเงินประกันผลงาน งวดที่ ${thList(C.refFrom)}</span><span>เป็นเงิน</span><span class="u n">${fm(C.refund)}</span><span>บาท</span>`:''}
    <span class="sp3">คงเป็นเงินที่จะต้องจ่าย</span><span>เป็นเงิน</span><span class="u n b">${fm(C.net)}</span><span>บาท</span></div>
    <div class="ctr b">(เงิน${bahtText(C.net)})</div>
    <div class="rmk"><b>หมายเหตุ</b><span>${esc(penText(insOf().cur===undefined?0:insCalcIndex(C)))}</span></div>
@@ -2413,7 +2416,7 @@ function docMemo(C){const h=S.h,ins=insOf(),inst=C.inst,{chair,mem}=committee();
    <div class="mrow two"><b>ที่</b><span class="ul">${esc(ins.memoPrefix)}${esc(inst.memoNo)}</span><b>วันที่</b><span class="ul">${md}</span></div>
    <div class="mrow"><b>เรื่อง</b><span class="ul">รายงานผลการตรวจรับพัสดุ</span></div>
    <p style="margin-top:10px">เรียน ${esc(chair?chair.pos:'ผอ.ขท.กระบี่')}</p>
-   <p class="ind">ตามสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} ระหว่างกรมทางหลวงโดย${esc(ins.office)} ผู้ว่าจ้างกับ ${esc(h.contractor)} ผู้รับจ้างทำการก่อสร้าง ${esc(h.project)} ${esc(h.loc)} วงเงินค่าจ้าง ${fm(val)}.- บาท เริ่มต้นสัญญา วันที่ ${thDate(h.start)} ${endTxt} นั้น</p>
+   <p class="ind">ตามสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)} ระหว่างกรมทางหลวงโดย${esc(ins.office)} ผู้ว่าจ้างกับ ${esc(h.contractor)} ผู้รับจ้างทำการก่อสร้าง ${esc(h.project)} ${esc(h.loc)} วงเงินค่าจ้าง ${fmBaht(val)} บาท เริ่มต้นสัญญา วันที่ ${thDate(h.start)} ${endTxt} นั้น</p>
    <p class="ind">${esc(ins.legal)}</p>
    <p class="ind">บัดนี้ ผู้รับจ้างได้ส่งมอบงาน${instLabel(inst)} ตามหนังสือขอส่งงานเลขที่ ${esc(inst.letterNo||'..........')} ลงวันที่ ${thDate2(inst.letterDate)} คณะกรรมการตรวจรับพัสดุได้ทำการตรวจรับแล้ว เมื่อวันที่ ${thDate2(inst.inspDate)} เห็นว่าเป็นการถูกต้องครบถ้วน เป็นไปตามแบบรูปรายการละเอียดและข้อกำหนดในสัญญา จึงขอรายงานผลการตรวจรับพัสดุดังกล่าว เพื่อบันทึกข้อมูลการตรวจรับพัสดุในระบบจัดซื้อจัดจ้างภาครัฐด้วยอิเล็กทรอนิกส์ (e-GP) ตามกระบวนการจัดซื้อจัดจ้างจนถึงการบริหารสัญญาในระบบ e-GP ภายในวันที่ได้ดำเนินการจริง</p>
    <p class="ind">จึงเรียนมาเพื่อโปรดทราบ</p>
@@ -2473,7 +2476,7 @@ function docMtg(C){const h=S.h,ins=insOf(),inst=C.inst,k=insCalcIndex(C),{chair,
   if(T.extra.length)B.push(`<p class="tl">ผลการทดสอบอื่น ๆ</p>`+T.extra.map(l=>`<p class="tl" style="padding-left:5.6em">${esc(/^[-•]/.test(l)?l:'- '+l)}</p>`).join(''));
   B.push(`<p class="sub" style="margin-top:6px">3.3 ระยะเวลาการก่อสร้างและค่าปรับ</p>`+P(`${endText()}`)+P(esc(inst.penText||penText(k))));
   const mr=(a,b)=>`<span>${a}</span><span class="n">${b}</span><span>บาท</span>`;
-  B.push(`<p class="sub" style="margin-top:6px">3.4 การเบิกจ่ายเงินค่างาน${instLabel(inst)}</p><div class="mny">${mr(`ค่างานงวดนี้ ${C.billed.length} รายการ`,fm(C.gross))}${mr(`หักเงินประกันผลงาน ${(parse(inst.ret)||0)?esc(inst.ret)+'%':''}`,fmd(C.ret))}${mr(`หักเงินจ่ายล่วงหน้า ${(parse(inst.adv)||0)?esc(inst.adv)+'%':''}`,fmd(C.adv))}${mr(`หักค่าปรับ ${C.pen.days||'-'} วัน`,fmd(C.pen.amt))}${C.refund>0.004?mr(`บวกคืนเงินประกันผลงาน งวดที่ ${C.refFrom.join(', ')}`,fm(C.refund)):''}${mr('<b>คงเป็นเงินที่จะต้องจ่าย</b>','<b>'+fm(C.net)+'</b>')}</div><p class="ctr">(${bahtText(C.net)})</p>`);
+  B.push(`<p class="sub" style="margin-top:6px">3.4 การเบิกจ่ายเงินค่างาน${instLabel(inst)}</p><div class="mny">${mr(`ค่างานงวดนี้ ${C.billed.length} รายการ`,fm(C.gross))}${mr(`หักเงินประกันผลงาน ${(parse(inst.ret)||0)?esc(inst.ret)+'%':''}`,fmd(C.ret))}${mr(`หักเงินจ่ายล่วงหน้า ${(parse(inst.adv)||0)?esc(inst.adv)+'%':''}`,fmd(C.adv))}${mr(`หักค่าปรับ ${C.pen.days||'-'} วัน`,fmd(C.pen.amt))}${C.refund>0.004?mr(`บวกคืนเงินประกันผลงาน งวดที่ ${thList(C.refFrom)}`,fm(C.refund)):''}${mr('<b>คงเป็นเงินที่จะต้องจ่าย</b>','<b>'+fm(C.net)+'</b>')}</div><p class="ctr">(${bahtText(C.net)})</p>`);
   B.push(`<p class="sub">มติที่ประชุม</p>`+P(`คณะกรรมการตรวจรับพัสดุได้พิจารณาแล้ว เห็นว่าผู้รับจ้างได้ทำงาน${instLabel(inst)} ถูกต้องครบถ้วน เป็นไปตามแบบรูปรายการละเอียดและข้อกำหนดในสัญญา ผลการทดสอบวัสดุและงานเป็นไปตามข้อกำหนด ที่ประชุมจึงมีมติเป็นเอกฉันท์ให้ตรวจรับงาน${instLabel(inst)} และลงนามในใบตรวจรับงาน เพื่อเบิกจ่ายเงินค่างานจำนวน ${fm(C.net)} บาท ให้แก่ผู้รับจ้าง${C.refund>0.004?` ซึ่งรวมการคืนเงินประกันผลงานจำนวน ${fm(C.refund)} บาท`:''} ต่อไป`));
   B.push(`<p class="ag">ระเบียบวาระที่ 4 เรื่องอื่น ๆ</p>`+String(inst.mtgOther||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>P(esc(x))).join('')+(String(inst.mtgOther||'').trim()?'':P('- ไม่มี -')));
   const rec=recorderOf(inst);
@@ -3128,7 +3131,7 @@ function pwMemoHead(no,date,title,to){const ins=insOf(),W=wkOf();
    <p style="margin-top:10px">เรียน ${to}</p>`}
 function pwOrig(){const h=S.h,A=insOf().amends||[],c=pwCalc();const L=(a,b,x,y)=>`<span>${a}</span><span>${b}</span><span>${x||''}</span><span>${y||''}</span>`;
   return `<p class="ag" style="padding-left:2.2em">1. เรื่องเดิม</p>
-   <p class="ind">ตามสัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}${A.length?' และ'+amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'..........'}`).join(' และ'):''} ${esc(h.project)} ${esc(h.loc)} โดยมีรายละเอียดดังนี้</p>
+   <p class="ind">ตาม${thList([`สัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`,...amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'..........'}`)])} ${esc(h.project)} ${esc(h.loc)} โดยมีรายละเอียดดังนี้</p>
    <div class="pwkv">${L('เริ่มต้นสัญญาวันที่',thDate(h.start),'สิ้นสุดสัญญา'+(A.length?'(เดิม)':'')+' วันที่',thDate(h.end))}${A.length?L('สิ้นสุดสัญญา(ใหม่) วันที่',thDate(effEnd()),'เวลาทำการ',`${wkTotalDays()} วัน`):L('เวลาทำการ',`${esc(h.days)} วัน`)}
     ${L('ค่างานตามสัญญา',fm(c.val)+' บาท','ค่าปรับวันละ',fm(c.per)+' บาท')}${L('ผู้รับจ้าง',esc(h.contractor))}</div>`}
 const pwSig=()=>{const ctl=ctlPerson();return `<div style="margin:34px 0 0 38%;text-align:center;line-height:1.55">(${esc(ctl?ctl.name:'..............................')})<br>${esc(ctl?ctl.pos:'')}<br>ผู้ควบคุมงาน</div>`};
@@ -3149,7 +3152,7 @@ function docLenient(){const P=pwOf(),h=S.h,c=pwCalc(P.d2||P.mDate||undefined),{c
   const cNote=P.cNo?` ตามหนังสือที่ ${esc(P.cNo)} ลงวันที่ ${P.cDate?thDate(P.cDate):'..........'}`:'';
   const cause=String(P.cause||'').trim()||'ปัญหาอุปสรรคที่เกิดขึ้นระหว่างการก่อสร้าง';
   const happened=`<p class="ag" style="padding-left:2.2em">2. เรื่องที่เกิดขึ้น</p>
-   <p class="ind">เนื่องจากปัจจุบันได้พ้นกำหนดส่งมอบงานตามสัญญาดังกล่าว ผู้รับจ้างไม่สามารถปฏิบัติตามสัญญาหรือข้อตกลงได้และมีค่าปรับเกินร้อยละสิบ (ณ วันที่ ${thDate(c.asOf)} ค่าปรับ ${fm(c.pen)} บาท คิดเป็นร้อยละ ${c.pct.toFixed(2)} ของวงเงินค่าจ้าง) อันเนื่องมาจาก${esc(cause)} ทำให้ไม่สามารถดำเนินการก่อสร้างให้เป็นไปตามแผนได้ ซึ่งผู้รับจ้างได้แจ้งยืนยันว่าจะดำเนินการก่อสร้างจนกว่าจะแล้วเสร็จ และยินยอมที่จะชำระค่าปรับโดยไม่มีเงื่อนไขใด ๆ ทั้งสิ้น${cNote} ทั้งนี้ เป็นไปตามระเบียบและข้อกำหนดที่เกี่ยวข้องดังนี้</p>
+   <p class="ind">เนื่องจากปัจจุบันได้พ้นกำหนดส่งมอบงานตามสัญญาดังกล่าว ผู้รับจ้างไม่สามารถปฏิบัติตามสัญญาหรือข้อตกลงได้ และ${c.pct>=10?'มีค่าปรับเกินร้อยละสิบ':'ค่าปรับใกล้จะเกินร้อยละสิบ'} (ณ วันที่ ${thDate(c.asOf)} ค่าปรับ ${fm(c.pen)} บาท คิดเป็นร้อยละ ${c.pct.toFixed(2)} ของวงเงินค่าจ้าง) อันเนื่องมาจาก${esc(cause)} ทำให้ไม่สามารถดำเนินการก่อสร้างให้เป็นไปตามแผนได้ ซึ่งผู้รับจ้างได้แจ้งยืนยันว่าจะดำเนินการก่อสร้างจนกว่าจะแล้วเสร็จ และยินยอมที่จะชำระค่าปรับโดยไม่มีเงื่อนไขใด ๆ ทั้งสิ้น${cNote} ทั้งนี้ เป็นไปตามระเบียบและข้อกำหนดที่เกี่ยวข้องดังนี้</p>
    <p class="tl" style="padding-left:5em">2.1 พระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 มาตรา 103</p>
    <p class="tl" style="padding-left:5em">2.2 ระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ข้อ 183</p>`;
   const com=[chair,...mem].filter(Boolean);
@@ -3577,7 +3580,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 29 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 30 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3600,7 +3603,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 29 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 30 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
