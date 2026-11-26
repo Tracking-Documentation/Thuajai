@@ -476,6 +476,8 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 /* ---- ตรวจรับงาน (paper) — always black on white like the printed form ---- */
 .ipaper{font-family:"Sarabun","TH SarabunPSK",sans-serif;font-size:14.2px;line-height:1.62;color:#000;position:relative}
 .ipaper p{margin:0 0 4px}
+.ipaper [style*="justify"]{text-justify:inter-character}
+.ipaper.tight p{margin-bottom:1px}.ipaper.tight .cc{margin-top:6px}.ipaper.tight{line-height:1.58}
 .ipaper .ind{text-indent:3.2em;text-align:justify;text-justify:inter-character}
 .ipaper .ind0{text-indent:3.2em}
 .ipaper .b{font-weight:700}
@@ -2341,7 +2343,7 @@ $('itbl').addEventListener('change',e=>{if(e.target.dataset.iq!=='qty')return;co
 
 /* ---- documents ---- */
 let insPage='all',insSheets=[];
-const IPAD=[15,15,12,22];
+const IPAD=[17.5,15,17.5,22]; // หัว 1.75 ซม. · ขวา 1.5 · ท้าย 1.75 · ซ้าย 2.2
 function committee(){const sg=S.sign||[];const chair=sg.find(s=>/ประธาน/.test(s.role));const mem=sg.filter(s=>!/ประธาน/.test(s.role)&&/กรรมการ/.test(s.role));return{chair,mem}}
 function ctlPerson(){return (S.sign||[]).find(s=>String(s.role).trim()==='ผู้ควบคุมงาน')}
 function sigBlock(cls){const {chair,mem}=committee();const one=(s,t)=>s?sgRows([{role:t,name:s.name,pos:s.pos}],'one'):'';
@@ -3158,7 +3160,7 @@ function docPenWarn(){const P=pwOf(),c=pwCalc(P.d1||undefined),{chair}=committee
    <p class="ag" style="padding-left:2.2em">3. เรื่องที่เสนอเพื่อพิจารณา</p>
    <p class="ind">เพื่อให้การบริหารสัญญาเป็นไปตามระเบียบ ผู้ควบคุมงานเห็นควร (1) มีหนังสือแจ้งเร่งรัดผู้รับจ้างให้เร่งดำเนินการให้แล้วเสร็จ และสงวนสิทธิ์การเรียกค่าปรับ (2) ให้ผู้รับจ้างแจ้งยืนยันเป็นหนังสือว่าจะดำเนินการต่อจนแล้วเสร็จ และยินยอมชำระค่าปรับให้แก่ทางราชการโดยไม่มีเงื่อนไขใด ๆ ทั้งสิ้น ภายในวันที่ ${thDate(c.date10)} เพื่อประกอบการพิจารณาผ่อนปรนการบอกเลิกสัญญา หากค่าปรับเกินร้อยละสิบ</p>
    <p class="ind" style="margin-top:4px">จึงเรียนมาเพื่อโปรดทราบและพิจารณา</p>`+pwSig()+pwCC();
-  return [`<div class="ipaper th memo wkdoc">${thdHtml(body)}</div>`]}
+  return [`<div class="ipaper th memo wkdoc tight">${thdHtml(body)}</div>`]}
 function docLenient(){const P=pwOf(),h=S.h,c=pwCalc(P.d2||P.mDate||undefined),{chair,mem}=committee(),ctl=ctlPerson();const asst=(S.sign||[]).filter(s=>/ผู้ช่วยผู้ควบคุมงาน/.test(s.role)&&s.name);
   const place=P.mPlace||(S.demo?MTG_ROOM.replace('กระบี่','xxx'):MTG_ROOM),mt=P.mTime?thTime(P.mTime)+' น.':'.......... น.',md=P.mDate?thDate(P.mDate):'....................';
   const cNote=P.cNo?` ตามหนังสือที่ ${esc(P.cNo)} ลงวันที่ ${P.cDate?thDate(P.cDate):'..........'}`:'';
@@ -3305,6 +3307,10 @@ function rtSize(pt){if(!rtRestore()||!rtSel()){toast('เลือกข้อ�
 function rtCurPt(){if(!rtRange)return 16;let n=rtRange.startContainer;if(n.nodeType!==1)n=n.parentElement;return Math.round(parseFloat(getComputedStyle(n).fontSize)*1.127)}
 function rtApply(c,v){
   if(c==='grow'||c==='shrink'){rtSize(Math.max(8,rtCurPt()+(c==='grow'?2:-2)));return}
+  if(/^justify/.test(c)){const L=rtBlocks();if(!L.length){toast('คลิกในย่อหน้าที่ต้องการก่อน');return}
+    const al={justifyLeft:'left',justifyCenter:'center',justifyRight:'right',justifyFull:'justify'}[c];
+    L.forEach(b=>{b.style.textAlign=al;b.style.textJustify=al==='justify'?'inter-character':''});
+    if(al==='justify'&&!(window.CSS&&CSS.supports&&CSS.supports('text-justify','inter-character')))toast('เบราว์เซอร์นี้กระจายได้เฉพาะช่องว่าง — ไฟล์ Word จะกระจายแบบไทยให้ (อัปเดต Chrome/Edge เป็นรุ่นล่าสุดเพื่อให้เห็นบนจอ)');return}
   if(['shade','lh','bd'].includes(c)){const L=rtBlocks();if(!L.length){toast('คลิกในย่อหน้าที่ต้องการก่อน');return}
     L.forEach(b=>{if(c==='shade'){b.style.backgroundColor=v}
       else if(c==='lh'){const fs=parseFloat(getComputedStyle(b).fontSize)||14;b.style.lineHeight='';const base=(parseFloat(getComputedStyle(b).lineHeight)||fs*1.6)/fs;b.style.lineHeight=(base*(+v)).toFixed(2);b.dataset.lh=v}
@@ -3596,7 +3602,7 @@ async function exportWord(){
   sh.style.zoom=z;
   const inst=insOf().list[insOf().cur];
   const exact=['pnote','reserve'].includes(insPage);
-  try{let xml=docxFromHtml(body);if(exact)xml=xml.replace(/<w:p>(?:(?!<\/w:p>)[\s\S])*?<\/w:p>/g,m=>{if(m.includes('<w:drawing>'))return m;if(/เริ่มใช้ มี\.ค\./.test(m)&&m.includes('w:val="right"'))m=m.replace('<w:pPr>','<w:pPr><w:framePr w:w="2400" w:hSpace="113" w:wrap="through" w:vAnchor="text" w:hAnchor="margin" w:xAlign="right" w:y="1"/>');const sz=Math.max(28,...(m.match(/w:sz w:val="(\d+)"/g)||[]).map(x=>+x.match(/\d+/)[0]));return m.split('w:line="240" w:lineRule="auto"').join(`w:line="${Math.round(sz/2*1.32*20)}" w:lineRule="exact"`)});const bytes=buildDocx(xml,IPAD);
+  try{let xml=docxFromHtml(body);if(exact)xml=xml.replace(/<w:p>(?:(?!<\/w:p>)[\s\S])*?<\/w:p>/g,m=>{if(m.includes('<w:drawing>'))return m;if(/เริ่มใช้ มี\.ค\./.test(m)&&m.includes('w:val="right"'))m=m.replace('<w:pPr>','<w:pPr><w:framePr w:w="2400" w:hSpace="113" w:wrap="through" w:vAnchor="text" w:hAnchor="margin" w:xAlign="right" w:y="1"/>');const sz=Math.max(28,...(m.match(/w:sz w:val="(\d+)"/g)||[]).map(x=>+x.match(/\d+/)[0]));return m.split('w:line="240" w:lineRule="auto"').join(`w:line="${Math.round(sz/2*1.3*20)}" w:lineRule="exact"`).replace(/w:(before|after)="(\d+)"/g,(x,k,v)=>`w:${k}="${Math.round(v*0.4)}"`)});const bytes=buildDocx(xml,IPAD);
     saveFile(docFileBase(inst)+'.docx',bytes.buffer,'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
   catch(e){console.error(e);toast('สร้างไฟล์ Word ไม่สำเร็จ: '+(e&&e.message||e))}
 }
@@ -3654,7 +3660,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 31 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 32 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3677,7 +3683,7 @@ if(DB.cur&&curProj())openProject(DB.cur);else showHome();
     <button type="submit" class="lk-btn">เปิดใช้งาน</button>
     <div class="lk-note">ใส่รหัสครั้งเดียวต่อเครื่อง · ติดต่อผู้พัฒนาหากไม่ทราบรหัส</div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 31 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+    <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 32 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
   </form>
 </div>
 <style>
