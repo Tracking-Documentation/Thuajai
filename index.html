@@ -352,7 +352,7 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .calbox{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .calhead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.calhead h2{font-size:1.2rem}.calhead .btns{align-items:center}.calhead b{min-width:9em;text-align:center;font-size:1.05rem}
 .callegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}.callegend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;background:var(--cc)}
-.c-end{--cc:#c53030}.c-insp{--cc:#2b6cb0}.c-pen{--cc:#dd6b20}.c-chk{--cc:#6b46c1}.c-wk{--cc:#718096}.c-war{--cc:#2f855a}
+.c-stop{--cc:#0f766e}.c-end{--cc:#c53030}.c-insp{--cc:#2b6cb0}.c-pen{--cc:#dd6b20}.c-chk{--cc:#6b46c1}.c-wk{--cc:#718096}.c-war{--cc:#2f855a}
 .calwrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);gap:16px;align-items:start}
 .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.cdh{text-align:center;font-size:.78rem;color:var(--muted);font-weight:700;padding:2px}
 .cd{all:unset;box-sizing:border-box;min-height:68px;border:1px solid var(--line);border-radius:8px;padding:4px;display:flex;flex-direction:column;gap:2px;cursor:pointer;background:var(--bg);overflow:hidden}
@@ -470,7 +470,22 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 .pnres table{width:100%;border-collapse:collapse;font-size:.92rem}
 .pnres th,.pnres td{padding:6px 8px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
 .pnres th{font-size:.8rem;color:var(--muted);font-weight:600}
-.pnres{overflow-x:auto}.pnres table{min-width:0!important}.pnres input{width:7.5em}.pnres input[type=date]{width:10.5em}.pnres td,.pnres th{vertical-align:top;padding:6px 8px}.pnres .sm{font-size:.82rem;color:var(--muted)}.pnres button{margin-top:4px;padding:3px 10px;font-size:.85rem}
+.pnres{overflow-x:auto}
+.stfest{display:flex;flex-direction:column;gap:6px;margin:4px 0 10px}
+.stfest div{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:8px 12px;font-size:.92rem;font-weight:600}
+.stfest div.ok{background:var(--ok-bg);color:var(--ok)}
+.stlist{display:flex;flex-direction:column;gap:8px}
+.strow{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);cursor:pointer}
+.strow.on{border-color:var(--tc);box-shadow:0 0 0 2px color-mix(in srgb,var(--tc) 25%,transparent)}
+.strow .ic{font-size:1.5rem}
+.strow b{display:block}.strow .sm{font-size:.84rem;color:var(--muted)}
+.strow .acts{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.ststeps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px;margin:10px 0 4px}
+.ststeps span{font-size:.8rem;padding:5px 8px;border-radius:8px;background:var(--sunk);color:var(--muted);line-height:1.35}
+.ststeps span.ok{background:var(--ok-bg);color:var(--ok)}.ststeps span.w{background:var(--warn-bg);color:var(--warn)}.ststeps span.e{background:var(--err-bg);color:var(--err)}
+.stdet{border:1px dashed var(--line);border-radius:12px;padding:12px;margin-top:10px}
+.stdet .ro{display:block;padding:9px 2px;font-weight:700}
+.stdet h4{margin:12px 0 6px;font-size:.95rem;color:var(--tc2,var(--tc))}.stdet h4:first-child{margin-top:0}.pnres table{min-width:0!important}.pnres input{width:7.5em}.pnres input[type=date]{width:10.5em}.pnres td,.pnres th{vertical-align:top;padding:6px 8px}.pnres .sm{font-size:.82rem;color:var(--muted)}.pnres button{margin-top:4px;padding:3px 10px;font-size:.85rem}
 .pnres .st{font-weight:700;white-space:nowrap}.pnres .st.ok{color:var(--ok)}.pnres .st.e{color:var(--err)}
 .pnres tr.sel td{background:color-mix(in srgb,var(--tc,#d97706) 10%,transparent)}
 .pnres .none{padding:10px 12px;color:var(--muted);font-size:.9rem}
@@ -663,7 +678,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
         <h2>📅 ปฏิทินแจ้งเตือน</h2>
         <div class="btns"><button type="button" id="calPrev" aria-label="เดือนก่อน">‹</button><b id="calTitle"></b><button type="button" id="calNext" aria-label="เดือนถัดไป">›</button><button type="button" id="calToday">วันนี้</button><button type="button" id="calIcs" title="ดาวน์โหลดไฟล์ .ics (ทุกโครงการ ทุกกำหนดการ) เพื่อนำเข้าปฏิทินในมือถือ/Google/Outlook/Apple">⬇ เพิ่มลงปฏิทินมือถือ (.ics)</button><button type="button" data-guide="g10">วิธีใช้ .ics</button></div>
       </div>
-      <div class="callegend"><span class="c-end">ครบกำหนดสัญญา</span><span class="c-insp">นัดตรวจรับ/ประชุม</span><span class="c-pen">ค่าปรับ / แจ้งปรับ / สงวนสิทธิ์</span><span class="c-chk">จุดตรวจความก้าวหน้า</span><span class="c-wk">ส่งรายงานประจำสัปดาห์</span><span class="c-war">รับประกัน / อุทธรณ์ / แจ้งผล</span></div>
+      <div class="callegend"><span class="c-end">ครบกำหนดสัญญา</span><span class="c-insp">นัดตรวจรับ/ประชุม</span><span class="c-pen">ค่าปรับ / แจ้งปรับ / สงวนสิทธิ์</span><span class="c-chk">จุดตรวจความก้าวหน้า</span><span class="c-wk">ส่งรายงานประจำสัปดาห์</span><span class="c-war">รับประกัน / อุทธรณ์ / แจ้งผล</span><span class="c-stop">หยุดงาน / ขยายอายุสัญญา</span></div>
       <div class="calwrap"><div class="calgrid" id="calGrid"></div>
         <div class="callist"><div id="calDay"></div><h3>⚠ ต้องรีบดำเนินการ</h3><div id="calUrgent"></div><h3>🗓 กำหนดการ 45 วันข้างหน้า</h3><div id="calNextList"></div></div></div>
     </section>
@@ -784,8 +799,16 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       </div>
     </div>
 
+    <div class="icard t-teal" id="stBox" data-sec="contract">
+      <div class="ich"><span class="num">3</span><div class="ict"><b>⏸ หยุดงาน &amp; ขยายอายุสัญญา (มาตรา 102)</b><small>สั่งหยุดงานช่วงเทศกาลปีใหม่/สงกรานต์ตามนโยบายกรมฯ หรือหน้างานทำไม่ได้ (ติดสาธารณูปโภค ฯลฯ) → ผู้รับจ้างขอขยายภายใน 15 วัน (ข้อ 182) → เสนอขยายอายุสัญญา · พิมพ์ชุดเอกสาร 4 ฉบับ · อนุมัติแล้วเลื่อนวันสิ้นสุดสัญญาให้อัตโนมัติ</small></div></div>
+      <div class="stfest" id="stFest"></div>
+      <div class="stlist" id="stList"></div>
+      <div class="btns" style="margin-top:8px"><button type="button" data-stadd="newyear">+ หยุดงานเทศกาลปีใหม่</button><button type="button" data-stadd="songkran">+ หยุดงานเทศกาลสงกรานต์</button><button type="button" data-stadd="utility">+ ติดสาธารณูปโภค</button><button type="button" data-stadd="other">+ เหตุอื่น</button></div>
+      <div class="stdet" id="stDet" hidden></div>
+    </div>
+
     <div class="icard t-amber" id="pnBox" data-sec="contract">
-      <div class="ich"><span class="num">3</span><div class="ict"><b>🔔 แจ้งการปรับ &amp; สงวนสิทธิ์การเรียกค่าปรับ (ข้อ 181)</b><small>ครบกำหนดแล้วยังไม่ส่งงาน → หนังสือแจ้งการปรับ (พ.1-42) ภายใน 7 วันทำการ · วันที่ผู้รับจ้างส่งงาน → หนังสือแจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) ในวันรับมอบงาน · มีตราครุฑ พร้อมสำเนาคู่ฉบับ · ขึ้นปฏิทินเตือนให้</small></div></div>
+      <div class="ich"><span class="num">4</span><div class="ict"><b>🔔 แจ้งการปรับ &amp; สงวนสิทธิ์การเรียกค่าปรับ (ข้อ 181)</b><small>ครบกำหนดแล้วยังไม่ส่งงาน → หนังสือแจ้งการปรับ (พ.1-42) ภายใน 7 วันทำการ · วันที่ผู้รับจ้างส่งงาน → หนังสือแจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) ในวันรับมอบงาน · มีตราครุฑ พร้อมสำเนาคู่ฉบับ · ขึ้นปฏิทินเตือนให้</small></div></div>
       <div class="pwhead" id="pnHead"></div>
       <div class="grid">
         <label class="f">แจ้งการปรับ (พ.1-42) เลขที่ (เลขท้าย)<input id="pn_no1" placeholder="เช่น 1234"></label>
@@ -811,7 +834,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     </div>
 
     <div class="icard t-amber" id="pwBox" data-sec="contract">
-      <div class="ich"><span class="num">4</span><div class="ict"><b>⚠️ เตือนค่าปรับ &amp; ผ่อนปรนการบอกเลิกสัญญา (ข้อ 183)</b><small>ผู้ควบคุมงานรายงาน ผอ.ขท. เองเมื่อค่าปรับถึงจุดเตือน (ตั้งต้น 7.5%) ก่อนเกินร้อยละ 10 — และชุดเอกสารขอผ่อนปรนการบอกเลิกสัญญาเมื่อเกิน 10%</small></div></div>
+      <div class="ich"><span class="num">5</span><div class="ict"><b>⚠️ เตือนค่าปรับ &amp; ผ่อนปรนการบอกเลิกสัญญา (ข้อ 183)</b><small>ผู้ควบคุมงานรายงาน ผอ.ขท. เองเมื่อค่าปรับถึงจุดเตือน (ตั้งต้น 7.5%) ก่อนเกินร้อยละ 10 — และชุดเอกสารขอผ่อนปรนการบอกเลิกสัญญาเมื่อเกิน 10%</small></div></div>
       <div class="pwhead" id="pwHead"></div>
       <div class="grid">
         <label class="f">จุดเตือน (% ของวงเงินค่าจ้าง)<input id="pw_warn" class="num" inputmode="decimal" placeholder="7.5"></label>
@@ -837,7 +860,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     </div>
 
     <div class="icard t-rose" id="pfBox" data-sec="contract">
-      <div class="ich"><span class="num">5</span><div class="ict"><b>⚖️ ประเมินผลการปฏิบัติงานผู้ประกอบการ &amp; คะแนนความเสียหาย</b><small>ระเบียบกระทรวงการคลังฯ (ฉบับที่ 3) พ.ศ. 2569 (ราชกิจจานุเบกษา เล่ม 143 ตอนพิเศษ 169 ง, 9 ก.ค. 2569 · มีผล 10 ก.ค. 2569) และเอกสารแนบท้ายเอกสารประกวดราคา ข้อ 1.16 — เฝ้าระวังทุกขั้นตอน ไม่ให้หลุดกำหนด</small></div></div>
+      <div class="ich"><span class="num">6</span><div class="ict"><b>⚖️ ประเมินผลการปฏิบัติงานผู้ประกอบการ &amp; คะแนนความเสียหาย</b><small>ระเบียบกระทรวงการคลังฯ (ฉบับที่ 3) พ.ศ. 2569 (ราชกิจจานุเบกษา เล่ม 143 ตอนพิเศษ 169 ง, 9 ก.ค. 2569 · มีผล 10 ก.ค. 2569) และเอกสารแนบท้ายเอกสารประกวดราคา ข้อ 1.16 — เฝ้าระวังทุกขั้นตอน ไม่ให้หลุดกำหนด</small></div></div>
       <div class="pfhead" id="pfHead"></div>
       <div class="grid">
         <label class="f">ใช้บังคับเมื่อวงเงินสัญญาตั้งแต่ (บาท)<input id="pf_thr" class="num" inputmode="decimal"></label>
@@ -1013,6 +1036,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
         <button type="button" data-ip="memo" data-sec="pay" aria-pressed="false">บันทึกรายงานผล</button>
         <button type="button" data-ip="dly" data-sec="daily" aria-pressed="false">รายงานประจำวัน</button>
         <button type="button" data-ip="wk" data-sec="weekly" aria-pressed="false">รายงานประจำสัปดาห์</button>
+        <button type="button" data-ip="stop" data-sec="contract" aria-pressed="false">หยุดงาน / ขยายอายุ</button>
         <button type="button" data-ip="pnote" data-sec="contract" aria-pressed="false">แจ้งการปรับ (พ.1-42)</button>
         <button type="button" data-ip="reserve" data-sec="contract" aria-pressed="false">แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43)</button>
         <button type="button" data-ip="penw" data-sec="contract" aria-pressed="false">บันทึกเตือนค่าปรับ</button>
@@ -1137,6 +1161,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <li>แท็บส้ม: ดูบัญชีสรุป/รายการเพิ่มลด ตั้งกระดาษ ขอบ ความหนาเส้น แล้วพิมพ์ หรือบันทึก Excel (มีสูตร)</li></ol>
     <h3 id="g3">3. การ์ด ① ข้อมูลสัญญา &amp; ค่าปรับ</h3>
     <ul><li><b>ระยะเวลาและค่าปรับ</b>: บันทึกแก้ไขสัญญา (ขยายวัน) และการงดค่าปรับ (เหตุผล/เลขที่อนุมัติ/จำนวนวัน)</li>
+      <li><b>หยุดงาน &amp; ขยายอายุสัญญา</b> (มาตรา 102 · ข้อ 182): ระบบเตือนเมื่อสัญญาคร่อมเทศกาลปีใหม่/สงกรานต์ · กด “+ หยุดงาน…” หรือ “+ ติดสาธารณูปโภค” → ใส่วันที่และเลขหนังสือแต่ละขั้น → กด 📄 เอกสาร ได้ชุด 4 ฉบับ (บันทึกผู้ควบคุมงานเสนอสั่งหยุด + ความเห็นคณะกรรมการฯ, หนังสือสั่งหยุดถึงผู้รับจ้าง, บันทึกขอขยายอายุสัญญา, บันทึกเสนอผู้มีอำนาจอนุมัติ) · ผู้รับจ้างต้องยื่นขอขยายภายใน 15 วันหลังสิ้นสุดเหตุ · ติ๊ก “อนุมัติแล้ว” ระบบเลื่อนวันสิ้นสุดสัญญาและค่าปรับให้อัตโนมัติ</li>
       <li><b>แจ้งการปรับ / สงวนสิทธิ์</b> (ข้อ 181): ครบกำหนดแล้วยังไม่ส่งงาน → พิมพ์ <b>แจ้งการปรับ (พ.1-42)</b> ให้ ผอ.ขท. ลงนาม ภายใน 7 วันทำการ · วันที่ผู้รับจ้างส่งงานงวดสุดท้าย → ประธานกรรมการฯ ลงนาม <b>แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43)</b> วันนั้นเลย ทั้งสองแบบพิมพ์ได้ 2 หน้า คือต้นฉบับ (ส่งผู้รับจ้าง) และสำเนาคู่ฉบับ (ให้ผู้รับจ้างลงชื่อรับ แล้วเก็บเข้าแฟ้ม) · ระบบขึ้นเตือนในปฏิทินให้</li>
       <li><b>เตือนค่าปรับ</b>: ระบบคิดวันที่ค่าปรับถึง 7.5% และเกิน 10% · ถึง 7.5% ให้ผู้ควบคุมงานพิมพ์ <b>บันทึกเตือนค่าปรับ</b> เรียน ผอ.ขท. · เกิน 10% ใช้ <b>ชุดขอผ่อนปรนการบอกเลิกสัญญา</b> (บันทึกถึงประธาน → ประชุม → บันทึกถึง ผอ.)</li>
       <li><b>ประเมินผลผู้ประกอบการ</b> (สัญญาตั้งแต่ 5 ล้าน ประกาศตั้งแต่ 10 ก.ค. 2569): ดูจุดเฝ้าระวัง บันทึกเหตุ/หนังสือแจ้ง ระบบนับคะแนนทุก 30 วัน และกำหนดอุทธรณ์ 7 วันทำการ</li></ul>
@@ -1187,6 +1212,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     <table class="lawt"><tbody>
       <tr><th>ข้อ 176</th><td>คณะกรรมการตรวจรับพัสดุงานก่อสร้าง: ตรวจรายงานของผู้ควบคุมงาน ออกตรวจงานที่ส่งมอบ และตรวจรับ/ออกใบรับรองผลการปฏิบัติงานเมื่อถูกต้อง <b>ภายใน 3 วันทำการ</b></td><td class="use">การ์ด ④ ใบตรวจรับ / พ.1-37</td></tr>
       <tr><th>ข้อ 178</th><td>ผู้ควบคุมงาน: ตรวจและควบคุมงานทุกวัน <b>จดบันทึกประจำวัน</b> (อย่างน้อย 2 ฉบับ) <b>รายงานคณะกรรมการทุกสัปดาห์</b> และรายงานผลเมื่อถึงกำหนดส่งมอบงานแต่ละงวด <b>ภายใน 3 วันทำการ</b></td><td class="use">การ์ด ② ③ และบันทึกผู้ควบคุมงาน</td></tr>
+      <tr><th>มาตรา 102 · ข้อ 182</th><td><b>ขยายเวลาทำการ / งดหรือลดค่าปรับ</b> ได้เฉพาะกรณี (1) เหตุเกิดจากความผิดหรือความบกพร่องของหน่วยงานของรัฐ (เช่น หน่วยงานสั่งหยุดงานช่วงเทศกาลตามนโยบายกรมฯ หรือส่งมอบพื้นที่ไม่ได้เพราะติดสาธารณูปโภค) (2) เหตุสุดวิสัย (3) เหตุเกิดจากพฤติการณ์ที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย · <b>คู่สัญญาต้องแจ้งเหตุพร้อมหลักฐานเป็นหนังสือภายใน 15 วัน นับถัดจากวันที่เหตุนั้นสิ้นสุดลง</b> มิฉะนั้นยกมากล่าวอ้างภายหลังไม่ได้ เว้นแต่เหตุเกิดจากความผิดหรือความบกพร่องของหน่วยงานของรัฐซึ่งมีหลักฐานชัดแจ้ง หรือหน่วยงานทราบดีอยู่แล้วตั้งแต่ต้น</td><td class="use">การ์ด ③ หยุดงาน &amp; ขยายอายุสัญญา · ปฏิทิน</td></tr>
       <tr><th>ข้อ 181</th><td>ครบกำหนดส่งมอบแล้วคู่สัญญายังส่งมอบไม่ได้ และต้องมีการปรับ → หน่วยงานต้อง<b>แจ้งการเรียกค่าปรับภายใน 7 วันทำการ</b> นับถัดจากวันครบกำหนดส่งมอบ · และเมื่อคู่สัญญาส่งมอบพัสดุ ต้อง<b>บอกสงวนสิทธิ์การเรียกค่าปรับในขณะรับมอบ</b>พัสดุนั้นด้วย</td><td class="use">การ์ด ① แจ้งการปรับ (พ.1-42) · สงวนสิทธิ์ (พ.1-43) · ปฏิทิน</td></tr>
       <tr><th>ข้อ 182</th><td>การงดหรือลดค่าปรับ หรือขยายเวลาทำการตามสัญญา (รายละเอียดตามมาตรา 102)</td><td class="use">การ์ด ① งดค่าปรับ</td></tr>
       <tr><th>ข้อ 183</th><td>ถ้าคู่สัญญาไม่สามารถปฏิบัติตามสัญญาได้ และค่าปรับ<b>จะเกินร้อยละ 10</b> ของวงเงินค่าจ้าง ให้พิจารณาบอกเลิกสัญญา เว้นแต่คู่สัญญายินยอมเสียค่าปรับโดยไม่มีเงื่อนไขใด ๆ ทั้งสิ้น ให้หัวหน้าหน่วยงานของรัฐพิจารณา<b>ผ่อนปรนการบอกเลิกสัญญา</b>ได้เท่าที่จำเป็น</td><td class="use">เตือน 7.5% · ชุดผ่อนปรน</td></tr>
@@ -2310,15 +2336,16 @@ function parseMeet(m){m=String(m||'');const t=m.match(/(\d{1,2})\s*[:.]\s*(\d{2}
 function migSched(x){const D={inspTime:'10:00',inspPlace:'สถานที่ก่อสร้าง',inspDur:'2',mtgDate:'',mtgTime:'',mtgDur:'1',mtgPlace:MTG_ROOM,mtgNo:'',recorder:'',tests:'',mtgOther:''};
   if('meet' in x){const m=parseMeet(x.meet);if(m.time)x.inspTime=m.time;if(m.place)x.inspPlace=m.place;delete x.meet}
   Object.keys(D).forEach(k=>{if(x[k]===undefined)x[k]=D[k]})}
-function effEnd(){const h=S.h;if(!h.end)return '';const add=(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0);return add?addDays(h.end,add):h.end}
+function effEnd(skip){const h=S.h;if(!h.end)return '';const add=(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0)+stExtDays(skip);return add?addDays(h.end,add):h.end}
 const AM_K={memo:'บันทึกเพิ่มเติมแนบท้ายสัญญาจ้าง',amend:'สัญญาแก้ไขเพิ่มเติม'};
 const amName=a=>`${AM_K[a.kind]||AM_K.memo} (ฉบับที่ ${esc(a.no)})`;
 const amSorted=A=>[...A].sort((x,y)=>(x.date||'9')<(y.date||'9')?-1:(x.date||'9')>(y.date||'9')?1:0);
 /* รายการภาษาไทย: ก, ข และค */
 const thList=a=>{a=a.filter(x=>x!==''&&x!=null);return a.length<2?(a[0]||''):a.slice(0,-1).join(', ')+' และ'+a[a.length-1]};
 const fmBaht=v=>Math.abs(v-Math.round(v))<0.005?fm(v,0)+'.-':fm(v);
-function endText(){const h=S.h,A=insOf().amends||[];if(!A.length)return `สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
-  return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} ต่อมาได้แก้ไขสัญญาตาม${thList(amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'....................'}`))} โดยสิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
+function endText(){const h=S.h,A=insOf().amends||[],X=stApproved();if(!A.length&&!X.length)return `สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
+  const L=[...amSorted(A).map(a=>({d:a.date||'9',t:`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'....................'}`})),...X.map(x=>({d:x.apDate||'9',t:stApText(x)}))].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0).map(x=>x.t);
+  return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} ต่อมาได้${A.length?'แก้ไขสัญญา':'ขยายอายุสัญญา'}ตาม${thList(L)} โดยสิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
 function waiveTotal(){return (insOf().waivers||[]).reduce((t,w)=>t+(parse(w.days)||0),0)}
 /* ช่องลงนามมาตรฐาน: (ลงชื่อ) ......... ตำแหน่งในคณะ / (ชื่อ) และตำแหน่ง จัดกึ่งกลางใต้เส้นจุด */
 function sgRows(L,cls){return `<div class="sgt ${cls||''}">`+L.map((x,j)=>`${j?'<div class="gap"></div>':''}<span class="lh">${x.lh||''}</span><span>${x.sl||'(ลงชื่อ)'}</span><span class="dlc"></span><span class="rl">${x.role}</span>`+
@@ -2401,7 +2428,7 @@ function fillIns(){
   $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;$('lbRefund').hidden=!inst.final;renderPenBox();
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
-  planSeed();renderInsTable();renderDy();renderPlan();renderWk();renderPn();renderPw();renderPf();setSec(insSec,true);renderIns();
+  planSeed();renderInsTable();renderDy();renderPlan();renderWk();renderSt();renderPn();renderPw();renderPf();setSec(insSec,true);renderIns();
 }
 function growTA(t){t.style.height='auto';t.style.height=Math.max(76,t.scrollHeight+2)+'px'}
 function renderInsTable(){
@@ -2730,7 +2757,7 @@ function wkOf(){const ins=insOf();if(!S.wk)S.wk={};const W=S.wk;
   Object.keys(D).forEach(k=>{if(W[k]===undefined)W[k]=D[k]});W.cur=Math.max(0,Math.min(W.cur||0,W.list.length-1));return W}
 const wkCur=()=>{const W=wkOf();return W.list[W.cur]||null};
 const wkPrefix=W=>W.prefix||`${S.demo?'xxx':'สทล.17 ขท.กระบี่'}/(${String(S.h.no||'').replace(/\s+/g,'')})/`;
-function wkTotalDays(){return (parse(S.h.days)||0)+(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0)}
+function wkTotalDays(){return (parse(S.h.days)||0)+(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0)+stExtDays()}
 function wkRange(n){const st=S.h.start;if(!st||!(n>=1))return {from:'',to:''};const from=addDays(st,7*(n-1));return {from,to:addDays(from,6)}}
 function wkNew(n,prev){const r=wkRange(n);return {no:String(n),from:r.from,to:r.to,memoNo:'',memoDate:'',plan:'',act:'',planCum:'',actCum:'',q:{},
   problem:prev&&!(S.dly&&S.dly.list.length)?prev.problem:'',rows:prev&&!(S.dly&&S.dly.list.length)?prev.rows.map(x=>({work:x.work,km:x.km,side:x.side,qty:''})):[],
@@ -2968,7 +2995,7 @@ $('bWkFromDy').addEventListener('click',()=>{const w=wkCur();if(!w)return;if(!w.
   const pr=[...new Set(days.flatMap(d=>String(d.problem||'').split('\n').map(x=>x.trim().replace(/^[-•]\s*/,'')).filter(x=>x&&x!=='-')))];if(pr.length)w.problem=pr.join('\n');
   renderWk();wkChanged();toast(`รวมงานจากรายงานประจำวัน ${days.length} วันแล้ว (${Object.keys(q).length} รายการงาน)`)});
 /* ---- การ์ดเลือกงาน 4 ส่วน ---- */
-const SEC_DOC={pay:'all',daily:'dly',weekly:'wk',contract:'pnote'},SEC_PAGES={pay:['all','ins','p137','bill','items','ctl','mtg','memo'],daily:['dly'],weekly:['wk'],contract:['pnote','reserve','penw','lenient','perf']};
+const SEC_DOC={pay:'all',daily:'dly',weekly:'wk',contract:'pnote'},SEC_PAGES={pay:['all','ins','p137','bill','items','ctl','mtg','memo'],daily:['dly'],weekly:['wk'],contract:['stop','pnote','reserve','penw','lenient','perf']};
 let insSec=(()=>{try{return localStorage.getItem('thuajai-v1-sec')||'pay'}catch(e){return 'pay'}})();
 function setSec(sec,quiet){if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}
   if(!['contract','daily','weekly','pay'].includes(sec))sec='pay';insSec=sec;try{localStorage.setItem('thuajai-v1-sec',sec)}catch(e){}
@@ -3256,16 +3283,16 @@ function pnPage(o){const br=t=>esc(t).split('\n').join('<br>');
    <div class="exack2 xcc">${[['ลงชื่อ..........................................','ลงชื่อ..........................................'],['ผู้รับจ้าง/ตัวแทนผู้รับจ้าง','ผู้ว่าจ้าง/ตัวแทนผู้ว่าจ้าง'],[`(${esc(pnV('rName'+o.rk)||'..........................................')})`,`(${esc((o.ackName!==undefined?o.ackName:o.sigName)||'..........................................')})`],[esc(pnV('rPos'+o.rk)),esc(o.ackPos||o.sigPos)]].map(([a,b])=>`<div>${a}</div><div>${b}</div>`).join('')}</div>
    <p style="padding-left:50%;margin:2px 0 0">วันที่ ............ ${pnMY(o.date)}</p></div>`:'';
   return `<div class="ipaper th exl">${thdHtml(`${o.copy&&!o.noMark?'<p class="excp">- สำเนาคู่ฉบับ -</p>':''}
-   <p class="exfc">${o.code}<br>กรมทางหลวง<br>เริ่มใช้ มี.ค. 33</p><img class="garuda exg" src="${GARUDA}" alt="ตราครุฑ">
-   <p class="ext">${o.title}</p>
+   ${o.noCode?'':`<p class="exfc">${o.code}<br>กรมทางหลวง<br>เริ่มใช้ มี.ค. 33</p>`}<img class="garuda exg" src="${GARUDA}" alt="ตราครุฑ">
+   ${o.title?`<p class="ext">${o.title}</p>`:''}
    <div class="exr xhang"><div>ที่ ${esc(pnV('pre'))}${esc(o.no||'')}</div><div>${br(pnV('addr'))}</div></div>
    <p class="exd">วันที่ ${o.date?thDate(o.date):'............ ................................'}</p>
    <div class="exk xhang"><span>เรื่อง</span><span>${o.subj}</span></div>
-   <div class="exk xhang"><span>เรียน</span><span>${esc(pnV('to'))}</span></div>
-   <div class="exk xhang"><span>อ้างถึง</span><span>${o.refs.map((r,i)=>(i+1)+'. '+r).join('<br>')}</span></div>
+   <div class="exk xhang"><span>เรียน</span><span>${esc(o.to||pnV('to'))}</span></div>
+   <div class="exk xhang"><span>อ้างถึง</span><span>${o.refs.length>1?o.refs.map((r,i)=>(i+1)+'. '+r).join('<br>'):o.refs[0]}</span></div>${o.encl?`<div class="exk xhang" style="grid-template-columns:7.4em 1fr"><span style="white-space:nowrap">สิ่งที่ส่งมาด้วย</span><span>${o.encl}</span></div>`:''}
    ${o.body}
-   <div class="exsig"><p>ขอแสดงความนับถือ</p><div style="height:${o.copy?24:34}px"></div><p>(${esc(o.sigName||'..........................................')})</p><p>${esc(o.sigPos)}</p></div>
-   <div class="exft">${br(pnV('unit'))}</div>${ack}`)}</div>`}
+   <div class="exsig"><p>ขอแสดงความนับถือ</p><div style="height:${o.copy||o.noCode?22:34}px"></div><p>(${esc(o.sigName||'..........................................')})</p><p>${esc(o.sigPos)}</p></div>
+   <div class="exft">${br(pnV('unit'))}</div>${o.after||''}${ack}`)}</div>`}
 function docPnNote(){const P=pnOf(),c=pnCalc(),ins=insOf(),C=esc(String(S.h.contractor||'..............................').trim()),dt=P.d1||'';
   const body=`<p class="ind">ตามสัญญาจ้างที่อ้างถึง ${C} ผู้รับจ้างตกลงจะส่งมอบงานตามสัญญาจ้างเหมาให้แล้วเสร็จบริบูรณ์ ภายในวันที่ ${c.end?thDate(c.end):'....................'} นั้น</p>
    <p class="ind">บัดนี้ ได้ล่วงเลยกำหนดเวลาส่งมอบงานจ้างตามสัญญาแล้ว แต่${C} ยังไม่ส่งมอบงานจ้างซึ่งแล้วเสร็จบริบูรณ์ตามสัญญา</p>
@@ -3288,6 +3315,141 @@ function docPnReserve(){const P=pnOf(),c0=pnCalc(),C=esc(String(S.h.contractor||
   const o={code:'พ.1-43',title:'แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง',no:E?E.no:'',date:dt,subj:'แจ้งสงวนสิทธิ์การเรียกค่าปรับตามสัญญาจ้าง',refs:pnRefs(dt),body,
     sigName:chair?chair.name:'',sigPos:'ประธานกรรมการตรวจรับพัสดุ',ackOf:'หนังสือแจ้งสงวนสิทธิ์การเรียกค่าปรับ',rk:'2'};
   return [pnPage(o),pnPage(Object.assign({},o,{copy:true}))]}
+/* ===== หยุดงาน & ขยายอายุสัญญา (พ.ร.บ.จัดซื้อฯ 2560 มาตรา 102 · ระเบียบฯ ข้อ 182) ===== */
+const ST_K={newyear:{label:'เทศกาลปีใหม่',short:'ปีใหม่',ic:'🎆',fest:true},songkran:{label:'เทศกาลสงกรานต์',short:'สงกรานต์',ic:'💦',fest:true},utility:{label:'ติดสิ่งสาธารณูปโภค',short:'สาธารณูปโภค',ic:'⚡'},other:{label:'เหตุอื่น',short:'เหตุอื่น',ic:'⛔'}};
+const ST_B={'1':'เหตุเกิดจากความผิดหรือความบกพร่องของหน่วยงานของรัฐ','2':'เหตุสุดวิสัย','3':'เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย'};
+const ST_F=['kind','from','to','reason','place','owner','deptNo','deptDate','supNo','supDate','ordNo','ordDate','reqNo','reqDate','extDate','sendNo','sendDate','aprTo','basis','approved','apNo','apDate','apDays'];
+function stOf(){if(!S.stops)S.stops={list:[],sel:0};if(!Array.isArray(S.stops.list))S.stops.list=[];return S.stops}
+const stDays=x=>x&&x.from&&x.to&&x.to>=x.from?dayDiff(x.from,x.to)+1:0;
+const stExt=x=>x&&x.approved?(parse(x.apDays)||stDays(x)):0;
+function stExtDays(skip){return (S&&S.stops&&S.stops.list||[]).reduce((t,x)=>t+(x===skip?0:stExt(x)),0)}
+function stApproved(){return (S&&S.stops&&S.stops.list||[]).filter(x=>x.approved&&stExt(x)>0)}
+const stRange=x=>x.from?(thDate(x.from)+(x.to?' – '+thDate(x.to):' – (ยังไม่สิ้นสุด)')):'(ยังไม่ใส่วันที่)';
+const stApText=x=>`การขยายอายุสัญญา (หยุดงาน${ST_K[x.kind].label} ${stDays(x)} วัน) ตามหนังสือที่ ${esc(x.apNo||'..........')} ลงวันที่ ${x.apDate?thDate(x.apDate):'..........'}`;
+function stCur(){const T=stOf();return T.list[T.sel]||T.list[T.list.length-1]||null}
+function stFestWins(){const h=S.h,end=effEnd();if(!h.start||!end)return [];const out=[];const y0=+h.start.slice(0,4),y1=+end.slice(0,4);
+  for(let y=y0-1;y<=y1;y++){out.push({kind:'newyear',from:`${y}-12-30`,to:`${y+1}-01-05`,y:y+1});out.push({kind:'songkran',from:`${y}-04-11`,to:`${y}-04-17`,y})}
+  return out.filter(w=>w.to>=h.start&&w.from<=end)}
+function stState(x){const today=todayISOx(),n=stDays(x),due=x.to?addDays(x.to,15):'';const st=[];
+  st.push(x.supDate||x.supNo?['ok','① เสนอสั่งหยุด ✓']:[x.from&&x.from<=addDays(today,7)?'w':'','① ผู้ควบคุมงานเสนอสั่งหยุด']);
+  st.push(x.ordNo||x.ordDate?['ok','② หนังสือสั่งหยุด ✓']:[x.from&&x.from<=addDays(today,3)?'e':x.from&&x.from<=addDays(today,10)?'w':'','② หนังสือสั่งหยุดถึงผู้รับจ้าง'+(x.from?' (ก่อน '+thDate(x.from)+')':'')]);
+  st.push(x.reqNo||x.reqDate?[x.reqDate&&due&&x.reqDate>due?'w':'ok',`③ ผู้รับจ้างขอขยาย ✓${x.reqDate&&due&&x.reqDate>due?' (เกิน 15 วัน)':''}`]:[due&&today>due?'e':x.to&&today>=x.to?'w':'',`③ ผู้รับจ้างยื่นขอขยาย${due?' ภายใน '+thDate(due):''}`]);
+  st.push(x.extDate?['ok','④ บันทึกขอขยาย (คกก.) ✓']:[x.reqNo||x.reqDate?'w':'','④ บันทึกขอขยายอายุสัญญา']);
+  st.push(x.approved?['ok',`⑤ อนุมัติขยาย ${stExt(x)} วัน ✓`]:x.sendNo||x.sendDate?['w','⑤ รออนุมัติ ('+esc(x.aprTo||'ผู้มีอำนาจ')+')']:['','⑤ เสนอ '+esc(x.aprTo||'ผู้มีอำนาจ')+' อนุมัติ']);
+  return {n,due,st,bad:st.some(z=>z[0]==='e'),warn:st.some(z=>z[0]==='w')}}
+function todayISOx(){return new Date(Date.now()+7*3600e3).toISOString().slice(0,10)}
+function stDefAprTo(){return S.demo?'ผส.ทล.xxx':'ผส.ทล.17'}
+function stNew(kind){const T=stOf(),W=stFestWins().find(w=>w.kind===kind&&!T.list.some(x=>x.kind===kind&&x.from===w.from)&&w.to>=todayISOx())||stFestWins().find(w=>w.kind===kind&&!T.list.some(x=>x.kind===kind&&x.from===w.from));
+  const x={kind,from:W?W.from:'',to:W?W.to:'',reason:'',place:'',owner:'',basis:'1',approved:false,aprTo:stDefAprTo()};ST_F.forEach(k=>{if(x[k]===undefined)x[k]=''});x.approved=false;
+  T.list.push(x);T.list.sort((a,b)=>(a.from||'9')<(b.from||'9')?-1:1);T.sel=T.list.indexOf(x);save();renderSt();renderPenBox&&renderPenBox();renderSecInfo()}
+function stRefresh(){renderSt(false);try{renderPenBox()}catch(e){}renderSecInfo();save();if(insPage==='stop'||insPage==='all')renderIns()}
+function renderSt(full=true){const T=stOf(),box=$('stList');if(!box)return;
+  const W=stFestWins();$('stFest').innerHTML=W.map(w=>{const has=T.list.find(x=>x.kind===w.kind&&x.from<=w.to&&(x.to||x.from)>=w.from);
+    return `<div class="${has?'ok':''}"><span>${ST_K[w.kind].ic} สัญญานี้คร่อม${ST_K[w.kind].label} ${w.y+543} (${thDate(w.from).replace(/ \d{4}$/,'')} – ${thDate(w.to)})${has?' — บันทึกการหยุดงานแล้ว':' — ยังไม่บันทึกการหยุดงาน'}</span>${has?'':`<button type="button" data-stadd="${w.kind}">+ บันทึก</button>`}</div>`}).join('');
+  box.innerHTML=T.list.length?T.list.map((x,i)=>{const z=stState(x);return `<div class="strow${i===T.sel?' on':''}" data-sti="${i}"><span class="ic">${ST_K[x.kind].ic}</span><div><b>${ST_K[x.kind].label}${x.place?' · '+esc(x.place):''}</b><span class="sm">${stRange(x)}${z.n?` · ${z.n} วัน`:''}${x.approved?` · ขยายอายุสัญญาแล้ว ${stExt(x)} วัน`:''}</span></div>
+    <div class="acts"><span class="pill ${z.bad?'e':z.warn?'w':x.approved?'ok':''}">${x.approved?'✓ อนุมัติแล้ว':z.bad?'✗ เลยกำหนด':z.warn?'! ต้องดำเนินการ':'อยู่ระหว่างดำเนินการ'}</span><button type="button" data-stdoc="${i}">📄 เอกสาร</button><button type="button" data-stdel="${i}" title="ลบรายการ">✕</button></div></div>`}).join(''):'<div class="sm" style="padding:6px 2px">ยังไม่มีรายการหยุดงาน — กดปุ่มด้านล่างเพื่อเพิ่ม</div>';
+  const x=stCur(),D=$('stDet');if(!x){D.hidden=true;return}D.hidden=false;
+  if(!full&&D.dataset.for===String(T.sel)){D.querySelector('.ststeps').innerHTML=stState(x).st.map(z=>`<span class="${z[0]}">${z[1]}</span>`).join('');const nd=D.querySelector('[data-stn]');if(nd)nd.textContent=stDays(x)?stDays(x)+' วัน':'-';return}
+  D.dataset.for=String(T.sel);const fest=ST_K[x.kind].fest;
+  const I=(k,l,t,ph,wide)=>`<label class="f${wide?' wide':''}">${l}<input data-stf="${k}" type="${t||'text'}" value="${esc(x[k]||'')}" placeholder="${esc(ph||'')}"></label>`;
+  D.innerHTML=`<div class="ststeps">${stState(x).st.map(z=>`<span class="${z[0]}">${z[1]}</span>`).join('')}</div>
+   <h4>รายละเอียดการหยุดงาน</h4><div class="grid">
+    <label class="f">ประเภท<select data-stf="kind">${Object.entries(ST_K).map(([k,v])=>`<option value="${k}"${x.kind===k?' selected':''}>${v.label}</option>`).join('')}</select></label>
+    ${I('from','หยุดงานตั้งแต่วันที่','date')}${I('to','ถึงวันที่ (ว่าง = ยังไม่สิ้นสุด)','date')}<label class="f">จำนวนวัน<span class="ro" data-stn>${stDays(x)?stDays(x)+' วัน':'-'}</span></label>
+    ${fest?I('deptNo','หนังสือกรมฯ ที่','text','เช่น สลน.3/236')+I('deptDate','ลงวันที่','date'):I('place','ช่วง กม. / ตำแหน่ง','text','เช่น กม.10+200 – 10+450')+I('owner','หน่วยงานเจ้าของสาธารณูปโภค','text','เช่น กฟภ. / กปภ. / TOT')+I('reason','สภาพปัญหาที่พบ','text','เช่น เสาไฟฟ้าแรงสูงอยู่ในแนวท่อระบายน้ำ ยังไม่ได้รื้อย้าย',true)}
+   </div>
+   <h4>เลขที่ / วันที่หนังสือแต่ละขั้น</h4><div class="grid">
+    ${I('supNo','① บันทึกผู้ควบคุมงาน เลขที่ (เลขท้าย)','text','')}${I('supDate','ลงวันที่','date')}
+    ${I('ordNo','② หนังสือสั่งหยุดถึงผู้รับจ้าง เลขที่ (เลขท้าย)','text','')}${I('ordDate','ลงวันที่','date')}
+    ${I('reqNo','③ หนังสือผู้รับจ้างขอขยาย ที่','text','เช่น CCB.7/2569')}${I('reqDate','ลงวันที่ (ภายใน 15 วันหลังสิ้นสุดเหตุ)','date')}
+    ${I('extDate','④ บันทึกขอขยายอายุสัญญา (คกก.) ลงวันที่','date')}${I('aprTo','⑤ เสนอผู้มีอำนาจอนุมัติ','text','เช่น ผส.ทล.17')}
+    ${I('sendNo','⑤ บันทึกเสนอ เลขที่ (เต็ม)','text','')}${I('sendDate','ลงวันที่','date')}
+    <label class="f">เหตุตามมาตรา 102<select data-stf="basis">${Object.entries(ST_B).map(([k,v])=>`<option value="${k}"${String(x.basis||'1')===k?' selected':''}>(${k}) ${v}</option>`).join('')}</select></label>
+   </div>
+   <h4>ผลการอนุมัติ</h4><div class="grid">
+    <label class="f chk"><input type="checkbox" data-stf="approved"${x.approved?' checked':''}> อนุมัติขยายอายุสัญญาแล้ว (เลื่อนวันสิ้นสุดสัญญาอัตโนมัติ)</label>
+    ${I('apNo','หนังสืออนุมัติ ที่','text','')}${I('apDate','ลงวันที่','date')}${I('apDays','จำนวนวันที่อนุมัติ (ว่าง = เท่าวันหยุดงาน)','number')}
+   </div>`}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-stadd]');if(a){stNew(a.dataset.stadd);return}
+  const d=e.target.closest('[data-stdel]');if(d){const T=stOf(),i=+d.dataset.stdel;if(!confirm('ลบรายการหยุดงานนี้?'))return;T.list.splice(i,1);T.sel=Math.max(0,Math.min(T.sel,T.list.length-1));stRefresh();renderSt();return}
+  const dc=e.target.closest('[data-stdoc]');if(dc){stOf().sel=+dc.dataset.stdoc;renderSt();const b=$('insPick').querySelector('[data-ip="stop"]');if(b){b.click();setTimeout(()=>{const dc=$('docCard')||$('insSheets');if(dc)dc.scrollIntoView({behavior:'smooth',block:'start'})},80)}return}
+  const r=e.target.closest('[data-sti]');if(r&&!e.target.closest('button')){stOf().sel=+r.dataset.sti;save();renderSt();if(insPage==='stop')renderIns()}});
+document.addEventListener('input',e=>{const t=e.target.closest('[data-stf]');if(!t||!$('stDet').contains(t))return;const x=stCur();if(!x)return;const k=t.dataset.stf;
+  x[k]=t.type==='checkbox'?t.checked:t.value;if(k==='kind'||k==='from'){stOf().list.sort((a,b)=>(a.from||'9')<(b.from||'9')?-1:1);stOf().sel=stOf().list.indexOf(x)}
+  if(k==='kind'){renderSt();stRefresh();return}stRefresh()});
+document.addEventListener('change',e=>{const t=e.target.closest('[data-stf]');if(t&&t.type==='checkbox'&&$('stDet').contains(t)){const x=stCur();if(x){x.approved=t.checked;stRefresh();renderSt()}}});
+/* ---- เอกสารชุดหยุดงาน ---- */
+function stTo(){const C=String(S.h.contractor||'').trim();return (/^ห้างหุ้นส่วน/.test(C)?'หุ้นส่วนผู้จัดการ ':'กรรมการผู้จัดการ ')+C}
+function stWhy(x,short){const k=ST_K[x.kind],pl=x.place?` บริเวณ ${esc(x.place)}`:'';
+  if(k.fest)return short?`ช่วง${k.label}`:`ช่วง${k.label} พ.ศ. ${x.from?(+x.to.slice(0,4)||+x.from.slice(0,4))+543:'........'}`;
+  return `${esc(x.reason||'หน้างานไม่สามารถดำเนินการก่อสร้างได้')}${pl}${x.owner?` (สาธารณูปโภคของ ${esc(x.owner)})`:''}`}
+function stMemoHead(no,date,title,to){return pwMemoHead(no,date,title,to)}
+function stSigList(withCtl){const {chair,mem}=committee(),ctl=ctlPerson(),asst=(S.sign||[]).filter(z=>/ผู้ช่วยผู้ควบคุมงาน/.test(z.role)&&z.name);
+  const L=[];if(chair)L.push({role:'ประธานกรรมการตรวจรับพัสดุ',name:chair.name,pos:chair.pos});mem.forEach(m=>L.push({role:'กรรมการตรวจรับพัสดุ',name:m.name,pos:m.pos}));
+  if(withCtl){if(ctl)L.push({role:'ผู้ควบคุมงาน',name:ctl.name,pos:ctl.pos});asst.forEach(a=>L.push({role:'ผู้ช่วยผู้ควบคุมงาน',name:a.name,pos:a.pos}))}
+  return sgRows(L.length?L:[{role:'ประธานกรรมการตรวจรับพัสดุ',name:'..............................',pos:''}],'')}
+function docStop(){const x=stCur();if(!x)return [`<div class="ipaper th memo wkdoc"><p class="ctr" style="margin-top:40%">ยังไม่มีรายการหยุดงาน — เพิ่มในการ์ด “หยุดงาน &amp; ขยายอายุสัญญา”</p></div>`];
+  const h=S.h,ins=insOf(),k=ST_K[x.kind],fest=k.fest,C=esc(String(h.contractor||'..............................').trim()),D='....................',n=stDays(x),off=esc(ins.office||'แขวงทางหลวง');
+  const from=x.from?thDate(x.from):D,to=x.to?thDate(x.to):D,ctl=ctlPerson(),val=parse(h.value)||0;
+  const prevEnd=effEnd(x.approved?x:undefined),newEnd=n&&prevEnd?addDays(prevEnd,x.approved?(stExt(x)):n):'';
+  const deptRef=x.deptNo?`บันทึกข้อความกรมทางหลวง ที่ ${esc(x.deptNo)} ลงวันที่ ${x.deptDate?thDate(x.deptDate):D}`:`หนังสือสั่งการกรมทางหลวง ที่ ${D}`;
+  const ordNoT=`หนังสือที่ ${esc(pnV('pre'))}${esc(x.ordNo||'..........')} ลงวันที่ ${x.ordDate?thDate(x.ordDate):D}`,ordRef=`หนังสือ${off} ที่ ${esc(pnV('pre'))}${esc(x.ordNo||'..........')} ลงวันที่ ${x.ordDate?thDate(x.ordDate):D}`;
+  const reqNoT=`หนังสือที่ ${esc(x.reqNo||'..........')} ลงวันที่ ${x.reqDate?thDate(x.reqDate):D}`,reqRef=`หนังสือ${C} ที่ ${esc(x.reqNo||'..........')} ลงวันที่ ${x.reqDate?thDate(x.reqDate):D}`;
+  const ctr=`สัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`;
+  const projTxt=`${esc(h.project)} ${esc(h.loc)}`.trim();
+  const law=`พระราชบัญญัติการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 มาตรา 102 (${esc(x.basis||'1')}) ${ST_B[x.basis||'1']}`;
+  /* ① บันทึกผู้ควบคุมงาน → ประธานกรรมการฯ (+ หน้าความเห็นคณะกรรมการฯ) */
+  const t1=fest?`การอำนวยความสะดวกปลอดภัยระหว่าง${stWhy(x)}`:`ขอให้สั่งหยุดงานชั่วคราว ${ctr}`;
+  const why1=fest?`<p class="ind">ด้วย${deptRef} เรื่อง การอำนวยความสะดวกปลอดภัยระหว่าง${stWhy(x)} ขอให้ทุกโครงการที่อยู่ระหว่างการดำเนินโครงการก่อสร้างทางและสะพาน หรือซ่อมบำรุงทางและสะพาน หยุดการดำเนินการในช่วงตั้งแต่วันที่ ${from} ถึงวันที่ ${to} ทั้งนี้ให้ช่างโครงการและผู้ควบคุมงานพิจารณาแผนงานการก่อสร้างตามสัญญาว่าในช่วงเวลาดังกล่าวมีแผนงานการก่อสร้างบนทางหลวงและสะพานหรือไม่ และพิจารณาสั่งหยุดการดำเนินการ รายละเอียดตามแจ้งแล้ว นั้น</p>`
+    :`<p class="ind">ผู้ควบคุมงานได้ตรวจสอบหน้างาน${x.place?' บริเวณ '+esc(x.place):''} พบว่า ${esc(x.reason||'..............................')}${x.owner?' ซึ่งเป็นสาธารณูปโภคของ '+esc(x.owner):''} ทำให้ผู้รับจ้างไม่สามารถดำเนินการก่อสร้างในพื้นที่ดังกล่าวได้ และไม่สามารถทำงานส่วนอื่นทดแทนได้</p>`;
+  const p1=stMemoHead(x.supNo,x.supDate,t1,'ประธานกรรมการตรวจรับพัสดุ')+why1+
+   `<p class="ind">${projTxt} ระยะเวลาทำการ ${esc(h.days)} วัน โดยมี${C} เป็นผู้รับจ้าง ${ctr} เริ่มต้นสัญญาวันที่ ${thDate(h.start)} สิ้นสุดสัญญาวันที่ ${thDate(effEnd(x))} ${fest?`ผู้ควบคุมงานได้ตรวจสอบสัญญาโครงการดังกล่าวแล้ว เป็นงานที่จะต้องทำงานบนผิวทางที่มีผลกระทบต่อการจราจร ดังนั้น เพื่อเป็นการอำนวยความสะดวกและปลอดภัยสำหรับการใช้งานทางในการเดินทาง${stWhy(x,1)} จึงเห็นควรสั่งหยุดการดำเนินการ`:'ดังนั้น เพื่อไม่ให้เกิดความเสียหายต่องานและความปลอดภัยของผู้ใช้ทาง จึงเห็นควรสั่งให้ผู้รับจ้างหยุดการดำเนินการ'} ตั้งแต่วันที่ ${from} ${x.to?`ถึงวันที่ ${to} เป็นจำนวนทั้งสิ้น ${n} วัน`:`จนกว่าเหตุดังกล่าวจะสิ้นสุดลง${x.owner?' และ'+esc(x.owner)+'ดำเนินการรื้อย้ายแล้วเสร็จ':''}`} และขอให้${off}ในฐานะผู้ว่าจ้าง อนุมัติให้ผู้รับจ้างหยุดการดำเนินการในช่วงวันดังกล่าว</p>
+   <p class="ind">จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบโปรดลงนามอนุมัติ</p>`+pwSig();
+  const p1b=`<p style="margin-top:6px"><b>เรียน</b> ${esc(pnV('dPos'))}</p>
+   <p class="ind">คณะกรรมการตรวจรับพัสดุพิจารณาตามที่ผู้ควบคุมงานเสนอแล้ว เห็นชอบตามเสนอ ${fest?'เพื่อเป็นการอำนวยความสะดวกและปลอดภัยสำหรับผู้ใช้เส้นทางในการสัญจร':'เพื่อไม่ให้เกิดความเสียหายต่องานและเพื่อความปลอดภัยของผู้ใช้ทาง'}</p>
+   <p class="ind">จึงเรียนมาเพื่อโปรดแจ้งให้ผู้รับจ้างหยุดการดำเนินการ ตามวันและเวลาดังกล่าว</p>`+stSigList(false);
+  /* ② หนังสือสั่งหยุด (หนังสือภายนอก มีครุฑ) */
+  const b2=`<p class="ind">ตามสัญญาดังอ้างถึง ${C} ได้เป็นคู่สัญญากับ${off} จ้าง${projTxt} นั้น</p>
+   ${fest?`<p class="ind">เนื่องจาก กรมทางหลวงมีนโยบายให้ทุกหน่วยงานที่มีโครงการอยู่ระหว่างดำเนินการก่อสร้าง หยุดดำเนินการเพื่อคืนพื้นผิวจราจรให้สามารถใช้งานได้อย่างเต็มพื้นที่และมีประสิทธิภาพในการอำนวยความสะดวกปลอดภัย ตลอดจนป้องกันและบรรเทาอุบัติเหตุบนท้องถนน เพื่อลดความสูญเสียในชีวิตและทรัพย์สินของประชาชนผู้ใช้เส้นทางในการเดินทาง${stWhy(x)} รายละเอียดตามสิ่งที่ส่งมาด้วย</p>`
+     :`<p class="ind">เนื่องจาก ผู้ควบคุมงานได้ตรวจสอบพบว่า ${esc(x.reason||'..............................')}${x.place?' บริเวณ '+esc(x.place):''}${x.owner?' ซึ่งเป็นสาธารณูปโภคของ '+esc(x.owner):''} ทำให้ไม่สามารถดำเนินการก่อสร้างในพื้นที่ดังกล่าวได้</p>`}
+   <p class="ind">ดังนั้น ขอให้ท่านหยุดดำเนินการก่อสร้าง${fest?'':x.place?'ในบริเวณดังกล่าว':''}ตั้งแต่วันที่ ${from} ${x.to?'– '+to:'จนกว่าจะได้รับแจ้งให้เข้าดำเนินการต่อ'} แต่ท่านจะต้องติดตั้งป้ายจราจร ป้ายเตือน และไฟสัญญาณต่าง ๆ ในพื้นที่หรือบริเวณการก่อสร้างให้สามารถมองเห็นได้ชัดเจนตลอดเวลาทั้งกลางวันและกลางคืนก่อนหยุดดำเนินการ และดูแลให้อยู่ในสภาพใช้งานได้ตลอดเวลา${fest?'':' ทั้งนี้ เมื่อเหตุดังกล่าวสิ้นสุดลง หากท่านประสงค์จะขอขยายระยะเวลาทำการ ให้แจ้งเหตุพร้อมหลักฐานเป็นหนังสือภายใน 15 วัน นับถัดจากวันที่เหตุนั้นสิ้นสุดลง ตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ข้อ 182'}</p>
+   <p class="ind">จึงเรียนมาเพื่อทราบ</p>`;
+  const after2=`<div class="stcc" style="margin-top:10px;line-height:1.5"><div class="exk xhang"><span>สำเนา</span><span>${esc(x.aprTo||stDefAprTo())}<br>- เพื่อทราบ</span></div>
+   <div class="exk xhang"><span>สำเนา</span><span>${esc(ctl?ctl.name:'..............................')} ${esc(ctl?ctl.pos:'')} (ผู้ควบคุมงาน)<br>- เพื่อทราบ และติดตามให้ผู้รับจ้างติดตั้งป้ายจราจร ป้ายเตือน และไฟสัญญาณ ตามคู่มือเครื่องหมายควบคุมการจราจรในงานก่อสร้างของกรมทางหลวง ก่อนหยุดดำเนินการ</span></div></div>`;
+  const p2=pnPage({noCode:1,no:x.ordNo,date:x.ordDate,subj:fest?`หยุดดำเนินการก่อสร้างเพื่อคืนพื้นผิวจราจรใน${stWhy(x)}`:'หยุดดำเนินการก่อสร้างชั่วคราว',to:stTo(),refs:[ctr],
+    encl:fest?`สำเนา${deptRef} จำนวน 1 ฉบับ`:'',body:b2,sigName:pnV('dName'),sigPos:pnV('dPos'),after:after2});
+  /* ③ บันทึกขอขยายอายุสัญญา (ผู้ควบคุมงาน + คกก. → ผอ.) */
+  const att=[`สำเนา${ctr}`,...(fest?[`สำเนา${deptRef}`]:[]),`สำเนา${ordRef}`,`สำเนา${reqRef}`,'สำเนารายงานการปฏิบัติงานประจำวันของผู้รับจ้าง (ช่วงหยุดงาน)'];
+  const attL=att.map((t,i)=>`<p class="exli" style="padding-left:4.2em">${i+1}. ${t}</p>`).join('');
+  const t3=`ขอขยายอายุสัญญาจ้างเลขที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`;
+  const happen=fest?`เนื่องจากกรมทางหลวงมีนโยบายตาม${deptRef} ให้ทุกหน่วยงานที่มีโครงการก่อสร้างอยู่ระหว่างดำเนินการ หยุดดำเนินการเพื่อคืนพื้นผิวจราจรให้สามารถใช้งานได้อย่างเต็มพื้นที่และมีประสิทธิภาพในการอำนวยความสะดวกปลอดภัย ตลอดจนป้องกันและบรรเทาอุบัติเหตุบนท้องถนน เพื่อลดความสูญเสียในชีวิตและทรัพย์สินของประชาชนผู้ใช้เส้นทางในการเดินทาง${stWhy(x)} ตั้งแต่วันที่ ${from} – ${to} เป็นระยะเวลา ${n||'....'} วัน`
+    :`เนื่องจาก${esc(x.reason||'..............................')}${x.place?' บริเวณ '+esc(x.place):''}${x.owner?' ซึ่งเป็นสาธารณูปโภคของ '+esc(x.owner):''} ทำให้ผู้รับจ้างไม่สามารถดำเนินการก่อสร้างได้ ตั้งแต่วันที่ ${from} – ${to} เป็นระยะเวลา ${n||'....'} วัน`;
+  const p3=stMemoHead('',x.extDate,t3,esc(pnV('dPos')))+
+   `<p class="ind">1. เรื่องเดิม ตาม${ctr} โดย${C} เป็นผู้รับจ้าง ${projTxt} ค่างานตามสัญญา ${fmBaht(val)} บาท เวลาทำการ ${esc(h.days)} วัน เริ่มต้นสัญญาวันที่ ${thDate(h.start)} สิ้นสุดสัญญาวันที่ ${thDate(prevEnd)}</p>
+   <p class="ind">2. เรื่องที่เกิดขึ้น ${happen} และ${off}ได้มี${ordNoT} แจ้งให้${C} หยุดดำเนินการก่อสร้าง ซึ่ง${C} ได้ปฏิบัติตาม และ${C} ได้มี${reqNoT} ขอขยายอายุสัญญาจ้าง${stWhy(x,1).replace(/^ช่วง/,'ในช่วง')} เป็นระยะเวลา ${n||'....'} วัน</p>
+   <p class="ind">3. เรื่องที่เสนอพิจารณา ตามที่ผู้ควบคุมงานได้ควบคุมงานเป็นประจำทุกวัน และบันทึกหลักฐานตามความเป็นจริง ประกอบกับเอกสารหลักฐานที่เกี่ยวข้อง คณะกรรมการตรวจรับพัสดุเห็นสมควรขยายอายุสัญญาให้ผู้รับจ้าง ตามวันเวลาที่เกิดขึ้นจริง ตั้งแต่วันที่ ${from} – ${to} เป็นเวลา ${n||'....'} วัน สิ้นสุดสัญญาใหม่วันที่ ${newEnd?thDate(newEnd):D} พร้อมนี้ได้แนบเอกสารต่าง ๆ มาเพื่อประกอบการพิจารณา ดังนี้</p>${attL}
+   <p class="ind" style="margin-top:6px">จึงเรียนมาเพื่อโปรดพิจารณาดำเนินการต่อไป</p>`;
+  const p3b=stSigList(true);
+  /* ④ บันทึก ผอ. → ผู้มีอำนาจอนุมัติ */
+  const kv=(a,b)=>`<p class="exli" style="padding-left:4.2em">- ${a} ${b}</p>`;
+  const p4=`<div class="memo-h"><img class="garuda sm" src="${GARUDA}" alt="ตราครุฑ"><div class="mt">บันทึกข้อความ</div></div>
+   <div class="mrow"><b>ส่วนราชการ</b><span class="ul">${off}${ins.phone?' โทร. '+esc(ins.phone):''}</span></div>
+   <div class="mrow two"><b>ที่</b><span class="ul">${esc(x.sendNo||'')}</span><b>วันที่</b><span class="ul">${x.sendDate?thDate(x.sendDate):'.......................................'}</span></div>
+   <div class="mrow"><b>เรื่อง</b><span class="ul">${t3}</span></div>
+   <p style="margin-top:10px">เรียน ${esc(x.aprTo||stDefAprTo())}</p>
+   <p class="ind"><b><u>1. เรื่องเดิม</u></b> รายละเอียดของสัญญา</p>
+   ${kv(projTxt,'')}${kv(ctr,'')}${kv('ผู้รับจ้าง',C)}${kv('เวลาทำการ',esc(h.days)+' วัน')}${kv('เริ่มต้นสัญญาวันที่',thDate(h.start)+' สิ้นสุดสัญญาวันที่ '+thDate(prevEnd))}${kv('ค่างานจ้างเหมา',fmBaht(val)+' บาท')}${kv('ค่าปรับวันละ',fm(pnCalc().per)+' บาท')}
+   <p class="ind"><b><u>2. เรื่องที่เกิดขึ้น</u></b></p>
+   <p class="ind">- ${happen}</p>
+   <p class="ind">2.1 ${off}ได้มี${ordNoT} แจ้งให้${C} หยุดดำเนินการก่อสร้าง ตั้งแต่วันที่ ${from} – ${to}</p>
+   <p class="ind">2.2 ${C} ได้มี${reqNoT} ขอขยายอายุสัญญา เป็นระยะเวลา ${n||'....'} วัน</p>
+   <p class="ind">2.3 ผู้ควบคุมงานได้สรุปรายงานประจำวัน ระหว่างวันที่ ${from} – ${to} ผู้รับจ้างได้หยุดการก่อสร้าง เป็นเวลา ${n||'....'} วัน</p>`;
+  const p4b=`<p class="ctr" style="margin-bottom:10px">- 2 -</p>
+   <p class="ind">${off}พิจารณาแล้วเห็นว่า เป็นกรณีที่ผู้รับจ้าง${fest?'ต้องหยุดงานตามนโยบายของกรมทางหลวง':'ไม่สามารถดำเนินการก่อสร้างได้ด้วยเหตุดังกล่าว'} เห็นควรขยายอายุสัญญาให้กับ${C} ผู้รับจ้าง เป็นเวลา ${n||'....'} วัน ตามความเห็นของผู้ควบคุมงานและคณะกรรมการตรวจรับพัสดุ ตั้งแต่วันที่ ${from} – ${to} สิ้นสุดสัญญาใหม่วันที่ ${newEnd?thDate(newEnd):D} ซึ่งกรณีดังกล่าวเป็นไปตาม${law} พร้อมนี้ได้แนบเอกสารต่าง ๆ มาเพื่อประกอบการพิจารณา ดังนี้</p>${attL}
+   <p class="ind" style="margin-top:6px">จึงเรียนมาเพื่อโปรดพิจารณา</p>
+   <div style="margin:30px 0 0 38%;text-align:center;line-height:1.55">(${esc(pnV('dName')||'..............................')})<br>${esc(pnV('dPos'))}</div>`;
+  const pg=html=>`<div class="ipaper th memo wkdoc tight">${thdHtml(html)}</div>`;
+  return [pg(p1),pg(p1b),p2,pg(p3),pg(p3b),pg(p4),pg(p4b)]}
 /* ---- เตือนค่าปรับ 7.5% / 10% และผ่อนปรนการบอกเลิกสัญญา (ผู้ควบคุมงานดำเนินการ) ---- */
 function pwOf(){if(!S.pw)S.pw={};const P=S.pw;['warn','asof','no1','d1','cNo','cDate','no2','d2','mDate','mTime','mPlace','no3','d3','cause'].forEach(k=>{if(P[k]===undefined)P[k]=''});return P}
 function pwCalc(asOf){const P=pwOf(),h=S.h,val=parse(h.value)||0,per=parse(h.pendoc)||rr2(val*(parse(h.penrate)||0)/100),end=effEnd(),wv=waiveTotal();
@@ -3319,7 +3481,7 @@ function pwMemoHead(no,date,title,to){const ins=insOf(),W=wkOf();
 function pwOrig(){const h=S.h,A=insOf().amends||[],c=pwCalc();const L=(a,b,x,y)=>`<span>${a}</span><span>${b}</span><span>${x||''}</span><span>${y||''}</span>`;
   return `<p class="ag" style="padding-left:2.2em">1. เรื่องเดิม</p>
    <p class="ind">ตาม${thList([`สัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`,...amSorted(A).map(a=>`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'..........'}`)])} ${esc(h.project)} ${esc(h.loc)} โดยมีรายละเอียดดังนี้</p>
-   <div class="pwkv">${L('เริ่มต้นสัญญาวันที่',thDate(h.start),'สิ้นสุดสัญญา'+(A.length?'(เดิม)':'')+' วันที่',thDate(h.end))}${A.length?L('สิ้นสุดสัญญา(ใหม่) วันที่',thDate(effEnd()),'เวลาทำการ',`${wkTotalDays()} วัน`):L('เวลาทำการ',`${esc(h.days)} วัน`)}
+   <div class="pwkv">${L('เริ่มต้นสัญญาวันที่',thDate(h.start),'สิ้นสุดสัญญา'+(A.length||stApproved().length?'(เดิม)':'')+' วันที่',thDate(h.end))}${A.length||stApproved().length?L('สิ้นสุดสัญญา(ใหม่) วันที่',thDate(effEnd()),'เวลาทำการ',`${wkTotalDays()} วัน`):L('เวลาทำการ',`${esc(h.days)} วัน`)}
     ${L('ค่างานตามสัญญา',fm(c.val)+' บาท','ค่าปรับวันละ',fm(c.per)+' บาท')}${L('ผู้รับจ้าง',esc(h.contractor))}</div>`}
 const pwSig=()=>{const ctl=ctlPerson();return `<div style="margin:34px 0 0 38%;text-align:center;line-height:1.55">(${esc(ctl?ctl.name:'..............................')})<br>${esc(ctl?ctl.pos:'')}<br>ผู้ควบคุมงาน</div>`};
 const pwCC=()=>{const {chair,mem}=committee();const cc=[];if(chair)cc.push(`ประธานกรรมการตรวจรับพัสดุ (${esc(chair.name)})`);mem.forEach(m=>cc.push(`กรรมการตรวจรับพัสดุ (${esc(m.name)})`));return cc.length?`<div class="cc"><span>สำเนาเรียน</span><span>${cc.join('<br>')}<br>เพื่อโปรดทราบ</span></div>`:''};
@@ -3389,6 +3551,7 @@ function renderInsDocs(C){
   if(want==='wk')set.push({g:'wk',pages:docWk()});
   if(want==='dly')set.push({g:'dly',pages:docDly()});
   if(want==='perf')set.push({g:'perf',pages:docPerf()});
+  if(want==='stop')set.push({g:'stop',pages:docStop()});
   if(want==='pnote')set.push({g:'pnote',pages:docPnNote()});
   if(want==='reserve')set.push({g:'reserve',pages:docPnReserve()});
   if(want==='penw')set.push({g:'penw',pages:docPenWarn()});
@@ -3398,7 +3561,7 @@ function renderInsDocs(C){
   $('insDesk').innerHTML=`<div class="sheets" id="insSheets">${insSheets.map((s,i)=>`<div class="sheet" style="width:${(210*MM).toFixed(1)}px;height:${(297*MM).toFixed(1)}px;padding:${IPAD[0]}mm ${IPAD[1]}mm ${IPAD[2]}mm ${IPAD[3]}mm">${s.html}<div class="pno">หน้า ${i+1}/${insSheets.length}</div></div>`).join('')}</div>`;
   if(insEditMode)$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});
   updEditBar();
-  $('insInfo').textContent=want==='pnote'?`แบบแจ้งการปรับตามสัญญาจ้าง (พ.1-42) — หน้า 1 ต้นฉบับ · หน้า 2 ฉบับให้ผู้รับจ้างลงชื่อรับ (ประธานกรรมการฯ ลงนามแทนผู้ว่าจ้าง) · ${insSheets.length} หน้า`:want==='reserve'?(()=>{const L=pnLate(),E=pnSel(L);return E?`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ครั้งที่ ${L.indexOf(E)+1}/${L.length}: งวดที่ ${E.inst.no} ส่ง ${thDate(E.done)} · ต้นฉบับ + สำเนาคู่ฉบับ · เลือกครั้งอื่นที่ปุ่ม “📄 เอกสาร” ในการ์ด ③`:`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ยังไม่มีการส่งงานหลังครบกำหนด (แบบฟอร์มเปล่า)`})():want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
+  $('insInfo').textContent=want==='stop'?(stCur()?`ชุดเอกสารหยุดงาน/ขยายอายุสัญญา — ${ST_K[stCur().kind].label} ${stRange(stCur())} · ① บันทึกผู้ควบคุมงานเสนอสั่งหยุด ② หนังสือสั่งหยุดถึงผู้รับจ้าง (มีครุฑ) ③ บันทึกขอขยายอายุสัญญา (คกก.) ④ เสนอผู้มีอำนาจอนุมัติ · ${insSheets.length} หน้า`:'ยังไม่มีรายการหยุดงาน — เพิ่มในการ์ด ③ หยุดงาน & ขยายอายุสัญญา'):want==='pnote'?`แบบแจ้งการปรับตามสัญญาจ้าง (พ.1-42) — หน้า 1 ต้นฉบับ · หน้า 2 ฉบับให้ผู้รับจ้างลงชื่อรับ (ประธานกรรมการฯ ลงนามแทนผู้ว่าจ้าง) · ${insSheets.length} หน้า`:want==='reserve'?(()=>{const L=pnLate(),E=pnSel(L);return E?`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ครั้งที่ ${L.indexOf(E)+1}/${L.length}: งวดที่ ${E.inst.no} ส่ง ${thDate(E.done)} · ต้นฉบับ + สำเนาคู่ฉบับ · เลือกครั้งอื่นที่ปุ่ม “📄 เอกสาร” ในการ์ด ③`:`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ยังไม่มีการส่งงานหลังครบกำหนด (แบบฟอร์มเปล่า)`})():want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
   const sh=$('insSheets');sh.style.zoom=1;const avail=$('insDesk').clientWidth-40,mw=sh.offsetWidth;sh.style.zoom=Math.min(1,avail/mw).toFixed(3);
 }
 function penEdit(e,attr,arr){const tr=e.target.closest('tr');const f=e.target.dataset.f;if(!tr||!f)return;const ins=insOf();ins[arr][+tr.dataset[attr]][f]=e.target.value;if(f!=='reason')renderInsTable();renderIns();save()}
@@ -3413,6 +3576,7 @@ $('bInsPrint').addEventListener('click',()=>{if(insEditMode)insSheets=domPages()
   const nm=docFileBase(inst);printSheets(insSheets,nm.replace(/_/,' '),nm+'.html')});
 function docFileBase(inst){const no=String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'');const w=wkCur();
   if(insPage==='perf')return `สรุปคะแนนความเสียหาย_${no}`;
+  if(insPage==='stop'){const x=stCur();return `หยุดงาน-ขยายอายุสัญญา_${x?ST_K[x.kind].short:''}_${no}`}
   if(insPage==='pnote')return `แจ้งการปรับตามสัญญาจ้าง_${no}`;if(insPage==='reserve'){const E=pnSel();return `แจ้งสงวนสิทธิ์การเรียกค่าปรับ_${E?'งวด'+E.inst.no+'_':''}${no}`};
   if(insPage==='penw')return `บันทึกเตือนค่าปรับ_${no}`;if(insPage==='lenient')return `ขออนุมัติผ่อนปรนการบอกเลิกสัญญา_${no}`;
   const d=dyCur();if(insPage==='dly'&&d)return `รายงานประจำวัน${d.date||''}_${no}`;
@@ -3422,7 +3586,7 @@ window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('in
 /* ---- แก้ไขเอกสารก่อนพิมพ์ ---- */
 let insEditMode=false;
 function insEditKey(){return insPage}
-function editTarget(){if(insPage==='pnote')return pnOf();if(insPage==='reserve'){const P=pnOf(),E=pnSel();if(!E)return P;if(!P.res[E.key])P.res[E.key]={};return P.res[E.key]}if(insPage==='penw'||insPage==='lenient')return pwOf();if(insPage==='wk')return wkCur();if(insPage==='perf')return pfOf();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
+function editTarget(){if(insPage==='stop'){const x=stCur();if(x)return x}if(insPage==='pnote')return pnOf();if(insPage==='reserve'){const P=pnOf(),E=pnSel();if(!E)return P;if(!P.res[E.key])P.res[E.key]={};return P.res[E.key]}if(insPage==='penw'||insPage==='lenient')return pwOf();if(insPage==='wk')return wkCur();if(insPage==='perf')return pfOf();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
 function savedEdit(){const t=editTarget();return t&&t.docEdits&&t.docEdits[insEditKey()]||null}
 function domPages(){return [...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');c.removeAttribute('spellcheck');return c.outerHTML})}
 /* รหัสยืนยัน */
@@ -3811,8 +3975,10 @@ async function exportWord(){if(LIC_ON&&S&&S.demo){toast('โครงการ�
   swaps.forEach(([im,sv])=>im.replaceWith(sv));
   sh.style.zoom=z;
   const inst=insOf().list[insOf().cur];
-  const exact=['pnote','reserve'].includes(insPage);
-  try{let xml=docxFromHtml(body);if(exact)xml=xml.replace(/<w:p>(?:(?!<\/w:p>)[\s\S])*?<\/w:p>/g,m=>{if(m.includes('<w:drawing>'))return m;if(/เริ่มใช้ มี\.ค\./.test(m)&&m.includes('w:val="right"'))m=m.replace('<w:pPr>','<w:pPr><w:framePr w:w="2400" w:hSpace="113" w:wrap="through" w:vAnchor="text" w:hAnchor="margin" w:xAlign="right" w:y="1"/>');const sz=Math.max(28,...(m.match(/w:sz w:val="(\d+)"/g)||[]).map(x=>+x.match(/\d+/)[0]));return m.split('w:line="240" w:lineRule="auto"').join(`w:line="${Math.round(sz/2*1.3*20)}" w:lineRule="exact"`).replace(/w:(before|after)="(\d+)"/g,(x,k,v)=>`w:${k}="${Math.round(v*0.4)}"`)});const bytes=buildDocx(xml,IPAD);
+  const exact=['pnote','reserve','stop'].includes(insPage);
+  try{let xml=docxFromHtml(body);
+    /* ตัวแบ่งหน้า: ใช้ pageBreakBefore กับย่อหน้าถัดไป (กันหน้าว่างเมื่อหน้าก่อนเต็มพอดี) */
+    xml=xml.replace(/<w:p><w:r><w:br w:type="page"\/><\/w:r><\/w:p><w:p>(<w:pPr>((?:<w:keepNext\/>|<w:keepLines\/>)*))?/g,(m,pp,kk)=>pp!==undefined?`<w:p><w:pPr>${kk||''}<w:pageBreakBefore/>`:'<w:p><w:pPr><w:pageBreakBefore/></w:pPr>');if(exact)xml=xml.replace(/<w:p>(?:(?!<\/w:p>)[\s\S])*?<\/w:p>/g,m=>{if(m.includes('<w:drawing>'))return m;if(/เริ่มใช้ มี\.ค\./.test(m)&&m.includes('w:val="right"'))m=m.replace('<w:pPr>','<w:pPr><w:framePr w:w="2400" w:hSpace="113" w:wrap="through" w:vAnchor="text" w:hAnchor="margin" w:xAlign="right" w:y="1"/>');const sz=Math.max(28,...(m.match(/w:sz w:val="(\d+)"/g)||[]).map(x=>+x.match(/\d+/)[0]));return m.split('w:line="240" w:lineRule="auto"').join(`w:line="${Math.round(sz/2*1.3*20)}" w:lineRule="exact"`).replace(/w:(before|after)="(\d+)"/g,(x,k,v)=>`w:${k}="${Math.round(v*0.4)}"`)});const bytes=buildDocx(xml,IPAD);
     saveFile(docFileBase(inst)+'.docx',bytes.buffer,'application/vnd.openxmlformats-officedocument.wordprocessingml.document')}
   catch(e){console.error(e);toast('สร้างไฟล์ Word ไม่สำเร็จ: '+(e&&e.message||e))}
 }
@@ -3829,6 +3995,13 @@ function calEvents(){const out=[],S0=S,today=todayISO();
       if(end){const n=pnCalc();if(!n.done||n.lateDone||n.anyLate)push(n.due,n.noticed?'แจ้งการปรับ (พ.1-42) ✓':n.needNotice?'ต้องแจ้งการปรับ (พ.1-42) ภายในวันนี้ — ข้อ 181':'ถ้ายังไม่ส่งงาน: แจ้งการปรับ (พ.1-42) ภายในวันนี้','pen','contract',n.noticed?'ok':n.noticeOver?'bad':n.needNotice?'warn':'');
         n.L.forEach(e=>push(e.done,`แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) งวดที่ ${e.inst.no}${e.reserved?' ✓':' — วันรับมอบงาน'}`,'pen','contract',e.reserved?'ok':'bad'));
         if(n.lateNow)push(today,'ส่งงานวันไหน ต้องแจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43) วันนั้น','pen','contract','warn')}
+      (d.stops&&d.stops.list||[]).forEach(x=>{const z=stState(x),k=ST_K[x.kind]||ST_K.other;
+        push(x.from,`หยุดงาน${k.label} ${x.from&&x.to?thDate(x.from).replace(/ \d{4}$/,'')+' – '+thDate(x.to):''}${z.n?' ('+z.n+' วัน)':''}`,'stop','contract',x.ordNo||x.ordDate?'ok':z.st[1][0]==='e'?'bad':z.st[1][0]==='w'?'warn':'');
+        if(!(x.ordNo||x.ordDate)&&x.from)push(addDays(x.from,-3),`ต้องมีหนังสือสั่งหยุดงาน${k.label} ก่อนวันที่ ${thDate(x.from)}`,'stop','contract',x.from<=addDays(today,3)?'bad':'warn');
+        if(x.to&&!x.approved)push(z.due,(x.reqNo||x.reqDate)?`เสนอขยายอายุสัญญา (หยุดงาน${k.label}) — รออนุมัติ`:`ครบกำหนดผู้รับจ้างยื่นขอขยายเวลา (หยุดงาน${k.label}) — ข้อ 182`,'stop','contract',(x.reqNo||x.reqDate)?'warn':z.due<today?'bad':'warn');
+        if(x.approved)push(x.apDate||x.to,`อนุมัติขยายอายุสัญญา ${stExt(x)} วัน (หยุดงาน${k.label}) ✓`,'stop','contract','ok')});
+      stFestWins().forEach(w=>{const T=d.stops&&d.stops.list||[];if(T.some(x=>x.kind===w.kind&&x.from<=w.to&&(x.to||x.from)>=w.from)||w.to<today||done)return;
+        push(addDays(w.from,-10),`สัญญาคร่อม${ST_K[w.kind].label} ${w.y+543} — เตรียมสั่งหยุดงาน (${thDate(w.from).replace(/ \d{4}$/,'')} – ${thDate(w.to)})`,'stop','contract',w.from<=addDays(today,14)?'warn':'')});
       pfTimeline(today).forEach(x=>{const c=/ค่าปรับ/.test(x.lab)?'pen':/ผลงานสะสม|เวลาสัญญา|ครบกำหนดสัญญา/.test(x.lab)?'chk':'war';if(/^ครบกำหนดสัญญา/.test(x.lab))return;push(x.d,x.lab,c,'contract',x.s)});
       (insOf().list||[]).forEach((inst,j)=>evOfInst(inst).forEach(ev=>push(ev.date,`${ev.kind}งวดที่ ${inst.no} ${m2hm(ev.s)} น. · ${ev.place}`,'insp','pay','')));
       if(h.start&&end&&!done){const W=wkOf();for(let n=1;n<=Math.ceil((dayDiff(h.start,end)+1)/7)+8;n++){const r=wkRange(n);if(r.to>addDays(end,56))break;const has=W.list.some(w=>parse(w.no)===n);
@@ -3856,7 +4029,7 @@ $('calGrid').addEventListener('click',e=>{const b=e.target.closest('[data-cd]');
 $('calBox').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;openProject(b.dataset.go);$('tabIns').click();setTimeout(()=>setSec(b.dataset.sec),50)});
 $('hubCal').addEventListener('click',()=>{$('calBox').scrollIntoView({behavior:'smooth',block:'start'})});
 $('calIcs').addEventListener('click',()=>{const E=calEvents(),T=todayISO();const f=d=>d.replace(/-/g,'');
-  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//NW//Contract Project Management//TH','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:บริหารสัญญา','X-WR-TIMEZONE:Asia/Bangkok',...E.flatMap((e,i)=>['BEGIN:VEVENT',`UID:${e.pid}-${e.c}-${(()=>{let h=0;for(const ch of e.t.replace(/ ✓$/,'').replace(/\d{1,2}:\d{2}.*$/,''))h=(h*31+ch.charCodeAt(0))|0;return (h>>>0).toString(36)})()}-${f(e.c==='wk'||e.c==='insp'?e.d:'')}@cpm`,`DTSTAMP:${f(todayISO())}T000000Z`,`DTSTART;VALUE=DATE:${f(e.d)}`,`DTEND;VALUE=DATE:${f(addDays(e.d,1))}`,`SUMMARY:${((e.st==='ok'?'✓ ':e.st==='bad'?'⚠ ':'')+e.proj+' · '+e.t).replace(/[,;\\]/g,' ')}`,`CATEGORIES:${{end:'ครบกำหนดสัญญา',insp:'นัดตรวจรับ',pen:'ค่าปรับ',chk:'จุดตรวจความก้าวหน้า',wk:'รายงานประจำสัปดาห์',war:'รับประกัน-อุทธรณ์'}[e.c]||'บริหารสัญญา'}`,...(e.d>=T&&e.st!=='ok'?['BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:แจ้งเตือนล่วงหน้า 1 วัน','END:VALARM','BEGIN:VALARM','TRIGGER:PT8H','ACTION:DISPLAY','DESCRIPTION:แจ้งเตือนวันนี้','END:VALARM']:[]),'END:VEVENT']),'END:VCALENDAR'].join('\r\n');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//NW//Contract Project Management//TH','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:บริหารสัญญา','X-WR-TIMEZONE:Asia/Bangkok',...E.flatMap((e,i)=>['BEGIN:VEVENT',`UID:${e.pid}-${e.c}-${(()=>{let h=0;for(const ch of e.t.replace(/ ✓$/,'').replace(/\d{1,2}:\d{2}.*$/,''))h=(h*31+ch.charCodeAt(0))|0;return (h>>>0).toString(36)})()}-${f(e.c==='wk'||e.c==='insp'?e.d:'')}@cpm`,`DTSTAMP:${f(todayISO())}T000000Z`,`DTSTART;VALUE=DATE:${f(e.d)}`,`DTEND;VALUE=DATE:${f(addDays(e.d,1))}`,`SUMMARY:${((e.st==='ok'?'✓ ':e.st==='bad'?'⚠ ':'')+e.proj+' · '+e.t).replace(/[,;\\]/g,' ')}`,`CATEGORIES:${{end:'ครบกำหนดสัญญา',insp:'นัดตรวจรับ',pen:'ค่าปรับ',chk:'จุดตรวจความก้าวหน้า',wk:'รายงานประจำสัปดาห์',war:'รับประกัน-อุทธรณ์',stop:'หยุดงาน-ขยายอายุสัญญา'}[e.c]||'บริหารสัญญา'}`,...(e.d>=T&&e.st!=='ok'?['BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:แจ้งเตือนล่วงหน้า 1 วัน','END:VALARM','BEGIN:VALARM','TRIGGER:PT8H','ACTION:DISPLAY','DESCRIPTION:แจ้งเตือนวันนี้','END:VALARM']:[]),'END:VEVENT']),'END:VCALENDAR'].join('\r\n');
   saveFile('ปฏิทินบริหารสัญญา.ics',ics,'text/calendar');toast(`ดาวน์โหลดปฏิทิน ${E.length} รายการ (ทุกโครงการ ทุกกำหนดการ · เตือนล่วงหน้า 1 วัน และเช้าวันนั้น)`)});
 /* คู่มือ / ระเบียบ */
 document.addEventListener('click',e=>{const gb=e.target.closest('[data-guide]');if(gb){$('guideModal').hidden=false;const t=gb.dataset.guide&&document.getElementById(gb.dataset.guide);if(t)setTimeout(()=>t.scrollIntoView({block:'start'}),30)}else if(e.target.closest('[data-law]')){$('lawModal').hidden=false}
@@ -3870,7 +4043,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 41 · 26 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 42 · 27 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -3899,7 +4072,7 @@ else{$('licFoot').hidden=false;showHome();
     <div class="lk-links" id="lkLinks"></div>
     <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 41 · 26 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 42 · 27 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
     </form>
 </div>
 <style>
