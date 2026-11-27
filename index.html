@@ -485,6 +485,14 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 .ststeps span.ok{background:var(--ok-bg);color:var(--ok)}.ststeps span.w{background:var(--warn-bg);color:var(--warn)}.ststeps span.e{background:var(--err-bg);color:var(--err)}
 .stdet{border:1px dashed var(--line);border-radius:12px;padding:12px;margin-top:10px}
 .stdet .ro{display:block;padding:9px 2px;font-weight:700}
+.stcrit{border:1px solid color-mix(in srgb,var(--tc) 35%,var(--line));background:color-mix(in srgb,var(--tc) 5%,var(--surface));border-radius:12px;padding:12px;margin:8px 0}
+.stflow{display:flex;flex-direction:column;gap:4px;margin:6px 0 10px;font-size:.9rem}
+.stflow div{display:grid;grid-template-columns:5.2em 1fr;gap:8px;padding:5px 8px;border-radius:8px;background:var(--sunk)}
+.stflow div.on{background:var(--ok-bg);color:var(--ok);font-weight:600}
+.stflow div.off{opacity:.55}
+.stres{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--info-bg);color:var(--info)}
+.stres b{font-size:1.4rem}
+.stres .sm{color:var(--muted)}
 .stdet h4{margin:12px 0 6px;font-size:.95rem;color:var(--tc2,var(--tc))}.stdet h4:first-child{margin-top:0}.pnres table{min-width:0!important}.pnres input{width:7.5em}.pnres input[type=date]{width:10.5em}.pnres td,.pnres th{vertical-align:top;padding:6px 8px}.pnres .sm{font-size:.82rem;color:var(--muted)}.pnres button{margin-top:4px;padding:3px 10px;font-size:.85rem}
 .pnres .st{font-weight:700;white-space:nowrap}.pnres .st.ok{color:var(--ok)}.pnres .st.e{color:var(--err)}
 .pnres tr.sel td{background:color-mix(in srgb,var(--tc,#d97706) 10%,transparent)}
@@ -1161,6 +1169,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <li>แท็บส้ม: ดูบัญชีสรุป/รายการเพิ่มลด ตั้งกระดาษ ขอบ ความหนาเส้น แล้วพิมพ์ หรือบันทึก Excel (มีสูตร)</li></ol>
     <h3 id="g3">3. การ์ด ① ข้อมูลสัญญา &amp; ค่าปรับ</h3>
     <ul><li><b>ระยะเวลาและค่าปรับ</b>: บันทึกแก้ไขสัญญา (ขยายวัน) และการงดค่าปรับ (เหตุผล/เลขที่อนุมัติ/จำนวนวัน)</li>
+      <li><b>เกณฑ์คิดจำนวนวัน</b> (แนวทางกรมทางหลวง ส.ค. 2561): ในรายการหยุดงานแต่ละรายการมีกล่อง ⚖️ ไล่ขั้นที่ 1–4 ให้เองว่าเข้าข้อไหน (ข้อ 1 ส่งมอบพื้นที่ไม่ได้ · ข้อ 2.1 แก้เสร็จในอายุสัญญา ข−ค · ข้อ 2.2 แก้เสร็จหลังสิ้นสุดสัญญา ลดค่าปรับ ข / ก+ข · ข้อ 2.3 อุทกภัย · ข้อ 2.5 เทศกาล · ข้อ 2.6 เหตุอื่น) ใส่วันทำการส่วนที่ติดขัด วันฝนตกต่อปี และวันที่แก้ปัญหาเสร็จ ระบบคำนวณ ก ข ค พร้อมวันเผื่อฝนตก และใส่ผลลงในบันทึกขอขยาย/งดลดค่าปรับให้</li>
       <li><b>หยุดงาน &amp; ขยายอายุสัญญา</b> (มาตรา 102 · ข้อ 182): ระบบเตือนเมื่อสัญญาคร่อมเทศกาลปีใหม่/สงกรานต์ · กด “+ หยุดงาน…” หรือ “+ ติดสาธารณูปโภค” → ใส่วันที่และเลขหนังสือแต่ละขั้น → กด 📄 เอกสาร ได้ชุด 4 ฉบับ (บันทึกผู้ควบคุมงานเสนอสั่งหยุด + ความเห็นคณะกรรมการฯ, หนังสือสั่งหยุดถึงผู้รับจ้าง, บันทึกขอขยายอายุสัญญา, บันทึกเสนอผู้มีอำนาจอนุมัติ) · ผู้รับจ้างต้องยื่นขอขยายภายใน 15 วันหลังสิ้นสุดเหตุ · ติ๊ก “อนุมัติแล้ว” ระบบเลื่อนวันสิ้นสุดสัญญาและค่าปรับให้อัตโนมัติ</li>
       <li><b>แจ้งการปรับ / สงวนสิทธิ์</b> (ข้อ 181): ครบกำหนดแล้วยังไม่ส่งงาน → พิมพ์ <b>แจ้งการปรับ (พ.1-42)</b> ให้ ผอ.ขท. ลงนาม ภายใน 7 วันทำการ · วันที่ผู้รับจ้างส่งงานงวดสุดท้าย → ประธานกรรมการฯ ลงนาม <b>แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43)</b> วันนั้นเลย ทั้งสองแบบพิมพ์ได้ 2 หน้า คือต้นฉบับ (ส่งผู้รับจ้าง) และสำเนาคู่ฉบับ (ให้ผู้รับจ้างลงชื่อรับ แล้วเก็บเข้าแฟ้ม) · ระบบขึ้นเตือนในปฏิทินให้</li>
       <li><b>เตือนค่าปรับ</b>: ระบบคิดวันที่ค่าปรับถึง 7.5% และเกิน 10% · ถึง 7.5% ให้ผู้ควบคุมงานพิมพ์ <b>บันทึกเตือนค่าปรับ</b> เรียน ผอ.ขท. · เกิน 10% ใช้ <b>ชุดขอผ่อนปรนการบอกเลิกสัญญา</b> (บันทึกถึงประธาน → ประชุม → บันทึกถึง ผอ.)</li>
@@ -2346,7 +2355,7 @@ const fmBaht=v=>Math.abs(v-Math.round(v))<0.005?fm(v,0)+'.-':fm(v);
 function endText(){const h=S.h,A=insOf().amends||[],X=stApproved();if(!A.length&&!X.length)return `สิ้นสุดสัญญา วันที่ ${thDate(h.end)}`;
   const L=[...amSorted(A).map(a=>({d:a.date||'9',t:`${amName(a)} ลงวันที่ ${a.date?thDate(a.date):'....................'}`})),...X.map(x=>({d:x.apDate||'9',t:stApText(x)}))].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0).map(x=>x.t);
   return `สิ้นสุดสัญญา (เดิม) วันที่ ${thDate(h.end)} ต่อมาได้${A.length?'แก้ไขสัญญา':'ขยายอายุสัญญา'}ตาม${thList(L)} โดยสิ้นสุดสัญญา (ใหม่) วันที่ ${thDate(effEnd())}`}
-function waiveTotal(){return (insOf().waivers||[]).reduce((t,w)=>t+(parse(w.days)||0),0)}
+function waiveTotal(){return (insOf().waivers||[]).reduce((t,w)=>t+(parse(w.days)||0),0)+(typeof stWaiveDays==='function'?stWaiveDays():0)}
 /* ช่องลงนามมาตรฐาน: (ลงชื่อ) ......... ตำแหน่งในคณะ / (ชื่อ) และตำแหน่ง จัดกึ่งกลางใต้เส้นจุด */
 function sgRows(L,cls){return `<div class="sgt ${cls||''}">`+L.map((x,j)=>`${j?'<div class="gap"></div>':''}<span class="lh">${x.lh||''}</span><span>${x.sl||'(ลงชื่อ)'}</span><span class="dlc"></span><span class="rl">${x.role}</span>`+
   `<span></span><span></span><span class="nmc">(${esc(x.name)})</span><span></span>`+(String(x.pos||'').trim()?`<span></span><span></span><span class="nmc ps">${esc(x.pos)}</span><span></span>`:'')+(x.ex?`<span></span><span></span><span class="nmc ps">${x.ex}</span><span></span>`:'')).join('')+`</div>`}
@@ -3318,14 +3327,47 @@ function docPnReserve(){const P=pnOf(),c0=pnCalc(),C=esc(String(S.h.contractor||
 /* ===== หยุดงาน & ขยายอายุสัญญา (พ.ร.บ.จัดซื้อฯ 2560 มาตรา 102 · ระเบียบฯ ข้อ 182) ===== */
 const ST_K={newyear:{label:'เทศกาลปีใหม่',short:'ปีใหม่',ic:'🎆',fest:true},songkran:{label:'เทศกาลสงกรานต์',short:'สงกรานต์',ic:'💦',fest:true},utility:{label:'ติดสิ่งสาธารณูปโภค',short:'สาธารณูปโภค',ic:'⚡'},other:{label:'เหตุอื่น',short:'เหตุอื่น',ic:'⛔'}};
 const ST_B={'1':'เหตุเกิดจากความผิดหรือความบกพร่องของหน่วยงานของรัฐ','2':'เหตุสุดวิสัย','3':'เหตุเกิดจากพฤติการณ์อันหนึ่งอันใดที่คู่สัญญาไม่ต้องรับผิดตามกฎหมาย'};
-const ST_F=['kind','from','to','reason','place','owner','deptNo','deptDate','supNo','supDate','ordNo','ordDate','reqNo','reqDate','extDate','sendNo','sendDate','aprTo','basis','approved','apNo','apDate','apDays'];
+const ST_F=['kind','from','to','reason','place','owner','gType','fromStart','clear','nbDone','work','rainR','rainBase','cEnd','festDeduct','floodA','floodB','outcome','deptNo','deptDate','supNo','supDate','ordNo','ordDate','reqNo','reqDate','extDate','sendNo','sendDate','aprTo','basis','approved','apNo','apDate','apDays'];
 function stOf(){if(!S.stops)S.stops={list:[],sel:0};if(!Array.isArray(S.stops.list))S.stops.list=[];return S.stops}
 const stDays=x=>x&&x.from&&x.to&&x.to>=x.from?dayDiff(x.from,x.to)+1:0;
-const stExt=x=>x&&x.approved?(parse(x.apDays)||stDays(x)):0;
+function stBaseEnd(){const h=S.h;if(!h.end)return '';const add=(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0);return add?addDays(h.end,add):h.end}
+const stAutoOut=x=>{const k=ST_K[x.kind]||ST_K.other,area=x.kind==='utility'||(x.kind==='other'&&x.gType==='area');return area&&!x.fromStart&&x.clear&&x.clear>(x.cEnd==='orig'?S.h.end:stBaseEnd())?'waive':'ext'};
+const stOut=x=>x.outcome||stAutoOut(x);
+const stAppr=x=>x&&x.approved?(parse(x.apDays)||stDays(x)):0;
+const stExt=x=>x&&x.approved&&stOut(x)!=='waive'?stAppr(x):0;
+const stWv=x=>x&&x.approved&&stOut(x)==='waive'?stAppr(x):0;
+function stWaiveDays(){return (S&&S.stops&&S.stops.list||[]).reduce((t,x)=>t+stWv(x),0)}
+/* เกณฑ์การพิจารณาขยายอายุสัญญา/งดลดค่าปรับ — แนวทางกรมทางหลวง (ส.ค. 2561) */
+function stCalc(x){const h=S.h,k=ST_K[x.kind]||ST_K.other,n=stDays(x),Dc=parse(h.days)||(h.start&&h.end?dayDiff(h.start,h.end)+1:0);
+  const gt=k.fest?'fest':x.kind==='utility'?'area':(x.gType||'26');
+  const r={gt,rule:'',case:'',days:0,type:'ext',lines:[],need:[]};
+  if(gt==='fest'){r.rule='2.5';r.case='หยุดงานช่วงเทศกาลตามหนังสือกรมฯ';r.days=n;r.lines.push(`ขยายตามจำนวนวันที่หยุดงานจริง = ${n} วัน`);if(!n)r.need.push('วันที่หยุดงาน');return r}
+  if(gt==='flood'){const a=parse(x.floodA)||0,b=parse(x.floodB)||0;r.rule='2.3';r.case='อุทกภัย';r.days=a+b;r.lines.push(`วันที่ได้รับผลกระทบ ${a} วัน + วันที่ใช้ฟื้นฟูหลังน้ำลด ${b} วัน = ${a+b} วัน`,'ต้องมีประกาศเขตภัยพิบัติของจังหวัดและภาพถ่ายประกอบ');return r}
+  if(gt==='26'){r.rule='2.6';r.case='เหตุสุดวิสัยหรือเหตุอื่น';r.days=n;r.lines.push(`พิจารณาตามจำนวนวันที่เกิดเหตุจริง = ${n} วัน (เป็นกรณีไป)`);if(!n)r.need.push('วันที่เกิดเหตุ');return r}
+  /* พื้นที่ / ที่ดิน / สาธารณูปโภค */
+  const endO=x.cEnd==='orig'?h.end:effEnd(x);
+  if(x.fromStart){r.rule='1';r.case='ส่งมอบพื้นที่ไม่ได้ตั้งแต่เริ่มสัญญา';if(!x.clear){r.need.push('วันที่รับมอบพื้นที่');return r}
+    const ka=Math.max(0,dayDiff(h.start,x.clear));r.ka=ka;r.days=ka;r.lines.push(`ก = ${thDate(h.start)} ถึงวันก่อนรับมอบพื้นที่ (${thDate(x.clear)}) = ${ka} วัน`,`ขยายอายุสัญญา = ก = ${ka} วัน`);return r}
+  const work=parse(x.work)||0,R=x.rainR===''||x.rainR==null?90:(parse(x.rainR)||0),base=parse(x.rainBase)||work;
+  const rc=Dc?R/365*Dc:0,rp=Dc?Math.round(Math.floor(rc)/Dc*base):0,kb=work+rp;r.kb=kb;
+  r.lines.push(`ข = วันทำการเฉพาะส่วนที่ติดขัด ${work} วัน + วันเผื่อฝนตก ${rp} วัน = ${kb} วัน`,`   วันเผื่อฝนตก: (${R}/365) × ${Dc} = ${rc.toFixed(2)} → (${Math.floor(rc)}/${Dc}) × ${base} = ${rp} วัน`);
+  if(!work)r.need.push('วันทำการเฉพาะส่วนที่ติดขัด');
+  if(!x.clear){r.need.push('วันที่แก้ปัญหาเสร็จ / ผู้รับจ้างเข้าทำงานได้');r.rule='2.?';return r}
+  let fd=0;if(x.festDeduct){(S.stops.list||[]).forEach(z=>{if(z!==x&&ST_K[z.kind].fest&&z.from&&z.to){const a=z.from>x.from?z.from:x.from,b=z.to<x.clear?z.to:x.clear;if(b>=a)fd+=dayDiff(a,b)+1}})}
+  if(x.clear<=endO){r.rule='2.1';const kc=dayDiff(x.clear,endO)+1;r.kc=kc;
+    r.lines.push(`ค = เวลาที่เหลือในสัญญา นับจากวันที่เข้าทำงานได้ ${thDate(x.clear)} ถึง ${thDate(endO)}${x.cEnd==='orig'?' (สิ้นสุดสัญญาเดิม)':''} = ${kc} วัน`);
+    if(kb<=kc){r.case='กรณีที่ 1 (ข ≤ ค)';r.days=0;r.lines.push('ข ≤ ค → ไม่ขยายอายุสัญญา')}
+    else{r.case='กรณีที่ 2 (ข > ค)';r.days=kb-kc;r.lines.push(`ข − ค = ${kb} − ${kc} = ${kb-kc} วัน`)}}
+  else{r.rule='2.2';r.type='waive';const nb=x.nbDone;
+    if(!nb||nb>=x.clear){r.case='กรณีที่ 1 (งานส่วนที่ไม่ติดขัดยังไม่เสร็จ ณ วันแก้ปัญหาเสร็จ)';r.days=kb;r.lines.push(`ลดค่าปรับได้ไม่เกิน ข = ${kb} วัน`);if(!nb)r.need.push('วันที่งานส่วนที่ไม่ติดขัดเสร็จ (ถ้ามี)')}
+    else if(nb<=endO){const ka=Math.max(0,dayDiff(endO,x.clear)-1);r.ka=ka;r.case='กรณีที่ 2 (งานส่วนที่ไม่ติดขัดเสร็จในอายุสัญญา แล้วต้องรอ)';r.days=ka+kb;r.lines.push(`ก = รอคอยหลังสิ้นสุดสัญญา ${thDate(addDays(endO,1))} – ${thDate(addDays(x.clear,-1))} = ${ka} วัน`,`ก + ข = ${ka} + ${kb} = ${ka+kb} วัน`)}
+    else{const ka=Math.max(0,dayDiff(nb,x.clear)-1);r.ka=ka;r.case='กรณีที่ 3 (งานส่วนที่ไม่ติดขัดเสร็จหลังสิ้นสุดสัญญา แล้วต้องรอต่อ)';r.days=ka+kb;r.lines.push(`ก = รอคอยหลังงานส่วนที่ไม่ติดขัดเสร็จ ${thDate(addDays(nb,1))} – ${thDate(addDays(x.clear,-1))} = ${ka} วัน (ไม่นับช่วงก่อนงานส่วนนั้นเสร็จ)`,`ลดค่าปรับได้ไม่เกิน ก + ข = ${ka+kb} วัน`)}}
+  if(fd&&r.days){r.lines.push(`หักวันหยุดเทศกาลที่ทับช่วงติดขัด ${fd} วัน → ${Math.max(0,r.days-fd)} วัน`);r.days=Math.max(0,r.days-fd);if(r.rule==='2.1'&&x.cEnd!=='orig'&&endO!==h.end)r.warn=`ค นับถึงวันสิ้นสุดสัญญาที่ขยายแล้ว (${thDate(endO)}) ถ้าการขยายนั้นรวมวันหยุดเทศกาลไว้แล้ว การหักวันเทศกาลอีกครั้งจะเป็นการหักซ้ำ — ตรวจแนวปฏิบัติ หรือเลือก “นับ ค ถึงวันสิ้นสุดสัญญาเดิม”`}
+  return r}
 function stExtDays(skip){return (S&&S.stops&&S.stops.list||[]).reduce((t,x)=>t+(x===skip?0:stExt(x)),0)}
 function stApproved(){return (S&&S.stops&&S.stops.list||[]).filter(x=>x.approved&&stExt(x)>0)}
 const stRange=x=>x.from?(thDate(x.from)+(x.to?' – '+thDate(x.to):' – (ยังไม่สิ้นสุด)')):'(ยังไม่ใส่วันที่)';
-const stApText=x=>`การขยายอายุสัญญา (หยุดงาน${ST_K[x.kind].label} ${stDays(x)} วัน) ตามหนังสือที่ ${esc(x.apNo||'..........')} ลงวันที่ ${x.apDate?thDate(x.apDate):'..........'}`;
+const stApText=x=>`การขยายอายุสัญญา (${ST_K[x.kind].fest?'หยุดงาน':''}${ST_K[x.kind].label} ${stExt(x)} วัน) ตามหนังสือที่ ${esc(x.apNo||'..........')} ลงวันที่ ${x.apDate?thDate(x.apDate):'..........'}`;
 function stCur(){const T=stOf();return T.list[T.sel]||T.list[T.list.length-1]||null}
 function stFestWins(){const h=S.h,end=effEnd();if(!h.start||!end)return [];const out=[];const y0=+h.start.slice(0,4),y1=+end.slice(0,4);
   for(let y=y0-1;y<=y1;y++){out.push({kind:'newyear',from:`${y}-12-30`,to:`${y+1}-01-05`,y:y+1});out.push({kind:'songkran',from:`${y}-04-11`,to:`${y}-04-17`,y})}
@@ -3335,7 +3377,7 @@ function stState(x){const today=todayISOx(),n=stDays(x),due=x.to?addDays(x.to,15
   st.push(x.ordNo||x.ordDate?['ok','② หนังสือสั่งหยุด ✓']:[x.from&&x.from<=addDays(today,3)?'e':x.from&&x.from<=addDays(today,10)?'w':'','② หนังสือสั่งหยุดถึงผู้รับจ้าง'+(x.from?' (ก่อน '+thDate(x.from)+')':'')]);
   st.push(x.reqNo||x.reqDate?[x.reqDate&&due&&x.reqDate>due?'w':'ok',`③ ผู้รับจ้างขอขยาย ✓${x.reqDate&&due&&x.reqDate>due?' (เกิน 15 วัน)':''}`]:[due&&today>due?'e':x.to&&today>=x.to?'w':'',`③ ผู้รับจ้างยื่นขอขยาย${due?' ภายใน '+thDate(due):''}`]);
   st.push(x.extDate?['ok','④ บันทึกขอขยาย (คกก.) ✓']:[x.reqNo||x.reqDate?'w':'','④ บันทึกขอขยายอายุสัญญา']);
-  st.push(x.approved?['ok',`⑤ อนุมัติขยาย ${stExt(x)} วัน ✓`]:x.sendNo||x.sendDate?['w','⑤ รออนุมัติ ('+esc(x.aprTo||'ผู้มีอำนาจ')+')']:['','⑤ เสนอ '+esc(x.aprTo||'ผู้มีอำนาจ')+' อนุมัติ']);
+  st.push(x.approved?['ok',`⑤ อนุมัติ${stOut(x)==='waive'?'งด/ลดค่าปรับ':'ขยาย'} ${stAppr(x)} วัน ✓`]:x.sendNo||x.sendDate?['w','⑤ รออนุมัติ ('+esc(x.aprTo||'ผู้มีอำนาจ')+')']:['','⑤ เสนอ '+esc(x.aprTo||'ผู้มีอำนาจ')+' อนุมัติ']);
   return {n,due,st,bad:st.some(z=>z[0]==='e'),warn:st.some(z=>z[0]==='w')}}
 function todayISOx(){return new Date(Date.now()+7*3600e3).toISOString().slice(0,10)}
 function stDefAprTo(){return S.demo?'ผส.ทล.xxx':'ผส.ทล.17'}
@@ -3346,7 +3388,7 @@ function stRefresh(){renderSt(false);try{renderPenBox()}catch(e){}renderSecInfo(
 function renderSt(full=true){const T=stOf(),box=$('stList');if(!box)return;
   const W=stFestWins();$('stFest').innerHTML=W.map(w=>{const has=T.list.find(x=>x.kind===w.kind&&x.from<=w.to&&(x.to||x.from)>=w.from);
     return `<div class="${has?'ok':''}"><span>${ST_K[w.kind].ic} สัญญานี้คร่อม${ST_K[w.kind].label} ${w.y+543} (${thDate(w.from).replace(/ \d{4}$/,'')} – ${thDate(w.to)})${has?' — บันทึกการหยุดงานแล้ว':' — ยังไม่บันทึกการหยุดงาน'}</span>${has?'':`<button type="button" data-stadd="${w.kind}">+ บันทึก</button>`}</div>`}).join('');
-  box.innerHTML=T.list.length?T.list.map((x,i)=>{const z=stState(x);return `<div class="strow${i===T.sel?' on':''}" data-sti="${i}"><span class="ic">${ST_K[x.kind].ic}</span><div><b>${ST_K[x.kind].label}${x.place?' · '+esc(x.place):''}</b><span class="sm">${stRange(x)}${z.n?` · ${z.n} วัน`:''}${x.approved?` · ขยายอายุสัญญาแล้ว ${stExt(x)} วัน`:''}</span></div>
+  box.innerHTML=T.list.length?T.list.map((x,i)=>{const z=stState(x);return `<div class="strow${i===T.sel?' on':''}" data-sti="${i}"><span class="ic">${ST_K[x.kind].ic}</span><div><b>${ST_K[x.kind].label}${x.place?' · '+esc(x.place):''}</b><span class="sm">${stRange(x)}${z.n?` · ${z.n} วัน`:''}${x.approved?(stOut(x)==='waive'?` · งด/ลดค่าปรับแล้ว ${stAppr(x)} วัน`:` · ขยายอายุสัญญาแล้ว ${stAppr(x)} วัน`):''}</span></div>
     <div class="acts"><span class="pill ${z.bad?'e':z.warn?'w':x.approved?'ok':''}">${x.approved?'✓ อนุมัติแล้ว':z.bad?'✗ เลยกำหนด':z.warn?'! ต้องดำเนินการ':'อยู่ระหว่างดำเนินการ'}</span><button type="button" data-stdoc="${i}">📄 เอกสาร</button><button type="button" data-stdel="${i}" title="ลบรายการ">✕</button></div></div>`}).join(''):'<div class="sm" style="padding:6px 2px">ยังไม่มีรายการหยุดงาน — กดปุ่มด้านล่างเพื่อเพิ่ม</div>';
   const x=stCur(),D=$('stDet');if(!x){D.hidden=true;return}D.hidden=false;
   if(!full&&D.dataset.for===String(T.sel)){D.querySelector('.ststeps').innerHTML=stState(x).st.map(z=>`<span class="${z[0]}">${z[1]}</span>`).join('');const nd=D.querySelector('[data-stn]');if(nd)nd.textContent=stDays(x)?stDays(x)+' วัน':'-';return}
@@ -3358,6 +3400,7 @@ function renderSt(full=true){const T=stOf(),box=$('stList');if(!box)return;
     ${I('from','หยุดงานตั้งแต่วันที่','date')}${I('to','ถึงวันที่ (ว่าง = ยังไม่สิ้นสุด)','date')}<label class="f">จำนวนวัน<span class="ro" data-stn>${stDays(x)?stDays(x)+' วัน':'-'}</span></label>
     ${fest?I('deptNo','หนังสือกรมฯ ที่','text','เช่น สลน.3/236')+I('deptDate','ลงวันที่','date'):I('place','ช่วง กม. / ตำแหน่ง','text','เช่น กม.10+200 – 10+450')+I('owner','หน่วยงานเจ้าของสาธารณูปโภค','text','เช่น กฟภ. / กปภ. / TOT')+I('reason','สภาพปัญหาที่พบ','text','เช่น เสาไฟฟ้าแรงสูงอยู่ในแนวท่อระบายน้ำ ยังไม่ได้รื้อย้าย',true)}
    </div>
+   ${stCritHtml(x)}
    <h4>เลขที่ / วันที่หนังสือแต่ละขั้น</h4><div class="grid">
     ${I('supNo','① บันทึกผู้ควบคุมงาน เลขที่ (เลขท้าย)','text','')}${I('supDate','ลงวันที่','date')}
     ${I('ordNo','② หนังสือสั่งหยุดถึงผู้รับจ้าง เลขที่ (เลขท้าย)','text','')}${I('ordDate','ลงวันที่','date')}
@@ -3367,8 +3410,9 @@ function renderSt(full=true){const T=stOf(),box=$('stList');if(!box)return;
     <label class="f">เหตุตามมาตรา 102<select data-stf="basis">${Object.entries(ST_B).map(([k,v])=>`<option value="${k}"${String(x.basis||'1')===k?' selected':''}>(${k}) ${v}</option>`).join('')}</select></label>
    </div>
    <h4>ผลการอนุมัติ</h4><div class="grid">
-    <label class="f chk"><input type="checkbox" data-stf="approved"${x.approved?' checked':''}> อนุมัติขยายอายุสัญญาแล้ว (เลื่อนวันสิ้นสุดสัญญาอัตโนมัติ)</label>
-    ${I('apNo','หนังสืออนุมัติ ที่','text','')}${I('apDate','ลงวันที่','date')}${I('apDays','จำนวนวันที่อนุมัติ (ว่าง = เท่าวันหยุดงาน)','number')}
+    <label class="f">ผลที่เสนอ/อนุมัติ<select data-stf="outcome"><option value="">อัตโนมัติตามเกณฑ์ (${stAutoOut(x)==='waive'?'งด/ลดค่าปรับ':'ขยายอายุสัญญา'})</option><option value="ext"${x.outcome==='ext'?' selected':''}>ขยายอายุสัญญา (เลื่อนวันสิ้นสุด)</option><option value="waive"${x.outcome==='waive'?' selected':''}>งดหรือลดค่าปรับ (ไม่เลื่อนวันสิ้นสุด)</option></select></label>
+    <label class="f chk"><input type="checkbox" data-stf="approved"${x.approved?' checked':''}> ผู้มีอำนาจอนุมัติแล้ว</label>
+    ${I('apNo','หนังสืออนุมัติ ที่','text','')}${I('apDate','ลงวันที่','date')}${I('apDays',`จำนวนวันที่อนุมัติ (ติ๊กอนุมัติแล้วจะใส่ ${stCalc(x).days||stDays(x)} วัน ตามเกณฑ์ให้)`,'number')}
    </div>`}
 document.addEventListener('click',e=>{const a=e.target.closest('[data-stadd]');if(a){stNew(a.dataset.stadd);return}
   const d=e.target.closest('[data-stdel]');if(d){const T=stOf(),i=+d.dataset.stdel;if(!confirm('ลบรายการหยุดงานนี้?'))return;T.list.splice(i,1);T.sel=Math.max(0,Math.min(T.sel,T.list.length-1));stRefresh();renderSt();return}
@@ -3376,8 +3420,32 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-stadd]');i
   const r=e.target.closest('[data-sti]');if(r&&!e.target.closest('button')){stOf().sel=+r.dataset.sti;save();renderSt();if(insPage==='stop')renderIns()}});
 document.addEventListener('input',e=>{const t=e.target.closest('[data-stf]');if(!t||!$('stDet').contains(t))return;const x=stCur();if(!x)return;const k=t.dataset.stf;
   x[k]=t.type==='checkbox'?t.checked:t.value;if(k==='kind'||k==='from'){stOf().list.sort((a,b)=>(a.from||'9')<(b.from||'9')?-1:1);stOf().sel=stOf().list.indexOf(x)}
-  if(k==='kind'){renderSt();stRefresh();return}stRefresh()});
-document.addEventListener('change',e=>{const t=e.target.closest('[data-stf]');if(t&&t.type==='checkbox'&&$('stDet').contains(t)){const x=stCur();if(x){x.approved=t.checked;stRefresh();renderSt()}}});
+  if(['kind','gType','fromStart','clear','nbDone','work','rainR','rainBase','cEnd','festDeduct','floodA','floodB','outcome','from','to'].includes(k)){const a=document.activeElement,id=a&&a.dataset&&a.dataset.stf,pos=a&&a.selectionStart;stRefresh();renderSt();if(id){const n=$('stDet').querySelector(`[data-stf="${id}"]`);if(n&&n!==a){n.focus();try{if(pos!=null&&n.type!=='date'&&n.type!=='number')n.setSelectionRange(pos,pos)}catch(e){}}}return}stRefresh()});
+document.addEventListener('change',e=>{const t=e.target.closest('[data-stf]');if(t&&t.type==='checkbox'&&$('stDet').contains(t)){const x=stCur();if(x){x[t.dataset.stf]=t.checked;if(t.dataset.stf==='approved'&&t.checked&&!parse(x.apDays))x.apDays=String(stCalc(x).days||stDays(x));stRefresh();renderSt()}}});
+function stCritHtml(x){const r=stCalc(x),k=ST_K[x.kind],h=S.h;
+  const I=(f,l,t,ph)=>`<label class="f">${l}<input data-stf="${f}" type="${t||'text'}" value="${esc(x[f]==null?'':x[f])}" placeholder="${esc(ph||'')}"></label>`;
+  const flow=[['ขั้นที่ 1','แยกประเภทเหตุ → '+({fest:'หยุดงานเทศกาล (ข้อ 2.5)',flood:'อุทกภัย (ข้อ 2.3)','26':'เหตุสุดวิสัย/เหตุอื่น (ข้อ 2.6)',area:'พื้นที่ ที่ดิน หรือสาธารณูปโภค → ขั้นที่ 2'})[r.gt],1],
+    ...(r.gt==='area'?[['ขั้นที่ 2',x.fromStart?'ส่งมอบพื้นที่ไม่ได้ตั้งแต่เริ่มสัญญา → ข้อ 1 (ขยาย = ก)':'ส่งมอบพื้นที่ได้ แต่บางส่วนติดขัด → ขั้นที่ 3',1],
+      ...(x.fromStart?[]:[['ขั้นที่ 3',!x.clear?'ใส่วันที่แก้ปัญหาเสร็จ เพื่อดูว่าเสร็จก่อนหรือหลังสิ้นสุดสัญญา':r.rule==='2.1'?'แก้ปัญหาเสร็จภายในอายุสัญญา → ข้อ 2.1':'แก้ปัญหาเสร็จหลังสิ้นสุดสัญญา → ข้อ 2.2',!!x.clear],
+        ['ขั้นที่ 4',r.case?`${r.rule} ${r.case}`:'—',!!r.case]])]:[])];
+  const opts=x.kind==='other'?`<label class="f">ประเภทเหตุ (ขั้นที่ 1)<select data-stf="gType"><option value="26"${(x.gType||'26')==='26'?' selected':''}>เหตุสุดวิสัย / เหตุอื่น (ข้อ 2.6)</option><option value="flood"${x.gType==='flood'?' selected':''}>อุทกภัย (ข้อ 2.3)</option><option value="area"${x.gType==='area'?' selected':''}>พื้นที่ / ที่ดิน / สาธารณูปโภค (ข้อ 1, 2.1, 2.2)</option></select></label>`:'';
+  let inp='';
+  if(r.gt==='flood')inp=I('floodA','วันที่ได้รับผลกระทบ (วัน)','number')+I('floodB','วันที่ใช้ฟื้นฟูหลังน้ำลด (วัน)','number');
+  if(r.gt==='area')inp=`<label class="f chk"><input type="checkbox" data-stf="fromStart"${x.fromStart?' checked':''}> ส่งมอบพื้นที่ไม่ได้ตั้งแต่วันเริ่มสัญญา</label>
+    ${I('clear',x.fromStart?'วันที่รับมอบพื้นที่':'วันที่แก้ปัญหาเสร็จ / ผู้รับจ้างเข้าทำงานได้','date')}
+    ${x.fromStart?'':I('work','วันทำการเฉพาะส่วนที่ติดขัด (วัน)','number','ตามตารางแนบ')+I('rainR','วันฝนตกต่อปี (ตามเขตฝน)','number','เช่น 90 (ชุก 1)')+I('rainBase','ฐานคูณวันฝน (ว่าง = วันทำการส่วนที่ติดขัด)','number')}
+    ${!x.fromStart&&x.clear&&r.rule==='2.2'?I('nbDone','งานส่วนที่ไม่ติดขัดเสร็จวันที่','date'):''}
+    ${x.fromStart?'':`<label class="f">นับ ค ถึง<select data-stf="cEnd"><option value="">วันสิ้นสุดสัญญาปัจจุบัน (${thDate(effEnd(x))})</option><option value="orig"${x.cEnd==='orig'?' selected':''}>วันสิ้นสุดสัญญาเดิม (${thDate(h.end)})</option></select></label>
+    <label class="f chk"><input type="checkbox" data-stf="festDeduct"${x.festDeduct?' checked':''}> หักวันหยุดเทศกาลที่ทับช่วงติดขัด</label>`}`;
+  return `<div class="stcrit"><h4 style="margin-top:0">⚖️ เกณฑ์การพิจารณาจำนวนวัน (แนวทางกรมทางหลวง ส.ค. 2561 · มาตรา 102)</h4>
+   <div class="stflow">${flow.map(f=>`<div class="${f[2]?'on':'off'}"><span>${f[0]}</span><span>${f[1]}</span></div>`).join('')}</div>
+   ${opts||inp?`<div class="grid">${opts}${inp}</div>`:''}
+   <div class="stres"><span>${r.rule?'ข้อ '+r.rule+' · ':''}${r.type==='waive'?'งด/ลดค่าปรับได้ไม่เกิน':'ขยายอายุสัญญา'}</span><b>${r.need.length&&!r.days?'–':r.days+' วัน'}</b>${r.days&&parse(S.h.pendoc||'')?`<span class="sm">(ค่าปรับวันละ ${fm(parse(S.h.pendoc))} × ${r.days} = ${fm(parse(S.h.pendoc)*r.days)} บาท)</span>`:''}</div>
+   <div class="sm" style="margin-top:6px;line-height:1.6">${r.lines.map(esc).join('<br>')}${r.need.length?`<br><b>ยังต้องใส่:</b> ${r.need.join(', ')}`:''}${r.warn?`<br><span style="color:var(--warn)">⚠ ${esc(r.warn)}</span>`:''}</div>
+   ${r.gt==='area'?'<div class="sm" style="margin-top:6px">ขั้นตอนเสนอ: นายช่างโครงการ/ผู้ควบคุมงาน → ผู้จัดการโครงการ → คณะกรรมการตรวจรับพัสดุ → สำนัก/กองเจ้าของงาน → คณะกรรมการพิจารณาปัญหางานจ้างเหมา → ผู้มีอำนาจอนุมัติ → ทำบันทึกแนบท้ายสัญญา</div>':''}
+  </div>`}
+function stCritText(x){const r=stCalc(x);if(r.gt==='fest'||!r.rule)return '';
+  return `<p class="ind">การพิจารณาจำนวนวันตามแนวทางการพิจารณาของกรมทางหลวง (ส.ค. 2561) ข้อ ${r.rule}${r.case?' '+esc(r.case):''} ดังนี้ ${r.lines.filter(l=>!/^\s/.test(l)).map(esc).join(' · ')}</p>`}
 /* ---- เอกสารชุดหยุดงาน ---- */
 function stTo(){const C=String(S.h.contractor||'').trim();return (/^ห้างหุ้นส่วน/.test(C)?'หุ้นส่วนผู้จัดการ ':'กรรมการผู้จัดการ ')+C}
 function stWhy(x,short){const k=ST_K[x.kind],pl=x.place?` บริเวณ ${esc(x.place)}`:'';
@@ -3391,7 +3459,7 @@ function stSigList(withCtl){const {chair,mem}=committee(),ctl=ctlPerson(),asst=(
 function docStop(){const x=stCur();if(!x)return [`<div class="ipaper th memo wkdoc"><p class="ctr" style="margin-top:40%">ยังไม่มีรายการหยุดงาน — เพิ่มในการ์ด “หยุดงาน &amp; ขยายอายุสัญญา”</p></div>`];
   const h=S.h,ins=insOf(),k=ST_K[x.kind],fest=k.fest,C=esc(String(h.contractor||'..............................').trim()),D='....................',n=stDays(x),off=esc(ins.office||'แขวงทางหลวง');
   const from=x.from?thDate(x.from):D,to=x.to?thDate(x.to):D,ctl=ctlPerson(),val=parse(h.value)||0;
-  const prevEnd=effEnd(x.approved?x:undefined),newEnd=n&&prevEnd?addDays(prevEnd,x.approved?(stExt(x)):n):'';
+  const R=stCalc(x),wv=stOut(x)==='waive',act=wv?'งดหรือลดค่าปรับ':'ขยายอายุสัญญา',nd=x.approved?stAppr(x):(R.days||n),prevEnd=effEnd(x),newEnd=!wv&&nd&&prevEnd?addDays(prevEnd,nd):'';
   const deptRef=x.deptNo?`บันทึกข้อความกรมทางหลวง ที่ ${esc(x.deptNo)} ลงวันที่ ${x.deptDate?thDate(x.deptDate):D}`:`หนังสือสั่งการกรมทางหลวง ที่ ${D}`;
   const ordNoT=`หนังสือที่ ${esc(pnV('pre'))}${esc(x.ordNo||'..........')} ลงวันที่ ${x.ordDate?thDate(x.ordDate):D}`,ordRef=`หนังสือ${off} ที่ ${esc(pnV('pre'))}${esc(x.ordNo||'..........')} ลงวันที่ ${x.ordDate?thDate(x.ordDate):D}`;
   const reqNoT=`หนังสือที่ ${esc(x.reqNo||'..........')} ลงวันที่ ${x.reqDate?thDate(x.reqDate):D}`,reqRef=`หนังสือ${C} ที่ ${esc(x.reqNo||'..........')} ลงวันที่ ${x.reqDate?thDate(x.reqDate):D}`;
@@ -3421,13 +3489,14 @@ function docStop(){const x=stCur();if(!x)return [`<div class="ipaper th memo wkd
   /* ③ บันทึกขอขยายอายุสัญญา (ผู้ควบคุมงาน + คกก. → ผอ.) */
   const att=[`สำเนา${ctr}`,...(fest?[`สำเนา${deptRef}`]:[]),`สำเนา${ordRef}`,`สำเนา${reqRef}`,'สำเนารายงานการปฏิบัติงานประจำวันของผู้รับจ้าง (ช่วงหยุดงาน)'];
   const attL=att.map((t,i)=>`<p class="exli" style="padding-left:4.2em">${i+1}. ${t}</p>`).join('');
-  const t3=`ขอขยายอายุสัญญาจ้างเลขที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`;
+  const t3=`ขอ${wv?'อนุมัติงดหรือลดค่าปรับ ตามสัญญาจ้าง':'ขยายอายุสัญญาจ้าง'}เลขที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`;
   const happen=fest?`เนื่องจากกรมทางหลวงมีนโยบายตาม${deptRef} ให้ทุกหน่วยงานที่มีโครงการก่อสร้างอยู่ระหว่างดำเนินการ หยุดดำเนินการเพื่อคืนพื้นผิวจราจรให้สามารถใช้งานได้อย่างเต็มพื้นที่และมีประสิทธิภาพในการอำนวยความสะดวกปลอดภัย ตลอดจนป้องกันและบรรเทาอุบัติเหตุบนท้องถนน เพื่อลดความสูญเสียในชีวิตและทรัพย์สินของประชาชนผู้ใช้เส้นทางในการเดินทาง${stWhy(x)} ตั้งแต่วันที่ ${from} – ${to} เป็นระยะเวลา ${n||'....'} วัน`
     :`เนื่องจาก${esc(x.reason||'..............................')}${x.place?' บริเวณ '+esc(x.place):''}${x.owner?' ซึ่งเป็นสาธารณูปโภคของ '+esc(x.owner):''} ทำให้ผู้รับจ้างไม่สามารถดำเนินการก่อสร้างได้ ตั้งแต่วันที่ ${from} – ${to} เป็นระยะเวลา ${n||'....'} วัน`;
   const p3=stMemoHead('',x.extDate,t3,esc(pnV('dPos')))+
    `<p class="ind">1. เรื่องเดิม ตาม${ctr} โดย${C} เป็นผู้รับจ้าง ${projTxt} ค่างานตามสัญญา ${fmBaht(val)} บาท เวลาทำการ ${esc(h.days)} วัน เริ่มต้นสัญญาวันที่ ${thDate(h.start)} สิ้นสุดสัญญาวันที่ ${thDate(prevEnd)}</p>
    <p class="ind">2. เรื่องที่เกิดขึ้น ${happen} และ${off}ได้มี${ordNoT} แจ้งให้${C} หยุดดำเนินการก่อสร้าง ซึ่ง${C} ได้ปฏิบัติตาม และ${C} ได้มี${reqNoT} ขอขยายอายุสัญญาจ้าง${stWhy(x,1).replace(/^ช่วง/,'ในช่วง')} เป็นระยะเวลา ${n||'....'} วัน</p>
-   <p class="ind">3. เรื่องที่เสนอพิจารณา ตามที่ผู้ควบคุมงานได้ควบคุมงานเป็นประจำทุกวัน และบันทึกหลักฐานตามความเป็นจริง ประกอบกับเอกสารหลักฐานที่เกี่ยวข้อง คณะกรรมการตรวจรับพัสดุเห็นสมควรขยายอายุสัญญาให้ผู้รับจ้าง ตามวันเวลาที่เกิดขึ้นจริง ตั้งแต่วันที่ ${from} – ${to} เป็นเวลา ${n||'....'} วัน สิ้นสุดสัญญาใหม่วันที่ ${newEnd?thDate(newEnd):D} พร้อมนี้ได้แนบเอกสารต่าง ๆ มาเพื่อประกอบการพิจารณา ดังนี้</p>${attL}
+   ${stCritText(x)}
+   <p class="ind">3. เรื่องที่เสนอพิจารณา ตามที่ผู้ควบคุมงานได้ควบคุมงานเป็นประจำทุกวัน และบันทึกหลักฐานตามความเป็นจริง ประกอบกับเอกสารหลักฐานที่เกี่ยวข้อง คณะกรรมการตรวจรับพัสดุเห็นสมควร${act}ให้ผู้รับจ้าง${R.gt==='fest'?` ตามวันเวลาที่เกิดขึ้นจริง ตั้งแต่วันที่ ${from} – ${to}`:''} เป็นเวลา ${nd||'....'} วัน${wv?'':` สิ้นสุดสัญญาใหม่วันที่ ${newEnd?thDate(newEnd):D}`} พร้อมนี้ได้แนบเอกสารต่าง ๆ มาเพื่อประกอบการพิจารณา ดังนี้</p>${attL}
    <p class="ind" style="margin-top:6px">จึงเรียนมาเพื่อโปรดพิจารณาดำเนินการต่อไป</p>`;
   const p3b=stSigList(true);
   /* ④ บันทึก ผอ. → ผู้มีอำนาจอนุมัติ */
@@ -3444,8 +3513,8 @@ function docStop(){const x=stCur();if(!x)return [`<div class="ipaper th memo wkd
    <p class="ind">2.1 ${off}ได้มี${ordNoT} แจ้งให้${C} หยุดดำเนินการก่อสร้าง ตั้งแต่วันที่ ${from} – ${to}</p>
    <p class="ind">2.2 ${C} ได้มี${reqNoT} ขอขยายอายุสัญญา เป็นระยะเวลา ${n||'....'} วัน</p>
    <p class="ind">2.3 ผู้ควบคุมงานได้สรุปรายงานประจำวัน ระหว่างวันที่ ${from} – ${to} ผู้รับจ้างได้หยุดการก่อสร้าง เป็นเวลา ${n||'....'} วัน</p>`;
-  const p4b=`<p class="ctr" style="margin-bottom:10px">- 2 -</p>
-   <p class="ind">${off}พิจารณาแล้วเห็นว่า เป็นกรณีที่ผู้รับจ้าง${fest?'ต้องหยุดงานตามนโยบายของกรมทางหลวง':'ไม่สามารถดำเนินการก่อสร้างได้ด้วยเหตุดังกล่าว'} เห็นควรขยายอายุสัญญาให้กับ${C} ผู้รับจ้าง เป็นเวลา ${n||'....'} วัน ตามความเห็นของผู้ควบคุมงานและคณะกรรมการตรวจรับพัสดุ ตั้งแต่วันที่ ${from} – ${to} สิ้นสุดสัญญาใหม่วันที่ ${newEnd?thDate(newEnd):D} ซึ่งกรณีดังกล่าวเป็นไปตาม${law} พร้อมนี้ได้แนบเอกสารต่าง ๆ มาเพื่อประกอบการพิจารณา ดังนี้</p>${attL}
+  const p4b=`<p class="ctr" style="margin-bottom:10px">- 2 -</p>${stCritText(x)}
+   <p class="ind">${off}พิจารณาแล้วเห็นว่า เป็นกรณีที่ผู้รับจ้าง${fest?'ต้องหยุดงานตามนโยบายของกรมทางหลวง':'ไม่สามารถดำเนินการก่อสร้างได้ด้วยเหตุดังกล่าว'} เห็นควร${act}ให้กับ${C} ผู้รับจ้าง เป็นเวลา ${nd||'....'} วัน ตามความเห็นของผู้ควบคุมงานและคณะกรรมการตรวจรับพัสดุ${R.gt==='fest'?` ตั้งแต่วันที่ ${from} – ${to}`:''}${wv?'':` สิ้นสุดสัญญาใหม่วันที่ ${newEnd?thDate(newEnd):D}`} ซึ่งกรณีดังกล่าวเป็นไปตาม${law} พร้อมนี้ได้แนบเอกสารต่าง ๆ มาเพื่อประกอบการพิจารณา ดังนี้</p>${attL}
    <p class="ind" style="margin-top:6px">จึงเรียนมาเพื่อโปรดพิจารณา</p>
    <div style="margin:30px 0 0 38%;text-align:center;line-height:1.55">(${esc(pnV('dName')||'..............................')})<br>${esc(pnV('dPos'))}</div>`;
   const pg=html=>`<div class="ipaper th memo wkdoc tight">${thdHtml(html)}</div>`;
@@ -4043,7 +4112,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 42 · 27 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 43 · 27 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -4072,7 +4141,7 @@ else{$('licFoot').hidden=false;showHome();
     <div class="lk-links" id="lkLinks"></div>
     <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 42 · 27 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 43 · 27 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
     </form>
 </div>
 <style>
