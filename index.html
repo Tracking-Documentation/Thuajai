@@ -883,6 +883,50 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <div class="btns"><button type="button" id="bPfAdd">+ บันทึกเหตุ / หนังสือแจ้ง</button></div>
     </div>
 
+
+    <div class="icard t-rose" id="qcBox" data-sec="contract">
+      <div class="ich"><span class="num">7</span><div class="ict"><b>🛡 คุณสมบัติผู้มีสิทธิเสนอราคา (คำสั่ง ทล. ที่ ม.1/151/2549)</b><small>หลักเกณฑ์การพิจารณาคุณสมบัติผู้มีสิทธิเสนอราคางานก่อสร้างและบำรุงทาง (ลว. 11 ก.ย. 2549 · เอกสารแนบท้ายสัญญาจ้าง ผนวก) — ตรวจจากแผนงาน รายงานประจำสัปดาห์ และวันสิ้นสุดสัญญาให้อัตโนมัติ</small></div></div>
+      <div class="pwhead" id="qcHead"></div>
+      <div class="grid">
+        <label class="f">ประเภทงาน<select id="qc_type"><option value="con">งานก่อสร้างทาง/สะพาน/ปรับปรุง/ลาดยาง ฯลฯ</option><option value="mnt">งานบำรุงทาง</option></select></label>
+        <label class="f">ตรวจสถานะ ณ วันที่<input id="qc_asof" type="date"><span class="hint">ว่างไว้ = วันนี้</span></label>
+        <label class="f chk"><input type="checkbox" id="qc_special"> งานลักษณะพิเศษ / งานเร่งด่วน (ข้อ 7 — เกณฑ์ล่าช้า 5%)</label>
+        <label class="f chk"><input type="checkbox" id="qc_excuse"> ความล่าช้ามีเหตุอันสมควร / ไม่ใช่ความผิดของผู้รับจ้าง</label>
+        <label class="f wide" id="qc_exNoteW">เหตุ (ใช้ประกอบการพิจารณา)<input id="qc_exNote" placeholder="เช่น ติดสาธารณูปโภค อยู่ระหว่างรื้อย้าย"></label>
+      </div>
+      <details class="wkset" id="qcMore">
+        <summary>ข้อมูลประกอบเกณฑ์ข้ออื่น (ลงนามสัญญา · เข้าดำเนินการ · รับประกัน · เงินค่า K · บอกเลิกสัญญา · จำนวนโครงการ)</summary>
+        <div class="grid">
+          <label class="f">หน่วยงานมีหนังสือแจ้งให้มาลงนามสัญญา เมื่อ<input id="qc_callDate" type="date"></label>
+          <label class="f">ผู้รับจ้างมาลงนามสัญญา เมื่อ<input id="qc_signDate" type="date"></label>
+          <label class="f qc-mnt">กำหนดให้เข้าดำเนินการภายใน (วัน นับแต่วันเริ่มสัญญา ไม่เกิน 30)<input id="qc_enterDays" class="num" inputmode="numeric" placeholder="30"></label>
+          <label class="f qc-mnt">ผู้รับจ้างเข้าดำเนินการ เมื่อ<input id="qc_enterDate" type="date"></label>
+          <label class="f">แจ้งให้ซ่อมงานชำรุดในระยะรับประกัน — กำหนดแล้วเสร็จ<input id="qc_wDue" type="date"></label>
+          <label class="f">ซ่อมแล้วเสร็จ เมื่อ<input id="qc_wFixed" type="date"></label>
+          <label class="f">ผู้รับจ้างได้รับแจ้งให้คืนเงินค่า K / ส่วนต่างอัตราแลกเปลี่ยน เมื่อ<input id="qc_kDate" type="date"></label>
+          <label class="f">คืนเงินแล้ว เมื่อ<input id="qc_kPaid" type="date"></label>
+          <label class="f">การบอกเลิกสัญญา (ความผิดผู้รับจ้าง)<select id="qc_term"><option value="">ไม่มี</option><option value="req">อยู่ระหว่างขออนุมัติบอกเลิกสัญญา</option><option value="done">บอกเลิกสัญญาแล้ว</option></select></label>
+          <label class="f">ลงวันที่<input id="qc_termDate" type="date"></label>
+          <label class="f chk qc-con"><input type="checkbox" id="qc_quota"> ผู้รับจ้างมีจำนวนโครงการครบตามสิทธิ์การเสนอราคา (หลักเกณฑ์การจดทะเบียนฯ)</label>
+        </div>
+      </details>
+      <div class="ptitle">📋 ตรวจตามหลักเกณฑ์ทีละข้อ <span class="note">✗ เข้าข่ายขาดคุณสมบัติ · ! เฝ้าระวัง / ต้องตรวจสอบ · ✓ ผ่าน · ○ ยังไม่ถึงกำหนด</span></div>
+      <div class="tbl-wrap"><table class="ptb pftl" id="qcTbl"></table></div>
+      <div class="ptitle">📈 ผลงานรายเดือน หลังเวลาล่วงเลยเกินครึ่งหนึ่งของสัญญา <span class="note">ข้อ 10 — ล่าช้ากว่าแผน และผลงานประจำเดือนไม่ถึง 50% ของแผนประจำเดือน (คิดจากรายงานประจำสัปดาห์)</span></div>
+      <div class="tbl-wrap"><table class="ptb pftl" id="qcMon"></table></div>
+      <details class="wkset" id="qcDoc">
+        <summary>เลขที่หนังสือ — บันทึกรายงาน (ผู้ควบคุมงาน → ผอ.ขท.) และหนังสือแจ้งผู้รับจ้าง</summary>
+        <div class="grid">
+          <label class="f">บันทึกรายงาน เลขที่ (เลขท้าย)<input id="qc_no1" placeholder="เช่น 60"></label>
+          <label class="f">ลงวันที่<input id="qc_d1" type="date"></label>
+          <label class="f">หนังสือแจ้งผู้รับจ้าง เลขที่ (เลขท้าย)<input id="qc_no2" placeholder="เช่น 1250"></label>
+          <label class="f">ลงวันที่<input id="qc_d2" type="date"></label>
+          <label class="f">ให้ผู้รับจ้างส่งแผนเร่งรัดงานภายใน (วัน)<input id="qc_planDays" class="num" inputmode="numeric" placeholder="7"></label>
+        </div>
+      </details>
+      <div class="btns"><button type="button" id="bQcDoc" class="primary">📄 ดูเอกสาร (บันทึกรายงาน + หนังสือแจ้งผู้รับจ้าง)</button><button type="button" data-law>⚖️ อ่านหลักเกณฑ์</button></div>
+    </div>
+
     <div class="icard t-green" data-sec="pay">
     <div class="ich"><span class="num">1</span><div class="ict"><b>🧾 งวดงาน</b><small>เลือกงวด แล้วกรอกเลขหนังสือส่งงาน วันที่ และเงื่อนไขของงวดนั้น</small></div></div>
     <div class="instbar">
@@ -1050,6 +1094,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
         <button type="button" data-ip="penw" data-sec="contract" aria-pressed="false">บันทึกเตือนค่าปรับ</button>
         <button type="button" data-ip="lenient" data-sec="contract" aria-pressed="false">ชุดขอผ่อนปรนการบอกเลิกสัญญา</button>
         <button type="button" data-ip="perf" data-sec="contract" aria-pressed="false">สรุปคะแนนความเสียหาย</button>
+        <button type="button" data-ip="qual" data-sec="contract" aria-pressed="false">คุณสมบัติผู้เสนอราคา (ม.1/151)</button>
       </div>
       <div class="btns"><button type="button" id="bInsEdit">✏️ แก้ไขข้อความในเอกสาร</button><button type="button" id="bInsWord">⬇ ดาวน์โหลดเป็น Word (.docx)</button><button type="button" id="bInsPrint" class="primary">🖨 พิมพ์ / บันทึกเป็น PDF</button></div>
     </div>
@@ -1173,7 +1218,8 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <li><b>หยุดงาน &amp; ขยายอายุสัญญา</b> (มาตรา 102 · ข้อ 182): ระบบเตือนเมื่อสัญญาคร่อมเทศกาลปีใหม่/สงกรานต์ · กด “+ หยุดงาน…” หรือ “+ ติดสาธารณูปโภค” → ใส่วันที่และเลขหนังสือแต่ละขั้น → กด 📄 เอกสาร ได้ชุด 4 ฉบับ (บันทึกผู้ควบคุมงานเสนอสั่งหยุด + ความเห็นคณะกรรมการฯ, หนังสือสั่งหยุดถึงผู้รับจ้าง, บันทึกขอขยายอายุสัญญา, บันทึกเสนอผู้มีอำนาจอนุมัติ) · ผู้รับจ้างต้องยื่นขอขยายภายใน 15 วันหลังสิ้นสุดเหตุ · ติ๊ก “อนุมัติแล้ว” ระบบเลื่อนวันสิ้นสุดสัญญาและค่าปรับให้อัตโนมัติ</li>
       <li><b>แจ้งการปรับ / สงวนสิทธิ์</b> (ข้อ 181): ครบกำหนดแล้วยังไม่ส่งงาน → พิมพ์ <b>แจ้งการปรับ (พ.1-42)</b> ให้ ผอ.ขท. ลงนาม ภายใน 7 วันทำการ · วันที่ผู้รับจ้างส่งงานงวดสุดท้าย → ประธานกรรมการฯ ลงนาม <b>แจ้งสงวนสิทธิ์ค่าปรับ (พ.1-43)</b> วันนั้นเลย ทั้งสองแบบพิมพ์ได้ 2 หน้า คือต้นฉบับ (ส่งผู้รับจ้าง) และสำเนาคู่ฉบับ (ให้ผู้รับจ้างลงชื่อรับ แล้วเก็บเข้าแฟ้ม) · ระบบขึ้นเตือนในปฏิทินให้</li>
       <li><b>เตือนค่าปรับ</b>: ระบบคิดวันที่ค่าปรับถึง 7.5% และเกิน 10% · ถึง 7.5% ให้ผู้ควบคุมงานพิมพ์ <b>บันทึกเตือนค่าปรับ</b> เรียน ผอ.ขท. · เกิน 10% ใช้ <b>ชุดขอผ่อนปรนการบอกเลิกสัญญา</b> (บันทึกถึงประธาน → ประชุม → บันทึกถึง ผอ.)</li>
-      <li><b>ประเมินผลผู้ประกอบการ</b> (สัญญาตั้งแต่ 5 ล้าน ประกาศตั้งแต่ 10 ก.ค. 2569): ดูจุดเฝ้าระวัง บันทึกเหตุ/หนังสือแจ้ง ระบบนับคะแนนทุก 30 วัน และกำหนดอุทธรณ์ 7 วันทำการ</li></ul>
+      <li><b>ประเมินผลผู้ประกอบการ</b> (สัญญาตั้งแต่ 5 ล้าน ประกาศตั้งแต่ 10 ก.ค. 2569): ดูจุดเฝ้าระวัง บันทึกเหตุ/หนังสือแจ้ง ระบบนับคะแนนทุก 30 วัน และกำหนดอุทธรณ์ 7 วันทำการ</li>
+      <li><b>คุณสมบัติผู้มีสิทธิเสนอราคา</b> (คำสั่ง ทล. ม.1/151/2549 · การ์ด 7): ระบบตรวจ 10 ข้อของงานก่อสร้าง (หรือ 6 ข้อของงานบำรุงทาง) จากแผนงาน รายงานประจำสัปดาห์ และวันสิ้นสุดสัญญา — ล่าช้าเกิน 15% (งานพิเศษ/เร่งด่วน 5%), เกินครึ่งเวลาแล้วผลงานไม่ถึง 25%, ผลงานรายเดือนไม่ถึง 50% ของแผนเดือน, หมดสัญญาแล้วผลงานไม่ถึง 90% · ข้ออื่น (ลงนาม 30 วัน, ค่า K 15 วัน, ซ่อมในระยะประกัน, บอกเลิก) ใส่วันที่ในกล่อง “ข้อมูลประกอบ” · ถ้าความล่าช้ามีเหตุอันสมควร ติ๊กช่อง ระบบลดเป็นเฝ้าระวัง · กด 📄 ได้บันทึกผู้ควบคุมงานรายงาน ผอ.ขท. + หนังสือแจ้ง/เร่งรัดผู้รับจ้าง (มีครุฑ + สำเนาคู่ฉบับ) · ขึ้นปฏิทินให้</li></ul>
     <h3 id="g4">4. การ์ด ② รายงานประจำวัน</h3>
     <ul><li>กด <b>+ เพิ่มวันถัดไป</b> (คัดลอกแรงงาน/เครื่องจักรจากวันก่อน) · ใส่ปริมาณงานตามรายการ งานอื่น วัสดุ ปัญหา สภาพอากาศ</li>
       <li>ใต้ช่องวันที่บอกว่าอยู่สัปดาห์ไหน — กด <b>ไปดูสัปดาห์ที่ n →</b> เพื่อไปที่รายงานประจำสัปดาห์</li></ul>
@@ -1240,6 +1286,14 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
       <tr><th>ข้อ 190/6</th><td>อุทธรณ์ภายใน <b>7 วันทำการ</b> นับแต่ได้รับแจ้ง · หน่วยงานพิจารณาภายใน 7 วันทำการ · ไม่เห็นด้วยส่งผู้มีอำนาจเหนือขึ้นไปภายใน 7 วันทำการ · ผู้มีอำนาจพิจารณาภายใน 30 วัน (ขยายได้ไม่เกิน 30 วัน)</td><td class="use">ปฏิทิน · จุดเฝ้าระวัง</td></tr>
       <tr><th>ข้อ 190/7</th><td>ระงับการยื่นข้อเสนอ/ทำสัญญา นับถัดจากวันที่คะแนนสะสมอยู่ในเกณฑ์: 10–29 = 30 วัน · 30–59 = 90 · 60–119 = 180 · 120–179 = 360 · 180–239 = 540 · 240 ขึ้นไป = 720 วัน (หักวันที่เคยถูกระงับภายใน 2 ปี)</td><td class="use">กล่องคะแนนสะสม</td></tr>
       <tr><th>ข้อ 190/9</th><td>กรมบัญชีกลางลบคะแนนเมื่อครบ 2 ปีนับถัดจากวันประกาศเผยแพร่</td><td class="use"></td></tr>
+    </tbody></table>
+    <h3>คำสั่งกรมทางหลวง ที่ ม.1/151/2549 (ลว. 11 ก.ย. 2549) — หลักเกณฑ์การพิจารณาคุณสมบัติผู้มีสิทธิเสนอราคางานก่อสร้างและบำรุงทาง</h3>
+    <p class="src">เอกสารแนบท้ายสัญญาจ้าง (ผนวก) · อาศัยคำสั่ง ทล. ที่ ม.1/149/2549 มอบอำนาจการพิจารณาคุณสมบัติให้หัวหน้าหน่วยงานระดับต่าง ๆ · ใช้ประกอบระเบียบฯ ว่าด้วยการพัสดุ พ.ศ. 2535</p>
+    <table class="lawt"><tbody>
+      <tr><th>งานก่อสร้าง ข้อ 1–6</th><td>(1) ไม่มาลงนามในสัญญาภายใน <b>30 วัน</b> นับแต่วันที่มีหนังสือแจ้ง (2) หมดสัญญาแล้วยังไม่แล้วเสร็จโดยไม่มีเหตุอันสมควร — ยกเว้นงานที่เหลือคาดว่าเสร็จในเวลาอันใกล้และผลงาน<b>ไม่น้อยกว่า 90%</b> (3) ไม่ซ่อมงานชำรุดในระยะรับประกันตามที่กำหนด (ตามแนวทางปฏิบัติในการซ่อมแซมสิ่งก่อสร้างที่ชำรุดบกพร่อง หนังสือกรมฯ ลว. 31 ส.ค. 2549) (4) ไม่คืนเงินค่า K / อัตราแลกเปลี่ยนภายใน <b>15 วัน</b> นับจากวันที่ได้รับแจ้ง (5) ถูกบอกเลิกสัญญาหรืออยู่ระหว่างขออนุมัติบอกเลิก (6) มีจำนวนโครงการครบตามสิทธิ์การเสนอราคา</td><td class="use">การ์ด 7 ตรวจให้อัตโนมัติ</td></tr>
+      <tr><th>งานก่อสร้าง ข้อ 7–10</th><td>(7) งานลักษณะพิเศษ/เร่งด่วน ล่าช้ากว่าแผน<b>เกิน 5%</b> (8) ล่าช้ากว่าแผน<b>เกิน 15%</b> (9) ผลงาน<b>ไม่ถึง 25%</b> เมื่อเวลาล่วงเลย<b>เกินครึ่งหนึ่ง</b>ของสัญญา (10) ล่าช้ากว่าแผน และผลงานประจำเดือน<b>ไม่ถึง 50%</b> ของแผนประจำเดือน เมื่อเวลาล่วงเลยเกินครึ่งหนึ่ง — ทุกข้อ “โดยเป็นความผิดของผู้รับจ้าง”</td><td class="use">ใช้แผน/ผลงานสะสมจากรายงานประจำสัปดาห์</td></tr>
+      <tr><th>งานบำรุงทาง ข้อ 1–6</th><td>(1) ไม่มาลงนามภายใน 30 วัน (2) ไม่เข้าดำเนินการภายในเวลาที่กำหนด แต่<b>ไม่เกิน 30 วัน</b>นับแต่วันเริ่มต้นสัญญา (3) หมดสัญญาไม่เสร็จ (ยกเว้น ≥ 90%) (4) ไม่ซ่อมในระยะรับประกัน (5) ไม่คืนเงินค่า K ภายใน 15 วัน (6) ถูกบอกเลิกสัญญา</td><td class="use">เลือก “งานบำรุงทาง” ในการ์ด 7</td></tr>
+      <tr><th>ผล</th><td>ขาดคุณสมบัติจากงานก่อสร้าง → <b>ขาดคุณสมบัติเสนอราคาทั้งงานก่อสร้างและงานบำรุงทางทุกประเภท ของทุกหน่วยงานของกรมทางหลวง</b> · ขาดคุณสมบัติจากงานบำรุงทางประเภทใด → ขาดคุณสมบัติเฉพาะงานบำรุงทางประเภทนั้น ของทุกหน่วยงานของกรมทางหลวง</td><td class="use">บันทึกรายงาน + หนังสือแจ้งผู้รับจ้าง</td></tr>
     </tbody></table>
     <h3>หนังสือกรมบัญชีกลาง ว 124 — แนวทางพิจารณาบอกเลิกสัญญา (ดุลพินิจ ไม่บังคับ)</h3>
     <table class="lawt"><tbody>
@@ -2437,7 +2491,7 @@ function fillIns(){
   $('iv_final').checked=!!inst.final;$('iv_bal').checked=!!inst.bal;$('iv_refund').checked=!!inst.refund;$('lbRefund').hidden=!inst.final;renderPenBox();
   $('instSeg').innerHTML=ins.list.map((x,j)=>`<button type="button" data-inst="${j}" aria-pressed="${j===ins.cur}">งวดที่ ${esc(x.no)}${x.final?' (งวดสุดท้าย)':''}</button>`).join('');
   $('bInstDel').disabled=ins.list.length<2;
-  planSeed();renderInsTable();renderDy();renderPlan();renderWk();renderSt();renderPn();renderPw();renderPf();setSec(insSec,true);renderIns();
+  planSeed();renderInsTable();renderDy();renderPlan();renderWk();renderSt();renderPn();renderPw();renderPf();try{renderQc()}catch(e){console.warn(e)}setSec(insSec,true);renderIns();
 }
 function growTA(t){t.style.height='auto';t.style.height=Math.max(76,t.scrollHeight+2)+'px'}
 function renderInsTable(){
@@ -3004,23 +3058,23 @@ $('bWkFromDy').addEventListener('click',()=>{const w=wkCur();if(!w)return;if(!w.
   const pr=[...new Set(days.flatMap(d=>String(d.problem||'').split('\n').map(x=>x.trim().replace(/^[-•]\s*/,'')).filter(x=>x&&x!=='-')))];if(pr.length)w.problem=pr.join('\n');
   renderWk();wkChanged();toast(`รวมงานจากรายงานประจำวัน ${days.length} วันแล้ว (${Object.keys(q).length} รายการงาน)`)});
 /* ---- การ์ดเลือกงาน 4 ส่วน ---- */
-const SEC_DOC={pay:'all',daily:'dly',weekly:'wk',contract:'pnote'},SEC_PAGES={pay:['all','ins','p137','bill','items','ctl','mtg','memo'],daily:['dly'],weekly:['wk'],contract:['stop','pnote','reserve','penw','lenient','perf']};
+const SEC_DOC={pay:'all',daily:'dly',weekly:'wk',contract:'pnote'},SEC_PAGES={pay:['all','ins','p137','bill','items','ctl','mtg','memo'],daily:['dly'],weekly:['wk'],contract:['stop','pnote','reserve','penw','lenient','perf','qual']};
 let insSec=(()=>{try{return localStorage.getItem('thuajai-v1-sec')||'pay'}catch(e){return 'pay'}})();
 function setSec(sec,quiet){if(insEditMode){toast('กดบันทึกหรือยกเลิกการแก้ไขก่อน');return}
   if(!['contract','daily','weekly','pay'].includes(sec))sec='pay';insSec=sec;try{localStorage.setItem('thuajai-v1-sec',sec)}catch(e){}
   $('insSec').querySelectorAll('[data-sec]').forEach(b=>b.setAttribute('aria-selected',b.dataset.sec===sec));
   document.querySelectorAll('#insView .icard[data-sec]').forEach(el=>el.hidden=el.dataset.sec!==sec);
   $('insPick').querySelectorAll('[data-ip]').forEach(b=>b.hidden=b.dataset.sec!==sec);
-  if(sec==='weekly'&&S){renderPlan();renderWk()}if(sec==='daily'&&S)renderDy();
+  if(sec==='weekly'&&S){renderPlan();renderWk()}if(sec==='daily'&&S)renderDy();if(sec==='contract'&&S)try{renderQc()}catch(e){console.warn(e)}
   if(!SEC_PAGES[sec].includes(insPage)){insPage=SEC_DOC[sec];$('insPick').querySelectorAll('[data-ip]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.ip===insPage))}
-  $('docNum').textContent=sec==='pay'?'4':sec==='contract'?'5':sec==='weekly'?'3':'2';
+  $('docNum').textContent=sec==='pay'?'4':sec==='contract'?'8':sec==='weekly'?'3':'2';
   const one=$('insPick').querySelectorAll('[data-ip]:not([hidden])').length<2;$('insPick').hidden=one;
   if(!quiet)renderIns()}
 $('insSec').addEventListener('click',e=>{const b=e.target.closest('[data-sec]');if(b)setSec(b.dataset.sec)});
 function renderSecInfo(){try{
   const ins=insOf(),am=(ins.amends||[]).length,wv=waiveTotal(),end=effEnd();
   const pr=pfOn()?pfScore(pfToday()):null;
-  const pwc=pwCalc(),pnc=pnCalc();$('secCtInfo').textContent=`${pnc.reserveMiss?'⚠ ยังไม่แจ้งสงวนสิทธิ์ค่าปรับ · ':pnc.needNotice&&!pnc.noticed?'⚠ ต้องแจ้งการปรับ · ':''}${pwc.st==='over'?'⚠ ค่าปรับเกิน 10% · ':pwc.st==='warn'?`⚠ ค่าปรับ ${pwc.pct.toFixed(2)}% · `:''}สิ้นสุด ${end?thDate(end):'-'}${am?` · ขยาย ${am} ครั้ง`:''}${wv?` · งดค่าปรับ ${wv} วัน`:''}${pr?` · คะแนนความเสียหาย ${pr.sc}`:''}`;
+  const pwc=pwCalc(),pnc=pnCalc();let qcx='';try{const q=qcEval();qcx=q.bad.length?`⚠ เข้าข่ายขาดคุณสมบัติ (ม.1/151 ข้อ ${q.bad.map(x=>x.n).join(', ')}) · `:''}catch(e){}$('secCtInfo').textContent=`${qcx}${pnc.reserveMiss?'⚠ ยังไม่แจ้งสงวนสิทธิ์ค่าปรับ · ':pnc.needNotice&&!pnc.noticed?'⚠ ต้องแจ้งการปรับ · ':''}${pwc.st==='over'?'⚠ ค่าปรับเกิน 10% · ':pwc.st==='warn'?`⚠ ค่าปรับ ${pwc.pct.toFixed(2)}% · `:''}สิ้นสุด ${end?thDate(end):'-'}${am?` · ขยาย ${am} ครั้ง`:''}${wv?` · งดค่าปรับ ${wv} วัน`:''}${pr?` · คะแนนความเสียหาย ${pr.sc}`:''}`;
   const D=dyOf();$('secDyInfo').textContent=D.list.length?`${D.list.length} วัน · ล่าสุด ${thDate(D.list[D.list.length-1].date)}`:'ยังไม่มี — แรงงาน เครื่องจักร งานที่ทำ';
   const W=wkOf();if(W.list.length){const j=W.list.length-1,c=wkCalc(j);$('secWkInfo').textContent=`สัปดาห์ที่ ${W.list[j].no} · ผลงานสะสม ${pct3(c.ac)}% · ${wkStatusTxt(c)}`}else $('secWkInfo').textContent='ยังไม่มี — ความก้าวหน้า + สำเนาเรียนกรรมการ';
   const inst=ins.list[ins.cur],C=insCalc(ins.cur);$('secPayInfo').textContent=`${ins.list.length} งวด · งวดที่ ${inst.no} จ่ายสุทธิ ${fm(C.net)} บาท`}catch(e){console.warn(e)}}
@@ -3079,7 +3133,7 @@ function pfTimeline(asOf){const h=S.h,st=h.start,end=effEnd(),L=[];if(!st||!end)
     else if(c.ac<lim){s='bad';msg=`ผลงานสะสม ${pct3(c.ac)}% ต่ำกว่า ${lim}% (สัปดาห์ที่ ${c.no}) → พิจารณาเร่งรัด/บอกเลิกสัญญา ม.103 วรรคหนึ่ง (2) หากเป็นความผิดผู้รับจ้าง`}
     else {s='ok';msg=`ผลงานสะสม ${pct3(c.ac)}% ผ่านเกณฑ์ ${lim}%`}
     L.push({d,lab,s,msg})};
-  chk(at(0.5),'ครึ่งหนึ่งของเวลาสัญญา — ผลงานสะสมต้องไม่ต่ำกว่า 25%',25);
+  chk(at(0.5),'ครึ่งหนึ่งของเวลาสัญญา — ผลงานสะสมต้องไม่ต่ำกว่า 25% (ว 124 และคำสั่ง ทล. ม.1/151/2549 ข้อ 9)',25);
   chk(at(0.75),'3 ใน 4 ของเวลาสัญญา — ผลงานสะสมต้องไม่ต่ำกว่า 65%',65);
   chk(end,'ครบกำหนดสัญญา — ผลงานสะสมต้องไม่ต่ำกว่า 85% และตรวจว่าส่งมอบครบหรือไม่',85);
   {const c=pwCalc(asOf);if(c.dateW)L.push({d:c.dateW,lab:`ค่าปรับถึงจุดเตือน ${c.warn}% — ผู้ควบคุมงานรายงาน ผอ.ขท.`,s:c.pct>=c.warn?(c.pct>10?'ok':'warn'):c.dateW<=addDays(asOf,15)?'warn':'wait',msg:c.pct>=c.warn?'จัดทำ “บันทึกเตือนค่าปรับ” (การ์ดนี้ กล่องที่ 3) และให้ผู้รับจ้างยืนยันยินยอมชำระค่าปรับ':'ยังไม่ถึง'})}
@@ -3144,6 +3198,146 @@ function docPerf(){const h=S.h,P=pfOf(),asOf=pfToday(),R=pfScore(asOf),{chair,me
     <tr><td></td><td class="b">รวมคะแนนความเสียหายสะสม</td><td></td><td></td><td class="r b">${R.sc}</td></tr></tbody></table>
    <p class="ind" style="margin-top:10px">ผลการประเมิน: คะแนนความเสียหายสะสม ${R.sc} คะแนน ${R.sus?`อยู่ในเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญาหรือข้อตกลงเป็นหนังสือ เป็นระยะเวลา ${R.sus} วัน นับแต่วันที่ ${thDate(R.susFrom)} ถึงวันที่ ${thDate(R.susTo)}`:'ไม่ถึงเกณฑ์ระงับการยื่นข้อเสนอหรือทำสัญญา'}</p>
    <div style="height:10px"></div>${sgRows([chair,...mem].filter(Boolean).map((x,j)=>({role:j===0?'ประธานกรรมการตรวจรับพัสดุ':'กรรมการตรวจรับพัสดุ',name:x.name,pos:x.pos})))}</div>`]}
+
+/* ---- คุณสมบัติผู้มีสิทธิเสนอราคา คำสั่งกรมทางหลวง ที่ ม.1/151/2549 ลว. 11 ก.ย. 2549 ---- */
+const QC_REF='คำสั่งกรมทางหลวง ที่ ม.1/151/2549 ลงวันที่ 11 กันยายน 2549 เรื่อง หลักเกณฑ์การพิจารณาคุณสมบัติผู้มีสิทธิเสนอราคางานก่อสร้างและบำรุงทาง';
+const QC_T={con:{
+ 1:'ผู้เสนอราคาที่ได้รับการคัดเลือกไม่มาลงนามในสัญญาภายใน 30 วัน นับตั้งแต่วันที่หน่วยงานเจ้าของงานมีหนังสือแจ้งให้ทราบ',
+ 2:'งานหมดสัญญาแล้วแต่ยังไม่แล้วเสร็จโดยไม่มีเหตุอันสมควร (ยกเว้นงานที่เหลือคาดว่าจะแล้วเสร็จในเวลาอันใกล้ และผลงานที่แล้วเสร็จไม่น้อยกว่า 90%)',
+ 3:'ภายในระยะเวลารับประกันผลงาน ไม่เข้าดำเนินการซ่อมแซมสิ่งก่อสร้างที่ชำรุดบกพร่องภายในระยะเวลาที่ผู้ว่าจ้างกำหนด โดยเป็นความผิดของผู้รับจ้าง',
+ 4:'ไม่คืนเงินค่า K หรือเงินที่เกิดจากการเปลี่ยนแปลงอัตราแลกเปลี่ยนเงินตราระหว่างประเทศ ภายใน 15 วัน นับจากวันที่ได้รับแจ้ง',
+ 5:'ถูกบอกเลิกสัญญา หรืออยู่ระหว่างที่หน่วยงานเจ้าของงานขออนุมัติบอกเลิกสัญญา โดยเป็นความผิดของผู้รับจ้าง',
+ 6:'มีจำนวนโครงการก่อสร้างครบตามสิทธิ์การเสนอราคาตามหลักเกณฑ์การจดทะเบียนฯ',
+ 7:'งานลักษณะพิเศษหรืองานเร่งด่วน — ผลงานล่าช้ากว่าแผนงานเกิน 5% โดยเป็นความผิดของผู้รับจ้าง',
+ 8:'ผลงานล่าช้ากว่าแผนงานเกิน 15% โดยเป็นความผิดของผู้รับจ้าง',
+ 9:'ผลงานไม่ถึง 25% ของงานทั้งหมด เมื่อเวลาล่วงเลยไปเกินหนึ่งในสองของระยะเวลาตามสัญญา โดยเป็นความผิดของผู้รับจ้าง',
+ 10:'ผลงานล่าช้ากว่าแผนงาน และผลงานประจำเดือนไม่ถึง 50% ของแผนงานประจำเดือน เมื่อเวลาล่วงเลยไปเกินหนึ่งในสองของระยะเวลาตามสัญญา โดยเป็นความผิดของผู้รับจ้าง'},
+ mnt:{
+ 1:'ผู้เสนอราคาที่ได้รับการคัดเลือกไม่มาลงนามในสัญญาภายใน 30 วัน นับตั้งแต่วันที่หน่วยงานเจ้าของงานมีหนังสือแจ้งให้ทราบ',
+ 2:'ไม่เข้าดำเนินการภายในระยะเวลาที่หน่วยงานเจ้าของงานกำหนด แต่ไม่เกิน 30 วัน นับตั้งแต่วันเริ่มต้นตามสัญญา โดยมิได้เป็นความผิดของหน่วยงานเจ้าของงาน',
+ 3:'งานหมดสัญญาแล้วแต่ยังไม่แล้วเสร็จโดยไม่มีเหตุอันสมควร (ยกเว้นงานที่เหลือคาดว่าจะแล้วเสร็จในเวลาอันใกล้ และผลงานที่แล้วเสร็จไม่น้อยกว่า 90%)',
+ 4:'ภายในระยะเวลารับประกันผลงาน ไม่เข้าดำเนินการซ่อมแซมสิ่งก่อสร้างที่ชำรุดบกพร่องภายในระยะเวลาที่ผู้ว่าจ้างกำหนด โดยเป็นความผิดของผู้รับจ้าง',
+ 5:'ไม่คืนเงินค่า K หรือเงินที่เกิดจากการเปลี่ยนแปลงอัตราแลกเปลี่ยนเงินตราระหว่างประเทศ ภายใน 15 วัน นับจากวันที่ได้รับแจ้ง',
+ 6:'ถูกบอกเลิกสัญญา หรืออยู่ระหว่างที่หน่วยงานเจ้าของงานขออนุมัติบอกเลิกสัญญา โดยเป็นความผิดของผู้รับจ้าง'}};
+const QC_EFF={con:'ขาดคุณสมบัติเสนอราคาทั้งงานก่อสร้างและงานบำรุงทาง และไม่มีสิทธิ์เสนอราคางานก่อสร้างหรือบำรุงทางทุกประเภท สำหรับงานจัดจ้างของทุกหน่วยงานของกรมทางหลวง',
+ mnt:'ขาดคุณสมบัติเสนอราคาเฉพาะงานบำรุงทางประเภทนั้น และไม่มีสิทธิ์เสนอราคางานบำรุงทางประเภทนั้น สำหรับงานจัดจ้างของทุกหน่วยงานของกรมทางหลวง'};
+const QC_SH0={1:'ไม่มาลงนามในสัญญาภายใน 30 วัน',end:'งานหมดสัญญาแล้วยังไม่แล้วเสร็จ และผลงานไม่ถึงร้อยละ 90',w:'ไม่ซ่อมแซมงานที่ชำรุดบกพร่องในระยะรับประกันภายในเวลาที่กำหนด',k:'ไม่คืนเงินค่า K ภายใน 15 วัน',t:'ถูกบอกเลิกสัญญาหรืออยู่ระหว่างขออนุมัติบอกเลิกสัญญา'};
+const QC_SH={con:{1:QC_SH0[1],2:QC_SH0.end,3:QC_SH0.w,4:QC_SH0.k,5:QC_SH0.t,6:'มีจำนวนโครงการครบตามสิทธิ์การเสนอราคา',7:'ผลงานล่าช้ากว่าแผนงานเกินร้อยละ 5',8:'ผลงานล่าช้ากว่าแผนงานเกินร้อยละ 15',9:'ผลงานไม่ถึงร้อยละ 25 เมื่อเวลาล่วงเลยเกินครึ่งหนึ่งของสัญญา',10:'ผลงานประจำเดือนไม่ถึงร้อยละ 50 ของแผนงานประจำเดือน'},
+ mnt:{1:QC_SH0[1],2:'ไม่เข้าดำเนินการภายในเวลาที่กำหนด',3:QC_SH0.end,4:QC_SH0.w,5:QC_SH0.k,6:QC_SH0.t}};
+const QC_EFF_S={con:'ขาดคุณสมบัติเสนอราคางานก่อสร้างและงานบำรุงทางทุกประเภท ของทุกหน่วยงานของกรมทางหลวง',mnt:'ขาดคุณสมบัติเสนอราคางานบำรุงทางประเภทนั้น ของทุกหน่วยงานของกรมทางหลวง'};
+function qcOf(){if(!S.qual)S.qual={type:'con',special:false,excuse:false,exNote:'',asof:'',callDate:'',signDate:'',enterDays:'',enterDate:'',wDue:'',wFixed:'',kDate:'',kPaid:'',term:'',termDate:'',quota:false,no1:'',d1:'',no2:'',d2:'',planDays:''};return S.qual}
+const qcToday=()=>qcOf().asof||new Date(Date.now()+7*3600e3).toISOString().slice(0,10);
+/* ผลงาน/แผนสะสม ณ วันที่ d จากรายงานประจำสัปดาห์ฉบับล่าสุดที่ถึง d */
+function qcCumAt(d){const W=wkOf();let best=null;W.list.forEach((w,j)=>{if(w.to&&w.to<=d&&(!best||w.to>=best.to)){const c=wkCalc(j);best={to:w.to,no:w.no,ac:c.ac,pc:c.pc}}});return best}
+function qcHalf(){const st=S.h.start,end=effEnd();if(!st||!end)return null;const tot=daysBetween(st,end);return {tot,half:addDays(st,Math.round(tot*0.5)-1),end}}
+function qcMonths(asOf){const H=qcHalf();if(!H)return [];const base=parse(wkOf().baseAct)||0,baseP=parse(wkOf().basePlan)||0;
+  return plMonths().filter(m=>m.to>H.half&&m.to<=asOf).map(m=>{const prev=addDays(m.from,-1),a=qcCumAt(m.to),b=qcCumAt(prev);
+    if(!a)return {m,none:true};const ac0=b?b.ac:base,pc0=b?b.pc:baseP;const mA=a.ac-ac0,mP=a.pc-pc0,behind=a.ac<a.pc-0.0005;
+    const ratio=mP>0?mA/mP*100:null;const hit=behind&&ratio!=null&&ratio<50;return {m,a,mA,mP,ratio,behind,hit}})}
+function qcEval(asOfIn){const Q=qcOf(),h=S.h,asOf=asOfIn||qcToday(),T=Q.type==='mnt'?'mnt':'con',L=[],H=qcHalf(),cur=qcCumAt(asOf);
+  const fin=insOf().list.find(x=>x.final),done=fin&&fin.doneDate&&fin.doneDate<=asOf?fin.doneDate:'';const ex=!!Q.excuse,exT=ex?` — ผู้ควบคุมงานระบุว่ามีเหตุอันสมควร/ไม่ใช่ความผิดผู้รับจ้าง${Q.exNote?' ('+Q.exNote+')':''}: ต้องพิจารณาข้อเท็จจริงก่อน`:'';
+  const add=(n,s,msg,d)=>L.push({n,t:QC_T[T][n],s,msg,d:d||''});const fault=s=>ex&&s==='bad'?'warn':s;
+  /* ลงนามสัญญา 30 วัน */
+  {const n=1;if(!Q.callDate)add(n,'na','ใส่วันที่มีหนังสือแจ้งให้มาลงนาม (ข้อมูลประกอบเกณฑ์ข้ออื่น) — ถ้าลงนามแล้วตามกำหนดไม่ต้องใส่');
+   else{const due=addDays(Q.callDate,30);if(Q.signDate)add(n,Q.signDate<=due?'ok':'bad',Q.signDate<=due?`ลงนาม ${thDate(Q.signDate)} ภายใน 30 วัน`:`ลงนาม ${thDate(Q.signDate)} เกิน 30 วัน (ครบ ${thDate(due)})`,due);
+     else add(n,asOf>due?'bad':'warn',asOf>due?`ยังไม่มาลงนาม — เกินกำหนด ${thDate(due)} แล้ว`:`ต้องมาลงนามภายใน ${thDate(due)} (อีก ${dayDiff(asOf,due)} วัน)`,due)}}
+  /* หมดสัญญาไม่เสร็จ */
+  const nEnd=T==='con'?2:3;
+  if(!H)add(nEnd,'na','ใส่วันเริ่ม/สิ้นสุดสัญญาก่อน');
+  else{const end=H.end,ac=cur?cur.ac:null,wv=waiveTotal();
+    if(done)add(nEnd,'ok',done<=end?`ส่งมอบงานแล้ว ${thDate(done)} ภายในกำหนด`:`ส่งมอบงานแล้ว ${thDate(done)} (หลังครบกำหนด ${dayDiff(end,done)} วัน — คิดค่าปรับ/สงวนสิทธิ์ตามข้อ 181)`,end);
+    else if(asOf<=end){const left=dayDiff(asOf,end);add(nEnd,left<=30&&ac!=null&&ac<90?'warn':'wait',`สิ้นสุดสัญญา ${thDate(end)} (อีก ${left} วัน)${ac!=null?` · ผลงานสะสม ${pct3(ac)}%`:''}${left<=30&&ac!=null&&ac<90?' — ถ้าครบกำหนดแล้วผลงานยังไม่ถึง 90% จะเข้าข่ายขาดคุณสมบัติ':''}`,end)}
+    else{const late=dayDiff(end,asOf);
+      if(ac==null)add(nEnd,'warn',`เลยกำหนดสัญญา ${late} วัน ยังไม่ส่งมอบ — ไม่มีรายงานประจำสัปดาห์ ตรวจผลงานสะสมด้วย`,end);
+      else if(ac>=90)add(nEnd,'warn',`เลยกำหนด ${late} วัน · ผลงานสะสม ${pct3(ac)}% (≥ 90%) — เข้าข้อยกเว้นได้ถ้างานที่เหลือคาดว่าจะแล้วเสร็จในเวลาอันใกล้`,end);
+      else add(nEnd,fault(wv?'warn':'bad'),`เลยกำหนด ${late} วัน · ผลงานสะสม ${pct3(ac)}% (< 90%)${wv?` · มีการอนุมัติงดค่าปรับ ${wv} วัน — ตรวจว่าเป็นเหตุอันสมควรหรือไม่`:''}${exT}`,end)}}
+  /* เข้าดำเนินการ (บำรุงทาง) */
+  if(T==='mnt'){const lim=Math.min(30,parse(Q.enterDays)||30);if(!h.start)add(2,'na','ใส่วันเริ่มสัญญาก่อน');else{const due=addDays(h.start,lim-1);
+    if(Q.enterDate)add(2,Q.enterDate<=due?'ok':fault('bad'),`เข้าดำเนินการ ${thDate(Q.enterDate)} (กำหนดภายใน ${thDate(due)})${Q.enterDate>due?exT:''}`,due);
+    else add(2,asOf>due?fault('bad'):asOf>=addDays(due,-7)?'warn':'wait',asOf>due?`ยังไม่เข้าดำเนินการ — เกินกำหนด ${thDate(due)}${exT}`:`ต้องเข้าดำเนินการภายใน ${thDate(due)} (${lim} วันนับแต่วันเริ่มสัญญา) — ใส่วันที่เข้าดำเนินการเมื่อเริ่มงาน`,due)}}
+  /* รับประกัน */
+  {const n=T==='con'?3:4;if(!Q.wDue)add(n,'na','ยังไม่มีการแจ้งซ่อมในระยะรับประกัน');
+   else if(Q.wFixed)add(n,Q.wFixed<=Q.wDue?'ok':fault('bad'),`ซ่อมแล้วเสร็จ ${thDate(Q.wFixed)} (กำหนด ${thDate(Q.wDue)})${Q.wFixed>Q.wDue?exT:''}`,Q.wDue);
+   else add(n,asOf>Q.wDue?fault('bad'):'warn',asOf>Q.wDue?`ไม่ซ่อมภายในกำหนด ${thDate(Q.wDue)}${exT}`:`ต้องซ่อมให้แล้วเสร็จภายใน ${thDate(Q.wDue)}`,Q.wDue)}
+  /* ค่า K */
+  {const n=T==='con'?4:5;if(!Q.kDate)add(n,'na','ไม่มีการแจ้งให้คืนเงินค่า K');else{const due=addDays(Q.kDate,15);
+   if(Q.kPaid)add(n,Q.kPaid<=due?'ok':'bad',`คืนเงิน ${thDate(Q.kPaid)} (กำหนด ${thDate(due)})`,due);else add(n,asOf>due?'bad':'warn',asOf>due?`ยังไม่คืนเงิน — เกินกำหนด ${thDate(due)}`:`ต้องคืนเงินภายใน ${thDate(due)} (15 วันนับจากวันที่ได้รับแจ้ง)`,due)}}
+  /* บอกเลิก */
+  {const n=T==='con'?5:6;add(n,Q.term?'bad':'ok',Q.term==='done'?`บอกเลิกสัญญาแล้ว${Q.termDate?' '+thDate(Q.termDate):''}`:Q.term==='req'?`อยู่ระหว่างขออนุมัติบอกเลิกสัญญา${Q.termDate?' ('+thDate(Q.termDate)+')':''}`:'ไม่มีการบอกเลิกสัญญา',Q.termDate)}
+  if(T==='con'){
+   add(6,Q.quota?'bad':'ok',Q.quota?'ผู้รับจ้างมีจำนวนโครงการครบตามสิทธิ์แล้ว — ไม่มีสิทธิ์เสนอราคาโครงการเพิ่ม':'ไม่ครบสิทธิ์ (ตรวจกับทะเบียนผู้รับเหมาของกรมฯ)');
+   const thr=Q.special?5:15,nL=Q.special?7:8;
+   if(!cur)add(nL,'na','ยังไม่มีรายงานประจำสัปดาห์ — ระบบใช้แผน/ผลงานสะสมจากรายงานประจำสัปดาห์');
+   else{const lag=cur.pc-cur.ac;add(nL,lag>thr?fault('bad'):lag>thr*2/3?'warn':'ok',`สัปดาห์ที่ ${cur.no} (ถึง ${thDate(cur.to)}): แผนสะสม ${pct3(cur.pc)}% ผลงานสะสม ${pct3(cur.ac)}% → ${lag>0?'ล่าช้ากว่าแผน '+pct3(lag)+'%':lag<0?'เร็วกว่าแผน '+pct3(-lag)+'%':'ตามแผน'} (เกณฑ์ ${thr}%)${lag>thr?exT:''}`)}
+   if(!Q.special){L.push({n:7,t:QC_T.con[7],s:'na',msg:'ไม่ใช่งานลักษณะพิเศษ/เร่งด่วน — ใช้เกณฑ์ข้อ 8 (15%)'})}
+   else L.push({n:8,t:QC_T.con[8],s:'na',msg:'งานลักษณะพิเศษ/เร่งด่วน — ใช้เกณฑ์ข้อ 7 (5%) ที่เข้มกว่า'});
+   if(!H)add(9,'na','ใส่วันเริ่ม/สิ้นสุดสัญญาก่อน');
+   else if(asOf<=H.half)add(9,cur&&cur.ac<25&&dayDiff(asOf,H.half)<=30?'warn':'wait',`เกินครึ่งเวลาสัญญาตั้งแต่ ${thDate(addDays(H.half,1))} (อีก ${dayDiff(asOf,H.half)+1} วัน)${cur?` · ผลงานสะสมตอนนี้ ${pct3(cur.ac)}% ต้องถึง 25%`:''}`,addDays(H.half,1));
+   else if(done)add(9,'ok','ส่งมอบงานแล้ว',addDays(H.half,1));
+   else if(!cur)add(9,'warn','เกินครึ่งเวลาสัญญาแล้ว — ไม่มีรายงานประจำสัปดาห์ ตรวจผลงานสะสมด้วย',addDays(H.half,1));
+   else add(9,cur.ac<25?fault('bad'):'ok',`เกินครึ่งเวลาสัญญาแล้ว (ตั้งแต่ ${thDate(addDays(H.half,1))}) · ผลงานสะสม ${pct3(cur.ac)}% ${cur.ac<25?'ไม่ถึง 25%'+exT:'≥ 25%'}`,addDays(H.half,1));
+   const M=qcMonths(asOf),last=[...M].reverse().find(x=>!x.none);
+   if(!H||asOf<=H.half)add(10,'wait','ตรวจเมื่อเวลาล่วงเลยเกินครึ่งหนึ่งของสัญญา — เทียบผลงานกับแผนงานทุกเดือน');
+   else if(done)add(10,'ok','ส่งมอบงานแล้ว');
+   else if(!last)add(10,'warn','ยังไม่ครบเดือนหลังเกินครึ่งเวลา หรือไม่มีรายงานประจำสัปดาห์ของเดือนนั้น');
+   else{const hits=M.filter(x=>x.hit);add(10,last.hit?fault('bad'):last.behind&&last.ratio!=null&&last.ratio<70?'warn':'ok',`เดือน ${last.m.lab}: แผน ${pct3(last.mP)}% ผลงาน ${pct3(last.mA)}%${last.ratio!=null?` = ${last.ratio.toFixed(1)}% ของแผน`:''} · สะสม${last.behind?'ล่าช้ากว่าแผน':'ไม่ล่าช้า'}${hits.length&&!last.hit?` (เคยเข้าข่าย: ${hits.map(x=>x.m.lab).join(', ')})`:''}${last.hit?exT:''}`)}}
+  L.sort((a,b)=>a.n-b.n);
+  return {L,T,asOf,cur,H,done,bad:L.filter(x=>x.s==='bad'),warn:L.filter(x=>x.s==='warn')}}
+const QC_S={ok:['✓','ok'],warn:['!','w'],bad:['✗','e'],wait:['○','wait'],na:['–','wait']};
+function renderQc(){const Q=qcOf(),R=qcEval();
+  ['type','asof','exNote','callDate','signDate','enterDays','enterDate','wDue','wFixed','kDate','kPaid','term','termDate','no1','d1','no2','d2','planDays'].forEach(k=>{const el=$('qc_'+k);if(el&&document.activeElement!==el)el.value=Q[k]||(k==='type'?'con':'')});
+  ['special','excuse','quota'].forEach(k=>$('qc_'+k).checked=!!Q[k]);
+  const mnt=R.T==='mnt';document.querySelectorAll('#qcBox .qc-mnt').forEach(e=>e.hidden=!mnt);document.querySelectorAll('#qcBox .qc-con').forEach(e=>e.hidden=mnt);
+  $('qc_special').closest('label').hidden=mnt;$('qc_exNoteW').hidden=!Q.excuse;
+  const box=(cls,t,sub)=>`<div class="pwst ${cls}"><b>${t}</b>${sub?`<span>${sub}</span>`:''}</div>`;
+  $('qcHead').innerHTML=(R.bad.length?box('e',`✗ เข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคา — ข้อ ${R.bad.map(x=>x.n).join(', ')}`,`ผลตามคำสั่ง: ${QC_EFF[R.T]} · พิมพ์ “บันทึกรายงาน + หนังสือแจ้งผู้รับจ้าง” เสนอ ผอ.ขท.`)
+    :R.warn.length?box('w',`! เฝ้าระวัง — ข้อ ${R.warn.map(x=>x.n).join(', ')}`,'ยังไม่ขาดคุณสมบัติ แต่ใกล้เกณฑ์หรือต้องตรวจสอบข้อเท็จจริง — มีหนังสือเร่งรัดผู้รับจ้างได้')
+    :box('ok','✓ ผู้รับจ้างยังมีคุณสมบัติตามคำสั่ง ม.1/151/2549',`ตรวจ ณ ${thDate(R.asOf)}${R.cur?` · สัปดาห์ที่ ${R.cur.no} ผลงานสะสม ${pct3(R.cur.ac)}% / แผน ${pct3(R.cur.pc)}%`:''}`))+
+    `<div class="pfnote">${mnt?'งานบำรุงทาง':'งานก่อสร้างทาง งานก่อสร้างสะพาน งานปรับปรุงจุดอันตราย/ทางแยก งานลาดยาง งานปรับปรุงทางหลวงเพื่อการท่องเที่ยว ฯลฯ'} · คำสั่งนี้เป็นเอกสารแนบท้ายสัญญาจ้าง (ผนวก) · ผลงาน/แผนงานใช้ “สะสม” จากรายงานประจำสัปดาห์ (การ์ดรายงานประจำสัปดาห์) · ทุกข้อ “โดยเป็นความผิดของผู้รับจ้าง” — ถ้ามีเหตุอันสมควร ให้ติ๊กช่องด้านล่าง ระบบจะลดเป็น “เฝ้าระวัง”</div>`;
+  $('qcTbl').innerHTML=`<thead><tr><th style="width:44px">ข้อ</th><th>หลักเกณฑ์</th><th style="width:44%">สถานะ ณ ${thDate(R.asOf)}</th></tr></thead><tbody>`+
+    R.L.map(x=>`<tr class="pf-${x.s==='na'?'wait':x.s}"><td class="c">${x.n}</td><td>${esc(x.t)}</td><td><span class="pfb">${QC_S[x.s][0]}</span> ${esc(x.msg)}</td></tr>`).join('')+'</tbody>';
+  const M=mnt?[]:qcMonths(R.asOf);
+  $('qcMon').innerHTML=mnt?'<tbody><tr class="empty-r"><td>ไม่ใช้กับงานบำรุงทาง</td></tr></tbody>':!R.H?'<tbody><tr class="empty-r"><td>ใส่วันเริ่ม/สิ้นสุดสัญญาก่อน</td></tr></tbody>':
+    `<thead><tr><th>เดือน</th><th style="width:16%">แผนเดือนนี้ %</th><th style="width:16%">ผลงานเดือนนี้ %</th><th style="width:16%">ผลงาน/แผน</th><th style="width:26%">สะสม (ผลงาน / แผน)</th></tr></thead><tbody>`+
+    (M.length?M.map(x=>x.none?`<tr class="pf-warn"><td>${x.m.lab}</td><td colspan="4">ไม่มีรายงานประจำสัปดาห์ถึงสิ้นเดือน</td></tr>`:`<tr class="pf-${x.hit?'bad':x.behind?'warn':'ok'}"><td>${x.m.lab}</td><td class="r">${pct3(x.mP)}</td><td class="r">${pct3(x.mA)}</td><td class="r"><span class="pfb">${x.hit?'✗':x.behind?'!':'✓'}</span> ${x.ratio!=null?x.ratio.toFixed(1)+'%':'-'}</td><td class="r">${pct3(x.a.ac)} / ${pct3(x.a.pc)}${x.behind?' (ล่าช้า)':''}</td></tr>`).join('')
+     :`<tr class="empty-r"><td colspan="5">${R.asOf<=R.H.half?`เริ่มตรวจหลังวันที่ ${thDate(R.H.half)} (ครึ่งหนึ่งของเวลาสัญญา ${R.H.tot} วัน)`:'ยังไม่ครบเดือนแรกหลังเกินครึ่งเวลาสัญญา'}</td></tr>`)+'</tbody>';
+  try{accSums()}catch(e){}}
+function qcSet(k,v){qcOf()[k]=v;renderQc();renderSecInfo();save();if(insPage==='qual')renderIns()}
+['type','term'].forEach(k=>$('qc_'+k).addEventListener('change',e=>qcSet(k,e.target.value)));
+['asof','callDate','signDate','enterDate','wDue','wFixed','kDate','kPaid','termDate','d1','d2'].forEach(k=>$('qc_'+k).addEventListener('change',e=>qcSet(k,e.target.value)));
+['exNote','enterDays','no1','no2','planDays'].forEach(k=>$('qc_'+k).addEventListener('input',e=>{qcOf()[k]=e.target.value;save();if(k==='enterDays')renderQc();if(insPage==='qual')renderIns()}));
+['special','excuse','quota'].forEach(k=>$('qc_'+k).addEventListener('change',e=>qcSet(k,e.target.checked)));
+$('bQcDoc').addEventListener('click',()=>{const b=$('insPick').querySelector('[data-ip="qual"]');if(b){b.click();setTimeout(()=>{const dc=$('docCard');if(dc)dc.scrollIntoView({behavior:'smooth',block:'start'})},80)}});
+function docQc(){const Q=qcOf(),R=qcEval(),h=S.h,ins=insOf(),C=esc(String(h.contractor||'..............................').trim()),D='....................',off=esc(ins.office||'แขวงทางหลวง');
+  const ctr=`สัญญาที่ ${esc(h.no)} ลงวันที่ ${esc(h.date)}`,projTxt=`${esc(h.project)} ${esc(h.loc)}`.trim(),c=R.cur,H=R.H,el=H&&h.start?Math.max(0,Math.min(H.tot,dayDiff(h.start,R.asOf)+1)):0;
+  const lag=c?c.pc-c.ac:0,lagT=c?(lag>0.0005?`ล่าช้ากว่าแผนงานร้อยละ ${pct3(lag)}`:lag<-0.0005?`เร็วกว่าแผนงานร้อยละ ${pct3(-lag)}`:'เป็นไปตามแผนงาน'):'';
+  const M=R.T==='con'?qcMonths(R.asOf):[],last=[...M].reverse().find(x=>!x.none);
+  const hits=R.bad,warns=R.warn,anyBad=hits.length>0;
+  const facts=`<table class="ib wkt" style="margin:6px 0 8px"><colgroup><col style="width:50%"><col style="width:50%"></colgroup><tbody>
+    <tr><td>เวลาที่ล่วงเลยไป</td><td class="c">${H?`${el} วัน จาก ${H.tot} วัน (ร้อยละ ${(el/H.tot*100).toFixed(2)})`:'-'}</td></tr>
+    <tr><td>แผนงาน / ผลงานสะสม${c?` (สัปดาห์ที่ ${esc(c.no)})`:''}</td><td class="c">${c?'ร้อยละ '+pct3(c.pc)+' / ร้อยละ '+pct3(c.ac):'-'}</td></tr>
+    <tr><td>เปรียบเทียบกับแผนงาน</td><td class="c">${c?lagT:'-'}</td></tr>
+    ${last?`<tr><td>ผลงาน / แผนงาน เดือน ${last.m.lab}</td><td class="c">${pct3(last.mA)} / ${pct3(last.mP)}${last.ratio!=null?` (ร้อยละ ${last.ratio.toFixed(1)} ของแผน)`:''}</td></tr>`:''}</tbody></table>`;
+  const li=x=>`<p class="ind" style="margin:0">- ข้อ ${x.n} ${esc(x.t)}${(R.T==='con'?[2,7,8,9,10]:[3]).includes(x.n)?'':` (${esc(x.msg.replace(/ — ผู้ควบคุมงานระบุ.*$/,'').replace(/ → /g,' ').replace(/ \(เกณฑ์ [^)]*\)/,''))})`}</p>`;
+  const find=anyBad?`<p class="ind">จากการตรวจสอบตามหลักเกณฑ์ฯ ผู้รับจ้างเข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคา ดังนี้</p>${hits.map(li).join('')}`
+    :warns.length?`<p class="ind">จากการตรวจสอบตามหลักเกณฑ์ฯ ผู้รับจ้างยังไม่เข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคา แต่มีประเด็นที่ต้องเฝ้าระวัง ได้แก่ ${warns.map(x=>'ข้อ '+x.n+' '+esc(x.t.replace(/ โดยเป็นความผิดของผู้รับจ้าง$/,'').replace(/ \(ยกเว้น.*\)$/,''))).join(' / ')}</p>`
+    :`<p class="ind">จากการตรวจสอบตามหลักเกณฑ์ฯ ผู้รับจ้างยังไม่เข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคาแต่อย่างใด</p>`;
+  const prop=anyBad?`<p class="ind">ผู้ควบคุมงานพิจารณาแล้ว เห็นควรมีหนังสือแจ้งผู้รับจ้างทราบว่าเข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคาตามคำสั่งดังกล่าว ซึ่งมีผลให้${QC_EFF[R.T]} และให้ผู้รับจ้างเร่งรัดการดำเนินงานให้เป็นไปตามแผนงาน พร้อมทั้งรายงานให้หน่วยงานที่เกี่ยวข้องทราบเพื่อประกอบการพิจารณาคุณสมบัติผู้เสนอราคาต่อไป</p>`
+    :`<p class="ind">ผู้ควบคุมงานพิจารณาแล้ว เห็นควรมีหนังสือแจ้งเตือนผู้รับจ้างให้เร่งรัดการดำเนินงานให้เป็นไปตามแผนงาน เพื่อมิให้เข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคาตามคำสั่งดังกล่าว</p>`;
+  const p1=pwMemoHead(Q.no1,Q.d1,anyBad?'รายงานผู้รับจ้างเข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคา ตามคำสั่งกรมทางหลวง ที่ ม.1/151/2549':'รายงานผลการปฏิบัติงานของผู้รับจ้าง ตามหลักเกณฑ์การพิจารณาคุณสมบัติผู้มีสิทธิเสนอราคา (ม.1/151/2549)',esc(pnV('dPos')))+
+    `<p class="ind">ตามที่${off} ได้ทำสัญญาจ้าง ${C} ${projTxt} ${ctr} ระยะเวลาทำการ ${esc(h.days)} วัน เริ่มต้นสัญญาวันที่ ${thDate(h.start)} สิ้นสุดสัญญาวันที่ ${H?thDate(H.end):D} โดยมี${QC_REF} เป็นเอกสารแนบท้ายสัญญาจ้าง (ผนวก) นั้น</p>
+    <p class="ind">ผู้ควบคุมงานขอรายงานผลการปฏิบัติงานของผู้รับจ้าง ณ วันที่ ${thDate(R.asOf)} ดังนี้</p>${facts}${find}${Q.excuse?`<p class="ind">ทั้งนี้ ความล่าช้าดังกล่าวมีเหตุ${Q.exNote?'จาก'+esc(Q.exNote):'อันสมควร'} ซึ่งต้องพิจารณาว่าเป็นความผิดของผู้รับจ้างหรือไม่ ประกอบการพิจารณาด้วย</p>`:''}${prop}
+    <p class="ind">จึงเรียนมาเพื่อโปรดพิจารณา หากเห็นชอบโปรดลงนามในหนังสือแจ้งผู้รับจ้างที่แนบมาพร้อมนี้</p>`+pwSig();
+  const pd=parse(Q.planDays)||7;
+  const facts2=c?`ณ วันที่ ${thDate(c.to)} ผลงานสะสมของท่านคิดเป็นร้อยละ ${pct3(c.ac)} ขณะที่แผนงานสะสมร้อยละ ${pct3(c.pc)} ${lagT}${last&&(R.bad.some(x=>x.n===10)||!R.bad.length&&R.warn.some(x=>x.n===10))?` และผลงานประจำเดือน ${last.m.lab} ทำได้ร้อยละ ${pct3(last.mA)} จากแผนงานประจำเดือนร้อยละ ${pct3(last.mP)}`:''}`:`ผลการปฏิบัติงานของท่าน${R.done?'':'ยังไม่เป็นไปตามสัญญา'}`;
+  const b2=`<p class="ind">ตามสัญญาที่อ้างถึง 1 ท่านได้ตกลงรับจ้าง${projTxt} โดยมีคำสั่งกรมทางหลวงตามอ้างถึง 2 เป็นเอกสารแนบท้ายสัญญาจ้าง (ผนวก) นั้น</p>
+   <p class="ind">บัดนี้ ผู้ควบคุมงานได้รายงานว่า ${facts2}</p>
+   ${anyBad?`<p class="ind">ซึ่งเข้าข่ายตามหลักเกณฑ์ฯ ${hits.map(x=>'ข้อ '+x.n+' '+QC_SH[R.T][x.n]).join(' และ')} อันมีผลให้ท่าน${QC_EFF_S[R.T]}</p>`
+     :`<p class="ind">ทั้งนี้ ตามหลักเกณฑ์ดังกล่าว ${R.T==='con'?`หากผลงานล่าช้ากว่าแผนงานเกินร้อยละ ${Q.special?5:15} หรือผลงานประจำเดือนไม่ถึงร้อยละ 50 ของแผนงานประจำเดือนเมื่อเวลาล่วงเลยเกินครึ่งหนึ่งของสัญญา`:'หากงานหมดสัญญาแล้วยังไม่แล้วเสร็จโดยไม่มีเหตุอันสมควร'} โดยเป็นความผิดของผู้รับจ้าง ท่านจะ${QC_EFF_S[R.T]}</p>`}
+   <p class="ind">จึงขอให้ท่านเร่งรัดการดำเนินงานให้เป็นไปตามแผนงานและแล้วเสร็จตามสัญญา พร้อมส่งแผนการเร่งรัดงานภายใน ${pd} วัน นับถัดจากวันที่ได้รับหนังสือฉบับนี้</p>
+   <p class="ind">จึงเรียนมาเพื่อทราบและดำเนินการ</p>`;
+  const o={no:Q.no2,date:Q.d2,noCode:1,subj:anyBad?'แจ้งผลการพิจารณาคุณสมบัติผู้มีสิทธิเสนอราคา และเร่งรัดการดำเนินงาน':'เร่งรัดการดำเนินงานให้เป็นไปตามแผนงาน',to:stTo(),refs:[ctr,'คำสั่งกรมทางหลวง ที่ ม.1/151/2549 ลงวันที่ 11 กันยายน 2549'],body:b2,sigName:pnV('dName'),sigPos:pnV('dPos'),rk:'1',ackOf:'หนังสือฉบับนี้'};
+  return [`<div class="ipaper th memo wkdoc">${p1}</div>`,pnPage(o),pnPage({...o,copy:1,noMark:1,ackName:(committee().chair||{}).name||'',ackPos:'ประธานกรรมการตรวจรับพัสดุ'})]}
 /* ---- แผนการทำงาน & S-Curve ---- */
 const TMS=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 function plMonths(){const st=S.h.start,en=effEnd();if(!st||!en||en<st)return [];const L=[];let y=+st.slice(0,4),m=+st.slice(5,7);
@@ -3621,6 +3815,7 @@ function renderInsDocs(C){
   if(want==='dly')set.push({g:'dly',pages:docDly()});
   if(want==='perf')set.push({g:'perf',pages:docPerf()});
   if(want==='stop')set.push({g:'stop',pages:docStop()});
+  if(want==='qual')set.push({g:'qual',pages:docQc()});
   if(want==='pnote')set.push({g:'pnote',pages:docPnNote()});
   if(want==='reserve')set.push({g:'reserve',pages:docPnReserve()});
   if(want==='penw')set.push({g:'penw',pages:docPenWarn()});
@@ -3630,7 +3825,7 @@ function renderInsDocs(C){
   $('insDesk').innerHTML=`<div class="sheets" id="insSheets">${insSheets.map((s,i)=>`<div class="sheet" style="width:${(210*MM).toFixed(1)}px;height:${(297*MM).toFixed(1)}px;padding:${IPAD[0]}mm ${IPAD[1]}mm ${IPAD[2]}mm ${IPAD[3]}mm">${s.html}<div class="pno">หน้า ${i+1}/${insSheets.length}</div></div>`).join('')}</div>`;
   if(insEditMode)$('insDesk').querySelectorAll('.ipaper').forEach(e=>{e.setAttribute('contenteditable','true');e.setAttribute('spellcheck','false')});
   updEditBar();
-  $('insInfo').textContent=want==='stop'?(stCur()?`ชุดเอกสารหยุดงาน/ขยายอายุสัญญา — ${ST_K[stCur().kind].label} ${stRange(stCur())} · ① บันทึกผู้ควบคุมงานเสนอสั่งหยุด ② หนังสือสั่งหยุดถึงผู้รับจ้าง (มีครุฑ) ③ บันทึกขอขยายอายุสัญญา (คกก.) ④ เสนอผู้มีอำนาจอนุมัติ · ${insSheets.length} หน้า`:'ยังไม่มีรายการหยุดงาน — เพิ่มในการ์ด ③ หยุดงาน & ขยายอายุสัญญา'):want==='pnote'?`แบบแจ้งการปรับตามสัญญาจ้าง (พ.1-42) — หน้า 1 ต้นฉบับ · หน้า 2 ฉบับให้ผู้รับจ้างลงชื่อรับ (ประธานกรรมการฯ ลงนามแทนผู้ว่าจ้าง) · ${insSheets.length} หน้า`:want==='reserve'?(()=>{const L=pnLate(),E=pnSel(L);return E?`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ครั้งที่ ${L.indexOf(E)+1}/${L.length}: งวดที่ ${E.inst.no} ส่ง ${thDate(E.done)} · ต้นฉบับ + สำเนาคู่ฉบับ · เลือกครั้งอื่นที่ปุ่ม “📄 เอกสาร” ในการ์ด ③`:`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ยังไม่มีการส่งงานหลังครบกำหนด (แบบฟอร์มเปล่า)`})():want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
+  $('insInfo').textContent=want==='qual'?'คุณสมบัติผู้มีสิทธิเสนอราคา (คำสั่ง ทล. ม.1/151/2549) — ① บันทึกผู้ควบคุมงานรายงาน ผอ.ขท. ② หนังสือแจ้งผู้รับจ้าง (มีครุฑ) พร้อมสำเนาคู่ฉบับ':want==='stop'?(stCur()?`ชุดเอกสารหยุดงาน/ขยายอายุสัญญา — ${ST_K[stCur().kind].label} ${stRange(stCur())} · ① บันทึกผู้ควบคุมงานเสนอสั่งหยุด ② หนังสือสั่งหยุดถึงผู้รับจ้าง (มีครุฑ) ③ บันทึกขอขยายอายุสัญญา (คกก.) ④ เสนอผู้มีอำนาจอนุมัติ · ${insSheets.length} หน้า`:'ยังไม่มีรายการหยุดงาน — เพิ่มในการ์ด ③ หยุดงาน & ขยายอายุสัญญา'):want==='pnote'?`แบบแจ้งการปรับตามสัญญาจ้าง (พ.1-42) — หน้า 1 ต้นฉบับ · หน้า 2 ฉบับให้ผู้รับจ้างลงชื่อรับ (ประธานกรรมการฯ ลงนามแทนผู้ว่าจ้าง) · ${insSheets.length} หน้า`:want==='reserve'?(()=>{const L=pnLate(),E=pnSel(L);return E?`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ครั้งที่ ${L.indexOf(E)+1}/${L.length}: งวดที่ ${E.inst.no} ส่ง ${thDate(E.done)} · ต้นฉบับ + สำเนาคู่ฉบับ · เลือกครั้งอื่นที่ปุ่ม “📄 เอกสาร” ในการ์ด ③`:`แบบการแจ้งสงวนสิทธิ์การเรียกค่าปรับ (พ.1-43) — ยังไม่มีการส่งงานหลังครบกำหนด (แบบฟอร์มเปล่า)`})():want==='dly'?(dyCur()?`รายงานประจำวันที่ ${thDate(dyCur().date)} · ${insSheets.length} หน้า`:''):want==='wk'?(wkCur()?`รายงานความก้าวหน้าประจำสัปดาห์ที่ ${wkCur().no} — บันทึกข้อความ (มีสำเนาเรียนคณะกรรมการ) + บันทึกการปฏิบัติงานประจำสัปดาห์ · ${insSheets.length} หน้า`:''):`เอกสาร${instLabel(C.inst)} ทั้งหมด ${insSheets.length} หน้า (A4 แนวตั้ง)`;
   const sh=$('insSheets');sh.style.zoom=1;const avail=$('insDesk').clientWidth-40,mw=sh.offsetWidth;sh.style.zoom=Math.min(1,avail/mw).toFixed(3);
 }
 function penEdit(e,attr,arr){const tr=e.target.closest('tr');const f=e.target.dataset.f;if(!tr||!f)return;const ins=insOf();ins[arr][+tr.dataset[attr]][f]=e.target.value;if(f!=='reason')renderInsTable();renderIns();save()}
@@ -3645,6 +3840,7 @@ $('bInsPrint').addEventListener('click',()=>{if(insEditMode)insSheets=domPages()
   const nm=docFileBase(inst);printSheets(insSheets,nm.replace(/_/,' '),nm+'.html')});
 function docFileBase(inst){const no=String(S.h.no||'').replace(/[\/\\:*?"<>|]/g,'-').replace(/\s+/g,'');const w=wkCur();
   if(insPage==='perf')return `สรุปคะแนนความเสียหาย_${no}`;
+  if(insPage==='qual')return `คุณสมบัติผู้มีสิทธิเสนอราคา-ม.1-151_${no}`;
   if(insPage==='stop'){const x=stCur();return `หยุดงาน-ขยายอายุสัญญา_${x?ST_K[x.kind].short:''}_${no}`}
   if(insPage==='pnote')return `แจ้งการปรับตามสัญญาจ้าง_${no}`;if(insPage==='reserve'){const E=pnSel();return `แจ้งสงวนสิทธิ์การเรียกค่าปรับ_${E?'งวด'+E.inst.no+'_':''}${no}`};
   if(insPage==='penw')return `บันทึกเตือนค่าปรับ_${no}`;if(insPage==='lenient')return `ขออนุมัติผ่อนปรนการบอกเลิกสัญญา_${no}`;
@@ -3655,7 +3851,7 @@ window.addEventListener('resize',()=>{if(S&&!$('insView').hidden){const sh=$('in
 /* ---- แก้ไขเอกสารก่อนพิมพ์ ---- */
 let insEditMode=false;
 function insEditKey(){return insPage}
-function editTarget(){if(insPage==='stop'){const x=stCur();if(x)return x}if(insPage==='pnote')return pnOf();if(insPage==='reserve'){const P=pnOf(),E=pnSel();if(!E)return P;if(!P.res[E.key])P.res[E.key]={};return P.res[E.key]}if(insPage==='penw'||insPage==='lenient')return pwOf();if(insPage==='wk')return wkCur();if(insPage==='perf')return pfOf();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
+function editTarget(){if(insPage==='qual')return qcOf();if(insPage==='stop'){const x=stCur();if(x)return x}if(insPage==='pnote')return pnOf();if(insPage==='reserve'){const P=pnOf(),E=pnSel();if(!E)return P;if(!P.res[E.key])P.res[E.key]={};return P.res[E.key]}if(insPage==='penw'||insPage==='lenient')return pwOf();if(insPage==='wk')return wkCur();if(insPage==='perf')return pfOf();if(insPage==='dly')return dyCur();const ins=insOf();return ins.list[ins.cur]}
 function savedEdit(){const t=editTarget();return t&&t.docEdits&&t.docEdits[insEditKey()]||null}
 function domPages(){return [...document.querySelectorAll('#insSheets .sheet .ipaper')].map(e=>{const c=e.cloneNode(true);c.removeAttribute('contenteditable');c.removeAttribute('spellcheck');return c.outerHTML})}
 /* รหัสยืนยัน */
@@ -4044,7 +4240,7 @@ async function exportWord(){if(LIC_ON&&S&&S.demo){toast('โครงการ�
   swaps.forEach(([im,sv])=>im.replaceWith(sv));
   sh.style.zoom=z;
   const inst=insOf().list[insOf().cur];
-  const exact=['pnote','reserve','stop'].includes(insPage);
+  const exact=['pnote','reserve','stop','qual'].includes(insPage);
   try{let xml=docxFromHtml(body);
     /* ตัวแบ่งหน้า: ใช้ pageBreakBefore กับย่อหน้าถัดไป (กันหน้าว่างเมื่อหน้าก่อนเต็มพอดี) */
     xml=xml.replace(/<w:p><w:r><w:br w:type="page"\/><\/w:r><\/w:p><w:p>(<w:pPr>((?:<w:keepNext\/>|<w:keepLines\/>)*))?/g,(m,pp,kk)=>pp!==undefined?`<w:p><w:pPr>${kk||''}<w:pageBreakBefore/>`:'<w:p><w:pPr><w:pageBreakBefore/></w:pPr>');if(exact)xml=xml.replace(/<w:p>(?:(?!<\/w:p>)[\s\S])*?<\/w:p>/g,m=>{if(m.includes('<w:drawing>'))return m;if(/เริ่มใช้ มี\.ค\./.test(m)&&m.includes('w:val="right"'))m=m.replace('<w:pPr>','<w:pPr><w:framePr w:w="2400" w:hSpace="113" w:wrap="through" w:vAnchor="text" w:hAnchor="margin" w:xAlign="right" w:y="1"/>');const sz=Math.max(28,...(m.match(/w:sz w:val="(\d+)"/g)||[]).map(x=>+x.match(/\d+/)[0]));return m.split('w:line="240" w:lineRule="auto"').join(`w:line="${Math.round(sz/2*1.3*20)}" w:lineRule="exact"`).replace(/w:(before|after)="(\d+)"/g,(x,k,v)=>`w:${k}="${Math.round(v*0.4)}"`)});const bytes=buildDocx(xml,IPAD);
@@ -4071,6 +4267,8 @@ function calEvents(){const out=[],S0=S,today=todayISO();
         if(x.approved)push(x.apDate||x.to,`อนุมัติขยายอายุสัญญา ${stExt(x)} วัน (หยุดงาน${k.label}) ✓`,'stop','contract','ok')});
       stFestWins().forEach(w=>{const T=d.stops&&d.stops.list||[];if(T.some(x=>x.kind===w.kind&&x.from<=w.to&&(x.to||x.from)>=w.from)||w.to<today||done)return;
         push(addDays(w.from,-10),`สัญญาคร่อม${ST_K[w.kind].label} ${w.y+543} — เตรียมสั่งหยุดงาน (${thDate(w.from).replace(/ \d{4}$/,'')} – ${thDate(w.to)})`,'stop','contract',w.from<=addDays(today,14)?'warn':'')});
+      try{const Q=d.qual;if(!done||Q&&Q.wDue){const R=qcEval(today);R.L.forEach(x=>{if(x.d&&(x.s==='warn'||x.s==='bad')&&x.n!==(R.T==='con'?2:3)&&!(R.T==='con'&&x.n===9))push(x.d,`คุณสมบัติผู้เสนอราคา ม.1/151 ข้อ ${x.n} — ${x.msg}`,'chk','contract',x.s)});
+        if(R.bad.length)push(today,`⚠ ผู้รับจ้างเข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคา (ม.1/151 ข้อ ${R.bad.map(x=>x.n).join(', ')})`,'chk','contract','bad')}}catch(e){}
       pfTimeline(today).forEach(x=>{const c=/ค่าปรับ/.test(x.lab)?'pen':/ผลงานสะสม|เวลาสัญญา|ครบกำหนดสัญญา/.test(x.lab)?'chk':'war';if(/^ครบกำหนดสัญญา/.test(x.lab))return;push(x.d,x.lab,c,'contract',x.s)});
       (insOf().list||[]).forEach((inst,j)=>evOfInst(inst).forEach(ev=>push(ev.date,`${ev.kind}งวดที่ ${inst.no} ${m2hm(ev.s)} น. · ${ev.place}`,'insp','pay','')));
       if(h.start&&end&&!done){const W=wkOf();for(let n=1;n<=Math.ceil((dayDiff(h.start,end)+1)/7)+8;n++){const r=wkRange(n);if(r.to>addDays(end,56))break;const has=W.list.some(w=>parse(w.no)===n);
@@ -4112,7 +4310,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 43 · 27 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 44 · 28 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -4141,7 +4339,7 @@ else{$('licFoot').hidden=false;showHome();
     <div class="lk-links" id="lkLinks"></div>
     <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 43 · 27 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 44 · 28 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
     </form>
 </div>
 <style>
