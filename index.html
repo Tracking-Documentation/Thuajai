@@ -2879,7 +2879,11 @@ function paginate(head,items,tail,fix){
 /* ---- รายงานความก้าวหน้าประจำสัปดาห์ (ผู้ควบคุมงาน) ---- */
 function wkOf(){const ins=insOf();if(!S.wk)S.wk={};const W=S.wk;
   const D={toLine:'ผอ.ขท.กระบี่ ผ่าน ประธานกรรมการตรวจรับพัสดุ',basis:'contract',office:ins.office||'แขวงทางหลวงกระบี่',phone:ins.phone||'',prefix:'',basePlan:'',baseAct:'',cc:true,ccExtra:'',cur:0,list:[]};
-  Object.keys(D).forEach(k=>{if(W[k]===undefined)W[k]=D[k]});W.cur=Math.max(0,Math.min(W.cur||0,W.list.length-1));return W}
+  Object.keys(D).forEach(k=>{if(W[k]===undefined)W[k]=D[k]});W.cur=Math.max(0,Math.min(W.cur||0,W.list.length-1));
+  /* เรียงสัปดาห์ตามลำดับเสมอ (กรณีเพิ่มสัปดาห์ย้อนหลัง) — ผลงาน/แผนสะสมคิดตามลำดับนี้ */
+  const key=x=>(parse(x.no)||0)*1e4+(x.from?Date.parse(x.from)/864e5%1e4:0);
+  if(W.list.some((x,i)=>i&&key(W.list[i-1])>key(x))&&document.activeElement!==document.getElementById('wk_no')){const cw=W.list[W.cur];W.list.sort((a,b)=>key(a)-key(b));W.cur=Math.max(0,W.list.indexOf(cw))}
+  return W}
 const wkCur=()=>{const W=wkOf();return W.list[W.cur]||null};
 const wkPrefix=W=>W.prefix||`${S.demo?'xxx':'สทล.17 ขท.กระบี่'}/(${String(S.h.no||'').replace(/\s+/g,'')})/`;
 function wkTotalDays(){return (parse(S.h.days)||0)+(insOf().amends||[]).reduce((t,a)=>t+(parse(a.days)||0),0)+stExtDays()}
@@ -3005,6 +3009,8 @@ WKF.forEach(k=>$('wk_'+k).addEventListener('input',e=>{const w=wkCur();if(!w)ret
   if(k==='no'){const r=wkRange(parse(w.no));if(r.from){w.from=r.from;w.to=r.to;$('wk_from').value=r.from;$('wk_to').value=r.to}
     $('wkSeg').querySelectorAll('button')[wkOf().cur].textContent='สัปดาห์ที่ '+w.no}
   wkChanged()}));
+$('wk_no').addEventListener('change',()=>{const W=wkOf(),w=wkCur();if(!w)return;$('wk_no').blur();const W2=wkOf();renderWk();save();if(insPage==='wk')renderIns();
+  if(W2.list.filter(x=>parse(x.no)===parse(w.no)).length>1)toast('⚠ มีสัปดาห์ที่ '+w.no+' ซ้ำกัน 2 รายการ — ตรวจสอบและลบรายการที่ไม่ใช้');else toast('เรียงสัปดาห์ใหม่ และคำนวณผลงาน/แผนสะสมต่อเนื่องให้แล้ว')});
 WKS.forEach(k=>$('wk_'+k).addEventListener('input',e=>{wkOf()[k]=e.target.value;wkChanged()}));
 $('wk_cc').addEventListener('change',e=>{wkOf().cc=e.target.checked;wkChanged()});
 $('wkRows').addEventListener('input',e=>{const tr=e.target.closest('tr[data-wr]'),f=e.target.dataset.f;if(!tr||!f)return;wkCur().rows[+tr.dataset.wr][f]=e.target.value;save();if(insPage==='wk')renderIns()});
@@ -4445,7 +4451,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 47 · 28 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 48 · 28 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -4474,7 +4480,7 @@ else{$('licFoot').hidden=false;showHome();
     <div class="lk-links" id="lkLinks"></div>
     <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 47 · 28 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 48 · 28 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
     </form>
 </div>
 <style>
