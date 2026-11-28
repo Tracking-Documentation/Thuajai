@@ -323,6 +323,50 @@ details.icard>summary .ict b::after{content:" ▾";color:var(--muted);font-weigh
 .pftl tr.pf-ok td{color:var(--ok)}.pftl tr.pf-warn td{background:var(--warn-bg);color:var(--warn)}.pftl tr.pf-bad td{background:var(--err-bg);color:var(--err)}.pftl tr.pf-wait td{color:var(--muted)}
 .pftl td{padding:6px 8px;font-size:.88rem;vertical-align:top}.pfb{font-weight:700}
 .qcev{display:flex;flex-direction:column;gap:4px;font-size:.88rem}.qcev .qe{background:var(--sunk);border-radius:8px;padding:6px 10px;display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}.qcev .qe b{font-weight:600}.qcev .qe small{color:var(--muted)}.qcev .qk{font-size:.75rem;border-radius:99px;padding:1px 8px;background:var(--paper);border:1px solid var(--line)}
+
+/* ---- อ่านง่ายขึ้น (ทุกการ์ด) ---- */
+.icard>.ich .ict small{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+#insView .icard .ptitle{margin-top:16px;margin-bottom:4px;font-size:.98rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ibtn{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid color-mix(in srgb,var(--tc,var(--accent)) 40%,transparent);background:var(--surface);color:var(--tc2,var(--tc,var(--accent)));font:italic 700 .78rem/1 Georgia,serif;cursor:pointer;padding:0;display:inline-grid;place-items:center}
+.ibtn:hover,.ibtn.on{background:color-mix(in srgb,var(--tc,var(--accent)) 14%,var(--surface))}
+.ibox{font-size:.86rem;color:var(--muted);background:var(--sunk);border-radius:10px;padding:8px 12px;margin:2px 0 6px;line-height:1.55}
+.pfnote{cursor:pointer}.pfnote:not(.open){display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.pfnote::before{content:"ⓘ ";font-style:normal}
+.pftl tr.pf-warn td,.pftl tr.pf-bad td,.pftl tr.pf-ok td{background:transparent;color:inherit}
+.pftl tbody td{border-top:1px solid var(--line)}
+.pftl tr.pf-warn td:first-child{box-shadow:inset 4px 0 var(--warn)}.pftl tr.pf-bad td:first-child{box-shadow:inset 4px 0 var(--err)}.pftl tr.pf-ok td:first-child{box-shadow:inset 4px 0 var(--ok)}
+.pftl tr.pf-warn td:last-child{color:var(--warn)}.pftl tr.pf-bad td:last-child{color:var(--err)}.pftl tr.pf-ok td:last-child{color:var(--ok)}
+.pftl tr.pf-bad{background:color-mix(in srgb,var(--err-bg) 45%,transparent)}
+/* การ์ด 7 */
+.qcsteps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 4px}
+.qs{border-radius:12px;padding:8px 12px;background:var(--sunk);display:flex;flex-direction:column;gap:1px;border:1.5px solid transparent}
+.qs b{font-family:var(--display);font-size:.92rem}.qs small{font-size:.8rem;color:var(--muted)}
+.qs.ok{background:var(--ok-bg)}.qs.ok b{color:var(--ok)}.qs.e{background:var(--err-bg)}.qs.e b{color:var(--err)}.qs.w{background:var(--warn-bg)}.qs.w b{color:var(--warn)}
+.qs.now{border-color:var(--tc);background:color-mix(in srgb,var(--tc) 8%,var(--surface))}.qs.now b{color:var(--tc2,var(--tc))}.qs.skip{opacity:.55}
+.qcbar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:.88rem;color:var(--muted);margin:10px 0 6px}
+.qcbar label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.qcbar input[type=checkbox]{width:auto;margin:0;flex:none}.qcbar select,.qcbar input[type=date]{padding:4px 8px;font-size:.88rem;width:auto}
+.qcl{display:flex;flex-direction:column;gap:6px;margin:6px 0 4px}
+.qci{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.qci .qic{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem;background:var(--sunk);color:var(--muted)}
+.qci .qct{display:flex;flex-direction:column;gap:2px;min-width:0}.qci .qct b{font-weight:600;font-size:.95rem}.qci .qct small{font-size:.84rem;color:var(--muted);line-height:1.5}
+.qci.s-bad{border-color:color-mix(in srgb,var(--err) 35%,transparent);background:var(--err-bg)}.qci.s-bad .qic{background:var(--err);color:#fff}.qci.s-bad .qct b{color:var(--err)}
+.qci.s-warn{border-color:color-mix(in srgb,var(--warn) 35%,transparent);background:var(--warn-bg)}.qci.s-warn .qic{background:var(--warn);color:#fff}.qci.s-warn .qct b{color:var(--warn)}
+.qci.s-ok .qic{background:var(--ok-bg);color:var(--ok)}
+.qcnone{padding:10px 12px;border-radius:12px;background:var(--ok-bg);color:var(--ok);font-weight:600}
+.qcrest>summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:6px 4px;font-size:.86rem;color:var(--muted)}
+.qcrest>summary::-webkit-details-marker{display:none}.qcrest>summary .ok{color:var(--ok)}.qcrest>summary em{font-style:normal;text-decoration:underline;margin-left:auto}
+.qcrest[open]>summary em::after{content:" ▴"}.qcrest .qci{margin-top:6px;background:transparent}
+.qcd{margin-top:8px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.qcd>summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:10px 14px;font-weight:600;font-family:var(--display)}
+.qcd>summary::-webkit-details-marker{display:none}.qcd>summary::before{content:"▸";color:var(--muted);transition:transform .15s}.qcd[open]>summary::before{transform:rotate(90deg)}
+.qcd>summary small{font-weight:400;color:var(--muted)}.qcds{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.qcd>:not(summary){margin:0 14px 12px}
+.qcpill{font:500 .78rem var(--body);padding:2px 10px;border-radius:99px;background:var(--sunk);color:var(--muted)}.qcpill.e{background:var(--err-bg);color:var(--err)}.qcpill.ok{background:var(--ok-bg);color:var(--ok)}.qcpill.w{background:var(--warn-bg);color:var(--warn)}
+.qcstep{margin-top:10px}.qcsh{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:6px}.qcsh span{width:22px;height:22px;border-radius:50%;background:var(--tc);color:#fff;display:grid;place-items:center;font-size:.78rem}.qcsh small{font-weight:400;color:var(--muted)}@media (max-width:640px){.qcsh{flex-wrap:wrap}.qcsh small{flex-basis:100%;padding-left:30px}}
+.qcev .qe{flex-direction:column;gap:1px}.qcev .qe small{font-size:.8rem}
+#qcBox .qcd>.grid,#pfSet>.grid{margin-top:0}
+#pfSet{margin-bottom:4px}
+@media (max-width:640px){.qcsteps{grid-template-columns:1fr}.qs{flex-direction:row;justify-content:space-between;align-items:center}}
 .wkqc{margin-top:8px}.wkqc:empty{display:none}.wkqc .pwst{padding:8px 12px}.linkbtn{background:none;border:0;padding:0;color:var(--accent,#1e40af);text-decoration:underline;cursor:pointer;font:inherit;font-size:.82rem}
 .pfnote{grid-column:1/-1;font-size:.8rem;color:var(--muted);line-height:1.5}
 #pfEvents tr.pfap td{border-top:0;padding-top:0;background:color-mix(in srgb,var(--tc) 4%,transparent)}
@@ -872,12 +916,14 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
     <div class="icard t-rose" id="pfBox" data-sec="contract">
       <div class="ich"><span class="num">6</span><div class="ict"><b>⚖️ ประเมินผลการปฏิบัติงานผู้ประกอบการ &amp; คะแนนความเสียหาย</b><small>ระเบียบกระทรวงการคลังฯ (ฉบับที่ 3) พ.ศ. 2569 (ราชกิจจานุเบกษา เล่ม 143 ตอนพิเศษ 169 ง, 9 ก.ค. 2569 · มีผล 10 ก.ค. 2569) และเอกสารแนบท้ายเอกสารประกวดราคา ข้อ 1.16 — เฝ้าระวังทุกขั้นตอน ไม่ให้หลุดกำหนด</small></div></div>
       <div class="pfhead" id="pfHead"></div>
+      <details class="qcd" id="pfSet"><summary><span>⚙️ ตั้งค่าการใช้บังคับ</span><small>วงเงินขั้นต่ำ · วันประกาศเชิญชวน · ตรวจ ณ วันที่</small></summary>
       <div class="grid">
         <label class="f">ใช้บังคับเมื่อวงเงินสัญญาตั้งแต่ (บาท)<input id="pf_thr" class="num" inputmode="decimal"></label>
         <label class="f">ตรวจสถานะ ณ วันที่<input id="pf_asof" type="date"><span class="hint">ว่างไว้ = วันนี้</span></label>
         <label class="f">ประกาศเชิญชวน / เอกสารประกวดราคา<select id="pf_bid"><option value="auto">อัตโนมัติ (เดาจากวันเริ่มสัญญา ≥ 10 ก.ค. 2569)</option><option value="yes">ประกาศตั้งแต่ 10 ก.ค. 2569 / มีข้อ 1.16 — ใช้บังคับ</option><option value="no">ประกาศก่อน 10 ก.ค. 2569 — ใช้ระเบียบเดิม (ข้อ 5)</option></select></label>
         <label class="f chk"><input type="checkbox" id="pf_force"> บังคับใช้กับสัญญานี้ (แม้ไม่เข้าเงื่อนไข)</label>
       </div>
+      </details>
       <div class="ptitle">🗓 จุดเฝ้าระวังตามระยะเวลาสัญญา <span class="note">ระบบคำนวณวันให้จากวันเริ่ม-สิ้นสุดสัญญา ความก้าวหน้าจากรายงานประจำสัปดาห์ และค่าปรับ</span></div>
       <div class="tbl-wrap"><table class="ptb pftl" id="pfTimeline"></table></div>
       <div class="ptitle">📝 เหตุที่ทำให้เกิดคะแนนความเสียหาย <span class="note">บันทึกเมื่อมีหนังสือแจ้ง/เกิดเหตุ — ระบบนับวันและเพิ่มคะแนนตามกำหนดให้อัตโนมัติ (รวมทุก 30 วัน)</span></div>
@@ -887,15 +933,32 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
 
 
     <div class="icard t-rose" id="qcBox" data-sec="contract">
-      <div class="ich"><span class="num">7</span><div class="ict"><b>🛡 คุณสมบัติผู้มีสิทธิเสนอราคา (คำสั่ง ทล. ที่ บ.1/151/2549)</b><small>หลักเกณฑ์การพิจารณาคุณสมบัติผู้มีสิทธิเสนอราคางานก่อสร้างและบำรุงทาง (ลว. 11 ก.ย. 2549 · เอกสารแนบท้ายสัญญาจ้าง ผนวก) — ตรวจจากแผนงาน รายงานประจำสัปดาห์ และวันสิ้นสุดสัญญาให้อัตโนมัติ</small></div></div>
+      <div class="ich"><span class="num">7</span><div class="ict"><b>🛡 คุณสมบัติผู้มีสิทธิเสนอราคา (คำสั่ง ทล. ที่ บ.1/151/2549)</b><small>ตรวจ 10 ข้อให้อัตโนมัติจากรายงานประจำวัน/สัปดาห์ · เข้าข่ายแล้วเสนอคณะกรรมการพิจารณา</small></div></div>
       <div class="pwhead" id="qcHead"></div>
-      <div class="grid">
-        <label class="f">ประเภทงาน<select id="qc_type"><option value="con">งานก่อสร้างทาง/สะพาน/ปรับปรุง/ลาดยาง ฯลฯ</option><option value="mnt">งานบำรุงทาง</option></select></label>
-        <label class="f">ตรวจสถานะ ณ วันที่<input id="qc_asof" type="date"><span class="hint">ว่างไว้ = วันนี้</span></label>
-        <label class="f chk"><input type="checkbox" id="qc_special"> งานลักษณะพิเศษ / งานเร่งด่วน (ข้อ 7 — เกณฑ์ล่าช้า 5%)</label>
+      <div class="qcsteps" id="qcSteps"></div>
+      <div class="qcbar">
+        <label>ประเภทงาน <select id="qc_type"><option value="con">งานก่อสร้าง</option><option value="mnt">งานบำรุงทาง</option></select></label>
+        <label>ตรวจ ณ วันที่ <input id="qc_asof" type="date" title="ว่างไว้ = วันนี้"></label>
+        <label class="qc-con"><input type="checkbox" id="qc_special"> งานพิเศษ/เร่งด่วน (เกณฑ์ 5%)</label>
       </div>
-      <details class="wkset" id="qcMore">
-        <summary>ข้อมูลประกอบเกณฑ์ข้ออื่น (ลงนามสัญญา · เข้าดำเนินการ · รับประกัน · เงินค่า K · บอกเลิกสัญญา · จำนวนโครงการ)</summary>
+      <div class="qcl" id="qcTbl"></div>
+      <details class="qcd" id="qcMonD"><summary><span>📈 ผลงานรายเดือน <small>(ข้อ 10)</small></span><span class="qcds" id="qcMonSum"></span></summary>
+        <div class="tbl-wrap"><table class="ptb pftl" id="qcMon"></table></div></details>
+      <details class="qcd" id="qcCmBox"><summary><span>👥 เสนอคณะกรรมการพิจารณา</span><span class="qcds" id="qcCmSum"></span></summary>
+        <div class="qcstep"><div class="qcsh"><span>1</span>หลักฐานจากรายงานประจำวัน / ประจำสัปดาห์ <small>ดึงให้อัตโนมัติ</small></div><div class="qcev" id="qcEv"></div></div>
+        <div class="qcstep"><div class="qcsh"><span>2</span>งานที่อยู่ระหว่างผลิต <small>ยังไม่ติดตั้ง จึงยังไม่นับ %</small></div>
+          <div class="tbl-wrap"><table class="ptb" id="qcProd"></table></div>
+          <div class="btns"><button type="button" id="bQcProd">+ เพิ่มรายการ</button></div></div>
+        <div class="qcstep"><div class="qcsh"><span>3</span>ผลการพิจารณาของคณะกรรมการ</div>
+          <div class="grid">
+            <label class="f">ผลการพิจารณา<select id="qc_cmDec"><option value="">⏳ รอคณะกรรมการพิจารณา</option><option value="not">✓ ไม่ถือว่าขาดคุณสมบัติ (มีเหตุอันสมควร)</option><option value="disq">✗ ถือว่าขาดคุณสมบัติ (ความผิดผู้รับจ้าง)</option></select></label>
+            <label class="f">พิจารณา / ประชุม เมื่อ<input id="qc_cmDate" type="date"></label>
+            <label class="f wide">เหตุผล (บรรทัดละ 1 ข้อ)<textarea id="qc_cmWhy" rows="4" placeholder="เช่น เสาไฟฟ้าและดวงโคมอยู่ระหว่างผลิตที่โรงงาน ยังไม่ได้ติดตั้ง จึงยังไม่นับเป็นผลงาน"></textarea><span class="hint"><button type="button" class="linkbtn" id="bQcWhy">⇣ ดึงเหตุผลจากข้อ 1–2 มาใส่</button></span></label>
+          </div>
+          <div class="note" id="qcCmNote"></div></div>
+      </details>
+      <details class="qcd" id="qcMore">
+        <summary>✏️ ข้อมูลประกอบข้ออื่น <small>ลงนามสัญญา · เข้าดำเนินการ · รับประกัน · ค่า K · บอกเลิกสัญญา</small></summary>
         <div class="grid">
           <label class="f">หน่วยงานมีหนังสือแจ้งให้มาลงนามสัญญา เมื่อ<input id="qc_callDate" type="date"></label>
           <label class="f">ผู้รับจ้างมาลงนามสัญญา เมื่อ<input id="qc_signDate" type="date"></label>
@@ -910,24 +973,8 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
           <label class="f chk qc-con"><input type="checkbox" id="qc_quota"> ผู้รับจ้างมีจำนวนโครงการครบตามสิทธิ์การเสนอราคา (หลักเกณฑ์การจดทะเบียนฯ)</label>
         </div>
       </details>
-      <div class="ptitle">📋 ตรวจตามหลักเกณฑ์ทีละข้อ <span class="note">✗ เข้าข่ายขาดคุณสมบัติ · ! เฝ้าระวัง / ต้องตรวจสอบ · ✓ ผ่าน · ○ ยังไม่ถึงกำหนด</span></div>
-      <div class="tbl-wrap"><table class="ptb pftl" id="qcTbl"></table></div>
-      <div class="ptitle">📈 ผลงานรายเดือน หลังเวลาล่วงเลยเกินครึ่งหนึ่งของสัญญา <span class="note">ข้อ 10 — ล่าช้ากว่าแผน และผลงานประจำเดือนไม่ถึง 50% ของแผนประจำเดือน (คิดจากรายงานประจำสัปดาห์)</span></div>
-      <div class="tbl-wrap"><table class="ptb pftl" id="qcMon"></table></div>
-      <div class="ptitle">🔗 ข้อเท็จจริงจากรายงานประจำวัน / ประจำสัปดาห์ <span class="note">ระบบดึง “ปัญหาและอุปสรรค” และ “วัสดุ” ที่ผู้ควบคุมงานบันทึกไว้ มาเป็นหลักฐานประกอบการพิจารณาให้อัตโนมัติ</span></div>
-      <div class="qcev" id="qcEv"></div>
-      <div class="ptitle">🏭 งานที่อยู่ระหว่างผลิต / จัดหา (ยังไม่นับเป็นผลงาน) <span class="note">เช่น เสาไฟฟ้า ดวงโคม ตู้ควบคุม ที่อยู่ระหว่างผลิตในโรงงาน — ใส่ % ของรายการที่ผลิตแล้ว ระบบคิดเป็น % ของวงเงินสัญญาให้</span></div>
-      <div class="tbl-wrap"><table class="ptb" id="qcProd"></table></div>
-      <div class="btns"><button type="button" id="bQcProd">+ เพิ่มรายการที่อยู่ระหว่างผลิต</button></div>
-      <div class="ptitle">👥 การพิจารณาของคณะกรรมการตรวจรับพัสดุ <span class="note">ผู้ควบคุมงานเสนอ → คณะกรรมการพิจารณาว่าความล่าช้าเป็นความผิดของผู้รับจ้างหรือไม่ → เสนอ ผอ.ขท. — ผลการพิจารณาใช้กับข้อที่เสนอเท่านั้น</span></div>
-      <div class="grid">
-        <label class="f">ผลการพิจารณา<select id="qc_cmDec"><option value="">รอคณะกรรมการพิจารณา</option><option value="not">ไม่สมควรถือว่าขาดคุณสมบัติ (มีเหตุอันสมควร / ไม่ใช่ความผิดผู้รับจ้าง)</option><option value="disq">เห็นควรถือว่าขาดคุณสมบัติ (เป็นความผิดผู้รับจ้าง)</option></select></label>
-        <label class="f">คณะกรรมการพิจารณา / ประชุม เมื่อ<input id="qc_cmDate" type="date"></label>
-        <label class="f wide">เหตุผลของคณะกรรมการ (บรรทัดละ 1 เหตุผล)<textarea id="qc_cmWhy" rows="4" placeholder="เช่น งานหลัก (เสาไฟฟ้าและดวงโคม) อยู่ระหว่างการผลิตในโรงงาน ยังไม่ได้ส่งมาติดตั้ง จึงยังไม่นับเป็นผลงาน"></textarea><span class="hint"><button type="button" class="linkbtn" id="bQcWhy">⇣ ดึงเหตุผลจากรายงานประจำวัน/สัปดาห์ และงานระหว่างผลิต</button></span></label>
-      </div>
-      <div class="note" id="qcCmNote"></div>
-      <details class="wkset" id="qcDoc">
-        <summary>เลขที่หนังสือ — บันทึกผู้ควบคุมงาน → ประธานกรรมการ · บันทึกคณะกรรมการ → ผอ.ขท. · หนังสือแจ้งผู้รับจ้าง</summary>
+      <details class="qcd" id="qcDoc">
+        <summary>🔢 เลขที่หนังสือ <small>บันทึกเสนอคณะกรรมการ · ความเห็นคณะกรรมการ · หนังสือถึงผู้รับจ้าง</small></summary>
         <div class="grid">
           <label class="f">บันทึกผู้ควบคุมงาน → ประธานกรรมการ เลขที่ (เลขท้าย)<input id="qc_no1" placeholder="เช่น 60"></label>
           <label class="f">ลงวันที่<input id="qc_d1" type="date"></label>
@@ -938,7 +985,7 @@ table.ptb.wkit{min-width:1100px}.wkit td.r{text-align:right;font-variant-numeric
           <label class="f">ให้ผู้รับจ้างส่งแผนเร่งรัดงานภายใน (วัน)<input id="qc_planDays" class="num" inputmode="numeric" placeholder="7"></label>
         </div>
       </details>
-      <div class="btns"><button type="button" id="bQcDoc" class="primary">📄 ดูเอกสาร (เสนอคณะกรรมการ + ความเห็นคณะกรรมการ + หนังสือแจ้งผู้รับจ้าง)</button><button type="button" data-law>⚖️ อ่านหลักเกณฑ์</button></div>
+      <div class="btns"><button type="button" id="bQcDoc" class="primary">📄 ดูเอกสาร 4 หน้า</button><button type="button" data-law>⚖️ อ่านคำสั่งฉบับเต็ม</button></div>
     </div>
 
     <div class="icard t-green" data-sec="pay">
@@ -3172,7 +3219,7 @@ function renderPf(){const P=pfOf(),asOf=pfToday(),on=pfOn(),R=pfScore(asOf);
    <div class="pfsc ${R.sc>=10?'bad':R.sc?'warn':''}"><span>คะแนนความเสียหายสะสม ณ ${thDate(asOf)}</span><b>${R.sc}</b><small>${R.sus?`ระงับการยื่นข้อเสนอ/ทำสัญญา ${R.sus} วัน<br>${thDate(R.susFrom)} – ${thDate(R.susTo)}`:R.sc?'ยังไม่ถึงเกณฑ์ระงับ (10 คะแนน)':'ไม่มีคะแนนความเสียหาย'}</small></div>
    <div class="pfnote">${pfBid()||pfOf().force?'':`⚠ สัญญานี้${S.h.start&&S.h.start<PF_EFF?'เริ่มก่อนระเบียบมีผล (10 ก.ค. 2569)':'ระบุว่าประกาศก่อน 10 ก.ค. 2569'} — ข้อ 5: ประกาศ/เชิญชวนก่อนระเบียบมีผล ให้ดำเนินการตามระเบียบเดิม · `}ผู้ประกอบการอุทธรณ์ได้ภายใน 7 วันทำการนับแต่ได้รับแจ้งผ่าน e-GP และหน่วยงานต้องพิจารณาภายใน 7 วันทำการ · ระยะเวลาระงับนับถัดจากวันที่คะแนนสะสมอยู่ในเกณฑ์ (ข้อ 190/7 — หักวันที่เคยถูกระงับภายใน 2 ปี) · กรมบัญชีกลางลบคะแนนเมื่อครบ 2 ปีนับถัดจากวันประกาศเผยแพร่ · วันทำการนับเฉพาะจันทร์–ศุกร์ (ไม่หักวันหยุดราชการ)</div>`;
   const TL=pfTimeline(asOf);
-  $('pfTimeline').innerHTML=`<thead><tr><th style="width:150px">วันที่</th><th>จุดตรวจ</th><th style="width:44%">สถานะ / สิ่งที่ต้องทำ</th></tr></thead><tbody>`+(TL.length?TL.map(x=>`<tr class="pf-${x.s}"><td>${thDate(x.d)}</td><td>${esc(x.lab)}</td><td><span class="pfb">${PF_S[x.s][0]}</span> ${esc(x.msg)}</td></tr>`).join(''):'<tr class="empty-r"><td colspan="3">ใส่วันเริ่มต้นและสิ้นสุดสัญญาในหน้าถัวจ่ายก่อน</td></tr>')+'</tbody>';
+  $('pfTimeline').innerHTML=`<thead><tr><th style="width:175px">วันที่</th><th>จุดตรวจ</th><th style="width:44%">สถานะ / สิ่งที่ต้องทำ</th></tr></thead><tbody>`+(TL.length?TL.map(x=>`<tr class="pf-${x.s}"><td>${thDate(x.d)}</td><td>${esc(x.lab)}</td><td><span class="pfb">${PF_S[x.s][0]}</span> ${esc(x.msg)}</td></tr>`).join(''):'<tr class="empty-r"><td colspan="3">ใส่วันเริ่มต้นและสิ้นสุดสัญญาในหน้าถัวจ่ายก่อน</td></tr>')+'</tbody>';
   const opt=v=>{let g='',o='';Object.entries(PF_T).forEach(([k,t])=>{if(t.g!==g){if(g)o+='</optgroup>';g=t.g;o+=`<optgroup label="${t.g}">`}o+=`<option value="${k}"${k===v?' selected':''}>${esc(t.t)}${t.pts?` — ${t.pts} คะแนน`:''}</option>`});return o+'</optgroup>'};
   $('pfEvents').innerHTML=`<thead><tr><th>เหตุ (ตามบัญชีคะแนนความเสียหาย)</th><th style="width:140px">วันที่เกิดเหตุ / ลงหนังสือแจ้ง</th><th style="width:150px">หนังสือแจ้งเลขที่</th><th style="width:140px">กำหนดให้แก้ไขภายใน</th><th style="width:140px">แก้ไขแล้วเมื่อ</th><th style="width:170px">คะแนน ณ วันตรวจ</th><th style="width:40px"></th></tr></thead><tbody>`+
    (R.ev.length?R.ev.map(({e,r},j)=>{const T=PF_T[e.type]||{};return `<tr data-pe="${j}" class="${r.now?'sev-e':''}"><td><select data-f="type">${opt(e.type)}</select><input data-f="note" value="${esc(e.note||'')}" placeholder="รายละเอียด เช่น ไม่ติดตั้งป้ายเตือน กม.2+700" style="margin-top:4px"></td>
@@ -3326,22 +3373,33 @@ function renderQc(){const Q=qcOf(),R=qcEval();
   const mnt=R.T==='mnt';document.querySelectorAll('#qcBox .qc-mnt').forEach(e=>e.hidden=!mnt);document.querySelectorAll('#qcBox .qc-con').forEach(e=>e.hidden=mnt);
   $('qc_special').closest('label').hidden=mnt;
   const box=(cls,t,sub)=>`<div class="pwst ${cls}"><b>${t}</b>${sub?`<span>${sub}</span>`:''}</div>`;
-  const cmOk=R.hits.length&&!R.pend.length&&R.hits.every(x=>x.cm==='not');
-  $('qcHead').innerHTML=(R.pend.length?box('e',`✗ เข้าข่ายขาดคุณสมบัติผู้มีสิทธิเสนอราคา — ข้อ ${R.pend.map(x=>x.n).join(', ')} · ต้องเสนอคณะกรรมการพิจารณา`,`ผู้ควบคุมงานพิมพ์บันทึกเสนอคณะกรรมการ (ปุ่ม 📄 ด้านล่าง) แนบข้อเท็จจริงจากรายงานประจำวัน/สัปดาห์ และงานที่อยู่ระหว่างผลิต → คณะกรรมการพิจารณาว่าเป็นความผิดผู้รับจ้างหรือไม่ · ถ้าขาดคุณสมบัติ: ${QC_EFF[R.T]}`)
-    :R.bad.length?box('e',`✗ คณะกรรมการฯ เห็นควรถือว่าขาดคุณสมบัติ — ข้อ ${R.bad.map(x=>x.n).join(', ')}`,`เสนอ ผอ.ขท. ลงนามหนังสือแจ้งผู้รับจ้าง · ${QC_EFF[R.T]}`)
-    :cmOk?box('w',`! คณะกรรมการฯ พิจารณาแล้ว — ไม่ถือว่าขาดคุณสมบัติ (ข้อ ${R.hits.map(x=>x.n).join(', ')})`,`มีเหตุอันสมควร/ไม่ใช่ความผิดของผู้รับจ้าง${R.CM.date?' · พิจารณาเมื่อ '+thDate(R.CM.date):''} — ยังต้องติดตามเร่งรัดผลงาน และส่งหนังสือเร่งรัดผู้รับจ้างได้`)
-    :R.warn.length?box('w',`! เฝ้าระวัง — ข้อ ${R.warn.map(x=>x.n).join(', ')}`,'ยังไม่ขาดคุณสมบัติ แต่ใกล้เกณฑ์หรือต้องตรวจสอบข้อเท็จจริง — มีหนังสือเร่งรัดผู้รับจ้างได้')
-    :box('ok','✓ ผู้รับจ้างยังมีคุณสมบัติตามคำสั่ง บ.1/151/2549',`ตรวจ ณ ${thDate(R.asOf)}${R.cur?` · สัปดาห์ที่ ${R.cur.no} ผลงานสะสม ${pct3(R.cur.ac)}% / แผน ${pct3(R.cur.pc)}%`:''}`))+
-    `<div class="pfnote">${mnt?'งานบำรุงทาง':'งานก่อสร้างทาง งานก่อสร้างสะพาน งานปรับปรุงจุดอันตราย/ทางแยก งานลาดยาง งานปรับปรุงทางหลวงเพื่อการท่องเที่ยว ฯลฯ'} · คำสั่งนี้เป็นเอกสารแนบท้ายสัญญาจ้าง (ผนวก) · ผลงาน/แผนงานใช้ “สะสม” จากรายงานประจำสัปดาห์ (การ์ดรายงานประจำสัปดาห์) · ทุกข้อ “โดยเป็นความผิดของผู้รับจ้าง” — เมื่อเข้าข่าย ผู้ควบคุมงานเสนอคณะกรรมการตรวจรับพัสดุพิจารณาก่อน (ช่วยลดการถูกอุทธรณ์ภายหลัง)</div>`;
-  $('qcTbl').innerHTML=`<thead><tr><th style="width:44px">ข้อ</th><th>หลักเกณฑ์</th><th style="width:44%">สถานะ ณ ${thDate(R.asOf)}</th></tr></thead><tbody>`+
-    R.L.map(x=>`<tr class="pf-${x.s==='na'?'wait':x.s}"><td class="c">${x.n}</td><td>${esc(x.t)}</td><td><span class="pfb">${QC_S[x.s][0]}</span> ${esc(x.msg)}</td></tr>`).join('')+'</tbody>';
+  const cmOk=R.hits.length&&!R.pend.length&&R.hits.every(x=>x.cm==='not'),sh=x=>String(QC_SH[R.T][x.n]||x.t).replace(/\s*ร้อยละ (\d+)/g,' $1%');
+  const nums=a=>a.map(x=>x.n).join(', ');
+  $('qcHead').innerHTML=R.pend.length?box('e',`✗ เข้าข่ายขาดคุณสมบัติ — ข้อ ${nums(R.pend)}`,'ขั้นต่อไป: เสนอคณะกรรมการพิจารณาว่าเป็นความผิดของผู้รับจ้างหรือไม่ (เปิด 👥 ด้านล่าง)')
+    :R.bad.length?box('e',`✗ คณะกรรมการฯ เห็นควรถือว่าขาดคุณสมบัติ — ข้อ ${nums(R.bad)}`,'ขั้นต่อไป: เสนอ ผอ.ขท. ลงนามหนังสือแจ้งผู้รับจ้าง')
+    :cmOk?box('w',`! คณะกรรมการฯ ไม่ถือว่าขาดคุณสมบัติ — ข้อ ${nums(R.hits)}`,'มีเหตุอันสมควร · ยังต้องติดตามเร่งรัดผลงาน')
+    :R.warn.length?box('w',`! เฝ้าระวัง — ข้อ ${nums(R.warn)}`,'ยังไม่ขาดคุณสมบัติ แต่ใกล้เกณฑ์ — ส่งหนังสือเร่งรัดผู้รับจ้างได้')
+    :box('ok','✓ ผู้รับจ้างยังมีคุณสมบัติครบ',`ตรวจ ณ ${thDate(R.asOf)}${R.cur?` · ผลงาน ${pct3(R.cur.ac)}% / แผน ${pct3(R.cur.pc)}%`:''}`);
+  const st=(t,cls,sub)=>`<div class="qs ${cls}"><b>${t}</b><small>${sub}</small></div>`,decided=R.hits.length&&!R.pend.length,sent=!!(Q.no2||Q.d2);
+  $('qcSteps').innerHTML=st('1 ตรวจเกณฑ์',R.hits.length?'e':R.warn.length?'w':'ok',R.hits.length?`เข้าข่าย ${R.hits.length} ข้อ`:R.warn.length?`เฝ้าระวัง ${R.warn.length} ข้อ`:'ผ่านทุกข้อ')+
+    st('2 คณะกรรมการพิจารณา',!R.hits.length?'skip':decided?'ok':'now',!R.hits.length?'ไม่ต้องเสนอ':decided?(cmOk?'ไม่ถือว่าขาด':'ถือว่าขาด'):'รอพิจารณา')+
+    st('3 แจ้ง / เร่งรัดผู้รับจ้าง',sent?'ok':(R.hits.length&&decided)||(!R.hits.length&&R.warn.length)?'now':'skip',sent?`ส่งแล้ว${Q.d2?' '+thDate(Q.d2).replace(/ 25(\d\d)$/,' $1'):''}`:(R.hits.length&&decided)||(!R.hits.length&&R.warn.length)?'พิมพ์หนังสือ':'ยังไม่ต้อง');
+  const ic={bad:'✗',warn:'!',ok:'✓',wait:'○',na:'–'};
+  const item=x=>`<div class="qci s-${x.s}" title="${esc('ข้อ '+x.n+' '+x.t)}"><span class="qic">${ic[x.s]}</span><div class="qct"><b>ข้อ ${x.n} · ${esc(sh(x))}</b><small>${esc(x.msg.replace(/ \(เกณฑ์ [^)]*\)/,'').replace(/ → /g,' — '))}</small></div></div>`;
+  const need=R.L.filter(x=>x.s==='bad'||x.s==='warn'),okL=R.L.filter(x=>x.s==='ok'),idle=R.L.filter(x=>x.s==='wait'||x.s==='na');
+  const wasOpen=$('qcTbl').querySelector('details[open]');
+  $('qcTbl').innerHTML=(need.length?need.map(item).join(''):`<div class="qcnone">✓ ไม่มีข้อที่ต้องดูแล</div>`)+
+    `<details class="qcrest"${wasOpen?' open':''}><summary>${okL.length?`<span class="ok">✓ ผ่าน ${okL.length} ข้อ</span>`:''}${idle.length?`<span>○ ยังไม่ถึงกำหนด / ไม่มีข้อมูล ${idle.length} ข้อ</span>`:''}<em>ดูทั้งหมด</em></summary>${[...okL,...idle].map(item).join('')}</details>`;
   const M=mnt?[]:qcMonths(R.asOf);
   $('qcMon').innerHTML=mnt?'<tbody><tr class="empty-r"><td>ไม่ใช้กับงานบำรุงทาง</td></tr></tbody>':!R.H?'<tbody><tr class="empty-r"><td>ใส่วันเริ่ม/สิ้นสุดสัญญาก่อน</td></tr></tbody>':
     `<thead><tr><th>เดือน</th><th style="width:16%">แผนเดือนนี้ %</th><th style="width:16%">ผลงานเดือนนี้ %</th><th style="width:16%">ผลงาน/แผน</th><th style="width:26%">สะสม (ผลงาน / แผน)</th></tr></thead><tbody>`+
     (M.length?M.map(x=>x.none?`<tr class="pf-warn"><td>${x.m.lab}</td><td colspan="4">ไม่มีรายงานประจำสัปดาห์ถึงสิ้นเดือน</td></tr>`:`<tr class="pf-${x.hit?'bad':x.behind?'warn':'ok'}"><td>${x.m.lab}</td><td class="r">${pct3(x.mP)}</td><td class="r">${pct3(x.mA)}</td><td class="r"><span class="pfb">${x.hit?'✗':x.behind?'!':'✓'}</span> ${x.ratio!=null?x.ratio.toFixed(1)+'%':'-'}</td><td class="r">${pct3(x.a.ac)} / ${pct3(x.a.pc)}${x.behind?' (ล่าช้า)':''}</td></tr>`).join('')
      :`<tr class="empty-r"><td colspan="5">${R.asOf<=R.H.half?`เริ่มตรวจหลังวันที่ ${thDate(R.H.half)} (ครึ่งหนึ่งของเวลาสัญญา ${R.H.tot} วัน)`:'ยังไม่ครบเดือนแรกหลังเกินครึ่งเวลาสัญญา'}</td></tr>`)+'</tbody>';
+  {const lastM=[...M].reverse().find(x=>!x.none);$('qcMonD').hidden=mnt;$('qcMonSum').innerHTML=!R.H||mnt?'':lastM?`<span class="qcpill ${lastM.hit?'e':lastM.behind?'w':'ok'}">${lastM.m.lab}: ${lastM.ratio!=null?lastM.ratio.toFixed(0)+'% ของแผน':'-'}</span>`:`<span class="qcpill">เริ่มตรวจหลัง ${thDate(R.H.half).replace(/ 25(\d\d)$/,' $1')}</span>`}
+  {const E0=qcEvidence(R.asOf);$('qcCmSum').innerHTML=`<span class="qcpill ${R.pend.length?'e':R.hits.length?'ok':''}">${R.pend.length?'⏳ รอพิจารณา':R.hits.length?(R.CM.dec==='not'?'✓ ไม่ถือว่าขาด':'✗ ถือว่าขาด'):'ยังไม่ต้องเสนอ'}</span><span class="qcpill">หลักฐาน ${E0.length} เรื่อง</span>${R.PR.pct>0.0005?`<span class="qcpill">ระหว่างผลิต ${pct3(R.PR.pct)}%</span>`:''}`;
+   if(R.pend.length&&!$('qcCmBox').dataset.auto){$('qcCmBox').open=true;$('qcCmBox').dataset.auto='1'}}
   const E=qcEvidence(R.asOf);
-  $('qcEv').innerHTML=E.length?E.slice(0,12).map(e=>`<div class="qe">${e.kinds.map(k=>`<span class="qk">${k}</span>`).join('')}<b>${esc(e.t)}</b><small>${e.nd?`${e.nd} วัน`:''}${e.wks.length?`${e.nd?' · ':''}สัปดาห์ที่ ${e.wks.join(', ')}`:''}${e.first?` · ${thDate(e.first)}${e.last&&e.last!==e.first?' – '+thDate(e.last):''}`:''}</small></div>`).join('')+(E.length>12?`<div class="note">และอีก ${E.length-12} เรื่อง</div>`:'')
+  $('qcEv').innerHTML=E.length?E.slice(0,12).map(e=>`<div class="qe"><b>${esc(e.t)}</b><small>${e.kinds.map(k=>k.replace(/ \((.*)\)/,' · $1')).join(' / ')} · ${e.wks.length?`${e.wks.length} สัปดาห์`:`${e.nd} วัน`} · ${e.first?`${qcSD(e.first)}${e.last&&e.last!==e.first?' – '+qcSD(e.last):''}`:''}</small></div>`).join('')+(E.length>12?`<div class="note">และอีก ${E.length-12} เรื่อง</div>`:'')
     :'<div class="note">ยังไม่มี — ผู้ควบคุมงานบันทึก “ปัญหาและอุปสรรค” ในรายงานประจำวัน/ประจำสัปดาห์ แล้วจะขึ้นที่นี่อัตโนมัติ</div>';
   const P=qcProd(),I=plItems().filter(x=>x.v>0);
   $('qcProd').innerHTML=`<thead><tr><th>รายการงาน (ตามสัญญา)</th><th style="width:110px">ผลิตแล้ว (% ของรายการ)</th><th style="width:170px">สถานะ</th><th style="width:170px">หลักฐาน (หนังสือ/ภาพถ่าย/ใบรับรอง)</th><th style="width:110px">คิดเป็น % ของวงเงิน</th><th style="width:40px"></th></tr></thead><tbody>`+
@@ -3355,8 +3413,9 @@ function renderQc(){const Q=qcOf(),R=qcEval();
   $('qcCmNote').innerHTML=C.dec?`ผลการพิจารณานี้ใช้กับ <b>ข้อ ${(C.items||[]).join(', ')||'-'}</b>${R.pend.length?` · <span class="bad">ข้อ ${R.pend.map(x=>x.n).join(', ')} เข้าข่ายเพิ่มหลังการพิจารณา — ต้องเสนอคณะกรรมการใหม่ (เปลี่ยนผลเป็น “รอ” แล้วเลือกใหม่)</span>`:''}`
     :R.hits.length?`ข้อที่จะเสนอพิจารณา: <b>ข้อ ${R.hits.map(x=>x.n).join(', ')}</b> — เมื่อเลือกผลการพิจารณา ระบบจะบันทึกว่าใช้กับข้อเหล่านี้`:'ยังไม่มีข้อที่เข้าข่าย — ไม่ต้องเสนอคณะกรรมการ';
   try{accSums()}catch(e){}}
-function qcWkNote(w){const el=$('wkQc');if(!el)return;if(!w||!w.to){el.innerHTML='';return}const R=qcEval(w.to),hit=R.L.filter(x=>x.s==='bad'||x.s==='warn').filter(x=>R.T!=='con'||[2,7,8,9,10].includes(x.n)||x.s==='bad');
-  el.innerHTML=`<div class="pwst ${R.pend.length||R.bad.length?'e':hit.length?'w':'ok'}"><b>🛡 คุณสมบัติผู้เสนอราคา (บ.1/151/2549) ณ สัปดาห์นี้: ${R.pend.length?'✗ เข้าข่าย ข้อ '+R.pend.map(x=>x.n).join(', ')+' — ต้องเสนอคณะกรรมการ':R.bad.length?'✗ ขาดคุณสมบัติ ข้อ '+R.bad.map(x=>x.n).join(', '):hit.length?'! เฝ้าระวัง ข้อ '+hit.map(x=>x.n).join(', '):'✓ ผ่านทุกข้อ'}</b><span>${hit.slice(0,3).map(x=>'ข้อ '+x.n+': '+esc(x.msg)).join('<br>')}${R.pend.length||hit.length?'<br>ปัญหาและอุปสรรคที่บันทึกในสัปดาห์นี้และรายงานประจำวัน จะถูกดึงไปใช้ประกอบการพิจารณาในการ์ด 7 ของหมวดสัญญาอัตโนมัติ':''}</span></div>`}
+function qcWkNote(w){const el=$('wkQc');if(!el)return;if(!w||!w.to){el.innerHTML='';return}const R=qcEval(w.to),hit=R.L.filter(x=>x.s==='bad'||x.s==='warn'),sh=x=>String(QC_SH[R.T][x.n]||'').replace(/\s*ร้อยละ (\d+)/g,' $1%');
+  const cls=R.pend.length||R.bad.length?'e':hit.length?'w':'ok';
+  el.innerHTML=`<div class="pwst ${cls}"><b>🛡 คุณสมบัติผู้เสนอราคา ณ สัปดาห์นี้: ${R.pend.length?'✗ เข้าข่าย — ต้องเสนอคณะกรรมการ':R.bad.length?'✗ ขาดคุณสมบัติ':hit.length?'! เฝ้าระวัง':'✓ ผ่านทุกข้อ'}</b>${hit.length?`<span>${hit.slice(0,4).map(x=>`ข้อ ${x.n} ${esc(sh(x))}`).join(' · ')} — ดูรายละเอียดที่การ์ด 7 หมวดสัญญา</span>`:''}</div>`}
 function qcSet(k,v){qcOf()[k]=v;renderQc();renderSecInfo();save();if(insPage==='qual')renderIns()}
 ['type','term'].forEach(k=>$('qc_'+k).addEventListener('change',e=>qcSet(k,e.target.value)));
 ['asof','callDate','signDate','enterDate','wDue','wFixed','kDate','kPaid','termDate','d1','d2'].forEach(k=>$('qc_'+k).addEventListener('change',e=>qcSet(k,e.target.value)));
@@ -4386,7 +4445,7 @@ function setFs(v){if(!['s','m','l','xl'].includes(v))v='m';if(v==='m')document.d
 document.querySelector('.fsbar').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b)setFs(b.dataset.fs)});
 setFs((()=>{try{return localStorage.getItem('cpm-fs')||'m'}catch(e){return 'm'}})());
 /* เวอร์ชัน + หน้าการคุ้มครองข้อมูลส่วนบุคคล */
-const APP_VER='Version 46 · 28 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
+const APP_VER='Version 47 · 28 Nov 2026';document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VER);
 document.addEventListener('click',e=>{if(e.target.closest('[data-pdpa]')){$('pdpaModal').hidden=false;$('pdpaClose').focus()}});
 $('pdpaClose').addEventListener('click',()=>$('pdpaModal').hidden=true);$('pdpaModal').addEventListener('click',e=>{if(e.target.id==='pdpaModal')$('pdpaModal').hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pdpaModal').hidden)$('pdpaModal').hidden=true});
@@ -4415,7 +4474,7 @@ else{$('licFoot').hidden=false;showHome();
     <div class="lk-links" id="lkLinks"></div>
     <div class="lk-note" id="lkNote"></div>
     <div class="lk-legal">ระบบงานภายในสำหรับเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น การเข้าถึงโดยไม่ได้รับอนุญาตมีความผิดตามพระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ พ.ศ. 2550 · หากใช้คอมพิวเตอร์ร่วมกับผู้อื่น กรุณาปิดแอปหลังใช้งาน · <button type="button" class="lk-pdpa" data-pdpa>การคุ้มครองข้อมูลส่วนบุคคล</button></div>
-        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 46 · 28 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
+        <div class="lk-credit">Developed by Miss Narama Woraklan (<span class="appver">Version 47 · 28 Nov 2026</span>)<br>© 2026 Narama Woraklan · สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537</div>
     </form>
 </div>
 <style>
